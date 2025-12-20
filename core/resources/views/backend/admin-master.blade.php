@@ -227,7 +227,7 @@
 
             // 1) clone header once (no events) and prepare filter row
             // $('#dataTable thead tr').clone(false).addClass('filters').appendTo('#dataTable thead');
-            $('#dataTable thead tr').clone(false).addClass('filters').prependTo('#dataTable thead');
+            $('#dataTable thead tr').clone(false).addClass('filters').appendTo('#dataTable thead');
 
 
             // 2) clean cloned header: remove dropdown/button/form elements so inputs are clean
@@ -235,9 +235,18 @@
 
             // 3) insert inputs into cloned header
             $('#dataTable thead tr.filters th').each(function(i) {
+                // Skip checkbox column (first column)
+                if (i === 0) {
+                    $(this).html(''); // keep empty
+                    return;
+                }
+
                 const title = $(this).text().trim();
-                $(this).html('<input type="text" placeholder="' + title + '" style="width:100%;" />');
+                $(this).html(
+                    '<input type="text" placeholder="' + title + '" style="width:100%;" />'
+                );
             });
+
 
             // Helper: returns a renderer function that preserves HTML for display
             // but extracts only the dropdown-toggle/button text for filtering/searching.

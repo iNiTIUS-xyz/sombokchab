@@ -166,6 +166,25 @@
             margin: 0px !important;
             font-weight: 500;
         }
+
+        .custom-date-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .custom-range-label {
+            font-weight: 500;
+            color: #6c757d;
+        }
+
+        .custom-range-value {
+            display: none;
+            font-weight: 600;
+            color: #6b7280;
+            /* same gray tone as screenshot */
+            white-space: nowrap;
+        }
     </style>
 @endsection
 
@@ -197,7 +216,9 @@
                                         </li>
                                         <li class="nav-item">
                                             <input type="text" class="form-control date_range_picker" id="website_picker"
-                                                placeholder="Custom Date Range">
+                                                data-target="#website_date_text" placeholder="Custom Date Range">
+                                            <span class="custom-range-value" id="website_date_text"></span>
+
                                         </li>
                                     </ul>
 
@@ -237,9 +258,11 @@
                                             <button class="nav-link" id="new_vendor_signup_yearly-tab"
                                                 type="button">Yearly</button>
                                         </li>
-                                        <li class="nav-item">
+                                        <li class="nav-item ">
                                             <input type="text" class="form-control date_range_picker"
-                                                id="vendor_sign_up_picker" placeholder="Custom Date Range">
+                                                id="vendor_sign_up_picker" placeholder="Custom Date Range"
+                                                data-target="#vendor_signup_date_text">
+                                            <span class="custom-range-value" id="vendor_signup_date_text"></span>
                                         </li>
                                     </ul>
 
@@ -274,7 +297,8 @@
                                         </li>
                                         <li class="nav-item">
                                             <input type="text" class="form-control date_range_picker"
-                                                id="customer_sign_up_picker">
+                                                id="customer_sign_up_picker" data-target="#customer_sign_up_date_text">
+                                            <span class="custom-range-value" id="customer_sign_up_date_text"></span>
                                         </li>
                                     </ul>
 
@@ -334,7 +358,9 @@
                                         </li>
                                         <li class="nav-item">
                                             <input type="text" class="form-control date_range_picker"
-                                                id="campaign_one_picker" placeholder="Custom Date Range">
+                                                id="campaign_one_picker" placeholder="Custom Date Range"
+                                                data-target="#campaign_date_text">
+                                            <span class="custom-range-value" id="campaign_date_text"></span>
                                         </li>
                                     </ul>
 
@@ -517,7 +543,8 @@
                                         </li>
                                         <li class="nav-item">
                                             <input type="text" class="form-control date_range_picker"
-                                                id="top_vendors_picker" />
+                                                id="top_vendors_picker" data-target="#top_vendors_date_text" />
+                                            <span class="custom-range-value" id="top_vendors_date_text"></span>
                                         </li>
                                     </ul>
 
@@ -552,7 +579,8 @@
                                         </li>
                                         <li class="nav-item">
                                             <input type="text" class="form-control date_range_picker"
-                                                id="top_products_picker" />
+                                                id="top_products_picker" data-target="#top_products_date_text" />
+                                            <span class="custom-range-value" id="top_products_date_text"></span>
                                         </li>
                                     </ul>
 
@@ -785,7 +813,9 @@
                                         </li>
                                         <li class="nav-item">
                                             <input type="text" class="form-control date_range_picker"
-                                                id="order_revenue_picker" placeholder="Custom Date Range">
+                                                id="order_revenue_picker" placeholder="Custom Date Range"
+                                                data-target="#order_revenue_date_text">
+                                            <span class="custom-range-value" id="order_revenue_date_text"></span>
                                         </li>
                                     </ul>
 
@@ -820,7 +850,9 @@
                                         </li>
                                         <li class="nav-item">
                                             <input type="text" class="form-control date_range_picker"
-                                                id="pending_vendor_payouts_picker" placeholder="Custom Date Range">
+                                                id="pending_vendor_payouts_picker" placeholder="Custom Date Range"
+                                                data-target="#pending_vendor_payouts_date_text">
+                                            <span class="custom-range-value" id="pending_vendor_payouts_date_text"></span>
                                         </li>
                                     </ul>
 
@@ -1422,11 +1454,42 @@
                     }
                 });
 
+                $('#' + ids.picker).daterangepicker({
+                    opens: 'left',
+                    autoUpdateInput: false,
+                    minDate: moment('2024-01-01'),
+                    maxDate: moment().endOf('year'),
+                });
+
                 $('#' + ids.picker).on('apply.daterangepicker', function(ev, picker) {
+
                     currentStartDate = picker.startDate.format('YYYY-MM-DD');
                     currentEndDate = picker.endDate.format('YYYY-MM-DD');
+
+                    const target = this.dataset.target;
+                    if (target) {
+                        const span = document.querySelector(target);
+                        span.textContent =
+                            picker.startDate.format('DD/MM/YYYY') +
+                            ' to ' +
+                            picker.endDate.format('DD/MM/YYYY');
+
+                        span.style.display = 'inline';
+                    }
+
                     fetchData(currentType, currentStartDate, currentEndDate);
                 });
+
+                $('#' + ids.picker).on('cancel.daterangepicker', function() {
+                    const target = this.dataset.target;
+                    if (target) {
+                        const span = document.querySelector(target);
+                        span.textContent = '';
+                        span.style.display = 'none';
+                    }
+                });
+
+
 
                 // ---------- First load ----------
                 setActiveTabUI('daily');
@@ -1896,11 +1959,42 @@
                     }
                 });
 
+                $('#' + ids.picker).daterangepicker({
+                    opens: 'left',
+                    autoUpdateInput: false,
+                    minDate: moment('2024-01-01'),
+                    maxDate: moment().endOf('year'),
+                });
+
                 $('#' + ids.picker).on('apply.daterangepicker', function(ev, picker) {
+
                     currentStartDate = picker.startDate.format('YYYY-MM-DD');
                     currentEndDate = picker.endDate.format('YYYY-MM-DD');
+
+                    const target = this.dataset.target;
+                    if (target) {
+                        const span = document.querySelector(target);
+                        span.textContent =
+                            picker.startDate.format('DD/MM/YYYY') +
+                            ' to ' +
+                            picker.endDate.format('DD/MM/YYYY');
+
+                        span.style.display = 'inline';
+                    }
+
                     fetchData(currentType, currentStartDate, currentEndDate);
                 });
+
+                $('#' + ids.picker).on('cancel.daterangepicker', function() {
+                    const target = this.dataset.target;
+                    if (target) {
+                        const span = document.querySelector(target);
+                        span.textContent = '';
+                        span.style.display = 'none';
+                    }
+                });
+
+
 
                 // ---------- First load ----------
                 setActiveTabUI('daily');
@@ -2359,12 +2453,42 @@
                     minDate: moment('2024-01-01'),
                     maxDate: moment().endOf('year')
                 });
+                $('#' + ids.picker).daterangepicker({
+                    opens: 'left',
+                    autoUpdateInput: false,
+                    minDate: moment('2024-01-01'),
+                    maxDate: moment().endOf('year'),
+                });
 
                 $('#' + ids.picker).on('apply.daterangepicker', function(ev, picker) {
+
                     currentStartDate = picker.startDate.format('YYYY-MM-DD');
                     currentEndDate = picker.endDate.format('YYYY-MM-DD');
+
+                    const target = this.dataset.target;
+                    if (target) {
+                        const span = document.querySelector(target);
+                        span.textContent =
+                            picker.startDate.format('DD/MM/YYYY') +
+                            ' to ' +
+                            picker.endDate.format('DD/MM/YYYY');
+
+                        span.style.display = 'inline';
+                    }
+
                     fetchData(currentType, currentStartDate, currentEndDate);
                 });
+
+                $('#' + ids.picker).on('cancel.daterangepicker', function() {
+                    const target = this.dataset.target;
+                    if (target) {
+                        const span = document.querySelector(target);
+                        span.textContent = '';
+                        span.style.display = 'none';
+                    }
+                });
+
+
 
                 setActiveTabUI('daily');
                 fetchData(currentType);
@@ -2836,12 +2960,42 @@
                         this.setEndDate(moment(start).add(1, 'months'));
                     }
                 });
+                $('#' + ids.picker).daterangepicker({
+                    opens: 'left',
+                    autoUpdateInput: false,
+                    minDate: moment('2024-01-01'),
+                    maxDate: moment().endOf('year'),
+                });
 
                 $('#' + ids.picker).on('apply.daterangepicker', function(ev, picker) {
+
                     currentStartDate = picker.startDate.format('YYYY-MM-DD');
                     currentEndDate = picker.endDate.format('YYYY-MM-DD');
+
+                    const target = this.dataset.target;
+                    if (target) {
+                        const span = document.querySelector(target);
+                        span.textContent =
+                            picker.startDate.format('DD/MM/YYYY') +
+                            ' to ' +
+                            picker.endDate.format('DD/MM/YYYY');
+
+                        span.style.display = 'inline';
+                    }
+
                     fetchData(currentType, currentStartDate, currentEndDate);
                 });
+
+                $('#' + ids.picker).on('cancel.daterangepicker', function() {
+                    const target = this.dataset.target;
+                    if (target) {
+                        const span = document.querySelector(target);
+                        span.textContent = '';
+                        span.style.display = 'none';
+                    }
+                });
+
+
 
                 // ---------- First load ----------
                 setActiveTabUI('daily');
@@ -3297,11 +3451,42 @@
                     }
                 });
 
+                $('#' + ids.picker).daterangepicker({
+                    opens: 'left',
+                    autoUpdateInput: false,
+                    minDate: moment('2024-01-01'),
+                    maxDate: moment().endOf('year'),
+                });
+
                 $('#' + ids.picker).on('apply.daterangepicker', function(ev, picker) {
+
                     currentStartDate = picker.startDate.format('YYYY-MM-DD');
                     currentEndDate = picker.endDate.format('YYYY-MM-DD');
+
+                    const target = this.dataset.target;
+                    if (target) {
+                        const span = document.querySelector(target);
+                        span.textContent =
+                            picker.startDate.format('DD/MM/YYYY') +
+                            ' to ' +
+                            picker.endDate.format('DD/MM/YYYY');
+
+                        span.style.display = 'inline';
+                    }
+
                     fetchData(currentType, currentStartDate, currentEndDate);
                 });
+
+                $('#' + ids.picker).on('cancel.daterangepicker', function() {
+                    const target = this.dataset.target;
+                    if (target) {
+                        const span = document.querySelector(target);
+                        span.textContent = '';
+                        span.style.display = 'none';
+                    }
+                });
+
+
 
                 // ---------- First load ----------
                 setActiveTabUI('daily');
@@ -3755,12 +3940,42 @@
                         this.setEndDate(moment(start).add(1, 'months'));
                     }
                 });
+                $('#' + ids.picker).daterangepicker({
+                    opens: 'left',
+                    autoUpdateInput: false,
+                    minDate: moment('2024-01-01'),
+                    maxDate: moment().endOf('year'),
+                });
 
                 $('#' + ids.picker).on('apply.daterangepicker', function(ev, picker) {
+
                     currentStartDate = picker.startDate.format('YYYY-MM-DD');
                     currentEndDate = picker.endDate.format('YYYY-MM-DD');
+
+                    const target = this.dataset.target;
+                    if (target) {
+                        const span = document.querySelector(target);
+                        span.textContent =
+                            picker.startDate.format('DD/MM/YYYY') +
+                            ' to ' +
+                            picker.endDate.format('DD/MM/YYYY');
+
+                        span.style.display = 'inline';
+                    }
+
                     fetchData(currentType, currentStartDate, currentEndDate);
                 });
+
+                $('#' + ids.picker).on('cancel.daterangepicker', function() {
+                    const target = this.dataset.target;
+                    if (target) {
+                        const span = document.querySelector(target);
+                        span.textContent = '';
+                        span.style.display = 'none';
+                    }
+                });
+
+
 
                 // ---------- First load with dummy data ----------
                 setActiveTabUI('daily');
