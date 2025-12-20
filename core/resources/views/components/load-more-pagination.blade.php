@@ -1,6 +1,6 @@
 @props(['all_products'])
 {{-- Load more button instead of numbered pagination --}}
-@if (($all_products['total_page'] ?? 0) > ($all_products['current_page'] ?? 1))
+{{-- @if (($all_products['total_page'] ?? 0) > ($all_products['current_page'] ?? 1))
     <div class="row">
         <div class="col-lg-12 text-center mt-5">
             <button id="load_more_button" class="btn-load-more"
@@ -13,8 +13,21 @@
             </button>
         </div>
     </div>
-@endif
+@endif --}}
 
+
+@if (($all_products['total_page'] ?? 0) > 1)
+    <ul class="pagination-list">
+        @foreach ($all_products['links'] as $link)
+            <li>
+                <a data-page-index="{{ $loop->iteration }}" href="{{ $link }}"
+                    class="page-number {{ $loop->iteration == $all_products['current_page'] ? 'current' : '' }}">
+                    {{ $loop->iteration }}
+                </a>
+            </li>
+        @endforeach
+    </ul>
+@endcan
 
 <style>
     .btn-load-more {

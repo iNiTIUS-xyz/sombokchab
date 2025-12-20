@@ -36,18 +36,6 @@ class VendorWalletGatewaySettingController extends Controller
                 "gateway_qr_file" => "nullable",
             ]);
 
-            $VendorWalletGatewaySetting = VendorWalletGatewaySetting::query()
-                ->where("vendor_id", auth("vendor")->id())
-                ->where("vendor_wallet_gateway_id", $request->gateway_name)
-                ->get();
-
-            if ($VendorWalletGatewaySetting->count() > 0) {
-                return back()->with([
-                    'message' =>  __('Vendor wallet payment gateway already exit with this gateway.'),
-                    'alert-type' => 'error',
-                ]);
-            }
-
             if (isset($data['gateway_filed'])) {
                 foreach ($data['gateway_filed'] as $key => $value) {
                     $data['gateway_filed'][$key] = SanitizeInput::esc_html($value);
@@ -74,6 +62,9 @@ class VendorWalletGatewaySettingController extends Controller
                 ->create([
                     "vendor_id" => auth("vendor")->id(),
                     "vendor_wallet_gateway_id" => $request->gateway_name,
+                    "wallet_option_name"          => $request->wallet_option_name,
+                    "merchant_name"       => $request->merchant_name,
+                    "merchant_id"            => $request->merchant_id,
                     "vendor_id"                => auth("vendor")->id(),
                     "fileds"                   => isset($data['gateway_filed']) ? serialize($data['gateway_filed']) : null,
                     "gateway_qr_file"          => $gatewayQrFile,
@@ -82,13 +73,13 @@ class VendorWalletGatewaySettingController extends Controller
             DB::commit();
 
             return back()->with([
-                'message' => __('Successfully created wallet gateway settings'),
+                'message' => __('Successfully created withdraw option'),
                 'alert-type' => 'success',
             ]);
         } catch (\Throwable $e) {
             DB::rollback();
             return back()->with([
-                'message' =>  __('Failed to create wallet gateway settings'),
+                'message' =>  __('Failed to create withdraw option'),
                 'alert-type' => 'error',
             ]);
         }
@@ -105,19 +96,6 @@ class VendorWalletGatewaySettingController extends Controller
                 "gateway_filed.*" => "nullable|string",
                 "gateway_qr_file" => "nullable",
             ]);
-
-            $VendorWalletGatewaySetting = VendorWalletGatewaySetting::query()
-                ->where("vendor_id", auth("vendor")->id())
-                ->where('id', '!=', $id)
-                ->where("vendor_wallet_gateway_id", $request->gateway_name)
-                ->get();
-
-            if ($VendorWalletGatewaySetting->count() > 0) {
-                return back()->with([
-                    'message' =>  __('Vendor wallet payment gateway already exit with this gateway.'),
-                    'alert-type' => 'error',
-                ]);
-            }
 
             $walletGatewaySetting = VendorWalletGatewaySetting::where('vendor_id', auth("vendor")->id())->findOrFail($id);
 
@@ -139,6 +117,9 @@ class VendorWalletGatewaySettingController extends Controller
             }
 
             $walletGatewaySetting->vendor_wallet_gateway_id = $request->gateway_name;
+            $walletGatewaySetting->wallet_option_name = $request->wallet_option_name;
+            $walletGatewaySetting->merchant_name = $request->merchant_name;
+            $walletGatewaySetting->merchant_id = $request->merchant_id;
 
             if (isset($data['gateway_filed'])) {
                 foreach ($data['gateway_filed'] as $key => $value) {
@@ -146,20 +127,20 @@ class VendorWalletGatewaySettingController extends Controller
                 }
             }
 
-            $walletGatewaySetting->fileds                   = isset($data['gateway_filed']) ? serialize($data['gateway_filed']) : null;
+            $walletGatewaySetting->fileds = isset($data['gateway_filed']) ? serialize($data['gateway_filed']) : null;
 
             $walletGatewaySetting->save();
 
             DB::commit();
 
             return back()->with([
-                'message' => __('Successfully updated wallet gateway settings'),
+                'message' => __('Successfully updated withdraw option'),
                 'alert-type' => 'success',
             ]);
         } catch (\Throwable $e) {
             DB::rollback();
             return back()->with([
-                'message' =>  __('Failed to update wallet gateway settings'),
+                'message' =>  __('Failed to update withdraw option'),
                 'alert-type' => 'error',
             ]);
         }
@@ -177,13 +158,13 @@ class VendorWalletGatewaySettingController extends Controller
             DB::commit();
 
             return back()->with([
-                'message' => __('Successfully deleted wallet gateway settings'),
+                'message' => __('Successfully deleted withdraw option'),
                 'alert-type' => 'success',
             ]);
         } catch (\Throwable $e) {
             DB::rollback();
             return back()->with([
-                'message' =>  __('Failed to delete wallet gateway settings'),
+                'message' =>  __('Failed to delete withdraw option'),
                 'alert-type' => 'error',
             ]);
         }

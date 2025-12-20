@@ -19,6 +19,8 @@ class VendorWithdrawRequest extends Model
         "note",
         "image",
         "qr_file",
+        "merchant_name",
+        "merchant_id",
     ];
 
     public function gateway()

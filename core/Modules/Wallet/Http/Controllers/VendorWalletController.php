@@ -80,6 +80,8 @@ class VendorWalletController extends Controller
                 ->findOrFail($request->gateway_id);
 
             $data['gateway_id']     = $gatewaySetting->vendor_wallet_gateway_id;
+            $data['merchant_name']     = $gatewaySetting->merchant_name;
+            $data['merchant_id']     = $gatewaySetting->merchant_id;
             $data['vendor_id']      = $vendorId;
             $data['qr_file']        = $gatewaySetting->gateway_qr_file ? $gatewaySetting->gateway_qr_file : null;
             $data['gateway_fields'] = $gatewaySetting->fileds ? json_encode(unserialize($gatewaySetting->fileds)) : null;
