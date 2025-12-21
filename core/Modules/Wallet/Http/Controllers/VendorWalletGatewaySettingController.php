@@ -16,6 +16,7 @@ class VendorWalletGatewaySettingController extends Controller
         $adminGateways = VendorWalletGateway::query()
             ->where("status_id", 1)
             ->get();
+
         $vendorWalletGatewaySettingLists = VendorWalletGatewaySetting::query()
             ->where(["vendor_id" => auth("vendor")->id()])
             ->with(['vendorWalletGateway'])

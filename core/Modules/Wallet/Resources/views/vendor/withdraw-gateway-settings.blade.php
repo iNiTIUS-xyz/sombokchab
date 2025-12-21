@@ -135,6 +135,8 @@
                                     </option>
                                     @foreach ($adminGateways as $gateway)
                                         <option value="{{ $gateway->id }}" data-is_file="{{ $gateway->is_file }}"
+                                            data-merchant_id="{{ $gateway->merchant_id }}"
+                                            data-merchant_name="{{ $gateway->merchant_name }}"
                                             data-fileds="{{ json_encode(unserialize($gateway->filed)) }}">
                                             {{ $gateway->name }}
                                         </option>
@@ -186,6 +188,8 @@
                                     </option>
                                     @foreach ($adminGateways as $gateway)
                                         <option value="{{ $gateway->id }}" data-is_file="{{ $gateway->is_file }}"
+                                            data-merchant_id="{{ $gateway->merchant_id }}"
+                                            data-merchant_name="{{ $gateway->merchant_name }}"
                                             data-fileds="{{ json_encode(unserialize($gateway->filed)) }}">
                                             {{ $gateway->name }}
                                         </option>
@@ -211,79 +215,115 @@
 
 @section('script')
     <script>
-        function renderFields(wrapper, fields, isFile, oldValues = {}, oldMerchant = {}, hasQr = 'no') {
+        function renderFields(
+            wrapper,
+            fields,
+            isFile,
+            oldValues = {},
+            oldMerchant = {},
+            hasQr = 'no',
+            hasMerchantName = 'no',
+            hasMerchantId = 'no'
+        ) {
             wrapper.innerHTML = "";
 
+            let merchantHtml = '';
+
+            if (hasMerchantName === 'yes') {
+                merchantHtml += `
+                <div class="form-group mb-2">
+                    <label>Merchant Name</label>
+                    <input type="text"
+                        name="merchant_name"
+                        class="form-control"
+                        value="${oldMerchant.name || ''}"
+                        placeholder="Enter Merchant Name">
+                </div>
+            `;
+            }
+
+            if (hasMerchantId === 'yes') {
+                merchantHtml += `
+                <div class="form-group mb-2">
+                    <label>Merchant ID</label>
+                    <input type="text"
+                        name="merchant_id"
+                        class="form-control"
+                        value="${oldMerchant.id || ''}"
+                        placeholder="Enter Merchant ID">
+                </div>
+            `;
+            }
+
+            /* ---------- FILE BASED GATEWAY ---------- */
             if (isFile === 'yes') {
                 let qrHtml = '';
                 if (hasQr === 'yes') {
-                    qrHtml =
-                        `<p class="text-success"><small>Current QR/Document already uploaded. Upload new to replace.</small></p>`;
+                    qrHtml = `
+                    <p class="text-success">
+                        <small>Current QR / Document already uploaded. Upload new to replace.</small>
+                    </p>
+                `;
                 }
 
                 wrapper.innerHTML = `
-                    ${qrHtml}
-                    <div class="form-group mb-2">
-                        <label>{{ __('Upload Document / QR') }}</label>
-                        <input type="file"
-                            name="gateway_qr_file"
-                            class="form-control"
-                            accept=".jpg,.jpeg,.png,.pdf">
-                    </div>
-                    <div class="form-group mb-2">
-                        <label>Merchant Name</label>
-                        <input type="text" name="merchant_name" class="form-control"
-                            value="${oldMerchant.name || ''}"
-                            placeholder="Enter Merchant Name">
-                    </div>
-                    <div class="form-group mb-2">
-                        <label>Merchant ID</label>
-                        <input type="text" name="merchant_id" class="form-control"
-                            value="${oldMerchant.id || ''}"
-                            placeholder="Enter Merchant ID">
-                    </div>
-                `;
+                ${qrHtml}
+                <div class="form-group mb-2">
+                    <label>{{ __('Upload Document / QR') }}</label>
+                    <input type="file"
+                        name="gateway_qr_file"
+                        class="form-control"
+                        accept=".jpg,.jpeg,.png,.pdf">
+                </div>
+                ${merchantHtml}
+            `;
                 return;
             }
 
-            if (!fields || Object.keys(fields).length === 0) return;
+            /* ---------- NORMAL TEXT FIELDS ---------- */
+            let html = '';
 
-            fields = Object.values(fields);
-            let html = "";
+            if (fields && Object.keys(fields).length > 0) {
+                Object.values(fields).forEach(fieldName => {
+                    let key = fieldName.toLowerCase().replace(/\s+/g, "_");
+                    let value = oldValues[key] ?? "";
 
-            fields.forEach(fieldName => {
-                let key = fieldName.toLowerCase().replace(/\s+/g, "_");
-                let value = oldValues[key] ?? "";
+                    html += `
+                    <div class="form-group mt-2">
+                        <label>${fieldName}</label>
+                        <input type="text"
+                            name="gateway_filed[${key}]"
+                            class="form-control"
+                            value="${value}"
+                            placeholder="Enter ${fieldName}">
+                    </div>
+                `;
+                });
+            }
 
-                html += `
-                <div class="form-group mt-2">
-                    <label>${fieldName}</label>
-                    <input type="text"
-                        name="gateway_filed[${key}]"
-                        class="form-control"
-                        value="${value}"
-                        placeholder="Enter ${fieldName}">
-                </div>
-            `;
-            });
-
-            wrapper.innerHTML = html;
+            wrapper.innerHTML = html + merchantHtml;
         }
 
-        // CREATE MODAL - Change gateway
-        document.querySelector('#createPaymentMethod .gateway-name')
+        /* ===================== CREATE MODAL ===================== */
+        document
+            .querySelector('#createPaymentMethod .gateway-name')
             ?.addEventListener('change', function() {
                 let option = this.options[this.selectedIndex];
-                let wrapper = document.querySelector('#createPaymentMethod .gateway-information-wrapper');
+                let wrapper = document.querySelector(
+                    '#createPaymentMethod .gateway-information-wrapper'
+                );
 
                 renderFields(
                     wrapper,
                     JSON.parse(option.dataset.fileds || '{}'),
-                    option.dataset.is_file
+                    option.dataset.is_file, {}, {},
+                    'no',
+                    option.dataset.merchant_name,
+                    option.dataset.merchant_id
                 );
             });
 
-        // UPDATE MODAL - On edit button click
+        /* ===================== UPDATE MODAL ===================== */
         document.querySelectorAll('.edit-gateway').forEach(btn => {
             btn.addEventListener('click', function() {
                 let modal = document.querySelector('#updatePaymentMethod');
@@ -292,42 +332,44 @@
                 let wrapper = modal.querySelector('.gateway-information-wrapper');
                 let walletInput = modal.querySelector('.wallet-option-name');
 
-                // Set form action
+                /* Set form action */
                 form.action = this.dataset.route;
 
-                // Pre-fill Withdrawal Options name
+                /* Wallet option name */
                 walletInput.value = this.dataset.wallet_option_name || '';
 
-                // Pre-select gateway
+                /* Select gateway */
                 select.value = this.dataset.gateway;
 
-                // Get selected option
                 let selectedOption = select.options[select.selectedIndex];
 
-                // Prepare old values
                 let oldFields = JSON.parse(this.dataset.fileds || '{}');
                 let oldMerchant = {
                     name: this.dataset.merchant_name,
                     id: this.dataset.merchant_id
                 };
 
-                // Render fields based on selected gateway
                 renderFields(
                     wrapper,
                     JSON.parse(selectedOption.dataset.fileds || '{}'),
                     selectedOption.dataset.is_file,
                     oldFields,
                     oldMerchant,
-                    this.dataset.has_qr
+                    this.dataset.has_qr,
+                    selectedOption.dataset.merchant_name,
+                    selectedOption.dataset.merchant_id
                 );
 
-                // If user changes gateway in update modal
+                /* Change gateway inside update modal */
                 select.onchange = function() {
                     let opt = this.options[this.selectedIndex];
                     renderFields(
                         wrapper,
                         JSON.parse(opt.dataset.fileds || '{}'),
-                        opt.dataset.is_file
+                        opt.dataset.is_file, {}, {},
+                        'no',
+                        opt.dataset.merchant_name,
+                        opt.dataset.merchant_id
                     );
                 };
             });
