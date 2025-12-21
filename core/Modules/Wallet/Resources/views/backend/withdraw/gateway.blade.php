@@ -43,7 +43,13 @@
                                             <td>{{ $gateway->name }}</td>
                                             <td>
                                                 @if ($gateway->is_file == 'yes')
-                                                    {{ __('QR File Upload Required') }}
+                                                    <strong>{{ __('QR File Upload Required') }}</strong>
+                                                    <br>
+                                                    <strong>Is Merchant Name</strong> :
+                                                    {{ Str::ucfirst($gateway->merchant_name) }}
+                                                    <br>
+                                                    <strong>Is Merchant ID</strong> :
+                                                    {{ Str::ucfirst($gateway->merchant_id) }}
                                                 @else
                                                     @if ($gateway->filed)
                                                         {{ implode(' , ', unserialize($gateway->filed)) }}
@@ -262,151 +268,129 @@
     <script>
         $(document).ready(function() {
 
-            // === Add Modal: Toggle visibility based on "Is File" ===
-            $('#is_file_checkbox').change(function() {
-                if (this.checked) {
+            $('#is_file_checkbox').on('change', function() {
+                if ($(this).is(':checked')) {
                     $('#filed_container').hide();
+                    $('#filed_container input[name="filed[]"]').prop('required', false).prop('disabled',
+                        true);
                     $('#is_merchant').show();
-                    $('#filed_container input').removeAttr('required');
                 } else {
                     $('#filed_container').show();
+                    $('#filed_container input[name="filed[]"]').prop('required', true).prop('disabled',
+                        false);
                     $('#is_merchant').hide();
-                    $('#filed_container input').attr('required', 'required');
                 }
             });
 
-            // === Edit Modal: Toggle visibility ===
-            $('#edit_is_file_checkbox').change(function() {
-                if (this.checked) {
+
+            $('#edit_is_file_checkbox').on('change', function() {
+                if ($(this).is(':checked')) {
                     $('#edit_fields_container').hide();
+                    $('#edit_fields_container input[name="filed[]"]').prop('required', false).prop(
+                        'disabled', true);
                     $('#edit_is_merchant').show();
-                    $('#edit_fields_container input').removeAttr('required');
                 } else {
                     $('#edit_fields_container').show();
+                    $('#edit_fields_container input[name="filed[]"]').prop('required', true).prop(
+                        'disabled', false);
                     $('#edit_is_merchant').hide();
-                    $('#edit_fields_container input').attr('required', 'required');
                 }
             });
 
-            // === Add new field row (Add Modal) ===
+
             $(document).on('click', '.gateway-filed-add', function() {
                 const container = $(this).closest('.gateway-filed-body');
-                const newRow = `
-                    <div class="row gateway-field-row mt-2">
-                        <div class="col-md-10">
-                            <input class="form-control" name="filed[]" placeholder="{{ __('Enter field name') }}" required>
-                        </div>
-                        <div class="col-md-2 text-center">
-                            <button type="button" class="btn btn-danger btn-sm gateway-filed-remove">
-                                <i class="las la-trash-alt"></i>
-                            </button>
-                        </div>
-                    </div>`;
 
-                container.append(newRow);
+                container.append(`
+                <div class="row gateway-field-row mt-2">
+                    <div class="col-md-10">
+                        <input
+                            class="form-control"
+                            name="filed[]"
+                            placeholder="{{ __('Enter field name') }}"
+                            required
+                        >
+                    </div>
+                    <div class="col-md-2 text-center">
+                        <button type="button" class="btn btn-danger btn-sm gateway-filed-remove">
+                            <i class="las la-trash-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            `);
             });
 
-            // === Remove field row ===
             $(document).on('click', '.gateway-filed-remove', function() {
                 $(this).closest('.gateway-field-row').remove();
             });
 
-            // === Populate Edit Modal ===
+
             $(document).on('click', '.update-gateway', function() {
+
                 const id = $(this).data('id');
                 const name = $(this).data('name');
                 const status = $(this).data('status');
-                const isFile = $(this).data('is-file'); // 'yes' or 'no'
+                const isFile = $(this).data('is-file');
                 const merchantName = $(this).data('merchant-name') === 'yes';
                 const merchantId = $(this).data('merchant-id') === 'yes';
                 const routeUrl = $(this).data('route');
 
-                // Set form action (assuming you have route defined)
-                $('#edit-gateway-form').attr('action', routeUrl);
-
-                // Important fix: parse the filed data if it's a string
                 let fields = $(this).data('filed') || [];
+
                 if (typeof fields === 'string') {
                     try {
                         fields = JSON.parse(fields);
-                    } catch (e) {
-                        console.error('Failed to parse filed data:', fields);
+                    } catch {
                         fields = [];
                     }
                 }
 
+                $('#edit-gateway-form').attr('action', routeUrl);
                 $('#edit_gateway_id').val(id);
                 $('#edit_gateway_name').val(name);
                 $('#edit_status_id').val(status);
 
-                // Checkboxes
                 $('#edit_is_file_checkbox').prop('checked', isFile === 'yes');
                 $('#edit_merchant_name').prop('checked', merchantName);
                 $('#edit_merchant_id').prop('checked', merchantId);
 
-                // Toggle visibility based on is_file
-                if (isFile === 'yes') {
-                    $('#edit_fields_container').hide();
-                    $('#edit_is_merchant').show();
-                } else {
-                    $('#edit_fields_container').show();
-                    $('#edit_is_merchant').hide();
-                }
+                let html = '';
 
-                let fieldHtml = '';
-                if (Array.isArray(fields) && fields.length > 0) {
-                    fields.forEach(function(field, index) {
-                        fieldHtml += `
-                            <div class="row gateway-field-row mt-2">
-                                <div class="col-md-10">
-                                    <input
-                                        class="form-control"
-                                        name="filed[]"
-                                        value="${field}"
-                                        placeholder="{{ __('Enter field name') }}"
-                                        required
-                                    >
-                                </div>
-                                <div class="col-md-2 text-center">
-                                    ${index === 0 ? `
-                                                <button type="button" class="btn btn-primary btn-sm gateway-filed-add">
-                                                    <i class="las la-plus"></i>
-                                                </button>
-                                            ` : ''}
-                                    ${index != 0 ? `
-                                                <button type="button" class="btn btn-danger btn-sm gateway-filed-remove">
-                                                    <i class="las la-trash-alt"></i>
-                                                </button>
-                                            ` : ''}
-                                </div>
+                if (Array.isArray(fields) && fields.length) {
+                    fields.forEach((field, index) => {
+                        html += `
+                        <div class="row gateway-field-row mt-2">
+                            <div class="col-md-10">
+                                <input
+                                    class="form-control"
+                                    name="filed[]"
+                                    value="${field}"
+                                    placeholder="{{ __('Enter field name') }}"
+                                >
                             </div>
-                        `;
+                            <div class="col-md-2 text-center">
+                                ${index === 0 ? `
+                                                                        <button type="button" class="btn btn-primary btn-sm gateway-filed-add">
+                                                                            <i class="las la-plus"></i>
+                                                                        </button>
+                                                                    ` : `
+                                                                        <button type="button" class="btn btn-danger btn-sm gateway-filed-remove">
+                                                                            <i class="las la-trash-alt"></i>
+                                                                        </button>
+                                                                    `}
+                            </div>
+                        </div>
+                    `;
                     });
-
                 } else {
-                    fieldHtml = `
+                    html = `
                     <div class="row gateway-field-row mt-2">
                         <div class="col-md-10">
-                            <input class="form-control" name="filed[]" placeholder="{{ __('Enter field name') }}" required>
-                        </div>
-                        <div class="col-md-2 text-center">
-                            <button type="button" class="btn btn-primary btn-sm gateway-filed-add">
-                                <i class="las la-plus"></i>
-                            </button>
-                        </div>
-                    </div>`;
-                }
-
-                $('#edit_gateway_filed_body').html(fieldHtml);
-            });
-
-            // Reset modals on close (optional, to avoid stale data)
-            $('#add-gateway-modal, #edit-gateway-modal').on('hidden.bs.modal', function() {
-                $(this).find('form')[0].reset();
-                $('#add_gateway_filed_body').html(`
-                    <div class="row gateway-field-row mt-2">
-                        <div class="col-md-10">
-                            <input class="form-control" name="filed[]" placeholder="{{ __('Enter field name') }}" required>
+                            <input
+                                class="form-control"
+                                name="filed[]"
+                                placeholder="{{ __('Enter field name') }}"
+                            >
                         </div>
                         <div class="col-md-2 text-center">
                             <button type="button" class="btn btn-primary btn-sm gateway-filed-add">
@@ -414,9 +398,58 @@
                             </button>
                         </div>
                     </div>
-                `);
+                `;
+                }
+
+                $('#edit_gateway_filed_body').html(html);
+
+                if (isFile === 'yes') {
+                    $('#edit_fields_container').hide();
+                    $('#edit_fields_container input').prop('required', false).prop('disabled', true);
+                    $('#edit_is_merchant').show();
+                } else {
+                    $('#edit_fields_container').show();
+                    $('#edit_fields_container input').prop('required', true).prop('disabled', false);
+                    $('#edit_is_merchant').hide();
+                }
+            });
+
+            $('#edit-gateway-form').on('submit', function() {
+                if ($('#edit_is_file_checkbox').is(':checked')) {
+                    $('#edit_fields_container input[name="filed[]"]')
+                        .prop('required', false)
+                        .prop('disabled', true);
+                }
+            });
+
+            $('#add-gateway-modal, #edit-gateway-modal').on('hidden.bs.modal', function() {
+
+                this.reset?.();
+
+                $('#add_gateway_filed_body').html(`
+                <div class="row gateway-field-row mt-2">
+                    <div class="col-md-10">
+                        <input
+                            class="form-control"
+                            name="filed[]"
+                            placeholder="{{ __('Enter field name') }}"
+                            required
+                        >
+                    </div>
+                    <div class="col-md-2 text-center">
+                        <button type="button" class="btn btn-primary btn-sm gateway-filed-add">
+                            <i class="las la-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            `);
+
                 $('#filed_container, #edit_fields_container').show();
                 $('#is_merchant, #edit_is_merchant').hide();
+
+                $('#filed_container input, #edit_fields_container input')
+                    .prop('required', true)
+                    .prop('disabled', false);
             });
 
         });
