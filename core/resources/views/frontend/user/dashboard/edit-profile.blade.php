@@ -91,9 +91,10 @@
                         <div class="form-group">
                             <label for="email">
                                 {{ __('Email') }}
+                                <span class="text-danger">*</span>
                             </label>
                             <input type="email" class="form-control" id="email" name="email"
-                                value="{{ $user_details->email }}" placeholder="{{ __('Enter Email') }}">
+                                value="{{ $user_details->email }}" placeholder="{{ __('Enter Email') }}" required>
                             <span id="email-error" class="text-danger" style="display:none;">
                                 {{ __('Please enter a valid email address.') }}
                             </span>

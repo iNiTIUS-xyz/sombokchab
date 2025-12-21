@@ -28,7 +28,7 @@
                                         </label>
                                         <input type="text" class="form-control" id="name" name="name"
                                             oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '');"
-                                            placeholder="{{ __('Enter full name') }}" required="">
+                                            placeholder="{{ __('Enter full name') }}" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-3">
