@@ -317,7 +317,7 @@
                     topEnd: {
                         buttons: [{
                             extend: 'excel',
-                            text: 'Export All'
+                            text: 'Export'
                         }],
                         search: {
                             placeholder: "Type Here"

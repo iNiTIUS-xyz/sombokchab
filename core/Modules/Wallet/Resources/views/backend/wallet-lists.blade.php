@@ -24,10 +24,6 @@
     <div class="col-lg-12 col-ml-12">
         <div class="row">
             <div class="col-lg-12">
-                <x-error-msg />
-                <x-flash-msg />
-            </div>
-            <div class="col-lg-12">
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <div class="dashboard__card__header__left">
@@ -41,6 +37,7 @@
                         <div class="table-responsive">
                             <table class="table table-default" id="dataTable">
                                 <thead>
+                                    <th>{{ __('Serial No') }}</th>
                                     @if ($type == 'vendor')
                                         <th>{{ __('Store Name') }}</th>
                                     @endif
@@ -49,8 +46,9 @@
                                     <th>{{ __('Status') }}</th>
                                 </thead>
                                 <tbody>
-                                    @forelse($wallet_lists ?? [] as $data)
+                                    @forelse($wallet_lists ?? [] as $key => $data)
                                         <tr>
+                                            <td>{{ $key + 1 }}</td>
                                             @if ($type == 'vendor')
                                                 <td>{{ $data?->vendor?->business_name }}</td>
                                             @endif

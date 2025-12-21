@@ -9,8 +9,6 @@
 @endsection
 @section('content')
     <div class="col-lg-12 col-ml-12">
-        {{-- @include('backend/partials/message')
-    @include('backend/partials/error') --}}
         <div class="row">
             <div class="col-12">
                 <div class="btn-wrapper mb-4">
@@ -32,6 +30,7 @@
                             <table id="dataTable" class="table">
                                 <thead class="text-capitalize">
                                     <tr>
+                                        <th>{{ __('Serial No') }}</th>
                                         <th>{{ __('Name') }}</th>
                                         <th>{{ __('Image') }}</th>
                                         <th>{{ __('Role') }}</th>
@@ -39,8 +38,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($all_user as $data)
+                                    @foreach ($all_user as $key => $data)
                                         <tr>
+                                            <td>{{ $key + 1 }}</td>
                                             <td>{{ $data->name }} ({{ $data->username }})</td>
                                             <td>
                                                 @php

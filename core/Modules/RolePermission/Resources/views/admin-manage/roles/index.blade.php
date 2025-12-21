@@ -3,6 +3,24 @@
 @section('style')
     <link rel="stylesheet" href="{{ asset('assets/backend/css/dropzone.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/backend/css/media-uploader.css') }}">
+
+    <style>
+        .form-select {
+            width: 100%;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 20px;
+            color: var(--paragraph-color);
+            height: 48px !important;
+            border: 1px solid var(--border-two) !important;
+            border-radius: 5px !important;
+        }
+
+        .form-select:focus {
+            box-shadow: 0 0 10px rgb(5 205 153 / 10%) !important;
+            border-color: rgba(5, 205, 153, 0.3) !important;
+        }
+    </style>
 @endsection
 
 @section('site-title', __('Role list'))
@@ -24,9 +42,6 @@
                         <h3 class="dashboard__card__title">{{ __('Admin Roles') }}</h3>
                     </div>
                     <div class="dashboard__card__body mt-4">
-                        {{--
-                    <x-error-msg />
-                    <x-flash-msg /> --}}
                         <div class="data-tables datatable-primary">
                             @if ($roles->isNotEmpty())
                                 <table id="dataTable" class="table dataTable no-footer">
@@ -156,35 +171,15 @@
             </div>
         </div>
     </div>
-
-
-
-    <style>
-        .form-select {
-            width: 100%;
-            font-size: 14px;
-            font-weight: 400;
-            line-height: 20px;
-            color: var(--paragraph-color);
-            height: 48px !important;
-            border: 1px solid var(--border-two) !important;
-            border-radius: 5px !important;
-        }
-
-        .form-select:focus {
-            box-shadow: 0 0 10px rgb(5 205 153 / 10%) !important;
-            border-color: rgba(5, 205, 153, 0.3) !important;
-        }
-    </style>
 @endsection
 
 @section('script')
 
     {{-- <script>
-    (function ($) {
+        (function($) {
             "use strict";
 
-            $(document).on("click", ".edit_role", function (e) {
+            $(document).on("click", ".edit_role", function(e) {
                 e.preventDefault();
 
                 let modalContainer = $("#editRoles");
@@ -195,7 +190,7 @@
 
             })
         })(jQuery);
-</script> --}}
+    </script> --}}
     <script>
         (function($) {
             "use strict";

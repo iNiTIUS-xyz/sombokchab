@@ -9,11 +9,61 @@
 @section('content')
     <div class="col-lg-12 col-ml-12">
         <div class="row">
-            <div class="col-lg-12">
-                {{-- @include('backend.partials.message')
-            @include('backend.partials.error') --}}
+            <div class="col-lg-7">
+                <div class="dashboard__card">
+                    <div class="dashboard__card__header">
+                        <h4 class="dashboard__card__title">{{ __('Social Icons') }}</h4>
+                        @can('manage-appearance-settings')
+                            <div class="right-cotnent">
+                                <a class="cmn_btn btn_bg_profile" data-bs-target="#add_social_icon" data-bs-toggle="modal"
+                                    href="javascript:;" title="{{ __('Add New Social Item') }}">
+                                    {{ __('Add New Social Item') }}
+                                </a>
+                            </div>
+                        @endcan
+                    </div>
+                    <div class="dashboard__card__body mt-4">
+                        @can('manage-appearance-settings')
+                            <table class="table table-default" id="dataTable">
+                                <thead>
+                                    <th>{{ __('Serial No') }}</th>
+                                    <th>{{ __('URL') }}</th>
+                                    <th>{{ __('Icon') }}</th>
+                                    <th>{{ __('Action') }}</th>
+                                </thead>
+                                <tbody>
+                                    @foreach ($all_social_icons as $key => $data)
+                                        <tr>
+                                            <td>{{ $key + 1 }}</td>
+                                            <td>
+                                                <a href="{{ $data->url }}" target="__blank">
+                                                    {{ $data->url }}
+                                                </a>
+                                            </td>
+                                            <td><i class="{{ $data->icon }}"></i></td>
+                                            <td>
+                                                @can('manage-appearance-settings')
+                                                    <a href="#1" data-bs-toggle="modal"
+                                                        data-bs-target="#social_item_edit_modal"
+                                                        class="btn btn-xs btn-warning text-dark mb-2 me-1 social_item_edit_btn"
+                                                        data-id="{{ $data->id }}" data-url="{{ $data->url }}"
+                                                        data-icon="{{ $data->icon }}" title="{{ __('Edit') }}">
+                                                        <i class="ti-pencil"></i>
+                                                    </a>
+                                                @endcan
+                                                @can('manage-appearance-settings')
+                                                    <x-delete-popover :url="route('admin.delete.social.item', $data->id)" />
+                                                @endcan
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        @endcan
+                    </div>
+                </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-5">
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Topbar Menu') }}</h4>
@@ -42,58 +92,6 @@
                                     </button>
                                 </div>
                             </form>
-                        @endcan
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="dashboard__card">
-                    <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('Social Icons') }}</h4>
-                        @can('manage-appearance-settings')
-                            <div class="right-cotnent">
-                                <a class="cmn_btn btn_bg_profile" data-bs-target="#add_social_icon" data-bs-toggle="modal"
-                                    href="javascript:;" title="{{ __('Add New Social Item') }}">
-                                    {{ __('Add New Social Item') }}
-                                </a>
-                            </div>
-                        @endcan
-                    </div>
-                    <div class="dashboard__card__body mt-4">
-                        @can('manage-appearance-settings')
-                            <table class="table table-default" id="dataTable">
-                                <thead>
-                                    <th>{{ __('URL') }}</th>
-                                    <th>{{ __('Icon') }}</th>
-                                    <th>{{ __('Action') }}</th>
-                                </thead>
-                                <tbody>
-                                    @foreach ($all_social_icons as $data)
-                                        <tr>
-                                            <td>
-                                                <a href="{{ $data->url }}" target="__blank">
-                                                    {{ $data->url }}
-                                                </a>
-                                            </td>
-                                            <td><i class="{{ $data->icon }}"></i></td>
-                                            <td>
-                                                @can('manage-appearance-settings')
-                                                    <a href="#1" data-bs-toggle="modal"
-                                                        data-bs-target="#social_item_edit_modal"
-                                                        class="btn btn-xs btn-warning text-dark mb-2 me-1 social_item_edit_btn"
-                                                        data-id="{{ $data->id }}" data-url="{{ $data->url }}"
-                                                        data-icon="{{ $data->icon }}" title="{{ __('Edit') }}">
-                                                        <i class="ti-pencil"></i>
-                                                    </a>
-                                                @endcan
-                                                @can('manage-appearance-settings')
-                                                    <x-delete-popover :url="route('admin.delete.social.item', $data->id)" />
-                                                @endcan
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
                         @endcan
                     </div>
                 </div>

@@ -40,6 +40,7 @@
                             <table class="table" id="dataTable">
                                 <thead>
                                     <tr>
+                                        <th>{{ __('Serial No') }}</th>
                                         <th>{{ __('Payment Method') }}</th>
                                         <th>{{ __('Method Fields') }}</th>
                                         <th>{{ __('Status') }}</th>
@@ -47,8 +48,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($gateways as $gateway)
+                                    @foreach ($gateways as $key => $gateway)
                                         <tr>
+                                            <td>{{ $key + 1 }}</td>
                                             <td>{{ $gateway->name }}</td>
                                             <td>
                                                 @if ($gateway->is_file == 'yes')

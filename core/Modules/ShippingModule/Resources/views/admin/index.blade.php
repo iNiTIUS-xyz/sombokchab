@@ -16,9 +16,6 @@
     <div class="col-lg-12 col-ml-12" id="shipping-zone-wrapper-box">
         <div class="row g-4">
             <div class="col-md-12">
-                {{--
-            <x-flash-msg />
-            <x-error-msg /> --}}
                 <div class="mb-4">
                     @can('manage-shipping-settings')
                         <a href="{{ route('admin.shipping.zone.create') }}" class="cmn_btn btn_bg_profile">
@@ -35,6 +32,7 @@
                             <table class="table" id="dataTable">
                                 <thead>
                                     <tr>
+                                        <th>{{ __('Serial No') }}</th>
                                         <th>{{ __('Zone Name') }}</th>
                                         <th>{{ __('Countries') }}</th>
                                         <th>{{ __('States') }}</th>
@@ -42,8 +40,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($zones as $zone)
+                                    @foreach ($zones as $key => $zone)
                                         <tr>
+                                            <td>{{ $key + 1 }}</td>
                                             <td>{{ $zone->name }}</td>
                                             <td>
                                                 <b>

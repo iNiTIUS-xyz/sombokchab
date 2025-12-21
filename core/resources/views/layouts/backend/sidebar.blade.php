@@ -752,20 +752,18 @@
                             @can('view-category')
                                 <li class="{{ active_menu('admin-home/sub-categories') }}">
                                     <a href="{{ route('admin.subcategory.all') }}">
-                                        {{ __('Product Sub-Categories') }}
-
+                                        {{ __('Product Sub Categories') }}
                                     </a>
                                 </li>
                             @endcan
 
-                            @can('view-category')
+                            {{-- @can('view-category')
                                 <li class="{{ active_menu('admin-home/child-categories') }}" style="display: none">
                                     <a href="{{ route('admin.child-category.all') }}">
-                                        {{ __('Child-Category') }}
-
+                                        {{ __('Product Child Category') }}
                                     </a>
                                 </li>
-                            @endcan
+                            @endcan --}}
                         </ul>
                     </li>
                 @endcanany

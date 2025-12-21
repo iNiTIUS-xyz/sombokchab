@@ -8,9 +8,6 @@
     <div class="col-lg-12 col-ml-12 dashboard-area">
         <div class="row">
             <div class="col-lg-12">
-                {{--
-            <x-msg.error />
-            <x-msg.flash /> --}}
                 <div class="mb-4">
                     @can('manage-shipping-settings')
                         <a href="{{ route('admin.shipping-method.create') }}" class="cmn_btn btn_bg_profile"
@@ -27,6 +24,7 @@
                         <div class="table-responsive">
                             <table class="table table-default" id="dataTable">
                                 <thead>
+                                    <th>{{ __('Serial No') }}</th>
                                     <th>{{ __('Shipping Method Name') }}</th>
                                     <th>{{ __('Zone') }}</th>
                                     <th>{{ __('Cost') }}</th>
@@ -34,8 +32,9 @@
                                     <th>{{ __('Action') }}</th>
                                 </thead>
                                 <tbody>
-                                    @foreach ($all_shipping_methods as $method)
+                                    @foreach ($all_shipping_methods as $key => $method)
                                         <tr>
+                                            <td>{{ $key + 1 }}</td>
                                             <td>{{ optional($method)->title }}</td>
                                             <td>{{ optional($method->zone)->name }}</td>
                                             <td>

@@ -38,6 +38,7 @@
                 <table class="table" id="dataTable">
                     <thead>
                         <tr>
+                            <th>{{ __('Serial No') }}</th>
                             <th>{{ __('Order No.') }}</th>
                             <th>{{ __('Store Name') }}</th>
                             <th>{{ __('Order Date') }}</th>
@@ -48,7 +49,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($all_orders as $order)
+                        @foreach ($all_orders as $key => $order)
                             @php
                                 $status = strtolower($order->order_status);
                                 $statusClass = match ($status) {
@@ -60,6 +61,7 @@
                                 };
                             @endphp
                             <tr class="completed">
+                                <td>{{ $key + 1 }}</td>
                                 <td class="order-numb">
                                     {{ $order->order_number }}
                                 </td>
