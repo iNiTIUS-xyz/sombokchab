@@ -87,6 +87,7 @@
                                                         data-merchant-name="{{ $gateway->merchant_name }}"
                                                         data-merchant-id="{{ $gateway->merchant_id }}"
                                                         data-filed="{{ json_encode($gateway->filed ? unserialize($gateway->filed) : []) }}"
+                                                        data-route="{{ route('admin.wallet.withdraw.gateway.update', $gateway->id) }}"
                                                         class="btn btn-sm btn-warning text-dark mb-2 me-1 update-gateway"
                                                         data-bs-toggle="modal" data-bs-target="#edit-gateway-modal">
                                                         <i class="ti-pencil"></i>
@@ -192,7 +193,6 @@
         <form method="POST" action="" id="edit-gateway-form">
             @csrf
             <input type="hidden" name="id" id="edit_gateway_id">
-
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content custom__form">
                     <div class="modal-header">
@@ -302,6 +302,7 @@
                             </button>
                         </div>
                     </div>`;
+
                 container.append(newRow);
             });
 
@@ -318,6 +319,10 @@
                 const isFile = $(this).data('is-file'); // 'yes' or 'no'
                 const merchantName = $(this).data('merchant-name') === 'yes';
                 const merchantId = $(this).data('merchant-id') === 'yes';
+                const routeUrl = $(this).data('route');
+
+                // Set form action (assuming you have route defined)
+                $('#edit-gateway-form').attr('action', routeUrl);
 
                 // Important fix: parse the filed data if it's a string
                 let fields = $(this).data('filed') || [];
@@ -356,7 +361,7 @@
                                 <div class="col-md-10">
                                     <input
                                         class="form-control"
-                                        name="field[]"
+                                        name="filed[]"
                                         value="${field}"
                                         placeholder="{{ __('Enter field name') }}"
                                         required
@@ -364,15 +369,15 @@
                                 </div>
                                 <div class="col-md-2 text-center">
                                     ${index === 0 ? `
-                                        <button type="button" class="btn btn-primary btn-sm gateway-filed-add">
-                                            <i class="las la-plus"></i>
-                                        </button>
-                                    ` : ''}
+                                                <button type="button" class="btn btn-primary btn-sm gateway-filed-add">
+                                                    <i class="las la-plus"></i>
+                                                </button>
+                                            ` : ''}
                                     ${index != 0 ? `
-                                        <button type="button" class="btn btn-danger btn-sm gateway-filed-remove">
-                                            <i class="las la-trash-alt"></i>
-                                        </button>
-                                    ` : ''}
+                                                <button type="button" class="btn btn-danger btn-sm gateway-filed-remove">
+                                                    <i class="las la-trash-alt"></i>
+                                                </button>
+                                            ` : ''}
                                 </div>
                             </div>
                         `;

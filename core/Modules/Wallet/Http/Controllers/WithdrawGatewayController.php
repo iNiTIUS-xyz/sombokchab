@@ -42,9 +42,8 @@ class WithdrawGatewayController extends Controller
         ]);
     }
 
-    public function updateGateway(StoreGatewayRequest $request)
+    public function updateGateway(StoreGatewayRequest $request, $id)
     {
-
         $fields = [];
 
         foreach ($request->filed ?? [] as $key => $value) {
@@ -52,7 +51,8 @@ class WithdrawGatewayController extends Controller
         }
 
         $data = VendorWalletGateway::query()
-            ->findOrFail($request->id);
+            ->findOrFail($id);
+
         $data->name = $request->gateway_name;
         $data->filed = isset($request->is_file) && $request->is_file == 'yes' ? null : serialize($fields);
         $data->status_id = $request->status_id;

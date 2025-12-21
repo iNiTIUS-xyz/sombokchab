@@ -13,7 +13,7 @@ Route::prefix("admin-home/wallet")->middleware(["auth:admin"])->as("admin.wallet
     Route::controller(WithdrawGatewayController::class)->prefix("withdraw")->as("withdraw.")->group(function () {
         Route::get("/gateway", "gateway")->name("gateway")->permission("wallet-withdraw-gateway");
         Route::post("/gateway", "storeGateway")->permission("wallet-withdraw-gateway");
-        Route::put("gateway/update/{id?}", "updateGateway")->name("gateway.update")->permission("wallet-withdraw-gateway-update");
+        Route::post("gateway/update/{id}", "updateGateway")->name("gateway.update")->permission("wallet-withdraw-gateway-update");
         Route::post("status/change/{id}", "statusChange")->name("gateway.status.change");
         Route::post("gateway/delete/{id}", "deleteGateway")->name("gateway.delete")->permission("wallet-withdraw-gateway-delete");
     });
