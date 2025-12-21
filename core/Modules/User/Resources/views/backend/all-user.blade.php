@@ -137,7 +137,7 @@
                                         </label>
                                         <input type="text" class="form-control" id="name" name="name" maxlength="30"
                                             oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '');"
-                                            placeholder="{{ __('Enter name') }}">
+                                            placeholder="{{ __('Enter name') }}" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-3">
@@ -147,7 +147,7 @@
                                             <span class="text-danger">*</span>
                                         </label>
                                         <input type="text" class="form-control" id="username" name="username" maxlength="25"
-                                            placeholder="{{ __('Username') }}" aria-describedby="username_error">
+                                            placeholder="{{ __('Username') }}" aria-describedby="username_error" required>
                                         <small id="username_error" class="text-muted"></small>
                                     </div>
                                 </div>
@@ -169,7 +169,7 @@
                                         </label>
                                         <input type="text" class="form-control" id="phone" name="phone"
                                             maxlength="15" oninput="this.value = this.value.replace(/[^0-9+]/g, '');"
-                                            placeholder="{{ __('Phone') }}" aria-describedby="phone_error">
+                                            placeholder="{{ __('Phone') }}" aria-describedby="phone_error" required>
                                         <small id="phone_error" class="text-muted"></small>
                                     </div>
                                 </div>
