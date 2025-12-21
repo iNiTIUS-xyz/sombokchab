@@ -11,6 +11,8 @@ class VendorWalletGateway extends Model
     protected $fillable = [
         "name",
         "filed",
+        "merchant_name",
+        "merchant_id",
         "status_id",
     ];
 

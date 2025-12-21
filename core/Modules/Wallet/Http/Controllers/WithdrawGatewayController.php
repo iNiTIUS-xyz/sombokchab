@@ -8,14 +8,17 @@ use Illuminate\Routing\Controller;
 use Modules\Wallet\Entities\VendorWalletGateway;
 use Modules\Wallet\Http\Requests\StoreGatewayRequest;
 
-class WithdrawGatewayController extends Controller {
-    public function gateway() {
+class WithdrawGatewayController extends Controller
+{
+    public function gateway()
+    {
         $gateways = VendorWalletGateway::with("status")->get();
 
         return view("wallet::backend.withdraw.gateway", compact("gateways"));
     }
 
-    public function storeGateway(StoreGatewayRequest $request) {
+    public function storeGateway(StoreGatewayRequest $request)
+    {
 
         $fields = [];
 
@@ -28,6 +31,8 @@ class WithdrawGatewayController extends Controller {
         $data->filed = isset($request->is_file) && $request->is_file == 'yes' ? null : serialize($fields);
         $data->status_id = $request->status_id;
         $data->is_file = isset($request->is_file) ? $request->is_file : 'no';
+        $data->merchant_name = isset($request->merchant_name) ? $request->merchant_name : 'no';
+        $data->merchant_id = isset($request->merchant_id) ? $request->merchant_id : 'no';
         $data->save();
 
         return back()->with([
@@ -37,7 +42,8 @@ class WithdrawGatewayController extends Controller {
         ]);
     }
 
-    public function updateGateway(StoreGatewayRequest $request) {
+    public function updateGateway(StoreGatewayRequest $request)
+    {
 
         $fields = [];
 
@@ -51,18 +57,23 @@ class WithdrawGatewayController extends Controller {
         $data->filed = isset($request->is_file) && $request->is_file == 'yes' ? null : serialize($fields);
         $data->status_id = $request->status_id;
         $data->is_file = isset($request->is_file) ? $request->is_file : 'no';
+        $data->merchant_name = isset($request->merchant_name) ? $request->merchant_name : 'no';
+        $data->merchant_id = isset($request->merchant_id) ? $request->merchant_id : 'no';
         $data->save();
 
         return back()->with([
             "status"     => (bool) $data,
             "alert-type" => $data ? "success" : "error",
-            "message"    => $data ? __("Payment Gateway updated successfully.") : __("Failed to update payment gateway try again.")]);
+            "message"    => $data ? __("Payment Gateway updated successfully.") : __("Failed to update payment gateway try again.")
+        ]);
     }
-    public function deleteGateway($id) {
+    public function deleteGateway($id)
+    {
         return VendorWalletGateway::where("id", $id)->delete() ? "ok" : "false";
     }
 
-    public function statusChange(Request $request, $id) {
+    public function statusChange(Request $request, $id)
+    {
         VendorWalletGateway::where('id', $id)->update([
             'status_id' => $request->status,
         ]);

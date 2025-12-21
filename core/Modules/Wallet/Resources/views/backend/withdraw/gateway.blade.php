@@ -3,31 +3,20 @@
 @section('site-title', __('Vendor wallet payment methods'))
 
 @section('style')
-    <style>
-        .w-90 {
-            width: 90%;
-        }
-
-        .w-20 {
-            width: 20%;
-        }
-    </style>
+    {{-- Custom styles if needed --}}
 @endsection
 
 @section('content')
     <div class="col-lg-12 col-ml-12">
         <div class="row">
-            {{--
-        <x-msg.error />
-        <x-flash-msg /> --}}
             <div class="col-12">
                 <div class="btn-wrapper mb-4">
-                    <a data-bs-toggle="modal" data-bs-target="#add-gateway-modal" href="#1" class="cmn_btn btn_bg_profile"
-                        data-text="Create New Role">
+                    <a data-bs-toggle="modal" data-bs-target="#add-gateway-modal" href="#" class="cmn_btn btn_bg_profile">
                         {{ __('Add New Payment Method') }}
                     </a>
                 </div>
             </div>
+
             <div class="col-lg-12">
                 <div class="dashboard__card card__two">
                     <div class="dashboard__card__header">
@@ -72,21 +61,19 @@
                                                     <div class="dropdown-menu">
                                                         <form
                                                             action="{{ route('admin.wallet.withdraw.gateway.status.change', $gateway->id) }}"
-                                                            method="POST" id="status-form-activate-{{ $gateway->id }}">
+                                                            method="POST">
                                                             @csrf
                                                             <input type="hidden" name="status" value="1">
-                                                            <button type="submit" class="dropdown-item">
-                                                                {{ __('Active') }}
-                                                            </button>
+                                                            <button type="submit"
+                                                                class="dropdown-item">{{ __('Active') }}</button>
                                                         </form>
                                                         <form
                                                             action="{{ route('admin.wallet.withdraw.gateway.status.change', $gateway->id) }}"
-                                                            method="POST" id="status-form-deactivate-{{ $gateway->id }}">
+                                                            method="POST">
                                                             @csrf
                                                             <input type="hidden" name="status" value="2">
-                                                            <button type="submit" class="dropdown-item">
-                                                                {{ __('Inactive') }}
-                                                            </button>
+                                                            <button type="submit"
+                                                                class="dropdown-item">{{ __('Inactive') }}</button>
                                                         </form>
                                                     </div>
                                                 </div>
@@ -97,13 +84,14 @@
                                                         data-name="{{ $gateway->name }}" data-id="{{ $gateway->id }}"
                                                         data-status="{{ $gateway->status_id }}"
                                                         data-is-file="{{ $gateway->is_file }}"
-                                                        data-blog-filed="{{ json_encode(unserialize($gateway->filed)) }}"
+                                                        data-merchant-name="{{ $gateway->merchant_name }}"
+                                                        data-merchant-id="{{ $gateway->merchant_id }}"
+                                                        data-filed="{{ json_encode($gateway->filed ? unserialize($gateway->filed) : []) }}"
                                                         class="btn btn-sm btn-warning text-dark mb-2 me-1 update-gateway"
                                                         data-bs-toggle="modal" data-bs-target="#edit-gateway-modal">
                                                         <i class="ti-pencil"></i>
                                                     </button>
                                                 @endcan
-
                                                 @can('manage-wallet')
                                                     <x-table.btn.swal.delete :route="route(
                                                         'admin.wallet.withdraw.gateway.delete',
@@ -123,8 +111,7 @@
     </div>
 
     <!-- Add Gateway Modal -->
-    <div class="modal fade" id="add-gateway-modal" tabindex="-1" aria-hidden="true"
-        aria-labelledby="add-gateway-modalLabel">
+    <div class="modal fade" id="add-gateway-modal" tabindex="-1" aria-hidden="true">
         <form method="POST" action="{{ route('admin.wallet.withdraw.gateway') }}">
             @csrf
             <div class="modal-dialog modal-dialog-centered">
@@ -141,45 +128,49 @@
                                 placeholder="{{ __('Enter method name') }}">
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group mt-3">
                             <label>
                                 <input type="checkbox" name="is_file" id="is_file_checkbox" value="yes">
-                                {{ __('Is File') }}
+                                {{ __('Is File (QR Code Upload)') }}
                             </label>
                         </div>
 
-                        <div class="dashboard__card card__two overflow-auto" id="filed_container">
-                            <div class="dashboard__card__header">
-                                <h4 class="dashboard__card__title">{{ __('Method field') }}</h4>
-                            </div>
-                            <div class="dashboard__card__body">
-                                <div class="form-group row gateway-filed-body" id="add_gateway_filed_body">
-                                    <!-- initial one row -->
-                                    <div class="form-group row mb-2">
-                                        <div class="w-90 d-flex align-items-center">
-                                            <input class="form-control" name="filed[]"
-                                                placeholder="{{ __('Enter filed name') }}">
-                                        </div>
-                                        <div
-                                            class="col-md-1 d-flex flex-column align-items-center justify-content-center pb-2 gap-2">
-                                            <button type="button" class="btn btn-primary btn-sm gateway-filed-add"
-                                                title="{{ __('Add') }}">
-                                                <i class="las la-plus"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-danger btn-sm gateway-filed-remove"
-                                                title="{{ __('Remove') }}">
-                                                <i class="las la-trash-alt"></i>
-                                            </button>
-                                        </div>
+                        <div id="filed_container">
+                            <label>{{ __('Method Fields') }}</label>
+                            <div class="gateway-filed-body" id="add_gateway_filed_body">
+                                <div class="row gateway-field-row mt-2">
+                                    <div class="col-md-10">
+                                        <input class="form-control" name="filed[]"
+                                            placeholder="{{ __('Enter field name') }}" required>
+                                    </div>
+                                    <div class="col-md-2 text-center">
+                                        <button type="button" class="btn btn-primary btn-sm gateway-filed-add">
+                                            <i class="las la-plus"></i>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="row mt-3" id="is_merchant" style="display: none;">
+                            <div class="col-md-6">
+                                <label>
+                                    <input type="checkbox" name="merchant_name" value="yes">
+                                    {{ __('Requires Merchant Name') }}
+                                </label>
+                            </div>
+                            <div class="col-md-6">
+                                <label>
+                                    <input type="checkbox" name="merchant_id" value="yes">
+                                    {{ __('Requires Merchant ID') }}
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group mt-3">
                             <label>{{ __('Select Status') }} <span class="text-danger">*</span></label>
                             <select name="status_id" class="form-control" required>
-                                <option value="">{{ __('Select Status') }}</option>
+                                <option value="" disabled selected>{{ __('Select Status') }}</option>
                                 <option value="1">{{ __('Active') }}</option>
                                 <option value="2">{{ __('Inactive') }}</option>
                             </select>
@@ -196,179 +187,233 @@
         </form>
     </div>
 
-    @can('manage-wallet')
-        <!-- Edit Gateway Modal -->
-        <div class="modal fade" id="edit-gateway-modal" tabindex="-1" aria-labelledby="edit-gateway-modalLabel"
-            aria-hidden="true">
-            <form method="POST" action="{{ route('admin.refund.preferred-option.update') }}">
-                @method('PUT')
-                @csrf
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content custom__form">
-                        @can('manage-refund-request-settings')
-                            <input type="hidden" id="edit_gateway_id" name="id" value="">
+    <!-- Edit Gateway Modal -->
+    <div class="modal fade" id="edit-gateway-modal" tabindex="-1" aria-hidden="true">
+        <form method="POST" action="" id="edit-gateway-form">
+            @csrf
+            <input type="hidden" name="id" id="edit_gateway_id">
 
-                            <div class="modal-header">
-                                <h5 class="modal-title">{{ __('Refund Payment Method Update') }}</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content custom__form">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><b>{{ __('Update Payment Method') }}</b></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body overflow-auto" style="max-height:550px;">
+                        <div class="form-group">
+                            <label class="w-100">{{ __('Name') }} <span class="text-danger">*</span></label>
+                            <input class="form-control" id="edit_gateway_name" name="gateway_name" required>
+                        </div>
+
+                        <div class="form-group mt-3">
+                            <label>
+                                <input type="checkbox" name="is_file" id="edit_is_file_checkbox" value="yes">
+                                {{ __('Is File (QR Code Upload)') }}
+                            </label>
+                        </div>
+
+                        <div id="edit_fields_container">
+                            <label>{{ __('Method Fields') }}</label>
+                            <div class="gateway-filed-body" id="edit_gateway_filed_body">
+                                <!-- Dynamic fields will be injected here -->
                             </div>
+                        </div>
 
-                            <div class="modal-body overflow-auto" style="max-height:550px;">
-                                <div class="form-group">
-                                    <label class="w-100">{{ __('Name') }} <span class="text-danger">*</span></label>
-                                    <input class="form-control" id="edit_gateway_name" name="gateway_name"
-                                        placeholder="{{ __('Enter gateway name') }}">
-                                    <small
-                                        class="info">{{ __('If you want to merge refund value to user wallet, then use Wallet
-                                                                    like this') }}.
-                                        {{ __('Only for wallet') }}</small>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>
-                                        <input type="checkbox" name="is_file" id="edit_is_file_checkbox" value="yes">
-                                        {{ __('Is File') }}
-                                    </label>
-                                </div>
-
-                                <div class="dashboard__card card__two overflow-auto" id="edit_fields_container">
-                                    <div class="dashboard__card__header">
-                                        <h4 class="dashboard__card__title">{{ __('Method field') }}</h4>
-                                    </div>
-                                    <div class="dashboard__card__body">
-                                        <div class="form-group row gateway-filed-body" id="edit_gateway_filed_body">
-                                            <!-- dynamic rows inserted by JS -->
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>{{ __('Select Status') }} <span class="text-danger">*</span></label>
-                                    <select id="edit_status_id" name="status_id" class="form-control" required>
-                                        <option value="">{{ __('Select Status') }}</option>
-                                        <option value="1">{{ __('Active') }}</option>
-                                        <option value="2">{{ __('Inactive') }}</option>
-                                    </select>
-                                </div>
+                        <div class="row mt-3" id="edit_is_merchant" style="display: none;">
+                            <div class="col-md-6">
+                                <label>
+                                    <input type="checkbox" name="merchant_name" id="edit_merchant_name" value="yes">
+                                    {{ __('Requires Merchant Name') }}
+                                </label>
                             </div>
-
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary"
-                                    data-bs-dismiss="modal">{{ __('Close') }}</button>
-                                <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
+                            <div class="col-md-6">
+                                <label>
+                                    <input type="checkbox" name="merchant_id" id="edit_merchant_id" value="yes">
+                                    {{ __('Requires Merchant ID') }}
+                                </label>
                             </div>
-                        @endcan
+                        </div>
+
+                        <div class="form-group mt-3">
+                            <label>{{ __('Select Status') }} <span class="text-danger">*</span></label>
+                            <select id="edit_status_id" name="status_id" class="form-control" required>
+                                <option value="">{{ __('Select Status') }}</option>
+                                <option value="1">{{ __('Active') }}</option>
+                                <option value="2">{{ __('Inactive') }}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">{{ __('Close') }}</button>
+                        <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
                     </div>
                 </div>
-            </form>
-        </div>
-
-    @endcan
+            </div>
+        </form>
+    </div>
 @endsection
 
 @section('script')
     <x-table.btn.swal.js />
+
     <script>
         $(document).ready(function() {
-            // For add modal - show/hide fields based on checkbox
+
+            // === Add Modal: Toggle visibility based on "Is File" ===
             $('#is_file_checkbox').change(function() {
                 if (this.checked) {
                     $('#filed_container').hide();
+                    $('#is_merchant').show();
                     $('#filed_container input').removeAttr('required');
                 } else {
                     $('#filed_container').show();
+                    $('#is_merchant').hide();
                     $('#filed_container input').attr('required', 'required');
                 }
             });
 
-            // For edit modal - show/hide fields based on checkbox
+            // === Edit Modal: Toggle visibility ===
             $('#edit_is_file_checkbox').change(function() {
                 if (this.checked) {
-                    $('#edit_filed_container').hide();
-                    $('#edit_filed_container input').removeAttr('required');
+                    $('#edit_fields_container').hide();
+                    $('#edit_is_merchant').show();
+                    $('#edit_fields_container input').removeAttr('required');
                 } else {
-                    $('#edit_filed_container').show();
-                    $('#edit_filed_container input').attr('required', 'required');
+                    $('#edit_fields_container').show();
+                    $('#edit_is_merchant').hide();
+                    $('#edit_fields_container input').attr('required', 'required');
                 }
             });
-        });
 
-        $(document).on("click", ".update-gateway", function() {
-            let fileds = JSON.parse($(this).attr("data-blog-filed"));
-            let isFile = $(this).attr("data-is-file");
-
-            $("#edit-gateway-modal input[name='gateway_name']").val($(this).attr("data-name"));
-            $("#edit-gateway-modal select[name='status_id'] option[value='" + $(this).attr("data-status") + "']")
-                .attr("selected", true);
-            $("#edit-gateway-modal input[name='id']").val($(this).attr("data-id"));
-
-            // Set the checkbox state and field visibility
-            if (isFile == 'yes') {
-                $("#edit_is_file_checkbox").prop('checked', true);
-                $("#edit_filed_container").hide();
-                $("#edit_filed_container input").removeAttr('required');
-            } else {
-                $("#edit_is_file_checkbox").prop('checked', false);
-                $("#edit_filed_container").show();
-                $("#edit_filed_container input").attr('required', 'required');
-            }
-
-            // Populate fields
-            let list_filed = "";
-            if (fileds && fileds.length > 0) {
-                fileds.forEach(function(value, index, array) {
-                    list_filed += `
-                        <div class="form-group row">
-                            <div class="w-90 d-flex align-items-center">
-                                <input class="form-control" value="${value}" name="filed[]" placeholder="{{ __('Enter filed name') }}" required>
-                            </div>
-                            <div class="col-md-1 d-flex flex-column align-items-center justify-content-center pb-2 gap-2">
-                                <button type="button" class="btn btn-primary btn-sm gateway-filed-add">
-                                    <i class="las la-plus"></i>
-                                </button>
-                                <button type="button" class="btn btn-danger btn-sm gateway-filed-remove">
-                                    <i class="las la-trash-alt"></i>
-                                </button>
-                            </div>
+            // === Add new field row (Add Modal) ===
+            $(document).on('click', '.gateway-filed-add', function() {
+                const container = $(this).closest('.gateway-filed-body');
+                const newRow = `
+                    <div class="row gateway-field-row mt-2">
+                        <div class="col-md-10">
+                            <input class="form-control" name="filed[]" placeholder="{{ __('Enter field name') }}" required>
                         </div>
-                    `;
-                });
-            } else {
-                list_filed = `<div class="form-group row">
-                    <div class="w-90 d-flex align-items-center">
-                        <input class="form-control" name="filed[]" placeholder="{{ __('Enter filed name') }}" required>
+                        <div class="col-md-2 text-center">
+                            <button type="button" class="btn btn-danger btn-sm gateway-filed-remove">
+                                <i class="las la-trash-alt"></i>
+                            </button>
+                        </div>
+                    </div>`;
+                container.append(newRow);
+            });
+
+            // === Remove field row ===
+            $(document).on('click', '.gateway-filed-remove', function() {
+                $(this).closest('.gateway-field-row').remove();
+            });
+
+            // === Populate Edit Modal ===
+            $(document).on('click', '.update-gateway', function() {
+                const id = $(this).data('id');
+                const name = $(this).data('name');
+                const status = $(this).data('status');
+                const isFile = $(this).data('is-file'); // 'yes' or 'no'
+                const merchantName = $(this).data('merchant-name') === 'yes';
+                const merchantId = $(this).data('merchant-id') === 'yes';
+
+                // Important fix: parse the filed data if it's a string
+                let fields = $(this).data('filed') || [];
+                if (typeof fields === 'string') {
+                    try {
+                        fields = JSON.parse(fields);
+                    } catch (e) {
+                        console.error('Failed to parse filed data:', fields);
+                        fields = [];
+                    }
+                }
+
+                $('#edit_gateway_id').val(id);
+                $('#edit_gateway_name').val(name);
+                $('#edit_status_id').val(status);
+
+                // Checkboxes
+                $('#edit_is_file_checkbox').prop('checked', isFile === 'yes');
+                $('#edit_merchant_name').prop('checked', merchantName);
+                $('#edit_merchant_id').prop('checked', merchantId);
+
+                // Toggle visibility based on is_file
+                if (isFile === 'yes') {
+                    $('#edit_fields_container').hide();
+                    $('#edit_is_merchant').show();
+                } else {
+                    $('#edit_fields_container').show();
+                    $('#edit_is_merchant').hide();
+                }
+
+                let fieldHtml = '';
+                if (Array.isArray(fields) && fields.length > 0) {
+                    fields.forEach(function(field, index) {
+                        fieldHtml += `
+                            <div class="row gateway-field-row mt-2">
+                                <div class="col-md-10">
+                                    <input
+                                        class="form-control"
+                                        name="field[]"
+                                        value="${field}"
+                                        placeholder="{{ __('Enter field name') }}"
+                                        required
+                                    >
+                                </div>
+                                <div class="col-md-2 text-center">
+                                    ${index === 0 ? `
+                                        <button type="button" class="btn btn-primary btn-sm gateway-filed-add">
+                                            <i class="las la-plus"></i>
+                                        </button>
+                                    ` : ''}
+                                    ${index != 0 ? `
+                                        <button type="button" class="btn btn-danger btn-sm gateway-filed-remove">
+                                            <i class="las la-trash-alt"></i>
+                                        </button>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        `;
+                    });
+
+                } else {
+                    fieldHtml = `
+                    <div class="row gateway-field-row mt-2">
+                        <div class="col-md-10">
+                            <input class="form-control" name="filed[]" placeholder="{{ __('Enter field name') }}" required>
+                        </div>
+                        <div class="col-md-2 text-center">
+                            <button type="button" class="btn btn-primary btn-sm gateway-filed-add">
+                                <i class="las la-plus"></i>
+                            </button>
+                        </div>
+                    </div>`;
+                }
+
+                $('#edit_gateway_filed_body').html(fieldHtml);
+            });
+
+            // Reset modals on close (optional, to avoid stale data)
+            $('#add-gateway-modal, #edit-gateway-modal').on('hidden.bs.modal', function() {
+                $(this).find('form')[0].reset();
+                $('#add_gateway_filed_body').html(`
+                    <div class="row gateway-field-row mt-2">
+                        <div class="col-md-10">
+                            <input class="form-control" name="filed[]" placeholder="{{ __('Enter field name') }}" required>
+                        </div>
+                        <div class="col-md-2 text-center">
+                            <button type="button" class="btn btn-primary btn-sm gateway-filed-add">
+                                <i class="las la-plus"></i>
+                            </button>
+                        </div>
                     </div>
-                    <div class="col-md-1 d-flex flex-column align-items-center justify-content-center pb-2 gap-2">
-                        <button type="button" class="btn btn-primary btn-sm gateway-filed-add">
-                            <i class="las la-plus"></i>
-                        </button>
-                        <button type="button" class="btn btn-danger btn-sm gateway-filed-remove">
-                            <i class="las la-trash-alt"></i>
-                        </button>
-                    </div>
-                </div>`;
-            }
+                `);
+                $('#filed_container, #edit_fields_container').show();
+                $('#is_merchant, #edit_is_merchant').hide();
+            });
 
-            $(".gateway-filed-body").html(list_filed);
-        });
-
-        $(document).on("click", ".gateway-filed-add", function() {
-            let elem = $(this).parent().parent();
-            let clone = elem.clone();
-            clone.find('input').val('');
-            elem.parent().append(clone);
-        });
-
-        $(document).on("click", ".gateway-filed-remove", function() {
-            if ($(".gateway-filed-remove").length == 1) {
-                return null;
-            }
-            $(this).closest('.form-group.row').remove();
-        });
-
-        $(document).on("click", ".update-withdraw-gateway", function(e) {
-            e.preventDefault();
-            send_ajax_request("PUT")
         });
     </script>
 @endsection
