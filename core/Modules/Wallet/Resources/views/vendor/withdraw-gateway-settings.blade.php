@@ -28,8 +28,8 @@
                                 <thead>
                                     <tr>
                                         <th>{{ __('Method Name') }}</th>
-                                        <th>{{ __('Option Name') }}</th>
-                                        <th>{{ __('Option Details') }}</th>
+                                        <th>{{ __('Withdraw Option Name') }}</th>
+                                        <th>{{ __('Withdraw Option Details') }}</th>
                                         <th>{{ __('Action') }}</th>
                                     </tr>
                                 </thead>
@@ -108,9 +108,9 @@
                         @csrf
                         <div class="modal-body">
                             <div class="form-group">
-                                <label>Option Name</label>
+                                <label>Withdraw Option Name</label>
                                 <input type="text" name="wallet_option_name" class="form-control"
-                                    placeholder="Enter Option Name">
+                                    placeholder="Enter Withdraw Option Name">
                             </div>
                             <div class="form-group">
                                 <label>
@@ -161,9 +161,9 @@
                         @method('POST')
                         <div class="modal-body">
                             <div class="form-group">
-                                <label>Withdraw Option</label>
+                                <label>Withdraw Option Name</label>
                                 <input type="text" name="wallet_option_name" class="form-control wallet-option-name"
-                                    placeholder="Enter Withdraw Option">
+                                    placeholder="Enter Withdraw Option Name">
                             </div>
                             <div class="form-group">
                                 <label>

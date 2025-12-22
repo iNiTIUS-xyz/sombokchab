@@ -35,7 +35,7 @@
                                         <th>{{ __('Status') }}</th>
                                         <th>{{ __('Created On') }}</th>
                                         <th>{{ __('Note') }}</th>
-                                        <th>{{ __('Attachment') }}</th>
+                                        <th>{{ __('Attachment (.jpg, .jpeg, .png, .pdf)') }}</th>
                                         <th>{{ __('Action') }}</th>
                                     </tr>
                                 </thead>
@@ -172,8 +172,8 @@
                         </div>
 
                         <div class="form-group">
-                            <label>{{ __('Image') }}</label>
-                            <input name="request_image" class="form-control" type="file" />
+                            <label>{{ __('Attachment (.jpg, .jpeg, .png, .pdf)') }}</label>
+                            <input name="request_image" class="form-control" type="file" allow=".jpg, .jpeg, .png, .pdf" />
                         </div>
 
                         <div class="form-group">

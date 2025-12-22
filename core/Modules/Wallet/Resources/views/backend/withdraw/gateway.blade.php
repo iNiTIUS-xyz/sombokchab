@@ -198,7 +198,7 @@
                         <div class="form-group mt-3">
                             <label>
                                 <input type="checkbox" name="is_file" id="edit_is_file_checkbox" value="yes">
-                                {{ __('Is File (QR Code Upload)') }}
+                                {{ __('Include Attachment (jpg, jpeg, png only)') }}
                             </label>
                         </div>
 
@@ -262,10 +262,11 @@
             $(document).on('click', '.gateway-filed-remove', function() {
                 $(this).closest('.gateway-field-row').remove();
             });
-
+            
             /*==============================
             TOGGLE READONLY ON IS_FILE CHECKBOX (EDIT & ADD)
             ==============================*/
+            /*
             function toggleFileFieldsReadonly(checkboxId, bodyId) {
                 $(document).on('change', checkboxId, function() {
                     let $inputs = $(bodyId + ' input[name="filed[]"]');
@@ -283,7 +284,7 @@
 
             toggleFileFieldsReadonly('#edit_is_file_checkbox', '#edit_gateway_filed_body');
             toggleFileFieldsReadonly('#add_is_file_checkbox', '#add_gateway_filed_body');
-
+            */
             /*==============================
             EDIT GATEWAY - LOAD DATA
             ==============================*/

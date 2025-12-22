@@ -110,7 +110,7 @@
                                                     <span class="text-danger">*</span>
                                                     <br>
                                                     <small class="text-danger">
-                                                        ( Minimum withdrawal amount is =
+                                                        (Minimum withdrawal amount is =
                                                         ${{ get_static_option('minimum_withdraw_amount') }})
                                                     </small>
                                                 </label>
