@@ -89,10 +89,9 @@
                     <div class="dashboard-input">
                         <label class="dashboard-label color-light mb-2">
                             {{ __('Brand') }}
-                            <span class="text-danger">*</span>
                         </label>
                         <div class="nice-select-two">
-                            <select name="brand" class="form-control" id="brand_id" required>
+                            <select name="brand" class="form-control" id="brand_id">
                                 <option value="">
                                     {{ __('Select brand') }}
                                 </option>
