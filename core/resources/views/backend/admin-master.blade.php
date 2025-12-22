@@ -140,6 +140,51 @@
             color: var(--body-color);
             border-radius: 4px;
         }
+
+        .dt-button.btn-clear-filters{
+            background-color: transparent !important;
+            color: var(--danger-color) !important;
+            border: 2px solid var(--danger-color) !important;
+            padding: 4px 16px !important;
+            border-radius: 4px !important;
+            font-weight: 600 !important;
+            box-shadow: none !important;
+            margin-top: 5px;
+        }
+        /* Disable sorting / clicking on filter row headers */
+        #dataTable thead tr.filters th {
+            pointer-events: none;
+        }
+
+        /* Re-enable interaction for inputs inside filter row */
+        #dataTable thead tr.filters th input {
+            pointer-events: auto;
+        }
+
+        /* Hide sort icons just in case */
+        #dataTable thead tr.filters span.dt-column-order {
+            display: none !important;
+        }
+
+/* Ensure header uses flex properly */
+#dataTable thead th .dt-column-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/* Push sort icon to the RIGHT for numeric columns */
+#dataTable thead th.dt-type-numeric .dt-column-header,
+#dataTable thead th.dt-type-number .dt-column-header {
+    justify-content: space-between;
+}
+
+/* Optional: small spacing polish */
+#dataTable thead th.dt-type-numeric .dt-column-order,
+#dataTable thead th.dt-type-number .dt-column-order {
+    margin-left: 0.5rem;
+}
+
     </style>
 
     @yield('style')
@@ -221,132 +266,162 @@
     <script src="{{ asset('assets/frontend/js/jquery-ui.js') }}"></script>
 
     <x-notification.js />
-
     <script>
-        $(document).ready(function() {
+    $(document).ready(function () {
 
-            // 1) clone header once (no events) and prepare filter row
-            // $('#dataTable thead tr').clone(false).addClass('filters').appendTo('#dataTable thead');
-            $('#dataTable thead tr').clone(false).addClass('filters').appendTo('#dataTable thead');
+        if (!$('#dataTable').length) return;
 
+        const $table = $('#dataTable');
+        const $thead = $table.find('thead');
+        const $headerRow = $thead.find('tr').first();
 
-            // 2) clean cloned header: remove dropdown/button/form elements so inputs are clean
-            $('#dataTable thead tr.filters').find('.dropdown-menu, .btn-group, button, a, form, .badge').remove();
+        /* =====================================================
+        * 1. CLONE HEADER & ADD FILTER ROW
+        * ===================================================== */
+        const $filterRow = $headerRow.clone(false)
+            .addClass('filters')
+            .prependTo($thead);
 
-            // 3) insert inputs into cloned header
-            $('#dataTable thead tr.filters th').each(function(i) {
-                // Skip checkbox column (first column)
-                if (i === 0) {
-                    $(this).html(''); // keep empty
-                    return;
-                }
+        $filterRow
+            .find('.dropdown-menu, .btn-group, button, a, form, .badge')
+            .remove();
 
-                const title = $(this).text().trim();
-                $(this).html(
-                    '<input type="text" placeholder="' + title + '" style="width:100%;" />'
-                );
-            });
+        /* =====================================================
+        * 2. ADD FILTER INPUTS (EXCLUDING SPECIFIED COLUMNS)
+        * ===================================================== */
+        $filterRow.find('th').each(function (i) {
+            const title = $headerRow.find('th').eq(i).text().trim();
+            const lower = title.toLowerCase();
 
+            const excludedColumns = ['image', 'attachment', 'file', 'action'];
 
-            // Helper: returns a renderer function that preserves HTML for display
-            // but extracts only the dropdown-toggle/button text for filtering/searching.
-            function createStatusRenderer() {
-                return function(data, type, row, meta) {
-                    if (!data) return '';
-                    if (type === 'display') return data;
+            if (excludedColumns.includes(lower)) {
+                $(this).html('');
+                return;
+            }
 
-                    var tmp = document.createElement('div');
-                    tmp.innerHTML = data;
+            $(this).html(
+                `<input type="text" class="column-filter" placeholder="${title}" style="width:100%;" />`
+            );
+        });
 
-                    // prefer the visible toggle/button text (handles your bootstrap markup)
-                    var btn = tmp.querySelector('.dropdown-toggle, button, .btn');
-                    if (btn && btn.textContent.trim().length) return btn.textContent.trim();
+        /* =====================================================
+        * 3. STATUS COLUMN SEARCH RENDERER (UNCHANGED)
+        * ===================================================== */
+        function statusSearchRenderer(data, type) {
+            if (type === 'display') return data;
+            if (!data) return '';
 
-                    // fallback: remove dropdown-menu elements and return remaining text
-                    tmp.querySelectorAll('.dropdown-menu').forEach(function(n) {
-                        n.remove();
+            const tmp = document.createElement('div');
+            tmp.innerHTML = data;
+
+            const btn = tmp.querySelector('button');
+            if (btn) return btn.textContent.trim();
+
+            return tmp.textContent.trim();
+        }
+
+        const columnDefs = [];
+        const $firstRow = $table.find('tbody tr:first');
+
+        if ($firstRow.length) {
+            $firstRow.find('td').each(function (idx) {
+                const html = $(this).html() || '';
+                if (html.includes('dropdown-toggle') && html.includes('status')) {
+                    columnDefs.push({
+                        targets: idx,
+                        render: statusSearchRenderer
                     });
-                    return tmp.textContent.trim();
-                };
-            }
+                }
+            });
+        }
 
-            // Build dynamic columnDefs: detect columns that contain dropdowns/buttons in first body row
-            const dynamicDefs = [];
-            // find the first non-empty row in tbody (some pages may have no rows)
-            const $firstRow = $('#dataTable tbody tr:visible:first');
-            if ($firstRow.length) {
-                $firstRow.find('td').each(function(idx) {
-                    // check the cell's HTML for typical dropdown/button markers
-                    const html = $(this).html() || '';
-                    // test for presence of dropdown-toggle, btn-group, or dropdown-menu
-                    if (html.indexOf('dropdown-toggle') !== -1 || html.indexOf('btn-group') !== -1 || html
-                        .indexOf('dropdown-menu') !== -1) {
-                        dynamicDefs.push({
-                            targets: idx,
-                            render: createStatusRenderer()
-                        });
-                    }
-                });
-            }
+        /* =====================================================
+        * 4. INIT DATATABLE (UNCHANGED)
+        * ===================================================== */
+        const table = new DataTable('#dataTable', {
+            paging: true,
+            lengthChange: true,
+            searching: true,
+            ordering: true,
+            order: [],
+            info: true,
+            autoWidth: false,
+            responsive: true,
+            pagingType: "simple_numbers",
 
-            // OPTIONAL: if you want to also inspect header cells (for columns with no rows yet)
-            // and detect columns that have a .status placeholder in the header,
-            // you could add a fallback scan of the first thead row. (Not enabled by default.)
-            // Example:
-            // if (dynamicDefs.length === 0) {
-            //   $('#dataTable thead tr:first th').each(function(idx) {
-            //     if ($(this).text().toLowerCase().indexOf('status') !== -1) {
-            //       dynamicDefs.push({ targets: idx, render: createStatusRenderer() });
-            //     }
-            //   });
-            // }
+            columnDefs: columnDefs,
 
-            // Initialize DataTable using the dynamic columnDefs
-            let table = new DataTable('#dataTable', {
-                paging: true,
-                lengthChange: true,
-                searching: true,
-                ordering: false,
-                order: [],
-                info: true,
-                autoWidth: false,
-                responsive: true,
-                pagingType: "simple_numbers",
-                layout: {
-                    topStart: 'pageLength',
-                    topEnd: {
-                        buttons: [{
+            layout: {
+                topEnd: {
+                    buttons: [
+                        {
+                            text: 'Clear Filters',
+                            className: 'btn-clear-filters',
+                            action: function () {
+                                $('.column-filter').val('');
+                                table.columns().search('').draw();
+                                $(this.node()).hide();
+                            }
+                        },
+                        {
                             extend: 'excel',
                             text: 'Export'
-                        }],
-                        search: {
-                            placeholder: "Type Here"
                         }
-                    },
-                    bottomStart: 'info',
-                    bottomEnd: 'paging'
+                    ],
+                    search: {
+                        placeholder: "Type Here"
+                    }
                 },
+                bottomStart: 'info',
+                bottomEnd: 'paging'
+            },
 
-                // add dynamically built columnDefs (may be empty if no matching columns found)
-                columnDefs: dynamicDefs,
-
-                initComplete: function() {
-                    const api = this.api();
-                    // bind the cloned-header inputs to column search
-                    $('#dataTable thead tr.filters th').each(function(i) {
-                        var $input = $('input', this);
-                        if ($input.length === 0) return;
-                        $input.on('keyup change clear', function() {
-                            api.column(i).search(this.value).draw();
-                        });
-                        $input.on('click', function(e) {
-                            e.stopPropagation();
-                        });
-                    });
+            language: {
+                search: "Filter:",
+                paginate: {
+                    previous: '&laquo;',
+                    next: '&raquo;'
                 }
-            });
+            },
+
+            initComplete: function () {
+                const api = this.api();
+                const clearBtn = api.button('.btn-clear-filters');
+                $(clearBtn.node()).hide();
+
+                /* 🔒 REMOVE SORTING FROM FILTER ROW */
+                $('#dataTable thead tr.filters th')
+                    .removeClass('sorting sorting_asc sorting_desc')
+                    .off('click');
+
+                /* BIND COLUMN FILTERS */
+                $('#dataTable thead tr.filters th').each(function (i) {
+                    const $input = $('input', this);
+                    if (!$input.length) return;
+
+                    $input.on('keyup change', function () {
+                        api.column(i).search(this.value).draw();
+
+                        const hasValue = $('.column-filter')
+                            .toArray()
+                            .some(el => el.value.trim() !== '');
+
+                        hasValue
+                            ? $(clearBtn.node()).show()
+                            : $(clearBtn.node()).hide();
+                    });
+
+                    $input.on('click', function (e) {
+                        e.stopPropagation();
+                    });
+                });
+            }
         });
+
+    });
     </script>
+
 
     <script>
         $(document).on('click', '.swal_delete_button', function(e) {

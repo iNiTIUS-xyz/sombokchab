@@ -114,11 +114,11 @@
                             </a>
                         </li>
 
-                        <li class="{{ active_menu('vendor-home/wallet/history') }}">
+                        {{-- <li class="{{ active_menu('vendor-home/wallet/history') }}">
                             <a href="{{ route('vendor.wallet.history') }}">
                                 <span>{{ __('Wallet History') }}</span>
                             </a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </li>
 

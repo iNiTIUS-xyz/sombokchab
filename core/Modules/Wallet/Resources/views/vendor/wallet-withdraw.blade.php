@@ -97,7 +97,7 @@
                                 <div class="dashboard__card">
                                     <div class="dashboard__card__header">
                                         <h2 class="dashboard__card__title">
-                                            {{ __('Withdraw Information') }}
+                                            {{ __('Withdraw Details') }}
                                         </h2>
                                     </div>
                                     <div class="dashboard__card__body custom__form mt-4">
@@ -108,11 +108,11 @@
                                                 <label>
                                                     {{ __('Withdraw Amount') }}
                                                     <span class="text-danger">*</span>
-                                                    <small class="text-info">
+                                                    <br>
+                                                    <small class="text-danger">
                                                         ( Minimum withdrawal amount is =
                                                         ${{ get_static_option('minimum_withdraw_amount') }})
                                                     </small>
-                                                    <span class="text-danger">*</span>
                                                 </label>
                                                 <input name="withdraw_amount" type="number" id="withdraw_amount"
                                                     min="{{ get_static_option('minimum_withdraw_amount') }}"

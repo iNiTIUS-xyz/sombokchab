@@ -27,7 +27,7 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <div class="dashboard__card__header__left">
-                            <h4 class="dashboard__card__title">{{ __('Vendor Wallets Lists') }}</h4>
+                            <h4 class="dashboard__card__title">{{ __('Vendor Wallet List') }}</h4>
                             <p class="dashboard__card__para text-primary mt-2">
                                 {{ __('You can active/inactive status from here. If status is inactive user will not be able to use his/her wallet balance.') }}
                             </p>
