@@ -213,6 +213,10 @@
                 }
             }
 
+            function isImageMissing() {
+                return $('.mediaUploads__card').first()
+                    .find('.upload-thumb img').length === 0;
+            }
 
             function findFirstMissingRequired(form) {
                 const fields = form.querySelectorAll('[required]');
@@ -226,6 +230,12 @@
                     }
 
                     if (!el.value || !el.value.trim()) return el;
+                }
+                if (isImageMissing()) {
+                    return {
+                        type: 'image',
+                        paneId: 'v-images-tab'
+                    };
                 }
                 return null;
             }
@@ -295,8 +305,31 @@
 
                 const invalid = findFirstMissingRequired(form);
 
-                // ❌ INVALID → switch tab + focus
+
                 if (invalid) {
+                    if (invalid.type === 'image') {
+
+                        const btn = document.querySelector(
+                            `[data-bs-target="#${invalid.paneId}"]`
+                        );
+
+                        if (btn) {
+                            new bootstrap.Tab(btn).show();
+                        }
+
+                        // Optional scroll only
+                        setTimeout(() => {
+                            document
+                                .getElementById(invalid.paneId)
+                                ?.scrollIntoView({
+                                    behavior: 'smooth',
+                                    block: 'start'
+                                });
+                        }, 200);
+
+                        return false;
+                    }
+
                     markInvalid(invalid);
 
                     const pane = invalid.closest('.tab-pane');

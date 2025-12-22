@@ -318,6 +318,7 @@
 
             // Highlight invalid field (optional)
             function markInvalid($el) {
+
                 $el.addClass('is-invalid');
 
                 // SELECT2
@@ -363,6 +364,12 @@
                 $el.trigger('focus');
             }
 
+            function isImageMissing() {
+                return $('.mediaUploads__card').first()
+                    .find('.upload-thumb img').length === 0;
+            }
+
+
             // Find first invalid required input
             function findInvalid($form) {
                 const fields = $form.find('[required]').toArray();
@@ -407,8 +414,11 @@
 
                     // TEXT INPUT
                     if (!($el.val() || '').trim()) return $el;
-                }
 
+                }
+                if (isImageMissing()) {
+                    return $('input[name="image_id"]');
+                }
                 return null;
             }
 
@@ -438,6 +448,34 @@
                     }, 250); // ← this ensures reliable focusing
                 }
             }
+
+
+            $(document).on('input change', 'input, textarea, select', function() {
+                const $el = $(this);
+
+                // Remove invalid from the field itself
+                $el.removeClass('is-invalid');
+
+                // ✅ SELECT2 UI cleanup
+                if ($el.hasClass('select2-hidden-accessible')) {
+                    $el.next('.select2-container')
+                        .find('.select2-selection')
+                        .removeClass('is-invalid');
+                }
+            });
+
+
+            $(document).on('summernote.change', '.summernote', function() {
+                const $textarea = $(this);
+                const $editor = $textarea.next('.note-editor');
+
+                $textarea.removeClass('is-invalid');
+                $editor.removeClass('is-invalid');
+            });
+
+
+
+
 
             // Attach form validator
             $(document).on("submit", "#product-create-form", function(e) {

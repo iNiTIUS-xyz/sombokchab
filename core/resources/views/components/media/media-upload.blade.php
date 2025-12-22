@@ -80,7 +80,7 @@
 @endif
 </div>
 </div>
-<input type="hidden" name="{{ $name }}" value="{{ $oldImage?->id }}">
+<input type="hidden" name="{{ $name }}" value="{{ $oldImage?->id }}" data-required-media="true">
 <button type="button" class="photo-upload  media_upload_form_btn popup-modal" data-btntitle="{{ __('Select Image') }}"
     data-modaltitle="{{ __('Upload Image') }}" data-imgid="{{ $id ?? '' }}">
     <span class="upload-icon">
