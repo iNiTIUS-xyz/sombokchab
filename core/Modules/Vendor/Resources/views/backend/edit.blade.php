@@ -7,6 +7,62 @@
     <link rel="stylesheet" href="{{ asset('assets/backend/css/colorpicker.css') }}">
     <x-media.css />
     <x-bulk-action.css />
+    <style>
+        /* add if you don't already have them in your stylesheet */
+        .field-error {
+            color: #dc3545 !important;
+        }
+
+        .field-success {
+            color: #28a745 !important;
+        }
+
+
+        .btn-disabled {
+            pointer-events: none !important;
+            opacity: 0.5 !important;
+            cursor: not-allowed !important;
+        }
+
+        .embed-map-frame {
+            width: 100% !important;
+            height: 100% !important;
+            border: 0;
+        }
+
+        .embed-map-container {
+            width: 100%;
+            height: 300px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+
+        .is-invalid {
+            border-color: #dc3545 !important;
+        }
+
+        .is-invalid:focus {
+            border-color: #dc3545 !important;
+            box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25) !important;
+        }
+
+        /* ===== SELECT2 ===== */
+        .select2-container--default .select2-selection.is-invalid {
+            border-color: #dc3545 !important;
+            box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25) !important;
+        }
+
+        /* ===== SUMMERNOTE ===== */
+        .note-editor.is-invalid {
+            border: 1px solid #dc3545 !important;
+            border-radius: 6px;
+        }
+
+        .note-editor.is-invalid:focus-within {
+            box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25) !important;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -411,7 +467,7 @@
                                                                     value="{{ $vendor?->vendor_shop_info?->colors['store_paragraph_color'] ?? '' }}"
                                                                     id="store_paragraph_color">
                                                                 <small>{{ __('you can change site paragraph color from
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                there') }}</small>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                there') }}</small>
                                                             </div>
                                                         </div>
                                                         <!--color settings end -->
@@ -519,38 +575,6 @@
 @endsection
 
 @section('script')
-    <style>
-        /* add if you don't already have them in your stylesheet */
-        .field-error {
-            color: #dc3545 !important;
-        }
-
-        .field-success {
-            color: #28a745 !important;
-        }
-
-
-        .btn-disabled {
-            pointer-events: none !important;
-            opacity: 0.5 !important;
-            cursor: not-allowed !important;
-        }
-
-        .embed-map-frame {
-            width: 100% !important;
-            height: 100% !important;
-            border: 0;
-        }
-
-        .embed-map-container {
-            width: 100%;
-            height: 300px;
-            position: relative;
-            overflow: hidden;
-            border-radius: 10px;
-        }
-    </style>
-
     <script>
         (function($) {
             "use strict";
@@ -1229,5 +1253,104 @@
                 }
             });
         }(jQuery));
+    </script>
+    <script>
+        (function($) {
+            "use strict";
+
+            const $form = $('#vendor-create-form');
+
+            function markInvalid(el) {
+                const $el = $(el).addClass('is-invalid');
+
+                // Select2
+                if ($el.hasClass('select2-hidden-accessible')) {
+                    $el.next('.select2-container')
+                        .find('.select2-selection')
+                        .addClass('is-invalid');
+                }
+
+                // nice-select
+                const nice = $el.closest('.nice-select-two').find('.nice-select');
+                if (nice.length) nice.addClass('is-invalid');
+            }
+
+            function clearInvalid(el) {
+                const $el = $(el).removeClass('is-invalid');
+
+                if ($el.hasClass('select2-hidden-accessible')) {
+                    $el.next('.select2-container')
+                        .find('.select2-selection')
+                        .removeClass('is-invalid');
+                }
+
+                const nice = $el.closest('.nice-select-two').find('.nice-select');
+                if (nice.length) nice.removeClass('is-invalid');
+            }
+
+            function findFirstMissing() {
+                const required = $form[0].querySelectorAll('[required]');
+                for (const el of required) {
+                    if (el.disabled) continue;
+                    if (!el.value || !el.value.trim()) {
+                        return el;
+                    }
+                }
+                return null;
+            }
+
+            function focusField(el) {
+                const pane = el.closest('.tab-pane');
+
+                // switch tab
+                if (pane) {
+                    const btn = document.querySelector(`[data-bs-target="#${pane.id}"]`);
+                    if (btn) new bootstrap.Tab(btn).show();
+                }
+
+                setTimeout(() => {
+                    // select2 focus
+                    if ($(el).hasClass('select2-hidden-accessible')) {
+                        $(el).next('.select2-container')
+                            .find('.select2-selection')
+                            .trigger('focus');
+                        return;
+                    }
+
+                    // nice-select focus
+                    const nice = $(el).closest('.nice-select-two').find('.nice-select');
+                    if (nice.length) {
+                        nice.trigger('focus');
+                        return;
+                    }
+
+                    el.focus();
+                }, 200);
+            }
+
+            // 🔥 INTERCEPT SUBMIT (FIRST)
+            $form.on('submit.autoFocus', function(e) {
+                const missing = findFirstMissing();
+                if (!missing) return;
+
+                e.preventDefault();
+                e.stopImmediatePropagation();
+
+                markInvalid(missing);
+                focusField(missing);
+                return false;
+            });
+
+            // 🔥 REMOVE RED BORDER ON INPUT
+            $(document).on('input change', 'input, textarea, select', function() {
+                clearInvalid(this);
+            });
+
+            // 🔥 Select2 change
+            $(document).on('select2:select select2:unselect', 'select', function() {
+                clearInvalid(this);
+            });
+
+        })(jQuery);
     </script>
 @endsection
