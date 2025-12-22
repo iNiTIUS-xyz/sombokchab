@@ -5,6 +5,33 @@
     <x-media.css />
     <x-summernote.css />
     <x-product::variant-info.css />
+    <style>
+        /* ===== INVALID + FOCUS STYLE ===== */
+        .is-invalid {
+            border-color: #dc3545 !important;
+        }
+
+        .is-invalid:focus {
+            border-color: #dc3545 !important;
+            box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25) !important;
+        }
+
+        /* ===== SELECT2 ===== */
+        .select2-container--default .select2-selection.is-invalid {
+            border-color: #dc3545 !important;
+            box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25) !important;
+        }
+
+        /* ===== SUMMERNOTE ===== */
+        .note-editor.is-invalid {
+            border: 1px solid #dc3545 !important;
+            border-radius: 6px;
+        }
+
+        .note-editor.is-invalid:focus-within {
+            box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25) !important;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -171,394 +198,147 @@
         (function($) {
             'use strict';
 
-            // -------- helpers --------
-            function textTrimmed(el) {
-                if (!el) return '';
-                return (el.textContent || el.value || '').trim();
-            }
+            const form = $('#product-create-form');
 
-            // Is element visible & focusable
-            function isFocusable(el) {
-                if (!el) return false;
-                if (el.disabled) return false;
-                try {
-                    const st = window.getComputedStyle(el);
-                    if (!st) return false;
-                    if (st.display === 'none' || st.visibility === 'hidden' || st.opacity === '0') return false;
-                    if (el.type === 'hidden') return false;
-                    if (el.offsetParent === null && el.tagName.toLowerCase() !== 'body') return false;
-                    return true;
-                } catch (e) {
-                    return false;
+            /* ================= MARK INVALID ================= */
+            function markInvalid(el) {
+                const $el = $(el).addClass('is-invalid');
+
+                // Select2
+                if ($el.hasClass('select2-hidden-accessible')) {
+                    $el.next('.select2-container')
+                        .find('.select2-selection')
+                        .addClass('is-invalid');
+                }
+
+                // Summernote
+                if ($el.hasClass('summernote')) {
+                    $el.next('.note-editor').addClass('is-invalid');
                 }
             }
 
-            // For Summernote: get editor content (text)
-            function getSummernoteText(textareaEl) {
-                // summernote creates sibling .note-editor .note-editable
-                if (!textareaEl) return '';
-                let editor = textareaEl.closest('.note-editor') || ($(textareaEl).nextAll('.note-editor')[0]);
-                if (!editor) {
-                    // sometimes textarea replaced, find by name
-                    const name = textareaEl.name;
-                    if (name) {
-                        const otherEditor = document.querySelector('.note-editable[aria-label]');
-                        if (otherEditor) editor = otherEditor.closest('.note-editor');
+            function clearInvalid(el) {
+                const $el = $(el).removeClass('is-invalid');
+
+                // Select2
+                if ($el.hasClass('select2-hidden-accessible')) {
+                    $el.next('.select2-container')
+                        .find('.select2-selection')
+                        .removeClass('is-invalid');
+                }
+
+                // Summernote
+                if ($el.hasClass('summernote')) {
+                    $el.next('.note-editor').removeClass('is-invalid');
+                }
+            }
+
+            /* ================= FIND FIRST REQUIRED ================= */
+            function findFirstInvalid() {
+                const fields = form[0].querySelectorAll('[required]');
+
+                for (const el of fields) {
+                    if (el.disabled) continue;
+
+                    // Summernote
+                    if (el.classList.contains('summernote')) {
+                        const text = $(el).summernote('code')
+                            .replace(/<[^>]+>/g, '')
+                            .trim();
+                        if (!text) return el;
+                        continue;
+                    }
+
+                    // Select / input
+                    if (!el.value || !el.value.trim()) {
+                        return el;
                     }
                 }
-                if (editor) {
-                    const editable = editor.querySelector('.note-editable');
-                    if (editable) return (editable.textContent || '').trim();
-                }
-                // fallback to textarea value
-                return (textareaEl.value || '').trim();
-            }
-
-            // For media upload widgets: check hidden input used by x-media-upload
-            function isMediaPresent(form, name) {
-                // common pattern: hidden input with name image or gallery[] etc.
-                // check any input[name="<name>"] with value
-                try {
-                    const el = form.querySelector('[name="' + CSS.escape(name) + '"]');
-                    if (!el) return false;
-                    if (el.type === 'file') {
-                        // file inputs: check files length
-                        return el.files && el.files.length > 0;
-                    }
-                    return (el.value || '').toString().trim() !== '';
-                } catch (e) {
-                    return false;
-                }
-            }
-
-            // Find a visible substitute to focus inside the pane (select2 container, note-editable, first visible input)
-            function findVisibleControlFor(originalEl, pane) {
-                if (!originalEl) return null;
-
-                // If original is visible, return it
-                if (isFocusable(originalEl)) return originalEl;
-
-                // If summernote textarea, return its editable div
-                if (originalEl.classList && originalEl.classList.contains('summernote')) {
-                    const editable = (pane || document).querySelector('.note-editable');
-                    if (editable && isFocusable(editable)) return editable;
-                }
-
-                // Select2 pattern
-                if (originalEl.id) {
-                    const s2 = document.querySelector('#select2-' + originalEl.id + '-container');
-                    if (s2 && (!pane || pane.contains(s2))) return s2;
-                }
-
-                // nice-select / custom wrapper
-                const wrap = originalEl.closest('.nice-select-two, .nice-select, .select-wrapper, .select2-container');
-                if (wrap && (!pane || pane.contains(wrap))) return wrap;
-
-                // find same-name visible field inside pane
-                if (originalEl.name && pane) {
-                    const candidate = pane.querySelector('[name="' + CSS.escape(originalEl.name) +
-                        '"]:not([type="hidden"])');
-                    if (candidate && isFocusable(candidate)) return candidate;
-                    if (candidate && candidate.id) {
-                        const s2b = document.querySelector('#select2-' + candidate.id + '-container');
-                        if (s2b && pane.contains(s2b)) return s2b;
-                    }
-                }
-
-                // fallback: first visible focusable in pane
-                if (pane) {
-                    const fallback = pane.querySelector(
-                        'input:not([type=hidden]), textarea, select, [tabindex]:not([tabindex="-1"])');
-                    if (fallback && isFocusable(fallback)) return fallback;
-                }
-
                 return null;
             }
 
-            // Show the tab/pane and focus inside it
-            function showTabAndFocus(tabTargetSelector, originalEl) {
-                return new Promise((resolve) => {
-                    if (!tabTargetSelector) return resolve(false);
-                    let tabButton = document.querySelector('[data-bs-target="' + tabTargetSelector + '"]') ||
-                        document.querySelector('[data-target="' + tabTargetSelector + '"]') ||
-                        document.querySelector('.nav [href="' + tabTargetSelector + '"]');
+            /* ================= SWITCH TAB & FOCUS ================= */
+            function focusField(el) {
+                const $el = $(el);
 
-                    const afterShow = () => {
-                        setTimeout(() => {
-                            const pane = document.querySelector(tabTargetSelector);
-                            const visible = findVisibleControlFor(originalEl, pane) || (pane ? pane
-                                    .querySelector('input,textarea,select,[tabindex]') : null) ||
-                                originalEl;
-                            try {
-                                if (visible && typeof visible.focus === 'function') visible.focus({
-                                    preventScroll: true
-                                });
-                            } catch (e) {
-                                try {
-                                    originalEl.focus();
-                                } catch (_) {}
-                            }
-                            try {
-                                if (visible) visible.scrollIntoView({
-                                    behavior: 'smooth',
-                                    block: 'center'
-                                });
-                            } catch (e) {}
-
-                            // show an inline small hint if present
-                            try {
-                                const parent = (visible && visible.parentNode) || (originalEl &&
-                                    originalEl.closest('.form-group'));
-                                if (parent) {
-                                    const small = parent.querySelector('small') || parent
-                                        .querySelector('.text-muted');
-                                    if (small && small.textContent.trim() === '') {
-                                        small.textContent = '{{ __('This field is required') }}';
-                                        small.classList.remove('field-success');
-                                        small.classList.add('field-error');
-                                    }
-                                }
-                            } catch (e) {}
-
-                            resolve(true);
-                        }, 120);
-                    };
-
-                    if (!tabButton) return resolve(false);
-
-                    if (window.bootstrap && bootstrap.Tab) {
-                        try {
-                            document.addEventListener('shown.bs.tab', function once() {
-                                document.removeEventListener('shown.bs.tab', once);
-                                afterShow();
-                            }, {
-                                once: true
-                            });
-                            new bootstrap.Tab(tabButton).show();
-                        } catch (err) {
-                            tabButton.click();
-                            setTimeout(afterShow, 250);
-                        }
-                    } else {
-                        tabButton.click();
-                        setTimeout(afterShow, 250);
-                    }
-                });
-            }
-
-            // -------- core validator --------
-            function findFirstInvalid(form) {
-                // 1) normal required inputs that are visible/focusable
-                const requiredEls = Array.from(form.querySelectorAll('[required]'));
-
-                // We'll test the logical value for each required element; return the first failing element (prefer a visible one).
-                for (let i = 0; i < requiredEls.length; i++) {
-                    const el = requiredEls[i];
-
-                    // skip disabled
-                    if (el.disabled) continue;
-
-                    const tag = (el.tagName || '').toLowerCase();
-
-                    // Special-case Summernote textareas: check editor content
-                    if (el.classList && el.classList.contains('summernote')) {
-                        const txt = getSummernoteText(el);
-                        if (!txt) {
-                            return el;
-                        }
-                        continue; // ok
-                    }
-
-                    // Special-case selects that are transformed (select2/nice-select): if select is hidden, check visible wrapper existence or value
-                    if (tag === 'select') {
-                        const val = (el.value || '').toString().trim();
-                        // If select is present but empty value considered invalid
-                        if (val === '' || el.selectedIndex === -1) {
-                            // but if the select is not focusable (hidden), ensure we still return it to switch tab
-                            return el;
-                        }
-                        continue;
-                    }
-
-                    // File / media widget
-                    if (el.type === 'file') {
-                        if (!(el.files && el.files.length > 0)) {
-                            return el;
-                        }
-                        continue;
-                    }
-
-                    // Hidden inputs used by media uploader (x-media) - check by name presence
-                    if ((el.type === 'hidden') && (el.name && el.name.toLowerCase().indexOf('image') !== -1 || el.name
-                            .toLowerCase().indexOf('gallery') !== -1)) {
-                        if ((el.value || '').trim() === '') {
-                            // treat as invalid (so we can switch to images tab)
-                            return el;
-                        }
-                        continue;
-                    }
-
-                    // Standard fallback for inputs/textareas
-                    if ((tag === 'input' || tag === 'textarea')) {
-                        const val = (el.value || '').toString().trim();
-                        if (val === '') {
-                            return el;
-                        }
-                        continue;
-                    }
-
-                    // Other controls (e.g., custom components) — if value empty treat invalid
-                    try {
-                        if (!el.value && el.value !== 0) {
-                            return el;
-                        }
-                    } catch (e) {}
+                // Switch tab
+                const pane = el.closest('.tab-pane');
+                if (pane) {
+                    const btn = document.querySelector(`[data-bs-target="#${pane.id}"]`);
+                    if (btn) new bootstrap.Tab(btn).show();
                 }
 
-                // 2) If none matched above, also check Summernote editors that might not have the textarea required attribute (just in case)
-                const summernotes = Array.from(form.querySelectorAll('.summernote'));
-                for (let s of summernotes) {
-                    const txt = getSummernoteText(s);
-                    const isReq = s.hasAttribute('required') || s.getAttribute('data-required') === '1';
-                    if (isReq && !txt) return s;
-                }
+                setTimeout(() => {
+                    // Summernote
+                    if ($el.hasClass('summernote')) {
+                        const editable = $el.next('.note-editor').find('.note-editable');
+                        editable.focus();
+                        return;
+                    }
 
-                return null; // no invalids
+                    // Select2
+                    if ($el.hasClass('select2-hidden-accessible')) {
+                        $el.next('.select2-container')
+                            .find('.select2-selection')
+                            .trigger('focus');
+                        return;
+                    }
+
+                    // Normal input
+                    el.focus();
+                }, 250);
             }
 
-            // -------- submit handling (main) --------
-            $(document).on('submit', '#product-create-form', function(e) {
-                const form = this;
-                form.noValidate = true; // ensure browser won't auto-focus hidden invalid controls
+            /* ================= SUBMIT HANDLER ================= */
+            form.on('submit', function(e) {
+                e.preventDefault();
 
-                // Run our custom validator
-                const firstInvalid = findFirstInvalid(form);
+                const invalid = findFirstInvalid();
+                if (invalid) {
+                    markInvalid(invalid);
+                    focusField(invalid);
+                    return false;
+                }
 
-                if (!firstInvalid) {
-                    // All good — proceed with existing AJAX submission (we block default and call your send_ajax_request below).
-                    // Let the later submit handler trigger (we call preventDefault here then manual send).
-                    e.preventDefault();
-                    e.stopImmediatePropagation();
-
-                    // perform original AJAX submission
-                    send_ajax_request("post", new FormData(form), $(form).attr("data-request-route"),
-                function() {
-                        // before
-                    }, function(data) {
+                // ✅ VALID → AJAX SUBMIT
+                send_ajax_request(
+                    'post',
+                    new FormData(this),
+                    $(this).data('request-route'),
+                    function() {},
+                    function(data) {
                         if (data.success) {
-                            toastr.success("Product updated Successfully");
-                            toastr.success("You are redirected to products list page");
+                            toastr.success('Product updated successfully');
                             setTimeout(() => {
                                 window.location.href = "{{ route('admin.products.all') }}";
                             }, 800);
                         }
-                    }, function(xhr) {
+                    },
+                    function(xhr) {
                         ajax_toastr_error_message(xhr);
-                    });
-
-                    return false;
-                }
-
-                // Found invalid control - switch to its tab and focus
-                e.preventDefault();
-                e.stopImmediatePropagation();
-
-                // determine the tab-pane that contains the invalid control
-                let pane = null;
-                try {
-                    pane = firstInvalid.closest ? firstInvalid.closest('.tab-pane') : null;
-                } catch (ex) {
-                    pane = null;
-                }
-
-                // if the invalid element is a hidden media hidden input (x-media), try find images pane by checking name
-                if (!pane && firstInvalid.name && (firstInvalid.name.toLowerCase().indexOf('image') !== -1 ||
-                        firstInvalid.name.toLowerCase().indexOf('gallery') !== -1)) {
-                    pane = form.querySelector('#v-images-tab');
-                }
-
-                // fallback: find by name inside panes
-                if (!pane && firstInvalid.name) {
-                    const found = form.querySelector('.tab-pane [name="' + CSS.escape(firstInvalid.name) +
-                    '"]');
-                    if (found) pane = found.closest('.tab-pane');
-                }
-
-                // fallback: search panes for label containing text of this control
-                let tabTarget = null;
-                if (pane && pane.id) {
-                    tabTarget = '#' + pane.id;
-                } else {
-                    // try to find label text
-                    const lab = form.querySelector('label[for="' + (firstInvalid.id || '') + '"]') || (
-                        firstInvalid.closest ? firstInvalid.closest('.form-group')?.querySelector('label') :
-                        null);
-                    const labelText = lab ? lab.textContent.trim().split('\n')[0] : '';
-                    if (labelText) {
-                        const panes = Array.from(form.querySelectorAll('.tab-pane'));
-                        for (let p of panes) {
-                            if (p.innerText && p.innerText.indexOf(labelText) !== -1) {
-                                tabTarget = '#' + (p.id || '');
-                                pane = p;
-                                break;
-                            }
-                        }
                     }
-                }
-
-                if (!tabTarget && pane && pane.id) tabTarget = '#' + pane.id;
-
-                if (tabTarget) {
-                    showTabAndFocus(tabTarget, firstInvalid).then((ok) => {
-                        if (!ok) {
-                            // fallback: try focusing original
-                            try {
-                                firstInvalid.focus();
-                            } catch (e) {}
-                        }
-                    });
-                } else {
-                    // no tab found - focus the visible substitute or element itself
-                    const visible = findVisibleControlFor(firstInvalid, null) || firstInvalid;
-                    try {
-                        visible.focus();
-                    } catch (e) {}
-                    try {
-                        visible.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'center'
-                        });
-                    } catch (e) {}
-                }
-
-                return false;
+                );
             });
 
-            // Helper for debugging in console:
-            window.__listHiddenRequired = function(formSelector) {
-                try {
-                    const form = document.querySelector(formSelector || '#product-create-form');
-                    if (!form) return console.warn('no form found');
-                    const arr = Array.from(form.querySelectorAll('[required]')).filter(el => !isFocusable(el)).map(
-                        el => ({
-                            name: el.name || el.id || '',
-                            outer: el.outerHTML
-                        }));
-                    console.log('hidden required fields', arr);
-                    return arr;
-                } catch (e) {
-                    console.error(e);
-                }
-            };
+            /* ================= REMOVE RED BORDER ON INPUT ================= */
+            $(document).on('input change', 'input, textarea, select', function() {
+                clearInvalid(this);
+            });
 
-            // Initialize any cosmetic UI after DOM ready
-            $(document).ready(function() {
-                // If you use nice-select/select2 anywhere, init them here (you likely already do elsewhere)
-                if ($('.nice-select').length) $('.nice-select').niceSelect();
+            /* ================= SUMMERNOTE CHANGE FIX ================= */
+            $(document).on('summernote.change', '.summernote', function() {
+                const text = $(this).summernote('code')
+                    .replace(/<[^>]+>/g, '')
+                    .trim();
+
+                if (text.length > 0) {
+                    clearInvalid(this);
+                }
             });
 
         })(jQuery);
     </script>
+
 
     <script>
         // other page scripts unchanged:

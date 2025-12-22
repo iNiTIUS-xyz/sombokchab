@@ -8,6 +8,38 @@
     <x-media.css />
     <x-summernote.css />
     <x-product::variant-info.css />
+    <style>
+        /* Normal inputs */
+        /* ===== INVALID + FOCUS STYLE (like screenshot) ===== */
+        .is-invalid {
+            border-color: #dc3545 !important;
+        }
+
+        .is-invalid:focus {
+            border-color: #dc3545 !important;
+            box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25) !important;
+        }
+
+        /* ===== SELECT2 ===== */
+        .select2-container--default .select2-selection.is-invalid {
+            border-color: #dc3545 !important;
+        }
+
+        .select2-container--default .select2-selection.is-invalid:focus,
+        .select2-container--default .select2-selection.is-invalid.select2-selection--single {
+            box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25) !important;
+        }
+
+        /* ===== SUMMERNOTE ===== */
+        .note-editor.is-invalid {
+            border: 1px solid #dc3545 !important;
+            border-radius: 6px;
+        }
+
+        .note-editor.is-invalid:focus-within {
+            box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25) !important;
+        }
+    </style>
 @endsection
 @section('content')
     @php
@@ -265,6 +297,20 @@
             // optional visual highlight (remove calls to markInvalid if you don't want any styling)
             function markInvalid($el) {
                 $el.addClass('is-invalid');
+
+                // SELECT2
+                if ($el.hasClass('select2-hidden-accessible')) {
+                    const $box = $el.next('.select2-container')
+                        .find('.select2-selection');
+
+                    $box.addClass('is-invalid');
+                }
+
+                // SUMMERNOTE
+                if ($el.hasClass('summernote')) {
+                    const $editor = $el.next('.note-editor');
+                    $editor.addClass('is-invalid');
+                }
             }
 
             // Focus correct visible UI element (select2, summernote, etc.)
@@ -382,7 +428,8 @@
                                 });
                             }
                         } catch (err) {
-                            /* ignore */ }
+                            /* ignore */
+                        }
                     }, 250);
                 }
             }
