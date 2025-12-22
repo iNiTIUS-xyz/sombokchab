@@ -38,7 +38,7 @@ Route::prefix('admin-home/refund')->as("admin.refund.")->middleware(['setlang:ba
     Route::controller(RefundPreferredOptionController::class)->prefix("preferred-option")->as("preferred-option.")->group(function () {
         Route::get("/", "index")->name("index")->permission("refund-preferred-option");
         Route::post("/store", "store")->name("store")->permission("refund-preferred-option-store");
-        Route::put("update/{id?}", "update")->name("update")->permission("refund-preferred-option-update");
+        Route::post("update/{id}", "update")->name("update")->permission("refund-preferred-option-update");
         Route::post("status-chnage/{id}", "statusChange")->name("status.change");
         Route::post("delete/{id}", "delete")->name("delete")->permission("refund-preferred-option-delete");
     });
