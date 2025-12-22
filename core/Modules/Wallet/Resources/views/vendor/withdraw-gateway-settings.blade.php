@@ -48,18 +48,22 @@
                                                             alt="" width="100" height="100">
                                                     </a>
                                                     <br>
-                                                    <p>
-                                                        <strong>
-                                                            Merchant Name:
-                                                        </strong>
-                                                        {{ $paymentWalletGateway->merchant_name }}
-                                                    </p>
-                                                    <p>
-                                                        <strong>
-                                                            Merchant ID:
-                                                        </strong>
-                                                        {{ $paymentWalletGateway->merchant_id }}
-                                                    </p>
+                                                    @if ($paymentWalletGateway->merchant_name)
+                                                        <p>
+                                                            <strong>
+                                                                Merchant Name:
+                                                            </strong>
+                                                            {{ $paymentWalletGateway->merchant_name }}
+                                                        </p>
+                                                    @endif
+                                                    @if ($paymentWalletGateway->merchant_id)
+                                                        <p>
+                                                            <strong>
+                                                                Merchant ID:
+                                                            </strong>
+                                                            {{ $paymentWalletGateway->merchant_id }}
+                                                        </p>
+                                                    @endif
                                                 @elseif($paymentWalletGateway->fileds)
                                                     @php
                                                         $fileds = unserialize($paymentWalletGateway->fileds);
