@@ -301,14 +301,14 @@
                 if (isFile === 1) {
                     html += `
                         <div class="form-group mt-3">
-                            <label class="form-label">QR Code File</label>
+                            <label class="form-label">Attachment</label>
                             <input class="form-control-file" name="qr_file" type="file" />
                         </div>
                     `;
                 }
 
                 // Dynamic input fields (bank name, account number etc)
-                if (isFile === 0 && Array.isArray(fields)) {
+                if (Array.isArray(fields)) {
                     fields.forEach(function(field) {
                         const name = field.replace(/\s+/g, '_').toLowerCase();
                         html += `

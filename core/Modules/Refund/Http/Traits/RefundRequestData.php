@@ -154,7 +154,7 @@ trait RefundRequestData
             $qrFileName = 'uploads/refund-qr/' . $filename;
         }
 
-        return [
+        $data =  [
             "additional_information" => $this->data["additional_information"],
             "preferred_option_id" => $this->data["preferred_option"],
             "preferred_option_fields" => $this->data["preferred_option_fields"],
@@ -163,6 +163,8 @@ trait RefundRequestData
             "user_id" => auth()->id(),
             "qr_file" => $qrFileName,
         ];
+
+        return $data;
     }
 
 
