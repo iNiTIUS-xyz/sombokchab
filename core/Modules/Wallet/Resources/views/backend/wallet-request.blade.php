@@ -96,21 +96,9 @@
                                                         <img src="{{ asset('core/public/' . $withdrawRequest->qr_file) }}"
                                                             width="100" height="100" />
                                                     </a>
-                                                    <p>
-                                                        <strong>
-                                                            Merchant Name:
-                                                        </strong>
-                                                        {{ $withdrawRequest->merchant_name }}
-                                                    </p>
-                                                    <p>
-                                                        <strong>
-                                                            Merchant ID:
-                                                        </strong>
-                                                        {{ $withdrawRequest->merchant_id }}
-                                                    </p>
-                                                @else
-                                                    <div class="table-fields">{!! $fields !!}</div>
+                                                    <br>
                                                 @endif
+                                                <div class="table-fields">{!! $fields !!}</div>
                                             </td>
                                             <td>
                                                 <x-status-span :status="$withdrawRequest->request_status" />
