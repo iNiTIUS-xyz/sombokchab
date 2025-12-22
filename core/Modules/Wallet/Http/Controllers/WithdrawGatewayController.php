@@ -28,11 +28,9 @@ class WithdrawGatewayController extends Controller
 
         $data = new VendorWalletGateway();
         $data->name = $request->gateway_name;
-        $data->filed = isset($request->is_file) && $request->is_file == 'yes' ? null : serialize($fields);
+        $data->filed = $fields ? serialize($fields) : null;
         $data->status_id = $request->status_id;
         $data->is_file = isset($request->is_file) ? $request->is_file : 'no';
-        $data->merchant_name = isset($request->merchant_name) ? $request->merchant_name : 'no';
-        $data->merchant_id = isset($request->merchant_id) ? $request->merchant_id : 'no';
         $data->save();
 
         return back()->with([
@@ -50,15 +48,15 @@ class WithdrawGatewayController extends Controller
             $fields[$key] = SanitizeInput::esc_html($value);
         }
 
+        dd($request->all(), $id, $fields);
+
         $data = VendorWalletGateway::query()
             ->findOrFail($id);
 
         $data->name = $request->gateway_name;
-        $data->filed = isset($request->is_file) && $request->is_file == 'yes' ? null : serialize($fields);
+        $data->filed = $fields ? serialize($fields) : null;
         $data->status_id = $request->status_id;
         $data->is_file = isset($request->is_file) ? $request->is_file : 'no';
-        $data->merchant_name = isset($request->merchant_name) ? $request->merchant_name : 'no';
-        $data->merchant_id = isset($request->merchant_id) ? $request->merchant_id : 'no';
         $data->save();
 
         return back()->with([

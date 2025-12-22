@@ -15,8 +15,6 @@ class StoreGatewayRequest extends FormRequest
             "filed" => "nullable",
             "status_id" => "required|integer",
             "is_file" => "nullable",
-            "merchant_name" => "nullable",
-            "merchant_id" => "nullable",
         ];
     }
 
