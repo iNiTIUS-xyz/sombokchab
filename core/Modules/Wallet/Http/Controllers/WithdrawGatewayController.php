@@ -48,8 +48,6 @@ class WithdrawGatewayController extends Controller
             $fields[$key] = SanitizeInput::esc_html($value);
         }
 
-        dd($request->all(), $id, $fields);
-
         $data = VendorWalletGateway::query()
             ->findOrFail($id);
 
