@@ -67,9 +67,7 @@
                                                         <a title="{{ __('Edit') }}"
                                                             class="btn btn-warning text-dark btn-sm me-1 edit_role"
                                                             data-id="{{ $value->id }}" data-name="{{ $value->name }}"
-                                                            {{--
-                                            data-id="{{ $value->id }}" data-name="{{ $value->name }}"
-                                            data-hierarchy="{{ $value->hierarchy }}" --}} data-bs-toggle="modal" href="#0"
+                                                            data-bs-toggle="modal" href="#0"
                                                             data-action="{{ route('admin.roles.update', $value->id) }}"
                                                             data-bs-target="#editRoles">
                                                             <i class="ti-pencil"></i> </a>
@@ -101,17 +99,7 @@
                 </div>
                 <form action="{{ route('admin.roles.store') }}" method="post">
                     <div class="modal-body">
-
                         @csrf
-
-                        {{-- <div class="form-grup">
-                        <label for="#">{{ __('Hierarchy') }}</label>
-                        <select name="hierarchy" id="" class="form-select">
-                            @for ($i = 1; $i <= 50; $i++) <option value="{{ $i }}">{{ $i }}</option>
-                                @endfor
-                        </select>
-                    </div> --}}
-
                         <div class="form-grup">
                             <label for="#">
                                 {{ __('Name') }}
@@ -144,15 +132,6 @@
                         @csrf
                         @method('PUT')
 
-                        {{-- <div class="form-group">
-                        <label for="hierarchy">{{ __('Hierarchy') }}</label>
-                        <select name="hierarchy" id="hierarchy" class="form-select">
-                            <option value="">Select a value</option>
-                            @for ($i = 1; $i <= 50; $i++) <option value="{{ $i }}">{{ $i }}</option>
-                                @endfor
-                        </select>
-                    </div> --}}
-
                         <div class="form-grup mt-4">
                             <label for="#">
                                 {{ __('Name') }}
@@ -174,23 +153,6 @@
 @endsection
 
 @section('script')
-
-    {{-- <script>
-        (function($) {
-            "use strict";
-
-            $(document).on("click", ".edit_role", function(e) {
-                e.preventDefault();
-
-                let modalContainer = $("#editRoles");
-                modalContainer.find("form").attr("action", $(this).data("action"));
-                modalContainer.find("input[name='id']").val($(this).data("id"));
-                modalContainer.find("input[name='hierarchy']").val($(this).data("hierarchy"));
-                modalContainer.find("input[name='name']").val($(this).data("name"));
-
-            })
-        })(jQuery);
-    </script> --}}
     <script>
         (function($) {
             "use strict";
@@ -205,10 +167,6 @@
 
                 // Set hidden input ID
                 modalContainer.find("input[name='id']").val($(this).data("id"));
-
-                // Set hierarchy select
-                // let hierarchyValue = $(this).data("hierarchy");
-                // modalContainer.find("select[name='hierarchy']").val(hierarchyValue);
 
                 // Set name
                 modalContainer.find("input[name='name']").val($(this).data("name"));

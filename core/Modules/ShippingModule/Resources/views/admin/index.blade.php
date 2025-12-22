@@ -32,7 +32,6 @@
                             <table class="table" id="dataTable">
                                 <thead>
                                     <tr>
-                                        <th>{{ __('Serial No') }}</th>
                                         <th>{{ __('Zone Name') }}</th>
                                         <th>{{ __('Countries') }}</th>
                                         <th>{{ __('States') }}</th>
@@ -42,7 +41,6 @@
                                 <tbody>
                                     @foreach ($zones as $key => $zone)
                                         <tr>
-                                            <td>{{ $key + 1 }}</td>
                                             <td>{{ $zone->name }}</td>
                                             <td>
                                                 <b>

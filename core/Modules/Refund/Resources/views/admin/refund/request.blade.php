@@ -18,7 +18,6 @@
                 <table id="dataTable" class="table">
                     <thead>
                         <tr>
-                            <th>{{ __('Serial No') }}</th>
                             <th>{{ __('Customer Details') }}</th>
                             <th>{{ __('Order Details') }}</th>
                             <th>{{ __('Created On') }}</th>
@@ -29,7 +28,6 @@
                     <tbody>
                         @foreach ($refundRequests as $key => $request)
                             <tr>
-                                <td>{{ $key + 1 }}</td>
                                 <td>
                                     <span class="user-info text-left">
                                         Full Name: <strong> {{ $request->user?->name }} </strong>

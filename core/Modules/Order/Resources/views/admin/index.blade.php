@@ -38,7 +38,6 @@
                 <table class="table" id="dataTable">
                     <thead>
                         <tr>
-                            <th>{{ __('Serial No') }}</th>
                             <th>{{ __('Order No.') }}</th>
                             <th>{{ __('Store Name') }}</th>
                             <th>{{ __('Order Date') }}</th>
@@ -61,7 +60,6 @@
                                 };
                             @endphp
                             <tr class="completed">
-                                <td>{{ $key + 1 }}</td>
                                 <td class="order-numb">
                                     {{ $order->order_number }}
                                 </td>

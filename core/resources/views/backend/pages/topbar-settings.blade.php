@@ -26,7 +26,6 @@
                         @can('manage-appearance-settings')
                             <table class="table table-default" id="dataTable">
                                 <thead>
-                                    <th>{{ __('Serial No') }}</th>
                                     <th>{{ __('URL') }}</th>
                                     <th>{{ __('Icon') }}</th>
                                     <th>{{ __('Action') }}</th>
@@ -34,7 +33,6 @@
                                 <tbody>
                                     @foreach ($all_social_icons as $key => $data)
                                         <tr>
-                                            <td>{{ $key + 1 }}</td>
                                             <td>
                                                 <a href="{{ $data->url }}" target="__blank">
                                                     {{ $data->url }}

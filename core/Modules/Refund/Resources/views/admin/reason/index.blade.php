@@ -19,7 +19,6 @@
                         <table class="table" id="dataTable">
                             <thead>
                                 <tr>
-                                    <th>{{ __('Serial No') }}</th>
                                     <th>{{ __('Refund Reasons') }}</th>
                                     <th>{{ __('Action') }}</th>
                                 </tr>
@@ -27,7 +26,6 @@
                             <tbody>
                                 @foreach ($reasons as $key => $reason)
                                     <tr>
-                                        <td>{{ $key + 1 }}</td>
                                         <td>{{ $reason->name }}</td>
                                         <td>
                                             @can('manage-refund-request-settings')

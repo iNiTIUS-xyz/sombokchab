@@ -24,7 +24,6 @@
                         <div class="table-responsive">
                             <table class="table table-default" id="dataTable">
                                 <thead>
-                                    <th>{{ __('Serial No') }}</th>
                                     <th>{{ __('Shipping Method Name') }}</th>
                                     <th>{{ __('Zone') }}</th>
                                     <th>{{ __('Cost') }}</th>
@@ -34,7 +33,6 @@
                                 <tbody>
                                     @foreach ($all_shipping_methods as $key => $method)
                                         <tr>
-                                            <td>{{ $key + 1 }}</td>
                                             <td>{{ optional($method)->title }}</td>
                                             <td>{{ optional($method->zone)->name }}</td>
                                             <td>

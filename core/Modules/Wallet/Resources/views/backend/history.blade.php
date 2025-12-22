@@ -43,7 +43,6 @@
                             <table class="table" id="dataTable">
                                 <thead>
                                     <tr>
-                                        <th>{{ __('Serial No') }}</th>
                                         <th>{{ __('Customer Details') }}</th>
                                         <th>{{ __('Payment Method') }}</th>
                                         <th>{{ __('Deposit Amount') }}</th>
@@ -56,7 +55,6 @@
                                 <tbody>
                                     @foreach ($wallet_history_lists as $key => $history)
                                         <tr>
-                                            <td>{{ $key + 1 }}</td>
                                             <td>
                                                 <p><strong>{{ __('Name: ') }}</strong>{{ $history->user?->name }}</p>
                                                 <p><strong>{{ __('Email: ') }}</strong>{{ $history->user?->email }}</p>

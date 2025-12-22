@@ -40,10 +40,6 @@
 @endsection
 
 @section('content')
-    {{--
-<x-msg.error />
-<x-msg.success /> --}}
-
     <div class="col-12">
         @can('add-customer')
             <div class="btn-wrapper mb-4">
@@ -61,7 +57,6 @@
                     <table class="table" id="dataTable">
                         <thead class="text-capitalize">
                             <tr>
-                                <th>{{ __('Serial No') }}</th>
                                 <th>{{ __('Name') }}</th>
                                 <th>{{ __('Email') }}</th>
                                 <th>{{ __('Created On') }}</th>
@@ -71,7 +66,6 @@
                         <tbody>
                             @foreach ($all_user as $key => $user)
                                 <tr>
-                                    <td>{{ $key + 1 }}</td>
                                     <td class="text-left">{{ $user->name }} ({{ $user->username }})</td>
                                     <td class="text-left">
                                         {{ $user->email }}

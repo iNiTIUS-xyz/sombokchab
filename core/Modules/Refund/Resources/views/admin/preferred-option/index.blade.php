@@ -26,9 +26,6 @@
                 </div>
             </div>
             <div class="col-lg-12">
-                {{--
-            <x-msg.error />
-            <x-flash-msg /> --}}
                 <div class="dashboard__card card__two">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Refund Payment Methods') }}</h4>
@@ -38,7 +35,6 @@
                             <table class="table-responsive table" id="dataTable">
                                 <thead>
                                     <tr>
-                                        <th>{{ __('Serial No') }}</th>
                                         <th>{{ __('Payment Method') }}</th>
                                         <th>{{ __('Method Fields') }}</th>
                                         <th>{{ __('Payment Status') }}</th>
@@ -48,7 +44,6 @@
                                 <tbody>
                                     @foreach ($preferredOptions as $key => $preferredOption)
                                         <tr>
-                                            <td>{{ $key + 1 }}</td>
                                             <td>{{ $preferredOption->name }}</td>
                                             <td>
                                                 @if ($preferredOption->is_file == 'yes')

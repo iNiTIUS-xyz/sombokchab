@@ -16,7 +16,6 @@
                         <div class="table-wrap">
                             <table class="table table-default" id="dataTable">
                                 <thead>
-                                    <th>{{ __('Serial No') }}</th>
                                     <th>{{ __('Title') }}</th>
                                     <th>{{ __('Status') }}</th>
                                     <th>{{ __('Action') }}</th>
@@ -24,7 +23,6 @@
                                 <tbody>
                                     @foreach ($all_menu as $key => $data)
                                         <tr>
-                                            <td>{{ $key + 1 }}</td>
                                             <td>{{ $data->title }}</td>
                                             <td>
                                                 @if ($data->status == 'default')

@@ -40,9 +40,6 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            {{--
-        <x-msg.error />
-        <x-msg.flash /> --}}
         </div>
     </div>
     <div class="dashboard__card">
@@ -57,7 +54,6 @@
                     <table class="table" id="dataTable">
                         <thead>
                             <tr>
-                                <th>{{ __('Serial No') }}</th>
                                 <th>{{ __('Order No.') }}</th>
                                 <th>{{ __('Order Date') }}</th>
                                 <th>{{ __('Amount') }}</th>
@@ -91,7 +87,6 @@
                                     };
                                 @endphp
                                 <tr class="completed">
-                                    <td>{{ $key + 1 }}</td>
                                     <td class="order-numb">
                                         {{ $order->order_number }}
                                     </td>

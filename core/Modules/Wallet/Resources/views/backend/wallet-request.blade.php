@@ -28,7 +28,6 @@
                             <table id="dataTable" class="table-responsive table">
                                 <thead>
                                     <tr>
-                                        <th>{{ __('Serial No') }}</th>
                                         <th>{{ __('Vendor Details') }}</th>
                                         <th>{{ __('Amount') }}</th>
                                         <th>{{ __('Payment Method') }}</th>
@@ -56,7 +55,6 @@
                                             @endforeach
                                         @endif
                                         <tr>
-                                            <td>{{ $key1 + 1 }}</td>
                                             <td>
                                                 <div class="table-owner">
                                                     <span>
