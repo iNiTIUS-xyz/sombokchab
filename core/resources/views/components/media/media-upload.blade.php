@@ -23,7 +23,8 @@
                                 @foreach ($galleryImage as $gl_img)
                                     <div class="upload-thumb col-xxl-2">
                                         {!! !empty($gl_img) ? render_image($gl_img) : $signature_image_tag !!}
-                                        <span class="close-thumb" data-media-id="{{ $gl_img->id }}"> <i class="las la-times"></i>
+                                        <span class="close-thumb" data-media-id="{{ $gl_img->id }}"> <i
+                                                class="las la-times"></i>
                                         </span>
                                     </div>
                                 @endforeach
@@ -42,7 +43,7 @@
                         <i class="las la-cloud-upload-alt"></i>
                     </span>
                     <h5 class="dashboard-common-title">
-                        {{ __("Select Files to Upload Image") }}
+                        {{ __('Select Files to Upload Image') }}
                     </h5>
                     <span class="upload-para mt-2">
                         {{ __('Dimension of the logo image should be 600 x 600px') }}
@@ -66,34 +67,33 @@
                 <div class="upload-finish media-upload-btn-wrapper mt-4">
                     <div class="img-wrap row d-flex">
                         @if (!empty($oldImage))
-                            @if($title === "Cover Photo")
-                            <div class="upload-thumb" style="max-width: 100%">
-                            @else
-                            <div class="upload-thumb col-xxl-2">
+                            @if ($title === 'Cover Photo')
+                                <div class="upload-thumb" style="max-width: 100%">
+                                @else
+                                    <div class="upload-thumb col-xxl-2">
                             @endif
-                                {!! !empty($oldImage) ? render_image($oldImage) : $signature_image_tag !!}
-                                <span class="close-thumb" data-media-id="{{ $oldImage->id }}"> <i class="las la-times"></i>
-                                </span>
-                            </div>
-                            @php $signature_image_upload_btn_label = __('Change Image'); @endphp
-                        @endif
+                            {!! !empty($oldImage) ? render_image($oldImage) : $signature_image_tag !!}
+                            <span class="close-thumb" data-media-id="{{ $oldImage->id }}"> <i class="las la-times"></i>
+                            </span>
                     </div>
-                </div>
-                <input type="hidden" name="{{ $name }}" value="{{ $oldImage?->id }}">
-                <button type="button" class="photo-upload  media_upload_form_btn popup-modal"
-                    data-btntitle="{{ __('Select Image') }}" data-modaltitle="{{ __('Upload Image') }}"
-                    data-imgid="{{ $id ?? '' }}">
-                    <span class="upload-icon">
-                        <i class="las la-cloud-upload-alt"></i>
-                    </span>
-                    <h5 class="dashboard-common-title">
-                        {{ __("Select Files to Upload Image") }}
-                    </h5>
-                    {{-- <span class="upload-para mt-2">
+                    @php $signature_image_upload_btn_label = __('Change Image'); @endphp
+@endif
+</div>
+</div>
+<input type="hidden" name="{{ $name }}" value="{{ $oldImage?->id }}">
+<button type="button" class="photo-upload  media_upload_form_btn popup-modal" data-btntitle="{{ __('Select Image') }}"
+    data-modaltitle="{{ __('Upload Image') }}" data-imgid="{{ $id ?? '' }}">
+    <span class="upload-icon">
+        <i class="las la-cloud-upload-alt"></i>
+    </span>
+    <h5 class="dashboard-common-title">
+        {{ __('Select Files to Upload Image') }}
+    </h5>
+    {{-- <span class="upload-para mt-2">
                         {{ __('Dimension of the logo image should be 600 x 600px') }}
                     </span> --}}
-                </button>
-            </div>
-        </div>
-    </div>
+</button>
+</div>
+</div>
+</div>
 @endif

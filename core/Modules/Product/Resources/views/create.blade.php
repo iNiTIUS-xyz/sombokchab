@@ -7,6 +7,33 @@
     <x-summernote.css />
     <x-product::variant-info.css />
     <x-select2.select2-css />
+    <style>
+        /* ===== INVALID + FOCUS STYLE ===== */
+        .is-invalid {
+            border-color: #dc3545 !important;
+        }
+
+        .is-invalid:focus {
+            border-color: #dc3545 !important;
+            box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25) !important;
+        }
+
+        /* ===== SELECT2 ===== */
+        .select2-container--default .select2-selection.is-invalid {
+            border-color: #dc3545 !important;
+            box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25) !important;
+        }
+
+        /* ===== SUMMERNOTE ===== */
+        .note-editor.is-invalid {
+            border: 1px solid #dc3545 !important;
+            border-radius: 6px;
+        }
+
+        .note-editor.is-invalid:focus-within {
+            box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25) !important;
+        }
+    </style>
 @endsection
 @section('content')
     <div class="dashboard-top-contents">
@@ -151,267 +178,174 @@
         (function($) {
             'use strict';
 
-            // helper to find the first required field (including those in hidden tabs)
+            /* ===================== HELPERS ===================== */
+
+            function markInvalid(el) {
+                const $el = $(el).addClass('is-invalid');
+
+                if ($el.hasClass('select2-hidden-accessible')) {
+                    $el.next('.select2-container')
+                        .find('.select2-selection')
+                        .addClass('is-invalid');
+                }
+
+                if ($el.hasClass('summernote')) {
+                    $el.next('.note-editor').addClass('is-invalid');
+                }
+            }
+
+            function clearInvalid(el) {
+                const $el = $(el);
+
+                // base
+                $el.removeClass('is-invalid');
+
+                // SELECT2
+                if ($el.hasClass('select2-hidden-accessible')) {
+                    $el.next('.select2-container')
+                        .find('.select2-selection')
+                        .removeClass('is-invalid');
+                }
+
+                // SUMMERNOTE
+                if ($el.hasClass('summernote')) {
+                    $el.next('.note-editor').removeClass('is-invalid');
+                }
+            }
+
+
             function findFirstMissingRequired(form) {
-                const requiredEls = form.querySelectorAll('[required]');
-                for (let i = 0; i < requiredEls.length; i++) {
-                    const el = requiredEls[i];
+                const fields = form.querySelectorAll('[required]');
+                for (const el of fields) {
                     if (el.disabled) continue;
-                    const tag = (el.tagName || '').toLowerCase();
 
-                    // Prefer HTML5 validity check when available (valueMissing)
-                    try {
-                        if (el.validity && el.validity.valueMissing) {
-                            return el;
-                        }
-                    } catch (e) {}
+                    if (el.tagName === 'TEXTAREA' && el.classList.contains('summernote')) {
+                        const html = $(el).summernote('code').replace(/<[^>]+>/g, '').trim();
+                        if (!html) return el;
+                        continue;
+                    }
 
-                    // Fallback checks
-                    if ((tag === 'input' || tag === 'textarea') && String(el.value).trim() === '') {
-                        return el;
-                    }
-                    if (tag === 'select' && (el.value === '' || el.selectedIndex === -1)) {
-                        return el;
-                    }
+                    if (!el.value || !el.value.trim()) return el;
                 }
                 return null;
             }
 
-            // Attempts to find a visible/focusable element inside the pane corresponding to the original control
-            function findVisibleControlFor(originalEl, pane) {
-                if (!originalEl) return null;
+            function switchTabAndFocus(el) {
+                const pane = el.closest('.tab-pane');
+                if (!pane) return;
 
-                // 1) If original is visible, return it
-                try {
-                    const style = window.getComputedStyle(originalEl);
-                    if (style && style.display !== 'none' && style.visibility !== 'hidden' && originalEl
-                        .offsetParent !== null) {
-                        return originalEl;
-                    }
-                } catch (e) {}
+                const btn = document.querySelector(`[data-bs-target="#${pane.id}"]`);
+                if (!btn) return;
 
-                // 2) If it's a select used by Select2 (select is hidden), look for the select2 container
-                if (originalEl.id) {
-                    // Common Select2 container id pattern: select2-<id>-container or select2-<id>-results etc.
-                    let sel2 = document.querySelector('#select2-' + originalEl.id + '-container');
-                    if (!sel2) sel2 = document.querySelector('#select2-' + originalEl.id + '-selection');
-                    if (!sel2) sel2 = document.querySelector('.select2-container--default[aria-hidden="false"]');
-                    if (sel2 && pane && pane.contains(sel2)) return sel2;
-                }
+                new bootstrap.Tab(btn).show();
 
-                // 3) If original is replaced by a "nice-select" or other widget, attempt to find sibling widget
-                // nice-select often transforms <select> into .nice-select or .nice-select-wrapper
-                let siblingWidget = originalEl.closest('.nice-select-two') || originalEl.closest('.nice-select') ||
-                    originalEl.closest('.select-wrapper');
-                if (siblingWidget && pane && pane.contains(siblingWidget)) return siblingWidget;
-
-                // 4) Look for any visible input/select/textarea inside the pane with same name
-                if (originalEl.name) {
-                    const candidate = pane.querySelector('[name="' + CSS.escape(originalEl.name) +
-                        '"]:not([type="hidden"])');
-                    if (candidate) {
-                        try {
-                            const style2 = window.getComputedStyle(candidate);
-                            if (style2 && style2.display !== 'none' && style2.visibility !== 'hidden' && candidate
-                                .offsetParent !== null) {
-                                return candidate;
-                            }
-                        } catch (e) {}
-                        // if candidate exists but hidden, try select2 for that candidate id too
-                        if (candidate.id) {
-                            const sel2b = document.querySelector('#select2-' + candidate.id + '-container');
-                            if (sel2b && pane.contains(sel2b)) return sel2b;
-                        }
-                    }
-                }
-
-                // 5) Last resort: find first visible focusable control inside the pane
-                const focusable = pane.querySelector(
-                    'input:not([type=hidden]), textarea, select, [tabindex]:not([tabindex="-1"])');
-                if (focusable) return focusable;
-
-                return null;
+                setTimeout(() => {
+                    el.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
+                    el.setAttribute('tabindex', '-1');
+                    el.focus();
+                    el.removeAttribute('tabindex');
+                }, 250);
             }
 
-            // Show the tab identified by target (e.g. "#v-price-tab"), then focus inside the pane after it's shown.
-            function showTabAndFocus(tabTarget, focusOriginalEl) {
-                return new Promise((resolve) => {
-                    // find nav button
-                    let tabButton = document.querySelector('[data-bs-target="' + tabTarget + '"]') ||
-                        document.querySelector('[data-target="' + tabTarget + '"]') ||
-                        document.querySelector('.nav [href="' + tabTarget + '"]');
+            function focusField(el) {
+                const $el = $(el);
 
-                    if (!tabButton) {
-                        // nothing to show; resolve immediately
-                        return resolve(false);
+                // ===== SUMMERNOTE =====
+                if ($el.hasClass('summernote')) {
+                    const $editable = $el.next('.note-editor').find('.note-editable');
+
+                    if ($editable.length) {
+                        $editable.focus();
+
+                        // force caret
+                        const range = document.createRange();
+                        const sel = window.getSelection();
+                        range.selectNodeContents($editable[0]);
+                        range.collapse(true);
+                        sel.removeAllRanges();
+                        sel.addRange(range);
                     }
-
-                    // Listen for shown event once
-                    const onShown = function(e) {
-                        // remove listener
-                        try {
-                            tabButton.removeEventListener('shown.bs.tab', onShown);
-                            document.removeEventListener('shown.bs.tab', onShown);
-                        } catch (err) {}
-                        // wait a tick to let rendering complete
-                        setTimeout(() => {
-                            // find pane
-                            const pane = document.querySelector(tabTarget);
-                            let focusEl = pane ? findVisibleControlFor(focusOriginalEl, pane) :
-                                focusOriginalEl;
-
-                            if (focusEl) {
-                                // if the found element is a typical widget container (like select2), try to focus it appropriately
-                                try {
-                                    if (focusEl.classList && focusEl.classList.contains(
-                                            'select2-container')) {
-                                        // focus the inner focusable element if exists
-                                        const inner = focusEl.querySelector(
-                                            '.select2-selection, .select2-selection__rendered');
-                                        if (inner && typeof inner.focus === 'function') inner
-                                            .focus();
-                                        else focusEl.focus();
-                                    } else if (typeof focusEl.focus === 'function') {
-                                        focusEl.focus({
-                                            preventScroll: true
-                                        });
-                                    } else {
-                                        // fallback: try focusing child
-                                        const child = focusEl.querySelector(
-                                            'input, textarea, select, [tabindex]');
-                                        if (child && typeof child.focus === 'function') child
-                                            .focus({
-                                                preventScroll: true
-                                            });
-                                    }
-                                } catch (err) {
-                                    try {
-                                        focusEl.focus();
-                                    } catch (e) {}
-                                }
-
-                                // scroll into view for user
-                                try {
-                                    focusEl.scrollIntoView({
-                                        behavior: 'smooth',
-                                        block: 'center'
-                                    });
-                                } catch (e) {}
-
-                                // show inline hint if possible
-                                const parent = focusEl.parentNode || focusEl.closest('.form-group');
-                                if (parent) {
-                                    const small = parent.querySelector('small') || parent
-                                        .querySelector('.text-muted');
-                                    if (small && small.textContent.trim() === '') {
-                                        small.textContent = '{{ __('This field is required') }}';
-                                        small.classList.remove('field-success');
-                                        small.classList.add('field-error');
-                                    }
-                                }
-                                return resolve(true);
-                            } else {
-                                return resolve(false);
-                            }
-                        }, 90);
-                    };
-
-                    // Use bootstrap Tab API when available so events fire reliably
-                    if (typeof bootstrap !== 'undefined' && bootstrap.Tab) {
-                        try {
-                            const tabObj = new bootstrap.Tab(tabButton);
-                            // Attach global shown listener - we listen to document because some bootstrap versions fire there
-                            document.addEventListener('shown.bs.tab', onShown, {
-                                once: true
-                            });
-                            tabObj.show();
-                        } catch (err) {
-                            // fallback to click then listen a small delay
-                            tabButton.click();
-                            setTimeout(() => onShown(), 200);
-                        }
-                    } else {
-                        // fallback to click
-                        tabButton.click();
-                        // try to detect the pane update after short delay
-                        setTimeout(() => onShown(), 200);
-                    }
-                });
-            }
-
-            // Main submit interception
-            $(document).on('submit', '#product-create-form', function(evt) {
-                const form = this;
-                form.noValidate = true; // ensure native validation doesn't block
-                const firstMissing = findFirstMissingRequired(form);
-
-                if (!firstMissing) {
-                    // let existing handlers run
                     return;
                 }
 
-                // prevent submission and other handlers
-                evt.preventDefault();
-                evt.stopImmediatePropagation();
-
-                console.debug('[auto-tab-switch] missing required field:', firstMissing.name || firstMissing
-                    .id || firstMissing);
-
-                // try to find the tab pane containing that element
-                let pane = firstMissing.closest ? firstMissing.closest('.tab-pane') : null;
-                if (!pane && firstMissing.name) {
-                    const selector = '.tab-pane [name="' + CSS.escape(firstMissing.name) + '"]';
-                    const found = form.querySelector(selector);
-                    if (found) pane = found.closest('.tab-pane');
+                // ===== SELECT2 =====
+                if ($el.hasClass('select2-hidden-accessible')) {
+                    $el.next('.select2-container')
+                        .find('.select2-selection')
+                        .trigger('focus');
+                    return;
                 }
-                if (!pane) {
-                    // climb parents up to find .tab-pane
-                    let p = firstMissing.parentNode;
-                    for (let depth = 0; p && depth < 10; depth++, p = p.parentNode) {
-                        if (p.classList && p.classList.contains('tab-pane')) {
-                            pane = p;
-                            break;
-                        }
+
+                // ===== NORMAL INPUT =====
+                $el.attr('tabindex', '-1').focus().removeAttr('tabindex');
+            }
+
+
+
+            /* ===================== SUBMIT ===================== */
+
+            $('#product-create-form').on('submit', function(e) {
+                e.preventDefault();
+
+                const form = this;
+                form.noValidate = true;
+
+                const invalid = findFirstMissingRequired(form);
+
+                // ❌ INVALID → switch tab + focus
+                if (invalid) {
+                    markInvalid(invalid);
+
+                    const pane = invalid.closest('.tab-pane');
+                    if (pane) {
+                        const btn = document.querySelector(`[data-bs-target="#${pane.id}"]`);
+                        if (btn) new bootstrap.Tab(btn).show();
                     }
+
+                    setTimeout(() => {
+                        focusField(invalid);
+                    }, 250);
+
+                    return false;
                 }
 
-                let tabTarget = pane && pane.id ? ('#' + pane.id) : null;
-
-                if (!tabTarget) {
-                    // fallback: attempt to map by label text (best-effort)
-                    const label = form.querySelector('label[for="' + (firstMissing.id || '') + '"]') ||
-                        (firstMissing.closest ? firstMissing.closest('.form-group')?.querySelector('label') :
-                            null);
-                    const labelText = label ? label.textContent.trim().split('\n')[0] : '';
-                    if (labelText) {
-                        const panes = form.querySelectorAll('.tab-pane');
-                        for (let j = 0; j < panes.length; j++) {
-                            if (panes[j].innerText && panes[j].innerText.indexOf(labelText) !== -1) {
-                                tabTarget = '#' + (panes[j].id || '');
-                                pane = panes[j];
-                                break;
-                            }
+                // ✅ VALID → AJAX SUBMIT
+                send_ajax_request(
+                    "post",
+                    new FormData(form),
+                    $(form).data("request-route"),
+                    function() {},
+                    function(data) {
+                        if (data.success) {
+                            toastr.success("Product Created Successfully");
+                            setTimeout(() => {
+                                window.location.href = "{{ route('admin.products.all') }}";
+                            }, 800);
                         }
+                    },
+                    function(xhr) {
+                        ajax_toastr_error_message(xhr);
                     }
-                }
+                );
+            });
 
-                if (tabTarget) {
-                    // show the tab and focus inside it
-                    showTabAndFocus(tabTarget, firstMissing).then((ok) => {
-                        if (!ok) {
-                            // if we couldn't focus, try direct focus after small delay
-                            try {
-                                firstMissing.focus();
-                            } catch (e) {}
-                        }
-                    });
-                    return false;
-                } else {
-                    // no tab mapping found — try to focus the control directly
-                    try {
-                        firstMissing.focus();
-                    } catch (e) {}
-                    return false;
+
+            /* ===================== CLEANUP ===================== */
+
+            $(document).on('input change', 'input, textarea, select', function() {
+                clearInvalid(this);
+            });
+            // ===== SUMMERNOTE FIX (THIS WAS MISSING) =====
+            $(document).on('summernote.change', '.summernote', function() {
+                const html = $(this).summernote('code')
+                    .replace(/<[^>]+>/g, '')
+                    .trim();
+
+                if (html.length > 0) {
+                    clearInvalid(this);
                 }
             });
 
@@ -632,7 +566,8 @@
                             });
                         } catch (err) {
                             try {
-                                focusEl.focus();
+                                focusField(focusEl);
+
                             } catch (e) {}
                         }
 
@@ -662,25 +597,7 @@
         // ====== END AUTO TAB SWITCHER ======
     </script>
 
-    <script>
-        $(document).on("submit", "#product-create-form", function(e) {
-            e.preventDefault();
 
-            send_ajax_request("post", new FormData(e.target), $(this).attr("data-request-route"), function() {
-
-            }, function(data) {
-                if (data.success) {
-                    toastr.success("Product Created Successfully");
-                    toastr.success("You are redirected to products list page");
-                    setTimeout(() => {
-                        window.location.href = "{{ route('admin.products.all') }}";
-                    }, 800);
-                }
-            }, function(xhr) {
-                ajax_toastr_error_message(xhr);
-            });
-        })
-    </script>
 
     <script>
         $(document).on("click", ".delivery-item", function() {
