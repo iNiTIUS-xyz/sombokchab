@@ -41,7 +41,7 @@
                                             <td>{{ $gateway->name }}</td>
                                             <td>
                                                 @if ($gateway->is_file == 'yes')
-                                                    <strong>{{ __('QR File Upload Required') }}</strong>
+                                                    <strong>{{ __('Attachment Required') }}</strong>
                                                     <br>
                                                     <strong>Is Merchant Name</strong> :
                                                     {{ Str::ucfirst($gateway->merchant_name) }}
