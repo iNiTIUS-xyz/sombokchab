@@ -33,8 +33,9 @@
                                         <th>{{ __('Payment Method') }}</th>
                                         <th style="width: 30%">{{ __('Payment Method Details') }}</th>
                                         <th>{{ __('Status') }}</th>
-                                        <th>{{ __('Note') }}</th>
                                         <th>{{ __('Created On') }}</th>
+                                        <th>{{ __('Note') }}</th>
+                                        <th>{{ __('Attachment') }}</th>
                                         <th>{{ __('Action') }}</th>
                                     </tr>
                                 </thead>
@@ -104,10 +105,18 @@
                                                 <x-status-span :status="$withdrawRequest->request_status" />
                                             </td>
                                             <td>
+                                                {{ date('M j, Y', strtotime($withdrawRequest?->created_at)) }}
+                                            </td>
+                                            <td>
                                                 <div class="table-notes">{{ $withdrawRequest?->note }}</div>
                                             </td>
                                             <td>
-                                                {{ date('M j, Y', strtotime($withdrawRequest?->created_at)) }}
+                                                @if ($withdrawRequest?->image)
+                                                    <div class="">
+                                                        <img src="{{ asset('assets/uploads/wallet-withdraw-request/' . $withdrawRequest?->image )}}"
+                                                                width="100%" />
+                                                    </div>
+                                                @endif
                                             </td>
                                             <td>
                                                 @if ($withdrawRequest->request_status == 'pending' || $withdrawRequest->request_status == 'processing')
