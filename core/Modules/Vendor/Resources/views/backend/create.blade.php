@@ -6,6 +6,47 @@
     <x-media.css />
     <x-datatable.css />
     <x-bulk-action.css />
+    <style>
+        /* add once in your blade or global CSS */
+        .field-error {
+            color: #dc3545 !important;
+        }
+
+        .field-success {
+            color: #28a745 !important;
+        }
+
+        .btn-disabled {
+            pointer-events: none !important;
+            opacity: 0.5 !important;
+            cursor: not-allowed !important;
+        }
+
+        .is-invalid {
+            border-color: #dc3545 !important;
+        }
+
+        .is-invalid:focus {
+            border-color: #dc3545 !important;
+            box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25) !important;
+        }
+
+        /* ===== SELECT2 ===== */
+        .select2-container--default .select2-selection.is-invalid {
+            border-color: #dc3545 !important;
+            box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25) !important;
+        }
+
+        /* ===== SUMMERNOTE ===== */
+        .note-editor.is-invalid {
+            border: 1px solid #dc3545 !important;
+            border-radius: 6px;
+        }
+
+        .note-editor.is-invalid:focus-within {
+            box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25) !important;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -484,23 +525,6 @@
     <x-media.markup />
 @endsection
 @section('script')
-    <style>
-        /* add once in your blade or global CSS */
-        .field-error {
-            color: #dc3545 !important;
-        }
-
-        .field-success {
-            color: #28a745 !important;
-        }
-
-        .btn-disabled {
-            pointer-events: none !important;
-            opacity: 0.5 !important;
-            cursor: not-allowed !important;
-        }
-    </style>
-
     <script>
         (function($) {
             "use strict";
@@ -693,7 +717,7 @@
                 if ($tgt.val() !== v) {
                     syncing = true;
                     $tgt.val(v).trigger('input');
-                    setTimeout(() => syncing = false, 0);
+                    setTimeout(() => syncing = false, 100);
                 }
             }
 
@@ -1107,5 +1131,122 @@
         $(document).on("keyup keydown click change", "input[name=username]", function() {
             $(this).val(convertToSlug($(this).val()))
         });
+    </script>
+    <script>
+        (function($) {
+            "use strict";
+
+            const form = $('#vendor-create-form');
+
+            /* ================= INVALID HELPERS ================= */
+
+            function markInvalid(el) {
+                const $el = $(el).addClass('is-invalid');
+
+                // Select2
+                if ($el.hasClass('select2-hidden-accessible')) {
+                    $el.next('.select2-container')
+                        .find('.select2-selection')
+                        .addClass('is-invalid');
+                }
+
+                // Nice-select
+                const nice = $el.closest('.nice-select-two').find('.nice-select');
+                if (nice.length) {
+                    nice.addClass('is-invalid');
+                }
+            }
+
+            function clearInvalid(el) {
+                const $el = $(el).removeClass('is-invalid');
+
+                // Select2
+                if ($el.hasClass('select2-hidden-accessible')) {
+                    $el.next('.select2-container')
+                        .find('.select2-selection')
+                        .removeClass('is-invalid');
+                }
+
+                // Nice-select
+                const nice = $el.closest('.nice-select-two').find('.nice-select');
+                if (nice.length) {
+                    nice.removeClass('is-invalid');
+                }
+            }
+
+            /* ================= FIND FIRST REQUIRED ================= */
+
+            function findFirstMissing() {
+                const required = form[0].querySelectorAll('[required]');
+                for (const el of required) {
+                    if (el.disabled) continue;
+
+                    if (!el.value || !el.value.trim()) {
+                        return el;
+                    }
+                }
+                return null;
+            }
+
+            /* ================= TAB SWITCH + FOCUS ================= */
+
+            function focusField(el) {
+                const pane = el.closest('.tab-pane');
+
+                // Switch tab
+                if (pane) {
+                    const btn = document.querySelector(`[data-bs-target="#${pane.id}"]`);
+                    if (btn) new bootstrap.Tab(btn).show();
+                }
+
+                setTimeout(() => {
+                    // Select2
+                    if ($(el).hasClass('select2-hidden-accessible')) {
+                        $(el).next('.select2-container')
+                            .find('.select2-selection')
+                            .trigger('focus');
+                        return;
+                    }
+
+                    // Nice-select
+                    const nice = $(el).closest('.nice-select-two').find('.nice-select');
+                    if (nice.length) {
+                        nice.trigger('focus');
+                        return;
+                    }
+
+                    // Normal input
+                    el.focus();
+                }, 200);
+            }
+
+            /* ================= SUBMIT INTERCEPT ================= */
+
+            form.on('submit.autofocus', function(e) {
+                const firstMissing = findFirstMissing();
+
+                if (firstMissing) {
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+
+                    markInvalid(firstMissing);
+                    focusField(firstMissing);
+
+                    return false;
+                }
+            });
+
+            /* ================= REMOVE RED BORDER ON INPUT ================= */
+
+            $(document).on('input change', 'input, textarea, select', function() {
+                clearInvalid(this);
+            });
+
+            // Select2 clear
+            $(document).on('select2:select select2:unselect', 'select', function() {
+                clearInvalid(this);
+            });
+
+        })(jQuery);
     </script>
 @endsection
