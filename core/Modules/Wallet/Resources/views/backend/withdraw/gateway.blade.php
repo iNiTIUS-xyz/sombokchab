@@ -1,6 +1,6 @@
 @extends('backend.admin-master')
 
-@section('site-title', __('Vendor wallet payment methods'))
+@section('site-title', __('wallet payment methods'))
 
 @section('style')
     {{-- Custom styles if needed --}}
@@ -21,7 +21,7 @@
                 <div class="dashboard__card card__two">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">
-                            {{ __('Vendor Wallet Payment Methods') }}
+                            {{ __('Wallet Payment Methods') }}
                         </h4>
                     </div>
                     <div class="dashboard__card__body">
@@ -41,7 +41,7 @@
                                             <td>{{ $gateway->name }}</td>
                                             <td>
                                                 @if ($gateway->is_file == 'yes')
-                                                    <strong>{{ __('QR File Upload Required') }}</strong>
+                                                    <strong>{{ __('Attachment Required') }}</strong>
                                                     <br>
                                                     <strong>Is Merchant Name</strong> :
                                                     {{ Str::ucfirst($gateway->merchant_name) }}
@@ -122,7 +122,7 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content custom__form">
                     <div class="modal-header">
-                        <h5 class="modal-title"><b>{{ __('Create Wallet Payment Method') }}</b></h5>
+                        <h5 class="modal-title"><b>{{ __('Add Wallet Payment Method') }}</b></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
@@ -136,7 +136,7 @@
                         <div class="form-group mt-3">
                             <label>
                                 <input type="checkbox" name="is_file" id="is_file_checkbox" value="yes">
-                                {{ __('Is File (QR Code Upload)') }}
+                                {{ __('Include Attachment (jpg, jpeg, png only)') }}
                             </label>
                         </div>
 

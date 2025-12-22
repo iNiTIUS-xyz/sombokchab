@@ -363,7 +363,7 @@
                                 @can('view-wallet-request')
                                     <li class="{{ active_menu('admin-home/wallet/withdraw-request') }}">
                                         <a href="{{ route('admin.wallet.withdraw-request') }}">
-                                            {{ __('Withdraw Request') }}
+                                            {{ __('Withdraw Requests') }}
                                         </a>
                                     </li>
                                 @endcan
@@ -395,7 +395,7 @@
                                         </li>
                                     @endcan
                                 @endif --}}
-                                @can('view-wallet')
+                                {{-- @can('view-wallet')
                                     <li class="{{ active_menu('admin-home/wallet/customer/lists') }}">
                                         <a href="{{ route('admin.wallet.customer.lists') }}">
                                             {{ __('Customer Wallet List') }}
@@ -408,7 +408,7 @@
                                             {{ __('Customer Deposit History') }}
                                         </a>
                                     </li>
-                                @endcan
+                                @endcan --}}
                                 @can('manage-wallet')
                                     <li class="{{ active_menu('admin-home/wallet/withdraw/gateway') }}">
                                         <a href="{{ route('admin.wallet.withdraw.gateway') }}">

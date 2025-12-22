@@ -11,7 +11,7 @@
                 <div class="btn-wrapper" style="width: 98%">
                     <button type="button" class="cmn_btn btn_bg_profile mb-3" data-bs-toggle="modal"
                         data-bs-target="#createPaymentMethod">
-                        {{ __('Add New Withdraw Options') }}
+                        {{ __('Add New Withdraw Option') }}
                     </button>
                 </div>
             </div>
@@ -27,19 +27,20 @@
                             <table class="table" id="dataTable">
                                 <thead>
                                     <tr>
-                                        <th>{{ __('Option Name') }}</th>
                                         <th>{{ __('Method Name') }}</th>
-                                        <th>{{ __('Method Details') }}</th>
+                                        <th>{{ __('Option Name') }}</th>
+                                        <th>{{ __('Option Details') }}</th>
                                         <th>{{ __('Action') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($vendorWalletGatewaySettingLists as $paymentWalletGateway)
                                         <tr>
-                                            <td>{{ $paymentWalletGateway->wallet_option_name }}</td>
                                             <td>
                                                 {{ $paymentWalletGateway?->vendorWalletGateway?->name }}
                                             </td>
+                                            <td>{{ $paymentWalletGateway->wallet_option_name }}</td>
+                                            
                                             <td>
                                                 @if ($paymentWalletGateway->gateway_qr_file)
                                                     <a target="__blank"
@@ -115,7 +116,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="staticBackdropLabel">
-                            {{ __('Add New Withdraw Options') }}
+                            {{ __('Add New Withdraw Option') }}
                         </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
@@ -124,9 +125,9 @@
                         @csrf
                         <div class="modal-body">
                             <div class="form-group">
-                                <label>Withdrawal Options Name</label>
+                                <label>Option Name</label>
                                 <input type="text" name="wallet_option_name" class="form-control"
-                                    placeholder="Enter Withdrawal Options Name">
+                                    placeholder="Enter Option Name">
                             </div>
                             <div class="form-group">
                                 <label>
@@ -177,9 +178,9 @@
                         @method('POST')
                         <div class="modal-body">
                             <div class="form-group">
-                                <label>Withdrawal Options Name</label>
+                                <label>Withdraw Option</label>
                                 <input type="text" name="wallet_option_name" class="form-control wallet-option-name"
-                                    placeholder="Enter Withdrawal Options Name">
+                                    placeholder="Enter Withdraw Option">
                             </div>
                             <div class="form-group">
                                 <label>
@@ -265,7 +266,7 @@
                 if (hasQr === 'yes') {
                     qrHtml = `
                     <p class="text-success">
-                        <small>Current QR / Document already uploaded. Upload new to replace.</small>
+                        <small>Attachment already uploaded. Upload new to replace.</small>
                     </p>
                 `;
                 }
@@ -273,11 +274,11 @@
                 wrapper.innerHTML = `
                 ${qrHtml}
                 <div class="form-group mb-2">
-                    <label>{{ __('Upload Document / QR') }}</label>
+                    <label>{{ __('Upload Attachment') }}</label>
                     <input type="file"
                         name="gateway_qr_file"
                         class="form-control"
-                        accept=".jpg,.jpeg,.png,.pdf">
+                        accept=".jpg,.jpeg,.png">
                 </div>
                 ${merchantHtml}
             `;

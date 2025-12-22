@@ -21,7 +21,7 @@
                 <x-flash-msg />
                 <div class="dashboard__card card__two">
                     <div class="dashboard__card__header">
-                        <h4 class="dashboard__card__title">{{ __('All Withdraw Requests') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('Withdraw Requests') }}</h4>
                     </div>
                     <div class="dashboard__card__body">
                         <div class="table-wrap">
@@ -33,9 +33,9 @@
                                         <th>{{ __('Payment Method') }}</th>
                                         <th style="width: 30%">{{ __('Payment Method Details') }}</th>
                                         <th>{{ __('Status') }}</th>
-                                        <th>{{ __('Action') }}</th>
                                         <th>{{ __('Note') }}</th>
                                         <th>{{ __('Created On') }}</th>
+                                        <th>{{ __('Action') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -116,6 +116,12 @@
                                                 <x-status-span :status="$withdrawRequest->request_status" />
                                             </td>
                                             <td>
+                                                <div class="table-notes">{{ $withdrawRequest?->note }}</div>
+                                            </td>
+                                            <td>
+                                                {{ date('M j, Y', strtotime($withdrawRequest?->created_at)) }}
+                                            </td>
+                                            <td>
                                                 @if ($withdrawRequest->request_status == 'pending' || $withdrawRequest->request_status == 'processing')
                                                     <button title="{{ __('Edit') }}" data-fields="{{ $fields }}"
                                                         data-id="{{ $withdrawRequest->id }}"
@@ -125,12 +131,6 @@
                                                         <i class="ti-pencil"></i>
                                                     </button>
                                                 @endif
-                                            </td>
-                                            <td>
-                                                <div class="table-notes">{{ $withdrawRequest?->note }}</div>
-                                            </td>
-                                            <td>
-                                                {{ date('M j, Y', strtotime($withdrawRequest?->created_at)) }}
                                             </td>
                                         </tr>
                                     @endforeach
