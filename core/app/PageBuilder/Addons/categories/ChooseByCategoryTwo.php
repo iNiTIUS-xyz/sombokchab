@@ -27,8 +27,8 @@ class ChooseByCategoryTwo extends PageBuilderBase
         $widget_saved_values = $this->get_settings();
 
         // add padding option
-        $categories = Category::where('status_id',1)
-            ->pluck('name','id')->toArray();
+        $categories = Category::where('status_id', 1)
+            ->pluck('name', 'id')->toArray();
 
         $output .= Text::get([
             'name' => 'section_title',
@@ -42,7 +42,7 @@ class ChooseByCategoryTwo extends PageBuilderBase
             'label' => __('Categories'),
             'placeholder' =>  __('Select categories'),
             'options' => $categories,
-            'value' => $widget_saved_values['blogs'] ?? null,
+            'value' => $widget_saved_values['categories'] ?? [],
             'info' => __('Select categories or for all categories leave it empty')
         ]);
 
@@ -72,20 +72,16 @@ class ChooseByCategoryTwo extends PageBuilderBase
         $limit = SanitizeInput::esc_html($all_settings["limit"] ?? 18);
 
         $categories = Category::with("image")
-            ->when(!empty($categories), function ($categoryQuery) use ($categories){
+            ->when(!empty($categories), function ($categoryQuery) use ($categories) {
                 $categoryQuery->whereIn("id", $categories);
             })->limit($limit)->get();
 
         return $this->renderBlade("category/choose-category-two", [
             "categories" => $categories,
             "section_title" => $section_title,
-       ]);
+        ]);
     }
 
-
-    /**
-     * @inheritDoc
-     */
     public function addon_title(): array|string|Translator|Application|null
     {
         return __("Choose By Category: 02");

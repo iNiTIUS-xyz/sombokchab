@@ -3,36 +3,30 @@
 namespace App\PageBuilder\Addons\categories;
 
 use App\Helpers\SanitizeInput;
-use App\PageBuilder\Fields\NiceSelect;
-use App\PageBuilder\Fields\Repeater;
 use App\PageBuilder\Fields\Slider;
-use App\PageBuilder\Helpers\RepeaterField;
-use App\PageBuilder\Helpers\Traits\RepeaterHelper;
+use App\PageBuilder\Fields\Repeater;
 use App\PageBuilder\PageBuilderBase;
-use App\Product\ProductCategory;
+use App\PageBuilder\Fields\NiceSelect;
+use App\PageBuilder\Helpers\RepeaterField;
+use Modules\Product\Entities\ProductCategory;
+use App\PageBuilder\Helpers\Traits\RepeaterHelper;
 
 class CategorySliderTwo extends PageBuilderBase
 {
     use RepeaterHelper;
-    /**
-     * @inheritDoc
-     */
+
     public function preview_image(): string
     {
         return 'category-slider/02.png';
     }
 
-    /**
-     * @inheritDoc
-     */
+
     public function addon_title()
     {
         return __('Category Slider: 02');
     }
 
-    /**
-     * @inheritDoc
-     */
+
     public function admin_render()
     {
         $output = $this->admin_form_before();
@@ -74,9 +68,6 @@ class CategorySliderTwo extends PageBuilderBase
         return $output;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function frontend_render()
     {
         $settings = $this->get_settings();
@@ -88,13 +79,14 @@ class CategorySliderTwo extends PageBuilderBase
         return $this->renderBlade("category.category_slider_two", compact(["padding_top", "padding_bottom", "categories"]));
     }
 
-    private function prepareForFetchingData($categories){
+    private function prepareForFetchingData($categories)
+    {
         $data = null;
 
-        if(!empty($categories)){
-            $data = ProductCategory::select("title","id","image")->where('status', 'publish')->whereIn("id",$categories)->get();
-        }else{
-            $data = ProductCategory::select("title","id","image")->withCount("product")->where('status', 'publish')->get();
+        if (!empty($categories)) {
+            $data = ProductCategory::select("title", "id", "image")->where('status', 'publish')->whereIn("id", $categories)->get();
+        } else {
+            $data = ProductCategory::select("title", "id", "image")->withCount("product")->where('status', 'publish')->get();
         }
 
         return $data;

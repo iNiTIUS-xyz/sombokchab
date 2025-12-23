@@ -42,7 +42,7 @@ class ChooseByCategoryOne extends PageBuilderBase
             'label' => __('Categories'),
             'placeholder' =>  __('Select categories'),
             'options' => $categories,
-            'value' => $widget_saved_values['blogs'] ?? null,
+            'value' => $widget_saved_values['categories'] ?? [],
             'info' => __('Select categories or for all categories leave it empty')
         ]);
 
