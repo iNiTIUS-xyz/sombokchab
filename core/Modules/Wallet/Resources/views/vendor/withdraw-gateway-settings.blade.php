@@ -1,9 +1,7 @@
 @extends('vendor.vendor-master')
-
 @section('site-title')
     {{ __('Vendor withdraw settings') }}
 @endsection
-
 @section('content')
     <div class="col-lg-12 col-ml-12">
         <div class="row">
@@ -40,10 +38,9 @@
                                                 {{ $paymentWalletGateway?->vendorWalletGateway?->name }}
                                             </td>
                                             <td>{{ $paymentWalletGateway->wallet_option_name }}</td>
-
                                             <td>
                                                 @if ($paymentWalletGateway->gateway_qr_file)
-                                                    <a target="__blank"
+                                                    <a target="_blank"
                                                         href="{{ asset('core/public/' . $paymentWalletGateway->gateway_qr_file) }}">
                                                         <img src="{{ asset('core/public/' . $paymentWalletGateway->gateway_qr_file) }}"
                                                             alt="" width="100" height="100">
@@ -54,7 +51,6 @@
                                                     @php
                                                         $fileds = unserialize($paymentWalletGateway->fileds);
                                                     @endphp
-
                                                     @foreach ($fileds as $key => $info)
                                                         <p>
                                                             <strong>
@@ -72,7 +68,8 @@
                                                     data-gateway="{{ $paymentWalletGateway->vendor_wallet_gateway_id }}"
                                                     data-wallet_option_name="{{ $paymentWalletGateway->wallet_option_name }}"
                                                     data-fileds="{{ $paymentWalletGateway->fileds ? json_encode(unserialize($paymentWalletGateway->fileds)) : '{}' }}"
-                                                    data-is_file="{{ $paymentWalletGateway->gateway_qr_file ? 'yes' : 'no' }}"
+                                                    data-qr_file="{{ $paymentWalletGateway->gateway_qr_file ?? '' }}"
+                                                    data-is_file="{{ $paymentWalletGateway->vendorWalletGateway->is_file ?? 'no' }}"
                                                     data-has_qr="{{ $paymentWalletGateway->gateway_qr_file ? 'yes' : 'no' }}">
                                                     <i class="ti-pencil"></i>
                                                 </a>
@@ -144,6 +141,7 @@
                 </div>
             </div>
         </div>
+
         <!-- Update Modal -->
         <div class="modal fade" id="updatePaymentMethod" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -200,33 +198,35 @@
 
 @section('script')
     <script>
-        function renderFields(wrapper, fields = {}, oldValues = {}, isFile = 'no', hasQr = 'no') {
+        function renderFields(wrapper, fields = {}, oldValues = {}, isFile = 'no', existingQrFile = '', hasQr = 'no') {
             wrapper.innerHTML = "";
-
             let html = "";
 
-            /* ================= FILE INPUT ================= */
+            /* ================= FILE INPUT + PREVIEW ================= */
             if (isFile === 'yes') {
-                html += `
-                <div class="form-group mb-2">
-                    <label>
-                        Upload Attachment
-                        (.jpg, .jpeg, .png)
-                    </label>
-                    <input type="file"
-                        name="gateway_qr_file"
-                        class="form-control"
-                        accept=".jpg, .jpeg, .png" >
-                </div>
-            `;
-
-                if (hasQr === 'yes') {
+                // Show existing image preview if available
+                if (hasQr === 'yes' && existingQrFile) {
                     html += `
-                    <p class="text-success">
-                        <small>Attachment already uploaded. Upload new to replace.</small>
-                    </p>
-                `;
+                        <div class="form-group mb-3">
+                            <label>Current Attachment</label><br>
+                            <img src="${existingQrFile}" alt="Current QR/Attachment" style="max-width: 100px; max-height: 100px; border: 1px solid #ddd; padding: 5px;">
+                            <p class="text-success mt-2"><small>Attachment already uploaded. Upload new to replace</small></p>
+                        </div>
+                    `;
                 }
+
+                html += `
+                    <div class="form-group mb-2">
+                        <label>
+                            Upload New Attachment (optional)
+                            <small class="text-muted">(.jpg, .jpeg, .png)</small>
+                        </label>
+                        <input type="file"
+                            name="gateway_qr_file"
+                            class="form-control"
+                            accept=".jpg,.jpeg,.png">
+                    </div>
+                `;
             }
 
             /* ================= DYNAMIC FIELDS ================= */
@@ -234,30 +234,28 @@
                 Object.values(fields).forEach(fieldName => {
                     let key = fieldName.toLowerCase().replace(/\s+/g, "_");
                     let value = oldValues[key] ?? "";
-
                     html += `
-                    <div class="form-group mt-2">
-                        <label>${fieldName}</label>
-                        <input type="text"
-                            name="gateway_filed[${key}]"
-                            class="form-control"
-                            value="${value}"
-                            placeholder="Enter ${fieldName}">
-                    </div>
-                `;
+                        <div class="form-group mt-2">
+                            <label>${fieldName}</label>
+                            <input type="text"
+                                name="gateway_filed[${key}]"
+                                class="form-control"
+                                value="${value}"
+                                placeholder="Enter ${fieldName}">
+                        </div>
+                    `;
                 });
             }
 
             wrapper.innerHTML = html;
         }
 
+        // Create Modal - change gateway
         document
             .querySelector('#createPaymentMethod .gateway-name')
             ?.addEventListener('change', function() {
                 let option = this.options[this.selectedIndex];
-                let wrapper = document.querySelector(
-                    '#createPaymentMethod .gateway-information-wrapper'
-                );
+                let wrapper = document.querySelector('#createPaymentMethod .gateway-information-wrapper');
 
                 let fields = {};
                 try {
@@ -266,15 +264,10 @@
                     fields = {};
                 }
 
-                renderFields(
-                    wrapper,
-                    fields, {},
-                    option.dataset.is_file,
-                    'no'
-                );
+                renderFields(wrapper, fields, {}, option.dataset.is_file, '', 'no');
             });
 
-        /* ===================== UPDATE MODAL ===================== */
+        // Update Modal - edit button click
         document.querySelectorAll('.edit-gateway').forEach(btn => {
             btn.addEventListener('click', function() {
                 let modal = document.querySelector('#updatePaymentMethod');
@@ -283,16 +276,20 @@
                 let wrapper = modal.querySelector('.gateway-information-wrapper');
                 let walletInput = modal.querySelector('.wallet-option-name');
 
-                /* Form action */
+                // Set form action
                 form.action = this.dataset.route;
 
-                /* Wallet option name */
+                // Set wallet option name
                 walletInput.value = this.dataset.wallet_option_name || '';
 
-                /* Select gateway */
+                // Set selected gateway
                 select.value = this.dataset.gateway;
 
-                /* Old dynamic values */
+                // Existing QR file URL
+                let qrFileUrl = this.dataset.qr_file ? '{{ asset('core/public/') }}/' + this.dataset
+                    .qr_file : '';
+
+                // Old field values
                 let oldFields = {};
                 try {
                     oldFields = JSON.parse(this.dataset.fileds || '{}');
@@ -300,8 +297,8 @@
                     oldFields = {};
                 }
 
+                // Current selected option fields
                 let selectedOption = select.options[select.selectedIndex];
-
                 let fields = {};
                 try {
                     fields = JSON.parse(selectedOption.dataset.fileds || '{}');
@@ -309,31 +306,26 @@
                     fields = {};
                 }
 
+                // Render fields with preview
                 renderFields(
                     wrapper,
                     fields,
                     oldFields,
                     selectedOption.dataset.is_file,
+                    qrFileUrl,
                     this.dataset.has_qr
                 );
 
-                /* Change gateway dynamically */
+                // If user changes the gateway in update modal
                 select.onchange = function() {
                     let opt = this.options[this.selectedIndex];
-
                     let newFields = {};
                     try {
                         newFields = JSON.parse(opt.dataset.fileds || '{}');
                     } catch (e) {
                         newFields = {};
                     }
-
-                    renderFields(
-                        wrapper,
-                        newFields, {},
-                        opt.dataset.is_file,
-                        'no'
-                    );
+                    renderFields(wrapper, newFields, {}, opt.dataset.is_file, '', 'no');
                 };
             });
         });
