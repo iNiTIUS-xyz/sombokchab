@@ -136,7 +136,7 @@
                         <div class="form-group mt-3">
                             <label>
                                 <input type="checkbox" name="is_file" id="add_is_file_checkbox" value="yes">
-                                {{ __('Include Attachment (jpg, jpeg, png only)') }}
+                                {{ __('Include Attachment (.jpg, .jpeg, .png only)') }}
                             </label>
                         </div>
 
@@ -198,7 +198,7 @@
                         <div class="form-group mt-3">
                             <label>
                                 <input type="checkbox" name="is_file" id="edit_is_file_checkbox" value="yes">
-                                {{ __('Include Attachment (jpg, jpeg, png only)') }}
+                                {{ __('Include Attachment (.jpg, .jpeg, .png only)') }}
                             </label>
                         </div>
 

@@ -209,11 +209,14 @@
             if (isFile === 'yes') {
                 html += `
                 <div class="form-group mb-2">
-                    <label>Upload Attachment</label>
+                    <label>
+                        Upload Attachment
+                        (.jpg, .jpeg, .png)
+                    </label>
                     <input type="file"
                         name="gateway_qr_file"
                         class="form-control"
-                        accept=".jpg,.jpeg,.png">
+                        accept=".jpg, .jpeg, .png" >
                 </div>
             `;
 

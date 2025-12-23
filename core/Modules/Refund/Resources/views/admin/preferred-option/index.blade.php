@@ -126,7 +126,7 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content custom__form">
                     <div class="modal-header">
-                        <h5 class="modal-title"><b>{{ __('Create Refund Payment Method') }}</b></h5>
+                        <h5 class="modal-title"><b>{{ __('Add Refund Payment Method') }}</b></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
@@ -138,11 +138,6 @@
                             </label>
                             <input class="form-control" name="gateway_name" placeholder="{{ __('Enter method name') }}"
                                 required>
-
-                            <small class="info">
-                                {{ __('If you want to merge refund value to user wallet, then use Wallet like this') }}<br>
-                                {{ __('Only for wallet') }}
-                            </small>
                         </div>
 
                         <div class="form-group">
@@ -205,7 +200,7 @@
 
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">
-                                {{ __('Refund Payment Method Update') }}
+                                {{ __('Update Refund Payment Method') }}
                             </h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
@@ -218,10 +213,6 @@
                                 </label>
                                 <input class="form-control" name="gateway_name" placeholder="{{ __('Enter gateway name') }}"
                                     id="edit_gateway_name">
-                                <small class="info">
-                                    {{ __('If you want to merge refund value to user wallet, then use Wallet like this') }} .
-                                    {{ __('Only for wallet') }}
-                                </small>
                             </div>
 
                             <div class="form-group">
