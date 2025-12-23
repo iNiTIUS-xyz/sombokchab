@@ -43,7 +43,6 @@
                             <th>{{ __('Order Date') }}</th>
                             <th>{{ __('Amount') }}</th>
                             <th>{{ __('Order Status') }}</th>
-                            <th>{{ __('Created On') }}</th>
                             <th>{{ __('Action') }}</th>
                         </tr>
                     </thead>
@@ -108,9 +107,6 @@
                                             </form>
                                         </div>
                                     </div>
-                                </td>
-                                <td>
-                                    {{ date('M j, Y', strtotime($order->created_at)) }}
                                 </td>
                                 <td class="table-btn">
                                     @can('view-order')

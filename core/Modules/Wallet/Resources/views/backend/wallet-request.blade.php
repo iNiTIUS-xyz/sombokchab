@@ -33,8 +33,9 @@
                                         <th>{{ __('Payment Method') }}</th>
                                         <th style="width: 30%">{{ __('Payment Method Details') }}</th>
                                         <th>{{ __('Status') }}</th>
-                                        <th>{{ __('Note') }}</th>
                                         <th>{{ __('Created On') }}</th>
+                                        <th>{{ __('Note') }}</th>
+                                        <th>{{ __('Attachment (.jpg, .jpeg, .png, .pdf)') }}</th>
                                         <th>{{ __('Action') }}</th>
                                     </tr>
                                 </thead>
@@ -96,30 +97,26 @@
                                                         <img src="{{ asset('core/public/' . $withdrawRequest->qr_file) }}"
                                                             width="100" height="100" />
                                                     </a>
-                                                    <p>
-                                                        <strong>
-                                                            Merchant Name:
-                                                        </strong>
-                                                        {{ $withdrawRequest->merchant_name }}
-                                                    </p>
-                                                    <p>
-                                                        <strong>
-                                                            Merchant ID:
-                                                        </strong>
-                                                        {{ $withdrawRequest->merchant_id }}
-                                                    </p>
-                                                @else
-                                                    <div class="table-fields">{!! $fields !!}</div>
+                                                    <br>
                                                 @endif
+                                                <div class="table-fields">{!! $fields !!}</div>
                                             </td>
                                             <td>
                                                 <x-status-span :status="$withdrawRequest->request_status" />
                                             </td>
                                             <td>
+                                                {{ date('M j, Y', strtotime($withdrawRequest?->created_at)) }}
+                                            </td>
+                                            <td>
                                                 <div class="table-notes">{{ $withdrawRequest?->note }}</div>
                                             </td>
                                             <td>
-                                                {{ date('M j, Y', strtotime($withdrawRequest?->created_at)) }}
+                                                @if ($withdrawRequest?->image)
+                                                    <div class="">
+                                                        <img src="{{ asset('assets/uploads/wallet-withdraw-request/' . $withdrawRequest?->image )}}"
+                                                                width="100%" />
+                                                    </div>
+                                                @endif
                                             </td>
                                             <td>
                                                 @if ($withdrawRequest->request_status == 'pending' || $withdrawRequest->request_status == 'processing')
@@ -175,8 +172,8 @@
                         </div>
 
                         <div class="form-group">
-                            <label>{{ __('Image') }}</label>
-                            <input name="request_image" class="form-control" type="file" />
+                            <label>{{ __('Attachment (.jpg, .jpeg, .png, .pdf)') }}</label>
+                            <input name="request_image" class="form-control" type="file" allow=".jpg, .jpeg, .png, .pdf" />
                         </div>
 
                         <div class="form-group">

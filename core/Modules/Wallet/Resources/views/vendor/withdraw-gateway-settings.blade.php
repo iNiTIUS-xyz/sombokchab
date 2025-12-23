@@ -28,8 +28,8 @@
                                 <thead>
                                     <tr>
                                         <th>{{ __('Method Name') }}</th>
-                                        <th>{{ __('Option Name') }}</th>
-                                        <th>{{ __('Option Details') }}</th>
+                                        <th>{{ __('Withdraw Option Name') }}</th>
+                                        <th>{{ __('Withdraw Option Details') }}</th>
                                         <th>{{ __('Action') }}</th>
                                     </tr>
                                 </thead>
@@ -40,7 +40,7 @@
                                                 {{ $paymentWalletGateway?->vendorWalletGateway?->name }}
                                             </td>
                                             <td>{{ $paymentWalletGateway->wallet_option_name }}</td>
-                                            
+
                                             <td>
                                                 @if ($paymentWalletGateway->gateway_qr_file)
                                                     <a target="__blank"
@@ -49,23 +49,8 @@
                                                             alt="" width="100" height="100">
                                                     </a>
                                                     <br>
-                                                    @if ($paymentWalletGateway->merchant_name)
-                                                        <p>
-                                                            <strong>
-                                                                Merchant Name:
-                                                            </strong>
-                                                            {{ $paymentWalletGateway->merchant_name }}
-                                                        </p>
-                                                    @endif
-                                                    @if ($paymentWalletGateway->merchant_id)
-                                                        <p>
-                                                            <strong>
-                                                                Merchant ID:
-                                                            </strong>
-                                                            {{ $paymentWalletGateway->merchant_id }}
-                                                        </p>
-                                                    @endif
-                                                @elseif($paymentWalletGateway->fileds)
+                                                @endif
+                                                @if ($paymentWalletGateway->fileds)
                                                     @php
                                                         $fileds = unserialize($paymentWalletGateway->fileds);
                                                     @endphp
@@ -87,8 +72,6 @@
                                                     data-route="{{ route('vendor.wallet.withdraw.gateway.update', $paymentWalletGateway->id) }}"
                                                     data-gateway="{{ $paymentWalletGateway->vendor_wallet_gateway_id }}"
                                                     data-wallet_option_name="{{ $paymentWalletGateway->wallet_option_name }}"
-                                                    data-merchant_name="{{ $paymentWalletGateway->merchant_name ?? '' }}"
-                                                    data-merchant_id="{{ $paymentWalletGateway->merchant_id ?? '' }}"
                                                     data-fileds="{{ $paymentWalletGateway->fileds ? json_encode(unserialize($paymentWalletGateway->fileds)) : '{}' }}"
                                                     data-is_file="{{ $paymentWalletGateway->gateway_qr_file ? 'yes' : 'no' }}"
                                                     data-has_qr="{{ $paymentWalletGateway->gateway_qr_file ? 'yes' : 'no' }}">
@@ -125,9 +108,9 @@
                         @csrf
                         <div class="modal-body">
                             <div class="form-group">
-                                <label>Option Name</label>
+                                <label>Withdraw Option Name</label>
                                 <input type="text" name="wallet_option_name" class="form-control"
-                                    placeholder="Enter Option Name">
+                                    placeholder="Enter Withdraw Option Name">
                             </div>
                             <div class="form-group">
                                 <label>
@@ -178,9 +161,9 @@
                         @method('POST')
                         <div class="modal-body">
                             <div class="form-group">
-                                <label>Withdraw Option</label>
+                                <label>Withdraw Option Name</label>
                                 <input type="text" name="wallet_option_name" class="form-control wallet-option-name"
-                                    placeholder="Enter Withdraw Option">
+                                    placeholder="Enter Withdraw Option Name">
                             </div>
                             <div class="form-group">
                                 <label>
@@ -193,8 +176,6 @@
                                     </option>
                                     @foreach ($adminGateways as $gateway)
                                         <option value="{{ $gateway->id }}" data-is_file="{{ $gateway->is_file }}"
-                                            data-merchant_id="{{ $gateway->merchant_id }}"
-                                            data-merchant_name="{{ $gateway->merchant_name }}"
                                             data-fileds="{{ json_encode(unserialize($gateway->filed)) }}">
                                             {{ $gateway->name }}
                                         </option>
@@ -220,74 +201,33 @@
 
 @section('script')
     <script>
-        function renderFields(
-            wrapper,
-            fields,
-            isFile,
-            oldValues = {},
-            oldMerchant = {},
-            hasQr = 'no',
-            hasMerchantName = 'no',
-            hasMerchantId = 'no'
-        ) {
+        function renderFields(wrapper, fields = {}, oldValues = {}, isFile = 'no', hasQr = 'no') {
             wrapper.innerHTML = "";
 
-            let merchantHtml = '';
+            let html = "";
 
-            if (hasMerchantName === 'yes') {
-                merchantHtml += `
-                <div class="form-group mb-2">
-                    <label>Merchant Name</label>
-                    <input type="text"
-                        name="merchant_name"
-                        class="form-control"
-                        value="${oldMerchant.name || ''}"
-                        placeholder="Enter Merchant Name">
-                </div>
-            `;
-            }
-
-            if (hasMerchantId === 'yes') {
-                merchantHtml += `
-                <div class="form-group mb-2">
-                    <label>Merchant ID</label>
-                    <input type="text"
-                        name="merchant_id"
-                        class="form-control"
-                        value="${oldMerchant.id || ''}"
-                        placeholder="Enter Merchant ID">
-                </div>
-            `;
-            }
-
-            /* ---------- FILE BASED GATEWAY ---------- */
+            /* ================= FILE INPUT ================= */
             if (isFile === 'yes') {
-                let qrHtml = '';
-                if (hasQr === 'yes') {
-                    qrHtml = `
-                    <p class="text-success">
-                        <small>Attachment already uploaded. Upload new to replace.</small>
-                    </p>
-                `;
-                }
-
-                wrapper.innerHTML = `
-                ${qrHtml}
+                html += `
                 <div class="form-group mb-2">
-                    <label>{{ __('Upload Attachment') }}</label>
+                    <label>Upload Attachment</label>
                     <input type="file"
                         name="gateway_qr_file"
                         class="form-control"
                         accept=".jpg,.jpeg,.png">
                 </div>
-                ${merchantHtml}
             `;
-                return;
+
+                if (hasQr === 'yes') {
+                    html += `
+                    <p class="text-success">
+                        <small>Attachment already uploaded. Upload new to replace.</small>
+                    </p>
+                `;
+                }
             }
 
-            /* ---------- NORMAL TEXT FIELDS ---------- */
-            let html = '';
-
+            /* ================= DYNAMIC FIELDS ================= */
             if (fields && Object.keys(fields).length > 0) {
                 Object.values(fields).forEach(fieldName => {
                     let key = fieldName.toLowerCase().replace(/\s+/g, "_");
@@ -306,10 +246,9 @@
                 });
             }
 
-            wrapper.innerHTML = html + merchantHtml;
+            wrapper.innerHTML = html;
         }
 
-        /* ===================== CREATE MODAL ===================== */
         document
             .querySelector('#createPaymentMethod .gateway-name')
             ?.addEventListener('change', function() {
@@ -318,13 +257,18 @@
                     '#createPaymentMethod .gateway-information-wrapper'
                 );
 
+                let fields = {};
+                try {
+                    fields = JSON.parse(option.dataset.fileds || '{}');
+                } catch (e) {
+                    fields = {};
+                }
+
                 renderFields(
                     wrapper,
-                    JSON.parse(option.dataset.fileds || '{}'),
-                    option.dataset.is_file, {}, {},
-                    'no',
-                    option.dataset.merchant_name,
-                    option.dataset.merchant_id
+                    fields, {},
+                    option.dataset.is_file,
+                    'no'
                 );
             });
 
@@ -337,7 +281,7 @@
                 let wrapper = modal.querySelector('.gateway-information-wrapper');
                 let walletInput = modal.querySelector('.wallet-option-name');
 
-                /* Set form action */
+                /* Form action */
                 form.action = this.dataset.route;
 
                 /* Wallet option name */
@@ -346,35 +290,47 @@
                 /* Select gateway */
                 select.value = this.dataset.gateway;
 
+                /* Old dynamic values */
+                let oldFields = {};
+                try {
+                    oldFields = JSON.parse(this.dataset.fileds || '{}');
+                } catch (e) {
+                    oldFields = {};
+                }
+
                 let selectedOption = select.options[select.selectedIndex];
 
-                let oldFields = JSON.parse(this.dataset.fileds || '{}');
-                let oldMerchant = {
-                    name: this.dataset.merchant_name,
-                    id: this.dataset.merchant_id
-                };
+                let fields = {};
+                try {
+                    fields = JSON.parse(selectedOption.dataset.fileds || '{}');
+                } catch (e) {
+                    fields = {};
+                }
 
                 renderFields(
                     wrapper,
-                    JSON.parse(selectedOption.dataset.fileds || '{}'),
-                    selectedOption.dataset.is_file,
+                    fields,
                     oldFields,
-                    oldMerchant,
-                    this.dataset.has_qr,
-                    selectedOption.dataset.merchant_name,
-                    selectedOption.dataset.merchant_id
+                    selectedOption.dataset.is_file,
+                    this.dataset.has_qr
                 );
 
-                /* Change gateway inside update modal */
+                /* Change gateway dynamically */
                 select.onchange = function() {
                     let opt = this.options[this.selectedIndex];
+
+                    let newFields = {};
+                    try {
+                        newFields = JSON.parse(opt.dataset.fileds || '{}');
+                    } catch (e) {
+                        newFields = {};
+                    }
+
                     renderFields(
                         wrapper,
-                        JSON.parse(opt.dataset.fileds || '{}'),
-                        opt.dataset.is_file, {}, {},
-                        'no',
-                        opt.dataset.merchant_name,
-                        opt.dataset.merchant_id
+                        newFields, {},
+                        opt.dataset.is_file,
+                        'no'
                     );
                 };
             });

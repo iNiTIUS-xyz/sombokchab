@@ -142,10 +142,10 @@
         }
 
         .dt-button.btn-clear-filters{
-            background-color: transparent !important;
-            color: var(--danger-color) !important;
-            border: 2px solid var(--danger-color) !important;
-            padding: 4px 16px !important;
+            background-color: var(--danger-color) !important;
+            color: var(--white) !important;
+            border: none !important;
+            padding: 6px 16px !important;
             border-radius: 4px !important;
             font-weight: 600 !important;
             box-shadow: none !important;

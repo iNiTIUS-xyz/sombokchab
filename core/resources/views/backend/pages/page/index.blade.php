@@ -15,9 +15,6 @@
     <div class="col-lg-12 col-ml-12">
         <div class="row">
             <div class="col-lg-12">
-                {{--
-            <x-msg.error />
-            <x-msg.flash /> --}}
                 @can('add-page')
                     <div class="btn-wrapper mb-4">
                         <a href="{{ route('admin.page.new') }}" class="cmn_btn btn_bg_profile" title="{{ __('Add New Page') }}">

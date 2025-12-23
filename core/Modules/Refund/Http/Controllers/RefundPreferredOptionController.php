@@ -27,7 +27,7 @@ class RefundPreferredOptionController extends Controller
 
             $data = RefundPreferredOption::create([
                 'name'      => $validated['gateway_name'],
-                'fields'    => isset($validated['is_file']) && $validated['is_file'] == 'yes' ? null : serialize($validated['filed']),
+                'fields'    => $validated['filed'] ? serialize($validated['filed']) : null,
                 'status_id' => $validated['status_id'],
                 'is_file'   => isset($validated['is_file']) ? 'yes' : 'no',
             ]);
@@ -48,19 +48,17 @@ class RefundPreferredOptionController extends Controller
         }
     }
 
-    public function update(StoreRefundPreferredOptionRequest $request)
+    public function update(StoreRefundPreferredOptionRequest $request, $id)
     {
         try {
 
             $validated = $request->validated();
 
-            $id = $validated["id"];
-
             DB::beginTransaction();
 
-            $data = RefundPreferredOption::where("id", $id)->update([
+            RefundPreferredOption::where("id", $id)->update([
                 'name'      => $validated['gateway_name'],
-                'fields'    => isset($validated['is_file']) && $validated['is_file'] == 'yes' ? null : serialize($validated['filed']),
+                'fields'    => $validated['filed'] ? serialize($validated['filed']) : null,
                 'status_id' => $validated['status_id'],
                 'is_file'   => isset($validated['is_file']) ? 'yes' : 'no',
             ]);

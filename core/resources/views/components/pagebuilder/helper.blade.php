@@ -1,22 +1,15 @@
-
 <script>
-    (function ($) {
+    (function($) {
         "use strict";
 
-        $(document).ready(function () {
-            /*-----------------------------------
-            *   RANGE SCRIPT
-            * ---------------------------------*/
-            $(document).on('change', '.page-builder-area-wrapper input[type="range"]', function (e) {
+        $(document).ready(function() {
+            $(document).on('change', '.page-builder-area-wrapper input[type="range"]', function(e) {
                 e.preventDefault();
                 var el = $(this);
                 el.next('.range-val').text(el.val() + el.data('unit-type'));
             });
 
-            /*-------------------------------------------
-            *   REPEATER SCRIPT
-            * ------------------------------------------*/
-            $(document).on('click', '.all-field-wrap .action-wrap .add', function (e) {
+            $(document).on('click', '.all-field-wrap .action-wrap .add', function(e) {
                 e.preventDefault();
 
                 var el = $(this);
@@ -27,13 +20,13 @@
                 clonedData.find('#myTab').attr('id', 'mytab_' + containerLength);
                 clonedData.find('#myTabContent').attr('id', 'myTabContent_' + containerLength);
                 var allTab = clonedData.find('.tab-pane');
-                allTab.each(function (index, value) {
+                allTab.each(function(index, value) {
                     var el = $(this);
                     var oldId = el.attr('id');
                     el.attr('id', oldId + containerLength);
                 });
                 var allTabNav = clonedData.find('.nav-link');
-                allTabNav.each(function (index, value) {
+                allTabNav.each(function(index, value) {
                     var el = $(this);
                     var oldId = el.attr('href');
                     el.attr('href', oldId + containerLength);
@@ -47,13 +40,13 @@
 
                 parent.parent().find('.icp-dd').iconpicker('destroy');
                 $('body .color_picker').spectrum('destroy');
-                var colorPickerNode = $('li[data-name="'+classname+'"] .color_picker');
+                var colorPickerNode = $('li[data-name="' + classname + '"] .color_picker');
                 colorPickerInit(colorPickerNode);
                 parent.parent().find('.icp-dd').iconpicker();
 
             });
 
-            $(document).on('click', '.all-field-wrap .action-wrap .remove', function (e) {
+            $(document).on('click', '.all-field-wrap .action-wrap .remove', function(e) {
                 e.preventDefault();
                 var el = $(this);
                 var parent = el.parent().parent();

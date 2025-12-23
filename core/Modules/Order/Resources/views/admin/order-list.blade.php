@@ -59,7 +59,6 @@
                                 <th>{{ __('Amount') }}</th>
                                 <th>{{ __('Order Status') }}</th>
                                 <th>{{ __('Payment Status') }}</th>
-                                <th>{{ __('Created On') }}</th>
                                 <th>{{ __('Action') }}</th>
                             </tr>
                         </thead>
@@ -184,9 +183,6 @@
                                                 </form>
                                             </div>
                                         </div>
-                                    </td>
-                                    <td>
-                                        {{ $order->created_at->format('M d, Y') }}
                                     </td>
                                     <td class="table-btn">
                                         <div class="btn-wrapper d-flex flex-wrap gap-2">
