@@ -112,7 +112,7 @@
                                     @can('view-order')
                                         <div class="btn-wrapper">
                                             <a href="{{ route('admin.orders.details', $order->id) }}"
-                                                class="btn btn-secondary rounded-btn" title="{{ __('View details') }}">
+                                                class="btn btn-sm btn-secondary rounded-btn" title="{{ __('View details') }}">
                                                 <i class="las la-file-invoice"></i>
                                             </a>
                                         </div>

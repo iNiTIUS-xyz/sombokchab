@@ -64,13 +64,13 @@
                                                 @can('edit-attribute')
                                                     <a href="#1" title="{{ __('Edit') }}" data-bs-toggle="modal"
                                                         data-bs-target="#color_edit_modal"
-                                                        class="btn btn-warning text-dark btn-xs mb-2 me-1 color_edit_btn"
+                                                        class="btn btn-warning text-dark btn-sm mb-2 me-1 color_edit_btn"
                                                         data-id="{{ $product_color->id }}"
                                                         data-name="{{ $product_color->name }}"
                                                         data-name_km="{{ $product_color->name_km }}"
                                                         data-color_code="{{ $product_color->color_code }}"
                                                         data-slug="{{ $product_color->slug }}">
-                                                        <i class="mdi mdi-pencil"></i>
+                                                        <i class="ti-pencil"></i>
                                                     </a>
                                                 @endcan
                                                 @can('delete-attribute')

@@ -66,8 +66,7 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <button type="button"
-                                                    class="btn btn-warning text-dark btn-sm mb-2 edit-gateway"
+                                                <a type="button" class="btn btn-warning text-dark btn-sm mb-2 edit-gateway"
                                                     data-bs-toggle="modal" data-bs-target="#updatePaymentMethod"
                                                     data-route="{{ route('vendor.wallet.withdraw.gateway.update', $paymentWalletGateway->id) }}"
                                                     data-gateway="{{ $paymentWalletGateway->vendor_wallet_gateway_id }}"
@@ -75,8 +74,8 @@
                                                     data-fileds="{{ $paymentWalletGateway->fileds ? json_encode(unserialize($paymentWalletGateway->fileds)) : '{}' }}"
                                                     data-is_file="{{ $paymentWalletGateway->gateway_qr_file ? 'yes' : 'no' }}"
                                                     data-has_qr="{{ $paymentWalletGateway->gateway_qr_file ? 'yes' : 'no' }}">
-                                                    <i class="las la-pencil-alt"></i>
-                                                </button>
+                                                    <i class="ti-pencil"></i>
+                                                </a>
                                                 <x-delete-popover :url="route(
                                                     'vendor.wallet.withdraw.gateway.delete',
                                                     $paymentWalletGateway->id,

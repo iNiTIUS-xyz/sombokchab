@@ -73,7 +73,7 @@
                                                     <i class="ti-key"></i>
                                                 </a>
                                                 <a href="{{ route('admin.user.edit', $data->id) }}"
-                                                    class="btn btn-lg btn-warning text-dark btn-sm mb-2 me-1 user_edit_btn"
+                                                    class="btn btn-warning text-dark btn-sm mb-2 me-1 user_edit_btn"
                                                     title="Edit">
                                                     <i class="ti-pencil"></i>
                                                 </a>

@@ -43,7 +43,7 @@
                                                 @can('manage-appearance-settings')
                                                     <a href="#1" data-bs-toggle="modal"
                                                         data-bs-target="#social_item_edit_modal"
-                                                        class="btn btn-xs btn-warning text-dark mb-2 me-1 social_item_edit_btn"
+                                                        class="btn btn-sm btn-warning text-dark mb-2 me-1 social_item_edit_btn"
                                                         data-id="{{ $data->id }}" data-url="{{ $data->url }}"
                                                         data-icon="{{ $data->icon }}" title="{{ __('Edit') }}">
                                                         <i class="ti-pencil"></i>

@@ -71,9 +71,9 @@
                                             <td>
                                                 @can('manage-shipping-settings')
                                                     <a href="{{ route('admin.shipping-method.edit', $method->id) }}"
-                                                        class="btn btn-warning text-dark btn-xs mb-2 me-1"
+                                                        class="btn btn-warning text-dark btn-sm mb-2 me-1"
                                                         title="{{ __('Edit') }}">
-                                                        <i class="mdi mdi-pencil"></i>
+                                                        <i class="ti-pencil"></i>
                                                     </a>
                                                 @endcan
 
@@ -96,7 +96,7 @@
                                                 @can('manage-shipping-settings')
                                                     @if (!$method->is_default)
                                                         <a href="{{ route('admin.shipping-method.destroy', $method->id) }}"
-                                                            class="btn btn-danger btn-xs mb-2 me-1"
+                                                            class="btn btn-danger btn-sm mb-2 me-1"
                                                             title="{{ __('Delete Data') }}">
                                                             <i class="las la-trash"></i>
                                                         </a>

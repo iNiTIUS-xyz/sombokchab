@@ -113,20 +113,20 @@
                                             <td>
                                                 @if ($withdrawRequest?->image)
                                                     <div class="">
-                                                        <img src="{{ asset('assets/uploads/wallet-withdraw-request/' . $withdrawRequest?->image )}}"
-                                                                width="100%" />
+                                                        <img src="{{ asset('assets/uploads/wallet-withdraw-request/' . $withdrawRequest?->image) }}"
+                                                            width="100%" />
                                                     </div>
                                                 @endif
                                             </td>
                                             <td>
                                                 @if ($withdrawRequest->request_status == 'pending' || $withdrawRequest->request_status == 'processing')
-                                                    <button title="{{ __('Edit') }}" data-fields="{{ $fields }}"
+                                                    <a title="{{ __('Edit') }}" data-fields="{{ $fields }}"
                                                         data-id="{{ $withdrawRequest->id }}"
                                                         data-request-status="{{ $withdrawRequest->request_status }}"
                                                         id="update-wallet-request" data-bs-target="#updateWalletStatus"
-                                                        data-bs-toggle="modal" class="btn btn-warning text-dark">
+                                                        data-bs-toggle="modal" class="btn btn-sm btn-warning text-dark">
                                                         <i class="ti-pencil"></i>
-                                                    </button>
+                                                    </a>
                                                 @endif
                                             </td>
                                         </tr>
@@ -173,7 +173,8 @@
 
                         <div class="form-group">
                             <label>{{ __('Attachment (.jpg, .jpeg, .png, .pdf)') }}</label>
-                            <input name="request_image" class="form-control" type="file" allow=".jpg, .jpeg, .png, .pdf" />
+                            <input name="request_image" class="form-control" type="file"
+                                allow=".jpg, .jpeg, .png, .pdf" />
                         </div>
 
                         <div class="form-group">

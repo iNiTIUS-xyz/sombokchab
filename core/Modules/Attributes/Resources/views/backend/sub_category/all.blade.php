@@ -105,7 +105,7 @@
                                                 @can('edit-category')
                                                     <a href="#1" title="{{ __('Edit') }}" data-bs-toggle="modal"
                                                         data-bs-target="#category_edit_modal"
-                                                        class="btn btn-sm btn-warning text-dark btn-xs mb-2 me-1 category_edit_btn"
+                                                        class="btn btn-sm btn-warning text-dark mb-2 me-1 category_edit_btn"
                                                         data-id="{{ $category->id }}"
                                                         data-category="{{ $category->category?->id }}"
                                                         data-name="{{ $category->name }}"

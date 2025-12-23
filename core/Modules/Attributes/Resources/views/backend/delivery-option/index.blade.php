@@ -68,7 +68,7 @@
                                                 @can('edit-attribute')
                                                     <a href="#1" data-bs-toggle="modal" title="{{ __('Edit') }}"
                                                         data-bs-target="#delivery_manage_edit_modal"
-                                                        class="btn btn-warning btn-sm btn-xs mb-2 me-1 text-dark delivery_manage_edit_btn"
+                                                        class="btn btn-warning btn-sm mb-2 me-1 text-dark delivery_manage_edit_btn"
                                                         data-id="{{ $item->id }}" data-title="{{ $item->title }}"
                                                         data-sub-title="{{ $item->sub_title }}"
                                                         data-title_km="{{ $item->title_km }}"

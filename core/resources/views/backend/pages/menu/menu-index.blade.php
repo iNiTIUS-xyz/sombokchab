@@ -49,7 +49,7 @@
                                             <td>
 
                                                 @can('manage-appearance-settings')
-                                                    <a class="btn btn-lg btn-warning text-dark btn-sm mb-2 me-1"
+                                                    <a class="btn btn-warning text-dark btn-sm mb-2 me-1"
                                                         title="{{ __('Edit') }}"
                                                         href="{{ route('admin.menu.edit', $data->id) }}">
                                                         <i class="ti-pencil"></i>

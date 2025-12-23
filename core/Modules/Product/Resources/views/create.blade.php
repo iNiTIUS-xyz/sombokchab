@@ -115,7 +115,7 @@
                             id="product-create-form" novalidate>
                             @csrf
                             <div class="form-button">
-                                <button class="cmn_btn btn_bg_profile">{{ __('Add New Product') }}</button>
+                                <button class="cmn_btn btn_bg_profile">{{ __('Save New Product') }}</button>
                             </div>
                             <div class="tab-content mt-4" id="v-pills-tabContent">
                                 <div class="tab-pane fade show active" id="v-general-info-tab" role="tabpanel"

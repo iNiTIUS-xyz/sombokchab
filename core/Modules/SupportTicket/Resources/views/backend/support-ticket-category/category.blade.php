@@ -75,7 +75,7 @@
                                         @can('edit-support-ticket')
                                             <a href="#1" title="{{ __('Edit') }}" data-bs-toggle="modal"
                                                 data-bs-target="#category_edit_modal"
-                                                class="btn btn-lg btn-warning text-dark btn-sm mb-2 me-1 category_edit_btn"
+                                                class="btn btn-warning text-dark btn-sm mb-2 me-1 category_edit_btn"
                                                 data-id="{{ $data->id }}" data-name="{{ $data->name }}"
                                                 data-status="{{ $data->status }}">
                                                 <i class="ti-pencil"></i>

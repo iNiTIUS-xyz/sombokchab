@@ -95,7 +95,7 @@
                                                 {{ date('M j, Y', strtotime($campaign->created_at)) }}
                                             </td>
                                             <td>
-                                                <a class="btn btn-success btn-xs mb-2 me-1"
+                                                <a class="btn btn-success btn-sm mb-2 me-1"
                                                     title="{{ __('View Campaign') }}"
                                                     href="{{ route('frontend.products.campaign', ['id' => $campaign->id, 'slug' => $campaign->slug]) }}">
                                                     <i class="ti-eye"></i>

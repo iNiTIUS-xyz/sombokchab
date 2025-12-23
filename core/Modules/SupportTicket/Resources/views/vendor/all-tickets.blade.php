@@ -43,7 +43,7 @@
                 <div class="btn-wrapper mb-4">
                     <a href="{{ route('vendor.support.ticket.new') }}"
                         class="cmn_btn btn_bg_profile">{{ __('Add New Support
-                                            Ticket') }}
+                                                                                            Ticket') }}
                     </a>
                 </div>
                 <div class="dashboard__card">
@@ -96,14 +96,14 @@
                                                 </td>
                                                 <td>
                                                     @if ($data->status == 'open')
-                                                        <a href="#1" class="ticket_status_change btn btn-danger btn-xs"
+                                                        <a href="#1" class="ticket_status_change btn btn-danger btn-sm"
                                                             data-id="{{ $data->id }}" data-val="close"
                                                             title="Close Ticket">
                                                             <i class="las la-times"></i>
                                                         </a>
                                                     @endif
                                                     <a href="{{ route('vendor.support.ticket.view', $data->id) }}"
-                                                        class="btn btn-secondary btn-xs" title="View Support Ticket">
+                                                        class="btn btn-secondary btn-sm" title="View Support Ticket">
                                                         <i class="las la-file-invoice"></i>
                                                     </a>
 

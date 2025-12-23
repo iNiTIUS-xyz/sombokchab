@@ -117,7 +117,7 @@
 
                     <a href="{{ route($route . '.products.edit', $product->id) }}"
                         class="icon edit btn-sm text-dark btn btn-warning" title="{{ __('Edit Product') }}">
-                        <i class="las la-pencil-alt"></i>
+                        <i class="ti-pencil"></i>
                     </a>
 
                     <a data-product-url="{{ route($route . '.products.destroy', $product->id) }}" href="#1"
