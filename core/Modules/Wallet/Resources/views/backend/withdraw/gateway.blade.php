@@ -84,7 +84,7 @@
                                             </td>
                                             <td>
                                                 @can('manage-wallet')
-                                                    <button type="button" title="{{ __('Edit') }}"
+                                                    <a type="button" title="{{ __('Edit') }}"
                                                         data-name="{{ $gateway->name }}" data-id="{{ $gateway->id }}"
                                                         data-status="{{ $gateway->status_id }}"
                                                         data-is-file="{{ $gateway->is_file }}"
@@ -95,7 +95,7 @@
                                                         class="btn btn-sm btn-warning text-dark mb-2 me-1 update-gateway"
                                                         data-bs-toggle="modal" data-bs-target="#edit-gateway-modal">
                                                         <i class="ti-pencil"></i>
-                                                    </button>
+                                                    </a>
                                                 @endcan
                                                 @can('manage-wallet')
                                                     <x-table.btn.swal.delete :route="route(
@@ -262,7 +262,7 @@
             $(document).on('click', '.gateway-filed-remove', function() {
                 $(this).closest('.gateway-field-row').remove();
             });
-            
+
             /*==============================
             TOGGLE READONLY ON IS_FILE CHECKBOX (EDIT & ADD)
             ==============================*/
