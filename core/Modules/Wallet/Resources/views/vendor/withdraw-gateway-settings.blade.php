@@ -208,7 +208,8 @@
                 if (hasQr === 'yes' && existingQrFile) {
                     html += `
                         <div class="form-group mb-3">
-                            <label>Current Attachment</label><br>
+                            <label>Current Attachment</label>
+                            <br>
                             <img src="${existingQrFile}" alt="Current QR/Attachment" style="max-width: 100px; max-height: 100px; border: 1px solid #ddd; padding: 5px;">
                             <p class="text-success mt-2"><small>Attachment already uploaded. Upload new to replace</small></p>
                         </div>
