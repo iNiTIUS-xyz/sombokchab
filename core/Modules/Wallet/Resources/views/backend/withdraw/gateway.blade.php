@@ -84,7 +84,7 @@
                                             </td>
                                             <td>
                                                 @can('manage-wallet')
-                                                    <button type="button" title="{{ __('Edit') }}"
+                                                    <a type="button" title="{{ __('Edit') }}"
                                                         data-name="{{ $gateway->name }}" data-id="{{ $gateway->id }}"
                                                         data-status="{{ $gateway->status_id }}"
                                                         data-is-file="{{ $gateway->is_file }}"
@@ -92,10 +92,10 @@
                                                         data-merchant-id="{{ $gateway->merchant_id }}"
                                                         data-filed="{{ json_encode($gateway->filed ? unserialize($gateway->filed) : []) }}"
                                                         data-route="{{ route('admin.wallet.withdraw.gateway.update', $gateway->id) }}"
-                                                        class="btn btn-sm btn-warning text-dark mb-2 me-1 update-gateway"
+                                                        class="btn  btn-sm btn-warning text-dark mb-2 me-1 update-gateway"
                                                         data-bs-toggle="modal" data-bs-target="#edit-gateway-modal">
                                                         <i class="ti-pencil"></i>
-                                                    </button>
+                                                    </a>
                                                 @endcan
                                                 @can('manage-wallet')
                                                     <x-table.btn.swal.delete :route="route(
@@ -368,14 +368,14 @@
                             </div>
                             <div class="col-md-2 text-center">
                                 ${index === 0 ? `
-                                                                        <button type="button" class="btn btn-primary btn-sm gateway-filed-add">
-                                                                            <i class="las la-plus"></i>
-                                                                        </button>
-                                                                    ` : `
-                                                                        <button type="button" class="btn btn-danger btn-sm gateway-filed-remove">
-                                                                            <i class="las la-trash-alt"></i>
-                                                                        </button>
-                                                                    `}
+                                                                                        <button type="button" class="btn btn-primary btn-sm gateway-filed-add">
+                                                                                            <i class="las la-plus"></i>
+                                                                                        </button>
+                                                                                    ` : `
+                                                                                        <button type="button" class="btn btn-danger btn-sm gateway-filed-remove">
+                                                                                            <i class="las la-trash-alt"></i>
+                                                                                        </button>
+                                                                                    `}
                             </div>
                         </div>
                     `;

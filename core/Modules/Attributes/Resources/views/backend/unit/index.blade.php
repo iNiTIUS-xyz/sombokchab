@@ -64,7 +64,7 @@
                                                 @can('edit-attribute')
                                                     <a href="#1" title="{{ __('Edit') }}" data-bs-toggle="modal"
                                                         data-bs-target="#unit_edit_modal"
-                                                        class="btn btn-warning text-dark btn-sm btn-xs mb-2 me-1 unit_edit_btn"
+                                                        class="btn btn-warning text-dark btn-sm mb-2 me-1 unit_edit_btn"
                                                         data-id="{{ $unit->id }}" data-name="{{ $unit->name }}"
                                                         data-name_km="{{ $unit->name_km }}">
                                                         <i class="ti-pencil"></i>

@@ -63,7 +63,7 @@
                                                 @can('manage-shipping-settings')
                                                     <a class="btn btn-sm btn-warning text-dark" title="{{ __('Edit') }}"
                                                         href="{{ route('admin.shipping.zone.edit', $zone->id) }}">
-                                                        <i class="las la-pen"></i>
+                                                        <i class="ti-pencil"></i>
                                                     </a>
                                                 @endcan
 

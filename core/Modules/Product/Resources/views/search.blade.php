@@ -163,7 +163,7 @@
                     @can('edit-product')
                         <a href="{{ route('admin.products.edit', $product->id) }}" class="btn btn-warning text-dark btn-sm"
                             title="{{ __('Edit') }}">
-                            <i class="las la-pencil-alt"></i>
+                            <i class="ti-pencil"></i>
                         </a>
                     @endcan
 

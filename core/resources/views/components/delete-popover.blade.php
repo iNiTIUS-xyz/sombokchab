@@ -3,11 +3,11 @@
 @endphp
 
 @if ($type == '')
-    <a tabindex="0" class="btn btn-sm btn-danger btn-xs mb-2 me-1 swal_delete_button" title="{{ __('Delete') }}">
+    <a tabindex="0" class="btn btn-sm btn-danger mb-2 me-1 swal_delete_button" title="{{ __('Delete') }}">
         <i class="ti-trash"></i>
     </a>
 @else
-    <a class="btn btn-sm btn-danger btn-xs me-1 swal_delete_button" title="{{ __('Delete') }}">
+    <a class="btn btn-sm btn-danger me-1 swal_delete_button" title="{{ __('Delete') }}">
         <i class="ti-trash"></i>
     </a>
 @endif

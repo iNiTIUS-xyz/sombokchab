@@ -80,7 +80,7 @@
                                                 @can('manage-country-province-city')
                                                     <a href="javascript:;" title="{{ __('Edit') }}" data-bs-toggle="modal"
                                                         data-bs-target="#state_edit_modal"
-                                                        class="btn btn-warning text-dark btn-sm btn-xs mb-2 me-1 state_edit_btn"
+                                                        class="btn btn-warning text-dark btn-sm mb-2 me-1 state_edit_btn"
                                                         data-id="{{ $state->id }}" data-name="{{ $state->name }}"
                                                         data-country_id="{{ $state->country_id }}"
                                                         data-status="{{ $state->status }}">

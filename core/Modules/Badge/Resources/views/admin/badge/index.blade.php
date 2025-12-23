@@ -96,12 +96,12 @@
                                                     @endphp
                                                     <a href="#1" title="{{ __('Edit') }}" data-bs-toggle="modal"
                                                         data-bs-target="#badge_edit_modal"
-                                                        class="btn btn-warning btn-sm text-dark btn-xs mb-2 me-1 badge_edit_btn"
+                                                        class="btn btn-warning btn-sm text-dark mb-2 me-1 badge_edit_btn"
                                                         data-id="{{ $badge->id }}" data-name="{{ $badge->name }}"
                                                         data-status="{{ $badge->status }}" data-image_id="{{ $badge->image }}"
                                                         data-image_url="{{ $img_url }}"
                                                         data-route="{{ route('admin.badge.update', $badge->id) }}">
-                                                        <i class="mdi mdi-pencil"></i>
+                                                        <i class="ti-pencil"></i>
                                                     </a>
                                                 @endcan
                                                 @can('delete-attribute')

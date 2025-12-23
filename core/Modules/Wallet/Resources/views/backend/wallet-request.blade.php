@@ -127,7 +127,7 @@
                                                         data-id="{{ $withdrawRequest->id }}"
                                                         data-request-status="{{ $withdrawRequest->request_status }}"
                                                         id="update-wallet-request" data-bs-target="#updateWalletStatus"
-                                                        data-bs-toggle="modal" class="btn btn-warning text-dark">
+                                                        data-bs-toggle="modal" class="btn btn-sm btn-warning text-dark">
                                                         <i class="ti-pencil"></i>
                                                     </button>
                                                 @endif

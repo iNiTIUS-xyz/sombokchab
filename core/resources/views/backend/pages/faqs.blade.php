@@ -98,7 +98,7 @@
                                                 @can('edit-faq')
                                                     <a href="#1" data-bs-toggle="modal"
                                                         data-bs-target="#faq_item_edit_modal"
-                                                        class="btn btn-warning btn-xs text-dark mb-2 me-1 faq_edit_btn"
+                                                        class="btn btn-warning btn-sm text-dark mb-2 me-1 faq_edit_btn"
                                                         data-id="{{ $data->id }}" data-title="{{ $data->title }}"
                                                         data-title_km="{{ $data->title_km }}" data-lang="{{ $data->lang }}"
                                                         data-is_open="{{ $data->is_open }}"
@@ -114,7 +114,7 @@
                                                         @csrf
                                                         <input type="hidden" name="item_id" value="{{ $data->id }}">
                                                         <button type="submit" title="{{ __('Clone this to new draft') }}"
-                                                            class="btn btn-xs btn-secondary btn-sm mb-2 me-1">
+                                                            class="btn btn-secondary btn-sm mb-2 me-1">
                                                             <i class="las la-copy"></i>
                                                         </button>
                                                     </form>

@@ -192,19 +192,22 @@
                                         <div class="btn-wrapper d-flex flex-wrap gap-2">
                                             @can('view-order')
                                                 <a href="{{ route('admin.orders.generate.invoice', $order->id) }}"
-                                                    class="btn btn-primary rounded-btn btn-sm" title="{{ __('View Invoice') }}">
+                                                    class="btn btn-primary rounded-btn btn-sm"
+                                                    title="{{ __('View Invoice') }}">
                                                     <i class="ti-info"></i>
                                                 </a>
                                             @endcan
                                             @can('view-order')
                                                 <a href="{{ route('admin.orders.order.details', $order->id) }}"
-                                                    class="btn btn-secondary rounded-btn btn-sm" title="{{ __('View details') }}">
+                                                    class="btn btn-secondary rounded-btn btn-sm"
+                                                    title="{{ __('View details') }}">
                                                     <i class="las la-file-invoice"></i>
                                                 </a>
                                             @endcan
                                             @can('edit-order')
                                                 <a href="{{ route('admin.orders.edit', $order->id) }}"
-                                                    class="btn btn-warning text-dark rounded-btn btn-sm" title="{{ __('Edit') }}">
+                                                    class="btn btn-warning text-dark rounded-btn btn-sm"
+                                                    title="{{ __('Edit') }}">
                                                     <i class="ti-pencil"></i>
                                                 </a>
                                             @endcan

@@ -29,12 +29,12 @@
                                         <td>{{ $reason->name }}</td>
                                         <td>
                                             @can('manage-refund-request-settings')
-                                                <button data-id="{{ $reason->id }}" data-name="{{ $reason->name }}"
+                                                <a data-id="{{ $reason->id }}" data-name="{{ $reason->name }}"
                                                     data-bs-toggle="modal" data-bs-target="#editRefundReasonModal"
                                                     class="btn btn-warning text-dark btn-sm mb-2 edit-reason"
                                                     title="{{ __('Edit Data') }}">
                                                     <i class="ti-pencil"></i>
-                                                </button>
+                                                </a>
                                             @endcan
                                             @can('manage-refund-request-settings')
                                                 {{-- <a href="" class="btn btn-danger btn-sm"
