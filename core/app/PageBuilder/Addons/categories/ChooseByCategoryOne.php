@@ -27,8 +27,8 @@ class ChooseByCategoryOne extends PageBuilderBase
         $widget_saved_values = $this->get_settings();
 
         // add padding option
-        $categories = Category::where('status_id',1)
-            ->pluck('name','id')->toArray();
+        $categories = Category::where('status_id', 1)
+            ->pluck('name', 'id')->toArray();
 
         $output .= Text::get([
             'name' => 'section_title',
@@ -60,10 +60,6 @@ class ChooseByCategoryOne extends PageBuilderBase
         return $output;
     }
 
-
-    /**
-     * @inheritDoc
-     */
     public function frontend_render()
     {
         $all_settings = $this->get_settings();
@@ -71,20 +67,16 @@ class ChooseByCategoryOne extends PageBuilderBase
         $section_title = SanitizeInput::esc_html($all_settings["section_title"]);
         $limit = SanitizeInput::esc_html($all_settings["limit"] ?? 8);
 
-        $categories = Category::with("image")->when(!empty($categories), function ($categoryQuery) use ($categories){
+        $categories = Category::with("image")->when(!empty($categories), function ($categoryQuery) use ($categories) {
             $categoryQuery->whereIn("id", $categories);
         })->limit($limit)->get();
 
         return $this->renderBlade("category/choose-category-one", [
             "categories" => $categories,
             "section_title" => $section_title,
-       ]);
+        ]);
     }
 
-
-    /**
-     * @inheritDoc
-     */
     public function addon_title()
     {
         return __("Choose By Category");

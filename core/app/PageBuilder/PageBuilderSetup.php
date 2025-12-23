@@ -2,47 +2,50 @@
 
 namespace App\PageBuilder;
 
+use ErrorException;
 use App\PageBuilder;
-use App\PageBuilder\Addons\banners\BannerStyleEight;
-use App\PageBuilder\Addons\banners\BannerStyleFive;
-use App\PageBuilder\Addons\banners\BannerStyleFor;
-use App\PageBuilder\Addons\banners\BannerStyleOne;
-use App\PageBuilder\Addons\banners\BannerStyleSeven;
-use App\PageBuilder\Addons\banners\BannerStyleSix;
-use App\PageBuilder\Addons\banners\BannerStyleTwo;
-use App\PageBuilder\Addons\Banner\BannerSeven;
-use App\PageBuilder\Addons\Banner\BannerStyleNine;
+use Illuminate\Support\Facades\Cache;
 use App\PageBuilder\Addons\Blog\BlogStyleOne;
 use App\PageBuilder\Addons\Blog\BlogStyleTwo;
+use App\PageBuilder\Addons\Banner\BannerSeven;
 use App\PageBuilder\Addons\Brand\BrandStyleOne;
 use App\PageBuilder\Addons\Brand\BrandStyleTwo;
 use App\PageBuilder\Addons\Brand\ChooseBrandOne;
-use App\PageBuilder\Addons\Campaign\CampaignStyleOne;
-use App\PageBuilder\Addons\Campaign\CampaignStyleTwo;
-use App\PageBuilder\Addons\Campaign\LeftSideCampaignSlider;
-use App\PageBuilder\Addons\categories\ChooseByCategoryOne;
-use App\PageBuilder\Addons\categories\ChooseByCategoryTwo;
-use App\PageBuilder\Addons\deliveryOptions\DeliveryOptionStyleOne;
+use App\PageBuilder\Addons\shop\BestSellingShop;
+use App\PageBuilder\Addons\Banner\BannerStyleNine;
+use App\PageBuilder\Addons\banners\BannerStyleFor;
+use App\PageBuilder\Addons\banners\BannerStyleOne;
+use App\PageBuilder\Addons\banners\BannerStyleSix;
+use App\PageBuilder\Addons\banners\BannerStyleTwo;
 use App\PageBuilder\Addons\Header\HeaderSliderSix;
+use App\PageBuilder\Addons\Vendors\VendorStyleOne;
+use App\PageBuilder\Addons\banners\BannerStyleFive;
+use App\PageBuilder\Addons\banners\BannerStyleEight;
+use App\PageBuilder\Addons\banners\BannerStyleSeven;
 use App\PageBuilder\Addons\IconBox\IconBoxStyleFour;
-use App\PageBuilder\Addons\IconBox\IconBoxStyleThree;
-use App\PageBuilder\Addons\ImageGallery\ImageGalleryStyleOne;
-use App\PageBuilder\Addons\products\PopularProductStyleOne;
-use App\PageBuilder\Addons\products\ProductFilterStyleOne;
-use App\PageBuilder\Addons\products\ProductFilterStyleTwo;
-use App\PageBuilder\Addons\products\ProductStyleFive;
 use App\PageBuilder\Addons\products\ProductStyleFor;
 use App\PageBuilder\Addons\products\ProductStyleOne;
-use App\PageBuilder\Addons\products\ProductStyleThree;
 use App\PageBuilder\Addons\products\ProductStyleTwo;
-use App\PageBuilder\Addons\Product\PopularProductStyleTwo;
-use App\PageBuilder\Addons\shop\BestSellingShop;
+use App\PageBuilder\Addons\Campaign\CampaignStyleOne;
+use App\PageBuilder\Addons\Campaign\CampaignStyleTwo;
+use App\PageBuilder\Addons\IconBox\IconBoxStyleThree;
+use App\PageBuilder\Addons\products\ProductStyleFive;
+use App\PageBuilder\Addons\products\ProductStyleThree;
 use App\PageBuilder\Addons\sliders\header\HeaderStyleOne;
-use App\PageBuilder\Addons\Vendors\VendorStyleOne;
-use ErrorException;
+use App\PageBuilder\Addons\categories\ChooseByCategoryOne;
+use App\PageBuilder\Addons\categories\ChooseByCategoryTwo;
+use App\PageBuilder\Addons\Product\PopularProductStyleTwo;
+use App\PageBuilder\Addons\products\ProductFilterStyleOne;
+use App\PageBuilder\Addons\products\ProductFilterStyleTwo;
+use App\PageBuilder\Addons\Campaign\LeftSideCampaignSlider;
+use App\PageBuilder\Addons\products\PopularProductStyleOne;
+use App\PageBuilder\Addons\ImageGallery\ImageGalleryStyleOne;
+use App\PageBuilder\Addons\deliveryOptions\DeliveryOptionStyleOne;
 
-class PageBuilderSetup {
-    private static function registerd_widgets(): array {
+class PageBuilderSetup
+{
+    private static function registerd_widgets(): array
+    {
         //check module wise widget by set condition
         return [
             PageBuilder\Addons\Example\ExampleAddonStyleOne::class,
@@ -105,7 +108,8 @@ class PageBuilderSetup {
     /**
      * @throws ErrorException
      */
-    public static function get_admin_panel_widgets(): string {
+    public static function get_admin_panel_widgets(): string
+    {
         $widgets_markup = '';
         $widget_list = self::registerd_widgets();
         foreach ($widget_list as $widget) {
@@ -129,13 +133,15 @@ class PageBuilderSetup {
         return $widgets_markup;
     }
 
-    private static function render_admin_addon_item($args): string {
+    private static function render_admin_addon_item($args): string
+    {
         return '<li class="ui-state-default widget-handler" data-name="' . $args['addon_name'] . '" data-namespace="' . base64_encode($args['addon_namespace']) . '">
                     <h4 class="top-part"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>' . $args['addon_title'] . $args['preview_image'] . '</h4>
                 </li>';
     }
 
-    public static function render_widgets_by_name_for_admin($args) {
+    public static function render_widgets_by_name_for_admin($args)
+    {
         $widget_class = $args['namespace'];
         $instance = new $widget_class($args);
         if ($instance->enable()) {
@@ -143,7 +149,8 @@ class PageBuilderSetup {
         }
     }
 
-    public static function render_widgets_by_name_for_frontend($args) {
+    public static function render_widgets_by_name_for_frontend($args)
+    {
         $widget_class = $args['namespace'];
         $instance = new $widget_class($args);
 
@@ -152,7 +159,8 @@ class PageBuilderSetup {
         }
     }
 
-    public static function render_frontend_pagebuilder_content_by_location($location): string {
+    public static function render_frontend_pagebuilder_content_by_location($location): string
+    {
         $output = '';
         $all_widgets = PageBuilder::where(['addon_location' => $location])->orderBy('addon_order', 'ASC')->get();
         foreach ($all_widgets as $widget) {
@@ -170,7 +178,8 @@ class PageBuilderSetup {
         return $output;
     }
 
-    public static function get_saved_addons_by_location($location): string {
+    public static function get_saved_addons_by_location($location): string
+    {
         $output = '';
         $all_widgets = PageBuilder::where(['addon_location' => $location])->orderBy('addon_order', 'asc')->get();
         foreach ($all_widgets as $widget) {
@@ -189,8 +198,10 @@ class PageBuilderSetup {
         return $output;
     }
 
-    public static function get_saved_addons_for_dynamic_page($page_type, $page_id): string {
+    public static function get_saved_addons_for_dynamic_page($page_type, $page_id): string
+    {
         $output = '';
+
         // $all_widgets = Cache::remember($page_type . '-' . $page_id, 600, function () use ($page_type, $page_id) {
         //     return PageBuilder::where(['addon_page_type' => $page_type, 'addon_page_id' => $page_id])->orderBy('addon_order', 'asc')->get();
         // });
@@ -212,7 +223,8 @@ class PageBuilderSetup {
         return $output;
     }
 
-    public static function render_frontend_pagebuilder_content_for_dynamic_page($page_type, $page_id): string {
+    public static function render_frontend_pagebuilder_content_for_dynamic_page($page_type, $page_id): string
+    {
         $output = '';
         // $all_widgets = Cache::remember($page_type . '-' . $page_id, 600, function () use ($page_type, $page_id) {
         //     return PageBuilder::where(['addon_page_type' => $page_type, 'addon_page_id' => $page_id])->orderBy('addon_order', 'asc')->get();

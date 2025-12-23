@@ -29,7 +29,8 @@
                         @endcan
                         <a class="btn btn-lg btn-info btn-sm mb-2 me-1"
                             href="{{ route('frontend.dynamic.page', ['slug' => $page->slug, 'id' => $page->id]) }}">
-                            <i class="fas fa-external-link-alt"></i> {{ __('View Page') }}
+                            <i class="fas fa-external-link-alt"></i>
+                            {{ __('View Page') }}
                         </a>
                     </div>
                 </div>
@@ -243,13 +244,13 @@
         $(document).on('click', '#add_two_column_container', function(e) {
             e.preventDefault();
             let appendConMarkup = `
-                        <div class="col-md-12 page-builder-area-wrapper extra-title">
-                            <ul id="dynamic_page_with_sidebar"
-                                class="sortable available-form-field main-fields sortable_widget_location margin-bottom-15">
-                                    {!! \App\PageBuilder\PageBuilderSetup::get_saved_addons_for_dynamic_page('dynamic_page_list', $page->id) !!}
-                            </ul>
-                        </div>
-                    `;
+                <div class="col-md-12 page-builder-area-wrapper extra-title">
+                    <ul id="dynamic_page_with_sidebar"
+                        class="sortable available-form-field main-fields sortable_widget_location margin-bottom-15">
+                            {!! \App\PageBuilder\PageBuilderSetup::get_saved_addons_for_dynamic_page('dynamic_page_list', $page->id) !!}
+                    </ul>
+                </div>
+            `;
             $('#container_wrapper').append(appendConMarkup);
 
             enable_draggable_addon();
@@ -286,9 +287,8 @@
             `;
 
             $('#parent-container').append(appendConMarkup);
-
-            enable_draggable_addon();
             //
+            enable_draggable_addon();
         });
 
 
