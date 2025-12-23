@@ -29,7 +29,7 @@
                                 <thead>
                                     <tr>
                                         <th>{{ __('Vendor Details') }}</th>
-                                        <th>{{ __('Amount') }}</th>
+                                        <th>{{ __('Withdraw Amount') }}</th>
                                         <th>{{ __('Payment Method') }}</th>
                                         <th style="width: 30%">{{ __('Payment Method Details') }}</th>
                                         <th>{{ __('Status') }}</th>
@@ -118,9 +118,9 @@
                                                 @if ($withdrawRequest?->image)
                                                     <div class="">
                                                         <a target="__blank"
-                                                            href="{{ asset('assets/uploads/wallet-withdraw-request/' . $withdrawRequest?->image) }}">
-                                                            <img src="{{ asset('assets/uploads/wallet-withdraw-request/' . $withdrawRequest?->image) }}"
-                                                                width="100" height="100" />
+                                                            href="{{ asset('assets/uploads/wallet-withdraw-request/' . $withdrawRequest?->image) }}"
+                                                            class="btn btn-sm btn-secondary">
+                                                            View Attachment
                                                         </a>
                                                     </div>
                                                 @endif
@@ -181,7 +181,7 @@
                         <div class="form-group">
                             <label>{{ __('Attachment (.jpg, .jpeg, .png, .pdf)') }}</label>
                             <input name="request_image" class="form-control" type="file"
-                                accept=".jpg, .jpeg, .png, .pdf" />
+                                allow=".jpg, .jpeg, .png, .pdf" />
                         </div>
 
                         <div class="form-group">

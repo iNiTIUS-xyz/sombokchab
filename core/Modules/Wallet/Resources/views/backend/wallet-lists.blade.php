@@ -40,7 +40,7 @@
                                     @if ($type == 'vendor')
                                         <th>{{ __('Store Name') }}</th>
                                     @endif
-                                    <th>{{ __('Customer Details') }}</th>
+                                    <th>{{ __('Vendor Details') }}</th>
                                     <th>{{ __('Wallet Balance') }}</th>
                                     <th>{{ __('Status') }}</th>
                                 </thead>
@@ -50,25 +50,24 @@
                                             @if ($type == 'vendor')
                                                 <td>{{ $data?->vendor?->business_name }}</td>
                                             @endif
-
                                             <td>
                                                 <ul>
                                                     @if ($type == 'vendor')
                                                         <li>
                                                             <strong>
-                                                                {{ __('Customer Name') }}:
+                                                                {{ __('Name') }}:
                                                             </strong>
                                                             {{ $data?->vendor?->owner_name }}
                                                         </li>
                                                         <li>
                                                             <strong>
-                                                                {{ __('Customer Email') }}:
+                                                                {{ __('Email') }}:
                                                             </strong>
                                                             {{ $data?->vendor?->vendor_shop_info?->email }}
                                                         </li>
                                                         <li>
                                                             <strong>
-                                                                {{ __('Customer Phone') }}:
+                                                                {{ __('Phone') }}:
                                                             </strong>
                                                             {{ $data?->vendor?->vendor_shop_info?->number }}
                                                         </li>
@@ -94,19 +93,19 @@
                                                     @else
                                                         <li>
                                                             <strong>
-                                                                {{ __('Customer Name') }}:
+                                                                {{ __('Name') }}:
                                                             </strong>
                                                             {{ $data?->user?->name }}
                                                         </li>
                                                         <li>
                                                             <strong>
-                                                                {{ __('Customer Email') }}:
+                                                                {{ __('Email') }}:
                                                             </strong>
                                                             {{ $data?->user?->email }}
                                                         </li>
                                                         <li>
                                                             <strong>
-                                                                {{ __('Customer Phone') }}:
+                                                                {{ __('Phone') }}:
                                                             </strong>
                                                             {{ $data?->user?->phone }}
                                                         </li>

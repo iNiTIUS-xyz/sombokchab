@@ -20,9 +20,9 @@
                             <table class="table" id="dataTable">
                                 <thead>
                                     <tr>
-                                        <th>{{ __('Amount') }}</th>
-                                        <th>{{ __('Payment Method') }}</th>
-                                        <th style="width: 30%">{{ __('Payment Method Details') }}</th>
+                                        <th>{{ __('Withdraw Amount') }}</th>
+                                        <th>{{ __('Method Name') }}</th>
+                                        <th style="width: 30%">{{ __('Withdraw Option Details') }}</th>
                                         <th>{{ __('Status') }}</th>
                                         <th>{{ __('Note') }}</th>
                                     </tr>
