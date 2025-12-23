@@ -48,7 +48,7 @@
                 <div class="top-inner-contents search-area top-searchbar-wrapper">
                     <div class="dashboard-flex-contetns">
                         <div class="dashboard-left-flex d-flex align-items-center justify-content-between w-100">
-                            <h3 class="heading-three fw-500"> {{ __('Update Product') }} </h3>
+                            <h3 class="heading-three fw-500"> {{ __('Edit Product') }} </h3>
                             <div class="button-wrappers">
                                 <a href="{{ route('admin.products.all') }}" class="cmn_btn btn_bg_profile">
                                     {{ __('Products List') }}
