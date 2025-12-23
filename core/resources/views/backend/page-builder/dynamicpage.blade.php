@@ -1,18 +1,21 @@
 @extends('backend.admin-master')
+
 @section('style')
     <x-pagebuilder.css />
 @endsection
+
 @section('site-title')
     {{ $page->title }} {{ __('Page Builder') }}
 @endsection
+
 @section('content')
     <div class="row">
         <div class="col-lg-12">
-            <x-msg.flash />
-            <x-msg.error />
             <div class="dashboard__card">
                 <div class="dashboard__card__header">
-                    <h4 class="dashboard__card__title">{{ $page->title }} - {{ __('Page Builder') }}</h4>
+                    <h4 class="dashboard__card__title">
+                        {{ $page->title }} - {{ __('Page Builder') }}
+                    </h4>
                     <div class="dashboard__card__header__right">
                         @can('edit-page')
                             <a class="btn btn-lg btn-secondary btn-sm mb-2 me-1" href="{{ route('admin.page.edit', $page->id) }}">
@@ -24,7 +27,6 @@
                                 {{ __('All pages') }}
                             </a>
                         @endcan
-
                         <a class="btn btn-lg btn-info btn-sm mb-2 me-1"
                             href="{{ route('frontend.dynamic.page', ['slug' => $page->slug, 'id' => $page->id]) }}">
                             <i class="fas fa-external-link-alt"></i> {{ __('View Page') }}
@@ -36,7 +38,9 @@
                         <div class="row g-4">
                             <div class="col-lg-8" id="parent-container">
                                 <div class="page-builder-area-wrapper">
-                                    <h4 class="dashboard__card__title">{{ $page->title }} - {{ __('Without Sidebar Layout') }}</h4>
+                                    <h4 class="dashboard__card__title">
+                                        {{ $page->title }} - {{ __('Without Sidebar Layout') }}
+                                    </h4>
                                     <ul id="dynamic_page"
                                         class="sortable available-form-field main-fields sortable_widget_location mt-4">
                                         {!! \App\PageBuilder\PageBuilderSetup::get_saved_addons_for_dynamic_page('dynamic_page', $page->id) !!}
@@ -44,7 +48,10 @@
                                 </div>
 
                                 <div class="row mt-4" id="container_wrapper">
-                                    <h4 class="dashboard__card__title mb-3">{{ $page->title }} - {{ __('With Sidebar Layout') }}</h4>
+                                    <h4 class="dashboard__card__title mb-3">
+                                        {{ $page->title }} -
+                                        {{ __('With Sidebar Layout') }}
+                                    </h4>
                                     <div class="col-md-5">
                                         <div class="page-builder-area-wrapper extra-title">
                                             <ul id="dynamic_page_left_sidebar"
@@ -85,12 +92,9 @@
     </div>
     <x-media.markup />
 @endsection
+
 @section('script')
     <script>
-        /*-----------------------------------
-         *  COLOR Picker INIT FUnction
-         * ---------------------------------*/
-
         function colorPickerInit(selector) {
 
             $.each(selector, function(index, value) {
@@ -255,29 +259,31 @@
         $(document).on('click', '#add_with_sidebar_container', function(e) {
             e.preventDefault();
             let appendConMarkup = `
-                                    <div id="container_wrapper">
-                                        <h4 class="main-title">{{ __('With Sidebar Layout') }}</h4>
-                                        <div class="row g-4">
-                                            <div class="col-md-5">
-                                                <div class="page-builder-area-wrapper extra-title">
-                                                    <ul id="dynamic_page_left_sidebar"
-                                                        class="sortable available-form-field main-fields sortable_widget_location margin-bottom-15">
-                                                            {!! \App\PageBuilder\PageBuilderSetup::get_saved_addons_for_dynamic_page('dynamic_page_left_sidebar', $page->id) !!}
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-7 page-builder-area-wrapper extra-title">
-                                                <ul id="dynamic_page_right_sidebar"
-                                                    class="sortable available-form-field main-fields sortable_widget_location margin-bottom-15">
-                                                        {!! \App\PageBuilder\PageBuilderSetup::get_saved_addons_for_dynamic_page(
-                                                            'dynamic_page_right_sidebar',
-                                                            $page->id,
-                                                        ) !!}
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                        `;
+                <div id="container_wrapper">
+                    <h4 class="main-title">
+                        {{ __('With Sidebar Layout') }}
+                         </h4>
+                    <div class="row g-4">
+                        <div class="col-md-5">
+                            <div class="page-builder-area-wrapper extra-title">
+                                <ul id="dynamic_page_left_sidebar"
+                                    class="sortable available-form-field main-fields sortable_widget_location margin-bottom-15">
+                                        {!! \App\PageBuilder\PageBuilderSetup::get_saved_addons_for_dynamic_page('dynamic_page_left_sidebar', $page->id) !!}
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-7 page-builder-area-wrapper extra-title">
+                            <ul id="dynamic_page_right_sidebar"
+                                class="sortable available-form-field main-fields sortable_widget_location margin-bottom-15">
+                                    {!! \App\PageBuilder\PageBuilderSetup::get_saved_addons_for_dynamic_page(
+                                        'dynamic_page_right_sidebar',
+                                        $page->id,
+                                    ) !!}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            `;
 
             $('#parent-container').append(appendConMarkup);
 
@@ -447,16 +453,17 @@
             }
         });
 
-
         $('body').on('click', '.widget_save_change_button', function(e) {
             e.preventDefault();
-            var parent = $(this).parent().find('.widget_save_change_button');
+
+            var parent = $(this);
             parent.text('{{ __('Saving...') }}').attr('disabled', true);
-            var form = $(this).parent();
-            var widgetType = $(this).parent().find('input[name="addon_type"]').val();
-            var formAction = $(this).parent().attr('action');
-            var udpateId = '';
-            var formContainer = $(this).parent();
+
+            var form = parent.parent();
+            var widgetType = form.find('input[name="addon_type"]').val();
+            var formAction = form.attr('action');
+            var updateId = '';
+            var formContainer = form;
             var sortableId = formContainer.parent().parent().parent().attr('id');
 
             $.ajax({
@@ -464,54 +471,70 @@
                 url: formAction,
                 data: form.serializeArray(),
                 success: function(data) {
-                    udpateId = data.id;
-                    if (widgetType === 'new') {
-                        formContainer.attr('action',
-                            "{{ route('admin.page.builder.update') }}")
-                        formContainer.find('input[name="addon_type"]').val('update');
-                        formContainer.prepend('<input type="hidden" name="id" value="' +
-                            udpateId + '">');
-                    }
-                    if (data === 'ok') {
-                        form.append(
-                            '<span class="text-success">{{ __('Saved successfully') }}</span>');
-                    }
-                    if (data.msg != undefined) {
-                        form.append('<span class="d-block text-' + data.type + '">' + data.msg +
-                            '</span>');
-                    }
-                    setTimeout(function() {
-                        form.find('span.text-success').remove();
-                    }, 2000);
 
+                    // for newly created widget
+                    if (widgetType === 'new' && data.id !== undefined) {
+                        updateId = data.id;
+
+                        formContainer.attr(
+                            'action',
+                            "{{ route('admin.page.builder.update') }}"
+                        );
+
+                        formContainer.find('input[name="addon_type"]').val('update');
+
+                        formContainer.prepend(
+                            '<input type="hidden" name="id" value="' + updateId + '">'
+                        );
+                    }
+
+                    // success message
+                    if (data === 'ok' || data.status === 'ok') {
+                        form.append(
+                            '<span class="text-success d-block mt-2">{{ __('Saved successfully') }}</span>'
+                        );
+                    }
+
+                    // dynamic message
+                    if (data.msg !== undefined) {
+                        form.append(
+                            '<span class="d-block mt-2 text-' + data.type + '">' + data.msg +
+                            '</span>'
+                        );
+                    }
+
+                    // remove message after 2s
+                    setTimeout(function() {
+                        form.find('span').fadeOut(300, function() {
+                            $(this).remove();
+                        });
+                    }, 2000);
+                },
+                error: function() {
+                    alert('Something went wrong!');
+                },
+                complete: function() {
+                    parent.text('{{ __('Save Changes') }}').attr('disabled', false);
                 }
             });
-
-            parent.text('Saving..');
-            setTimeout(function() {
-                parent.text('{{ __('Save Changes') }}').attr('disabled', false);
-            }, 1000);
         });
 
-        /**
-         * reset order function
-         * */
         function resetOrder(dropedOn) {
             var allItems = $('#' + dropedOn + ' li');
-            $.each(allItems, function(index, value) {
+
+            $.each(allItems, function(index) {
                 $(this).find('input[name="addon_order"]').val(index + 1);
                 $(this).find('input[name="addon_location"]').val(dropedOn);
+
                 var id = $(this).find('input[name="id"]').val();
                 var widget_order = index + 1;
-                if (typeof id != 'undefined') {
+
+                if (typeof id !== 'undefined') {
                     reset_db_order(id, widget_order);
                 }
             });
         }
 
-        /**
-         * reorder function
-         * */
         function reset_db_order(id, addon_order) {
             $.ajax({
                 type: "POST",
@@ -522,22 +545,34 @@
                     addon_order: addon_order
                 },
                 success: function(data) {
-                    //response ok if it saved success
+                    // order saved
                 }
             });
         }
 
         $(document).on('click', '.widget-area-expand', function(e) {
             e.preventDefault();
-            var widgetbody = $(this).parent().parent().find('.widget-area-body');
-            widgetbody.toggleClass('hide');
-            var expand = $(this).children('i');
-            if (expand.hasClass('ti-angle-down')) {
-                expand.attr('class', 'ti-angle-up');
+
+            var widgetBody = $(this)
+                .parent()
+                .parent()
+                .find('.widget-area-body');
+
+            widgetBody.toggleClass('hide');
+
+            var expandIcon = $(this).children('i');
+
+            if (expandIcon.hasClass('ti-angle-down')) {
+                expandIcon.attr('class', 'ti-angle-up');
             } else {
-                expand.attr('class', 'ti-angle-down');
-                var allWidgets = $(this).parent().parent().find('.widget-area-body ul li');
-                $.each(allWidgets, function(value) {
+                expandIcon.attr('class', 'ti-angle-down');
+
+                var allWidgets = $(this)
+                    .parent()
+                    .parent()
+                    .find('.widget-area-body ul li');
+
+                $.each(allWidgets, function() {
                     $(this).find('.content-part').removeClass('show');
                 });
             }
