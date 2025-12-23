@@ -35,7 +35,11 @@
                                         <th>{{ __('Status') }}</th>
                                         <th>{{ __('Created On') }}</th>
                                         <th>{{ __('Note') }}</th>
-                                        <th>{{ __('Attachment (.jpg, .jpeg, .png, .pdf)') }}</th>
+                                        <th style="width: 15%">
+                                            {{ __('Attachment') }}
+                                            <br>
+                                            {{ __('(.jpg, .jpeg, .png, .pdf)') }}
+                                        </th>
                                         <th>{{ __('Action') }}</th>
                                     </tr>
                                 </thead>
@@ -113,8 +117,11 @@
                                             <td>
                                                 @if ($withdrawRequest?->image)
                                                     <div class="">
-                                                        <img src="{{ asset('assets/uploads/wallet-withdraw-request/' . $withdrawRequest?->image) }}"
-                                                            width="100%" />
+                                                        <a target="__blank"
+                                                            href="{{ asset('assets/uploads/wallet-withdraw-request/' . $withdrawRequest?->image) }}">
+                                                            <img src="{{ asset('assets/uploads/wallet-withdraw-request/' . $withdrawRequest?->image) }}"
+                                                                width="100" height="100" />
+                                                        </a>
                                                     </div>
                                                 @endif
                                             </td>
