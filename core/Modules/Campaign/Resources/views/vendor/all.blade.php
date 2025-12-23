@@ -5,7 +5,7 @@
 @endsection
 
 @section('style')
-<x-bulk-action.css />
+    <x-bulk-action.css />
 @endsection
 
 @section('content')
@@ -59,7 +59,7 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <a class="btn btn-secondary btn-xs mb-2 me-1" title="{{ __('View') }}"
+                                                <a class="btn btn-secondary btn-sm mb-2 me-1" title="{{ __('View') }}"
                                                     href="{{ route('frontend.products.campaign', ['id' => $campaign->id, 'slug' => $campaign->slug]) }}">
                                                     <i class="las la-file-invoice"></i>
                                                 </a>
@@ -98,5 +98,4 @@
             });
         });
     </script>
-
 @endsection
