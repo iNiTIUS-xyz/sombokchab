@@ -181,7 +181,7 @@
                         <div class="form-group">
                             <label>{{ __('Attachment (.jpg, .jpeg, .png, .pdf)') }}</label>
                             <input name="request_image" class="form-control" type="file"
-                                allow=".jpg, .jpeg, .png, .pdf" />
+                                accept=".jpg, .jpeg, .png, .pdf" />
                         </div>
 
                         <div class="form-group">
