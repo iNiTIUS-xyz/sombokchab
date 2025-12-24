@@ -71,7 +71,8 @@
                                                 </label>
                                                 <input type="text" name="name" id="name"
                                                     class="form--control radius-10" placeholder="{{ __('Enter Name') }}"
-                                                    oninput="this.value = this.value.replace(/[^A-Za-z.'-]/g, '')" required>
+                                                    oninput="this.value = this.value.replace(/[^A-Za-z .'-]/g, '')"
+                                                    required>
                                                 <small class="text-danger" id="nameError"></small>
                                             </div>
                                         </div>
