@@ -327,7 +327,7 @@
                                     <div class="card-header">
                                         {{ __('ITEM') }} {{ $order?->orderItem?->count() }}
                                         <br>
-                                        {{ __('Sold By:') }}
+                                        {{ __('Sold By') }}:
                                         {{ $order->vendor?->business_name ?? $adminShopManage?->store_name }}
                                     </div>
 
