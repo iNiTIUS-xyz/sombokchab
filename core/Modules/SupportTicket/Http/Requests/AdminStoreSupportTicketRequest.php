@@ -4,29 +4,27 @@ namespace Modules\SupportTicket\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AdminStoreSupportTicketRequest extends FormRequest
-{
+class AdminStoreSupportTicketRequest extends FormRequest {
     /**
      * Get the validation rules that apply to the request.
      *
      * @return array
      */
-    public function rules()
-    {
+    public function rules() {
         return [
-            'title' => 'required|string|max:191',
+            'title'       => 'required|string|max:191',
             // 'subject' => 'required|string|max:191',
-            'priority' => 'nullable|string|max:191',
-            'user_type' => 'nullable',
+            'priority'    => 'nullable|string|max:191',
+            'user_type'   => 'nullable',
             'description' => 'required|string',
             'departments' => 'required|string',
+            'customer'    => 'required|string',
         ];
     }
 
-    public function messages()
-    {
+    public function messages() {
         return [
-            'title.required' => __('title required'),
+            'title.required'       => __('title required'),
             // 'subject.required' => __('subject required'),
             // 'priority.required' => __('priority required'),
             'description.required' => __('description required'),
@@ -39,8 +37,7 @@ class AdminStoreSupportTicketRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
-    {
+    public function authorize() {
         return true;
     }
 }

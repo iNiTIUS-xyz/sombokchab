@@ -21,7 +21,7 @@ class StoreUserRequest extends FormRequest {
             'city'     => 'nullable|string|max:191',
             'state'    => 'nullable|string|max:191',
             'country'  => 'nullable|string|max:191',
-            'phone'    => ['nullable', 'numeric', Rule::unique('users', 'phone')],
+            'phone'    => ['required', 'numeric', Rule::unique('users', 'phone')],
             'password' => 'required|string|min:8|confirmed',
         ];
     }

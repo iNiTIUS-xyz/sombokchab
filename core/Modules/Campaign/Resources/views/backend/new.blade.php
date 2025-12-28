@@ -139,13 +139,19 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label class="form-label">Start Date</label>
+                                    <label class="form-label">
+                                        Start Date
+                                        <span class="text-danger">*</span>
+                                    </label>
                                     <input type="text" class="form-control flatpickr" id="fixed_from_date"
                                         name="campaign_start_date" required>
                                 </div>
 
                                 <div class="mb-3">
-                                    <label class="form-label">End Date</label>
+                                    <label class="form-label">
+                                        End Date
+                                        <span class="text-danger">*</span>
+                                    </label>
                                     <input type="text" class="form-control flatpickr" id="fixed_to_date"
                                         name="campaign_end_date" required>
                                 </div>
@@ -245,7 +251,10 @@
                                 </div>
 
                                 <div class="col-md-3">
-                                    <label class="form-label">Price for Campaign</label>
+                                    <label class="form-label">
+                                        Price for Campaign
+                                        <span class="text-danger">*</span>
+                                        </label>
                                     <input type="number" class="form-control campaign-price"
                                         name="campaign_price[]" data-original="${productPrice}"
                                         step="0.01" required>
@@ -257,19 +266,28 @@
                                 </div>
 
                                 <div class="col-md-3">
-                                    <label class="form-label">Units for Sale</label>
+                                    <label class="form-label">
+                                        Units for Sale
+                                        <span class="text-danger">*</span>
+                                        </label>
                                     <input type="number" class="form-control"
                                         name="units_for_sale[]" data-available="${productStock}"
                                         value="0" required>
                                 </div>
 
                                 <div class="col-md-4">
-                                    <label class="form-label">Start Date</label>
+                                    <label class="form-label">
+                                        Start Date
+                                        <span class="text-danger">*</span>
+                                        </label>
                                     <input type="text" class="form-control dataPickerStart" name="start_date[]" required>
                                 </div>
 
                                 <div class="col-md-4">
-                                    <label class="form-label">End Date</label>
+                                    <label class="form-label">
+                                        End Date
+                                        <span class="text-danger">*</span>
+                                        </label>
                                     <input type="text" class="form-control dataPickerEnd" name="end_date[]" required>
                                 </div>
 

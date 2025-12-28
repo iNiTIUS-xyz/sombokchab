@@ -122,7 +122,10 @@
                                     placeholder="{{ __('Enter country name') }}" required="">
                             </div>
                             <div class="form-group">
-                                <label for="edit_status">{{ __('Publish Status') }}</label>
+                                <label for="edit_status">
+                                    {{ __('Publish Status') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <select name="status" class="form-control" id="edit_status">
                                     <option value="publish">{{ __('Publish') }}</option>
                                     <option value="draft">{{ __('Unpublish') }}</option>
@@ -162,7 +165,10 @@
                                     placeholder="{{ __('Enter country name') }}" required="">
                             </div>
                             <div class="form-group">
-                                <label for="status">{{ __('Publish Status') }}</label>
+                                <label for="status">
+                                    {{ __('Publish Status') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <select name="status" class="form-control" id="status">
                                     <option value="publish">{{ __('Publish') }}</option>
                                     <option value="draft">{{ __('Unpublish') }}</option>

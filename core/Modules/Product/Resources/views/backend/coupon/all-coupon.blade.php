@@ -252,6 +252,7 @@
                                     <div class="form-group">
                                         <label for="discount_on">
                                             {{ __('Discount On') }}
+                                            <span class="text-danger">*</span>
                                         </label>
                                         <select name="discount_on" id="discount_on" class="form-control form-select">
                                             @foreach ($coupon_apply_options as $key => $value)
@@ -414,6 +415,7 @@
                                     <div class="form-group">
                                         <label for="discount_on">
                                             {{ __('Discount On') }}
+                                            <span class="text-danger">*</span>
                                         </label>
                                         <select name="discount_on" id="edit_discount_on" class="form-control form-select">
                                             <option value="">
@@ -503,6 +505,7 @@
                                             <div class="form-group">
                                                 <label for="edit_discount">
                                                     {{ __('Discount') }}
+                                                    <span class="text-danger">*</span>
                                                 </label>
                                                 <input type="number" class="form-control" id="edit_discount"
                                                     name="discount" required="" placeholder="{{ __('Discount') }}">

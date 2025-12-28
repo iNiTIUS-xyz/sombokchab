@@ -130,10 +130,12 @@
                         @csrf
                         <div class="modal-body">
                             <div class="form-group">
-                                <label for="email">{{ __('Email') }}</label>
+                                <label for="email">{{ __('Email') }} <span class="text-danger">*</span></label>
+
                                 <input type="text" class="form-control" id="email" name="email"
                                     placeholder="{{ __('Enter email') }}">
                             </div>
+
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary"

@@ -168,7 +168,6 @@
                             <div class="form-group">
                                 <label for="edit_description">
                                     {{ __('Description') }}
-                                    <span class="text-danger">*</span>
                                 </label>
                                 <textarea type="text" class="form-control" id="edit_description" name="description"
                                     placeholder="{{ __('Enter description') }}" required=""></textarea>
@@ -234,7 +233,6 @@
                             <div class="form-group">
                                 <label for="description">
                                     {{ __('Description') }}
-                                    <span class="text-danger">*</span>
                                 </label>
                                 <textarea type="text" class="form-control" id="description" name="description"
                                     placeholder="{{ __('Enter description') }}" required=""></textarea>

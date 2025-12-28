@@ -128,7 +128,10 @@
                                     @enderror
                                 </div>
                                 <div class="mb-3">
-                                    <x-media-upload :title="__('Campaign Image')" name="image" :oldimage="$campaign->campaignImage" :dimentions="'1920x1080'" />
+                                    <label class="form-label fw-bold">
+                                        {{ __('Campaign Image') }} <span class="text-danger">*</span>
+                                    </label>
+                                    <x-media-upload :title="__('')" name="image" :oldimage="$campaign->campaignImage" :dimentions="'1920x1080'" />
                                     @error('image')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -168,7 +171,10 @@
                                     </label>
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label">Start Date</label>
+                                    <label class="form-label">
+                                        Start Date
+                                        <span class="text-danger">*</span>
+                                    </label>
                                     <input type="text" class="form-control flatpickr" id="fixed_from_date"
                                         name="campaign_start_date" value="{{ $campaign->start_date }}" required>
                                     @error('campaign_start_date')
@@ -176,7 +182,10 @@
                                     @enderror
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label">End Date</label>
+                                    <label class="form-label">
+                                        End Date
+                                        <span class="text-danger">*</span>
+                                    </label>
                                     <input type="text" class="form-control flatpickr" id="fixed_to_date"
                                         name="campaign_end_date" value="{{ $campaign->end_date }}" required>
                                     @error('campaign_end_date')
@@ -246,6 +255,7 @@
                                                         <div class="col-md-3">
                                                             <label class="form-label">
                                                                 Price for Campaign
+                                                                <span class="text-danger">*</span>
                                                             </label>
                                                             <input type="number" class="form-control campaign-price"
                                                                 value="{{ $campaignProduct->campaign_price }}"
@@ -254,13 +264,16 @@
                                                                 oninput="checkCampaignPrice(this)" required />
                                                         </div>
                                                         <div class="col-md-3">
-                                                            <label class="form-label">No. of Units Available</label>
+                                                            <label class="form-label">Units Available</label>
                                                             <input type="text" class="form-control available-units"
                                                                 value="{{ $campaignProduct?->product?->inventory?->stock_count }}"
                                                                 readonly />
                                                         </div>
                                                         <div class="col-md-3">
-                                                            <label class="form-label">No. of Units for Sale</label>
+                                                            <label class="form-label">
+                                                                Units for Sale
+                                                                <span class="text-danger">*</span>
+                                                            </label>
                                                             <input type="number" class="form-control units-for-sale"
                                                                 value="{{ $campaignProduct->units_for_sale }}"
                                                                 name="units_for_sale[]"
@@ -268,14 +281,20 @@
                                                                 oninput="checkUnitsForSale(this)" required />
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label class="form-label">Start Date</label>
+                                                            <label class="form-label">
+                                                                Start Date
+                                                                <span class="text-danger">*</span>
+                                                            </label>
                                                             <input type="text" class="form-control dataPickerStart"
                                                                 name="start_date[]"
                                                                 value="{{ date('Y-m-d', strtotime($campaignProduct->start_date)) }}"
                                                                 required />
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label class="form-label">End Date</label>
+                                                            <label class="form-label">
+                                                                End Date
+                                                                <span class="text-danger">*</span>
+                                                            </label>
                                                             <input type="text" class="form-control dataPickerEnd"
                                                                 name="end_date[]"
                                                                 value="{{ date('Y-m-d', strtotime($campaignProduct->end_date)) }}"

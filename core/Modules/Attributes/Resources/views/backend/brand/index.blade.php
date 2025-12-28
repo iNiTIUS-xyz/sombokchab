@@ -168,6 +168,7 @@
                                 </div>
                                 <div class="col-md-6 mb-4">
                                     <x-media-upload :title="__('Logo')" :name="'image_id'" :dimentions="'200x200'" />
+
                                 </div>
                                 <div class="col-md-6 mb-4">
                                     <x-media-upload :title="__('Banner')" :name="'banner_id'" :dimentions="'200x200'" />
