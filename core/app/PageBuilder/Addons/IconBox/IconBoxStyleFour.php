@@ -84,7 +84,6 @@ class IconBoxStyleFour extends PageBuilderBase
 
     public function frontend_render()
     {
-        return true;
-        // return $this->renderBlade('iconbox.iconbox-04');
+        return $this->renderBlade('iconbox.iconbox-04');
     }
 }

@@ -9,10 +9,8 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="section__title text-left section_borderBottom">
-                    <div class="btn_wrapper">
-                    </div>
                     <div class="allProduct__tab">
-                        <ul class="tabs tabs_two">
+                        {{-- <ul class="tabs tabs_two">
                             <li data-tab-two="top_rated" class="vendor_search_tab tabs_list_two">
                                 {{ __('Top Rated') }}
                             </li>
@@ -22,11 +20,13 @@
                             <li data-tab-two="weekly_top" class="vendor_search_tab tabs_list_two">
                                 {{ __('Weekly Top') }}
                             </li>
-                            <a href="{{ route('frontend.vendors') }}" class="viewAll_btn">
-                                {{ __('View All') }}
-                                <i class="las la-angle-right"></i>
-                            </a>
-                        </ul>
+                        </ul> --}}
+                    </div>
+                    <div class="btn_wrapper">
+                        <a href="{{ route('frontend.vendors') }}" class="viewAll_btn">
+                            {{ __('View All') }}
+                            <i class="las la-angle-right"></i>
+                        </a>
                     </div>
                 </div>
             </div>

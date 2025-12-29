@@ -6,7 +6,7 @@
                 <div class="section__title text-left section_borderBottom">
                     <h2 class="title">{{ __($section_title ?? '') }}</h2>
                     <div class="allProduct__tab">
-                        <ul class="tabs">
+                        {{-- <ul class="tabs">
                             <li data-card-style="2" data-item-limit="12" id="product_filter_featured_products"
                                 data-tab="featured_product" class="tabs_list">
                                 {{ __('Featured') }}
@@ -19,7 +19,13 @@
                                 data-tab="weekly_top_product" class="tabs_list">
                                 {{ __('Weekly Top') }}
                             </li>
-                        </ul>
+                        </ul> --}}
+                        <div class="btn_wrapper">
+                            <a href="{{ route('frontend.products.all') }}" class="viewAll_btn">
+                                {{ __('View All') }}
+                                <i class="las la-angle-right"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
