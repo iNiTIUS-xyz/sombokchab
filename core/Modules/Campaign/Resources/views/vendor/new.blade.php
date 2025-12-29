@@ -121,7 +121,10 @@
                                     @enderror
                                 </div>
                                 <div class="mb-3">
-                                    <x-media-upload :title="__('Campaign Image')" :name="'image'" :dimentions="'1920x1080'" />
+                                    <label class="form-label fw-bold">
+                                        {{ __('Campaign Image') }} <span class="text-danger">*</span>
+                                    </label>
+                                    <x-media-upload :title="__('')" :name="'image'" :dimentions="'1920x1080'" />
                                     @error('image')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -159,7 +162,10 @@
                                     </label>
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label">Start Date</label>
+                                    <label class="form-label">
+                                        Start Date
+                                        <span class="text-danger">*</span>
+                                    </label>
                                     <input type="text" class="form-control flatpickr" id="fixed_from_date"
                                         name="campaign_start_date" value="{{ old('campaign_start_date') }}" required>
                                     @error('campaign_start_date')
@@ -167,7 +173,10 @@
                                     @enderror
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label">End Date</label>
+                                    <label class="form-label">
+                                        End Date
+                                        <span class="text-danger">*</span>
+                                    </label>
                                     <input type="text" class="form-control flatpickr" id="fixed_to_date"
                                         name="campaign_end_date" value="{{ old('campaign_end_date') }}" required>
                                     @error('campaign_end_date')
@@ -280,7 +289,10 @@
                                     <input type="text" class="form-control original-price" value="${productPrice}" readonly />
                                 </div>
                                 <div class="col-md-3">
-                                    <label class="form-label">Price for Campaign</label>
+                                    <label class="form-label">
+                                        Price for Campaign
+                                        <span class="text-danger">*</span>
+                                        </label>
                                     <input type="number" class="form-control campaign-price"
                                         value=""
                                         step="0.01"
@@ -293,7 +305,10 @@
                                     <input type="text" class="form-control available-units" value="${productStock}" readonly />
                                 </div>
                                 <div class="col-md-3">
-                                    <label class="form-label">No. of Units for Sale</label>
+                                    <label class="form-label">
+                                    No. of Units for Sale
+                                    <span class="text-danger">*</span>
+                                    </label>
                                     <input type="number" class="form-control units-for-sale"
                                         value="0"
                                         name="units_for_sale[]"
@@ -301,11 +316,17 @@
                                         oninput="checkUnitsForSale(this)" required />
                                 </div>
                                 <div class="col-md-4">
-                                    <label class="form-label">Start Date</label>
+                                    <label class="form-label">
+                                        Start Date
+                                        <span class="text-danger">*</span>
+                                        </label>
                                     <input type="text" class="form-control dataPickerStart" name="start_date[]" required />
                                 </div>
                                 <div class="col-md-4">
-                                    <label class="form-label">End Date</label>
+                                    <label class="form-label">
+                                        End Date
+                                        <span class="text-danger">*</span>
+                                        </label>
                                     <input type="text" class="form-control dataPickerEnd" name="end_date[]" required />
                                 </div>
                             </div>

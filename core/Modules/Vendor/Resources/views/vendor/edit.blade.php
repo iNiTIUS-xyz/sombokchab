@@ -419,6 +419,7 @@
                                                             <div class="single-input">
                                                                 <label class="label-title color-light mb-2">
                                                                     {{ __('Email') }}
+                                                                    <span class="text-danger">*</span>
                                                                 </label>
                                                                 <input value="{{ $vendor?->vendor_shop_info?->email }}"
                                                                     type="text" name="email"

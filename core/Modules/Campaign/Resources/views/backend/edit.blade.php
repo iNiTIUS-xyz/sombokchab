@@ -264,14 +264,14 @@
                                                                 oninput="checkCampaignPrice(this)" required />
                                                         </div>
                                                         <div class="col-md-3">
-                                                            <label class="form-label">Units Available</label>
+                                                            <label class="form-label">No. of Units Available</label>
                                                             <input type="text" class="form-control available-units"
                                                                 value="{{ $campaignProduct?->product?->inventory?->stock_count }}"
                                                                 readonly />
                                                         </div>
                                                         <div class="col-md-3">
                                                             <label class="form-label">
-                                                                Units for Sale
+                                                                No. of Units for Sale
                                                                 <span class="text-danger">*</span>
                                                             </label>
                                                             <input type="number" class="form-control units-for-sale"
