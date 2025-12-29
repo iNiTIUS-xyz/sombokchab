@@ -22,12 +22,10 @@
                             <li data-tab-two="weekly_top" class="vendor_search_tab tabs_list_two">
                                 {{ __('Weekly Top') }}
                             </li>
-                            <li class="vendor_search_tab">
-                                <a href="{{ route('frontend.vendors') }}" class="viewAll_btn">
-                                    {{ __('View All') }}
-                                    <i class="las la-angle-right"></i>
-                                </a>
-                            </li>
+                            <a href="{{ route('frontend.vendors') }}" class="viewAll_btn">
+                                {{ __('View All') }}
+                                <i class="las la-angle-right"></i>
+                            </a>
                         </ul>
                     </div>
                 </div>
