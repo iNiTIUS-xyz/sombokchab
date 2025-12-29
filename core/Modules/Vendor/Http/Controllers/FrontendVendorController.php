@@ -17,7 +17,7 @@ class FrontendVendorController extends Controller
         $vendors = Vendor::with("cover_photo", "logo")
             ->withAvg("vendorProductRating", "product_ratings.rating")
             ->withCount(["vendorProductRating", "product"])
-            ->whereHas("product")
+            // ->whereHas("product")
             ->orderByDesc("vendor_product_rating_count")
             ->get();
 

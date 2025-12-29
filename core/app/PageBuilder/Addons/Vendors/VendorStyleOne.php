@@ -30,7 +30,7 @@ class VendorStyleOne extends PageBuilderBase
             'multiple' => true,
             'label' => __('Shops'),
             'placeholder' =>  __('Select Shop'),
-            'options' => $vendors->pluck('business_name','id'),
+            'options' => $vendors->pluck('business_name', 'id'),
             'value' => $widget_saved_values['blogs'] ?? null,
             'info' => __('Select shop(s) or for all shops leave it empty')
         ]);
@@ -46,8 +46,11 @@ class VendorStyleOne extends PageBuilderBase
     {
         $all_settings = $this->get_settings();
         // get all vendor lists
-        $vendors = Vendor::with('logo','cover_photo')->withCount('vendorProductRating')
-            ->withAvg('vendorProductRating','rating')->where('status_id', 1)
+        $vendors = Vendor::with('logo', 'cover_photo')
+            ->withCount('vendorProductRating')
+            ->withAvg('vendorProductRating', 'rating')
+            ->where('status_id', 1)
+            ->whereIn('id', $all_settings['blogs'])
             ->inRandomOrder()->limit(12)->get();
 
         return $this->renderBlade("vendor.vendor-style-one", compact('vendors'));
