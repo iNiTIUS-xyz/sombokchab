@@ -25,7 +25,7 @@ class ProductFilterStyleTwo extends PageBuilderBase
         $output .= $this->default_fields();
         $widget_saved_values = $this->get_settings();
 
-        $products = Product::select("id","name")->pluck("name", "id")->toArray();
+        $products = Product::select("id", "name")->pluck("name", "id")->toArray();
 
         $output .= Text::get([
             'name' => 'section_title',
@@ -58,20 +58,20 @@ class ProductFilterStyleTwo extends PageBuilderBase
         $padding_top = SanitizeInput::esc_html($all_settings['padding_top'] ?? "");
         $padding_bottom = SanitizeInput::esc_html($all_settings['padding_bottom'] ?? "");
         $section_title = SanitizeInput::esc_html($all_settings['section_title'] ?? "");
-        $prd_ids = $all_settings["product"] ?? [];
+        $prd_ids = $all_settings["products"] ?? [];
 
         $products = addonProductInstance();
 
-        $products->when(!empty($prd_ids), function ($query) use ($prd_ids){
+        $products->when(!empty($prd_ids), function ($query) use ($prd_ids) {
             $query->whereIn("id", $prd_ids);
-        })->when(empty($prd_ids), function ($query){
+        })->when(empty($prd_ids), function ($query) {
             $query->limit(10);
         });
 
         $products = $this->product_order_item_query($products, $all_settings);
         $categories = $products->pluck("category")->unique("id")->toArray();
 
-        return $this->renderBlade("product.product_filter_two", compact("section_title","padding_top","padding_bottom","products", "categories"));
+        return $this->renderBlade("product.product_filter_two", compact("section_title", "padding_top", "padding_bottom", "products", "categories"));
     }
 
     public function addon_title(): array|string|Translator|Application|null
