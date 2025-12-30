@@ -1,11 +1,13 @@
 @extends('frontend.frontend-page-master')
+
 @section('page-title')
     {{ $campaign->title }}
 @endsection
+
 @section('style')
 @endsection
+
 @section('content')
-    <!-- Shop area end -->
     <section class="shop-area padding-top-50 padding-bottom-50">
         <div class="container container-one">
             <div class="row align-items-center">
@@ -71,8 +73,8 @@
             </div>
         </div>
     </section>
-    <!-- Shop area end -->
 @endsection
+
 @section('script')
     <script>
         $(document).ready(function() {

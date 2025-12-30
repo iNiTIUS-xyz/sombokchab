@@ -60,6 +60,7 @@
                                             </td>
                                             <td>
                                                 <a class="btn btn-secondary btn-sm mb-2 me-1" title="{{ __('View') }}"
+                                                    target="__blank"
                                                     href="{{ route('frontend.products.campaign', ['id' => $campaign->id, 'slug' => $campaign->slug]) }}">
                                                     <i class="las la-file-invoice"></i>
                                                 </a>

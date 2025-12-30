@@ -59,9 +59,9 @@ class HeaderSliderSix extends PageBuilderBase
         $output .= $this->default_fields();
         $widget_saved_values = $this->get_settings();
         $campaignProducts = CampaignProduct::get("product_id")->pluck("product_id");
-        $products = Product::whereIn("id", $campaignProducts)->get(["id", "name"])->pluck("name","id");
+        $products = Product::whereIn("id", $campaignProducts)->get(["id", "name"])->pluck("name", "id");
 
-        $output .= "<p>". __("Hare is all campaigns products in this select box") ."</p>";
+        $output .= "<p>" . __("Hare is all campaigns products in this select box") . "</p>";
         $output .= NiceSelect::get([
             'name' => 'products',
             'multiple' => true,
@@ -91,13 +91,13 @@ class HeaderSliderSix extends PageBuilderBase
 
         $products = Product::query();
 
-        $products->withCount("inventoryDetail","ratings");
-        $products->with("campaign_sold_product","uom","campaign_product","inventory", "badge","taxOptions:tax_class_options.id,country_id,state_id,city_id,rate","vendorAddress:vendor_addresses.id,country_id,state_id,city_id");
-        $products->withAvg('ratings','rating');
+        $products->withCount("inventoryDetail", "ratings");
+        $products->with("campaign_sold_product", "uom", "campaign_product", "inventory", "badge", "taxOptions:tax_class_options.id,country_id,state_id,city_id,rate", "vendorAddress:vendor_addresses.id,country_id,state_id,city_id");
+        $products->withAvg('ratings', 'rating');
 
-        $products->when(!empty($product_ids), function ($query) use ($product_ids){
+        $products->when(!empty($product_ids), function ($query) use ($product_ids) {
             $query->whereIn("id", $product_ids);
-        })->when(empty($prd_ids), function ($query){
+        })->when(empty($prd_ids), function ($query) {
             $query->limit(10);
         });
         // call a function for campaign this function will add condition to this table

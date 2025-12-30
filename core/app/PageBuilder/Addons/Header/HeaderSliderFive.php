@@ -66,7 +66,7 @@ class HeaderSliderFive extends PageBuilderBase
             'name' => 'category_menu',
             'label' => __('Select Category Menu'),
             'placeholder' => __('Select Category'),
-            'options' => CategoryMenu::get()->pluck("title","id"),
+            'options' => CategoryMenu::get()->pluck("title", "id"),
             'value' =>   $widget_saved_values['category_menu'] ?? []
         ]);
 
@@ -142,8 +142,8 @@ class HeaderSliderFive extends PageBuilderBase
         $this->args['settings'] = RepeaterField::remove_default_fields($all_settings);
         $output = "";
 
-        foreach ($this->args['settings'] as $key => $setting){
-            if (is_array($setting)){
+        foreach ($this->args['settings'] as $key => $setting) {
+            if (is_array($setting)) {
                 $this->args['repeater'] = $setting;
                 $array_lang_item = $setting[array_key_last($setting)];
                 if (!empty($array_lang_item) && is_array($array_lang_item) && count($array_lang_item) > 0) {
@@ -157,7 +157,7 @@ class HeaderSliderFive extends PageBuilderBase
             }
         }
 
-        return $this->renderBlade("header.header_slider_five",compact(["padding_top","padding_bottom","title","category","output"]));
+        return $this->renderBlade("header.header_slider_five", compact(["padding_top", "padding_bottom", "title", "category", "output"]));
     }
 
     private function render_slider_markup(int $index = null): string
@@ -171,13 +171,11 @@ class HeaderSliderFive extends PageBuilderBase
         $image = render_background_image_markup_by_attachment_id(SanitizeInput::esc_html($this->get_repeater_field_value('background_image', $index)));
         //<span class="ex">Summer</span> Collection 01
 
-        return $this->renderBlade("header.header_slider_five_item",compact(["title","description","btn_text","url","image"]));
-
+        return $this->renderBlade("header.header_slider_five_item", compact(["title", "description", "btn_text", "url", "image"]));
     }
 
     public function format_section_title($title)
     {
-        return str_replace(['[bld]', '[/bld]','[br/]','[clr]','[/clr]'], ['<span class="ex">','</span>','<br/>','<span class="color">','</span>'], $title);
+        return str_replace(['[bld]', '[/bld]', '[br/]', '[clr]', '[/clr]'], ['<span class="ex">', '</span>', '<br/>', '<span class="color">', '</span>'], $title);
     }
-
 }

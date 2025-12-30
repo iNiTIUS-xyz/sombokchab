@@ -14,9 +14,6 @@ class Repeater extends PageBuilderField
 {
     use FieldInstanceHelper;
 
-    /**
-     * render field markup
-     * */
     public function render()
     {
         $output = '<div class="iconbox-repeater-wrapper">';
@@ -46,16 +43,16 @@ class Repeater extends PageBuilderField
             $field_name = $field['name'] . '_' . $lang;
             $value = '';
 
-            if (isset($settings[$this->args['id']][$field_name]) && is_array($settings[$this->args['id']][$field_name])){
+            if (isset($settings[$this->args['id']][$field_name]) && is_array($settings[$this->args['id']][$field_name])) {
                 $value = $settings[$this->args['id']][$field_name][$index];
-            }elseif (isset($settings[$this->args['id']][$field_name])){
+            } elseif (isset($settings[$this->args['id']][$field_name])) {
                 $value = $settings[$this->args['id']][$field_name];
             }
 
-            $instance = new $class(array_merge($field,[
-                'name' => $this->args['id'].'['.$field_name . '][]',
+            $instance = new $class(array_merge($field, [
+                'name' => $this->args['id'] . '[' . $field_name . '][]',
                 'value' => $value
-                ]));
+            ]));
             $output .= $instance->render();
         }
         return $output;
@@ -65,7 +62,7 @@ class Repeater extends PageBuilderField
     {
 
         $output = '<div class="all-field-wrap">';
-        $output .= '<div class="action-wrap">  <span class="add"><i class="ti-plus"></i></span> <span class="remove"><i class="ti-trash"></i></span></div>';
+        $output .= '<div class="action-wrap"><span class="add"><i class="ti-plus"></i></span> <span class="remove bg-danger text-white"><i class="ti-trash"></i></span></div>';
 
         $language_tab_init = LanguageTabs::init();
         if (isset($this->args['multi_lang']) && $this->args['multi_lang']) {
@@ -85,7 +82,7 @@ class Repeater extends PageBuilderField
 
             $output .= $language_tab_init->language_tab_end();
         } else {
-            $output .= $this->render_fields($this->args['fields'], $this->args['settings'],$index);
+            $output .= $this->render_fields($this->args['fields'], $this->args['settings'], $index);
         }
         $output .= '</div>';
 

@@ -58,7 +58,7 @@ class CampaignStyleTwo extends PageBuilderBase
             }, 'taxOptions:tax_class_options.id,country_id,state_id,city_id,rate', 'vendorAddress:vendor_addresses.id,country_id,state_id,city_id']);
             $query->withAvg('ratings', 'rating');
             // this line of code will return sum of tax rate for example I have 2 tax one is 5 percent another one is 10 percent then this will return 15 percent
-            $query->when(get_static_option('vendor_enable', 'on') != 'on', function ($query){
+            $query->when(get_static_option('vendor_enable', 'on') != 'on', function ($query) {
                 $query->whereNull("vendor_id");
             })->withSum('taxOptions', 'rate');
 
@@ -67,7 +67,7 @@ class CampaignStyleTwo extends PageBuilderBase
             $query->where('id', $selectedCampaign);
         })->first();
 
-        if($campaign){
+        if ($campaign) {
             $campaign->product = $campaign->product->transform(function ($item) {
                 if (! empty($item->vendor_id) && get_static_option('calculate_tax_based_on') == 'vendor_shop_address') {
                     $vendorAddress = $item->vendorAddress;
