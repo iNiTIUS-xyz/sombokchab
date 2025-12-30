@@ -84,7 +84,6 @@ class PopularProductStyleTwo extends PageBuilderBase
             'name' => 'order_by',
             'label' => __('Order By'),
             'options' => [
-                'id' => __('ID'),
                 'created_at' => __('Date'),
                 'sale_price' => __('Price'),
                 'sales' => __('Sales'),
@@ -105,25 +104,25 @@ class PopularProductStyleTwo extends PageBuilderBase
         ]);
         $output .= Number::get([
             'name' => 'items',
-            'label' => __('Items'),
+            'label' => __('Limit Of Product'),
             'value' => $widget_saved_values['items'] ?? null,
             'info' => __('Enter how many item you want to show in frontend, leave it empty if you want to show all products'),
         ]);
         $output .= '</div>';
 
         // padding
-        $output .= Slider::get([
-            'name' => 'padding_top',
-            'label' => __('Padding Top'),
-            'value' => $widget_saved_values['padding_top'] ?? 90,
-            'max' => 500,
-        ]);
-        $output .= Slider::get([
-            'name' => 'padding_bottom',
-            'label' => __('Padding Bottom'),
-            'value' => $widget_saved_values['padding_bottom'] ?? 200,
-            'max' => 500,
-        ]);
+        // $output .= Slider::get([
+        //     'name' => 'padding_top',
+        //     'label' => __('Padding Top'),
+        //     'value' => $widget_saved_values['padding_top'] ?? 90,
+        //     'max' => 500,
+        // ]);
+        // $output .= Slider::get([
+        //     'name' => 'padding_bottom',
+        //     'label' => __('Padding Bottom'),
+        //     'value' => $widget_saved_values['padding_bottom'] ?? 200,
+        //     'max' => 500,
+        // ]);
         $output .= $this->admin_form_submit_button();
         $output .= $this->admin_form_end();
         $output .= $this->admin_form_after();

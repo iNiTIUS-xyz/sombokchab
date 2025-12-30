@@ -27,7 +27,7 @@
             <a href="{{ route('frontend.products.single', $product->slug) }}">
                 {!! render_image($product->image) !!}
             </a>
-            
+
         </div>
 
         <div class="product__card__contents mt-3">
@@ -58,37 +58,35 @@
                 @else
                     @if (isset($attributes) && $attributes > 0)
                         <a href="{{ route('frontend.products.single', $product->slug) }}"
-                        class="product__card__cart__btn radius-30 {{ $class ?? '' }}"
-                        title="{{ __('View Details') }}">
+                            class="product__card__cart__btn radius-30" title="{{ __('View Details') }}">
                             {{ __('View Details') }}
                         </a>
                     @else
-                        <a data-type="text" data-old-text="{{ __('Add To Cart') }}" href="#1" title="{{ __('Add To Cart') }}"
-                            data-attributes="{{ $product->attribute }}" data-id="{{ $product->id }}"
-                            class="product__card__cart__outline radius-30 add_to_cart_ajax {{ $class ?? '' }}">
+                        <a data-type="text" data-old-text="{{ __('Add To Cart') }}" href="#1"
+                            title="{{ __('Add To Cart') }}" data-attributes="{{ $product->attribute }}"
+                            data-id="{{ $product->id }}"
+                            class="product__card__cart__outline radius-30 add_to_cart_ajax">
                             {{ __('Add To Cart') }}
                         </a>
                     @endif
                 @endif
 
                 <div class="product__card__cart__right">
-                    <a href="javascript:void(0)"
-                        data-id="{{ $product->id }}"
-                        title="{{ __('Add To Compare') }}"
-                        class="{{ $class ?? '' }} product__card__cart__btn__icon cart-loading icon add_to_compare_ajax">
-                            <i class="las la-retweet"></i>
+                    <a href="javascript:void(0)" data-id="{{ $product->id }}" title="{{ __('Add To Compare') }}"
+                        class="product__card__cart__btn__icon cart-loading icon add_to_compare_ajax">
+                        <i class="las la-retweet"></i>
                     </a>
 
                     @if (isset($attributes) && $attributes > 0)
                         <a title="View Details"
-                            class="{{ $class ?? '' }} product-quick-view-ajax favourite icon cart-loading product__card__cart__btn__icon"
+                            class="product-quick-view-ajax favourite icon cart-loading product__card__cart__btn__icon"
                             href="#1"
                             data-action-route="{{ route('frontend.products.single-quick-view', $product->slug) }}">
                             <i class="lar la-save"></i>
                         </a>
                     @else
                         <a href="#1" data-id="{{ $product->id }}" title="{{ __('Save For Later') }}"
-                            class="{{ $class ?? '' }} add_to_wishlist_ajax icon cart-loading product__card__cart__btn__icon">
+                            class="add_to_wishlist_ajax icon cart-loading product__card__cart__btn__icon">
                             <i class="lar la-save"></i>
                         </a>
                     @endif
