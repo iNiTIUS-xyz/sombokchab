@@ -13,11 +13,13 @@
                         data-responsive='[{"breakpoint": 1600,"settings": {"slidesToShow": 5}},{"breakpoint": 1400,"settings": {"slidesToShow": 5}},{"breakpoint": 1200,"settings": {"slidesToShow": 4}},{"breakpoint": 992,"settings": {"slidesToShow": 3}},{"breakpoint": 576,"settings": {"slidesToShow": 2}},{"breakpoint": 425, "settings": {"slidesToShow": 2} }]'>
                         @foreach ($brands as $brand)
                             <div class="brand__slider__item">
-                                <div class="brand__item text-center">
-                                    <div class="brand__item__thumb">
-                                        {!! render_image($brand->logo) !!}
+                                <a href="">
+                                    <div class="brand__item text-center">
+                                        <div class="brand__item__thumb">
+                                            {!! render_image($brand->logo) !!}
+                                        </div>
                                     </div>
-                                </div>
+                                </a>
                             </div>
                         @endforeach
                     </div>
