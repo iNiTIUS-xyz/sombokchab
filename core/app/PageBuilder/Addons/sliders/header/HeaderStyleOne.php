@@ -27,11 +27,11 @@ class HeaderStyleOne extends PageBuilderBase
             'settings' => $widget_saved_values,
             'id' => 'header_slider',
             'fields' => [
-                [
-                    'type' => RepeaterField::TEXT,
-                    'name' => 'subtitle',
-                    'label' => __('Subtitle'),
-                ],
+                // [
+                //     'type' => RepeaterField::TEXT,
+                //     'name' => 'subtitle',
+                //     'label' => __('Subtitle'),
+                // ],
                 [
                     'type' => RepeaterField::TEXT,
                     'name' => 'title',

@@ -6,7 +6,7 @@ namespace App\PageBuilder\Helpers\Traits;
 
 trait RenderViewString
 {
-    public function renderBlade($blade_name, $data = []) : string
+    public function renderBlade($blade_name, $data = []): string
     {
         $data = array_merge($data, ['settings' => $this->get_settings()]);
 
