@@ -1,5 +1,6 @@
 @php
     $attributes = $product?->inventory_detail_count ?? null;
+    $stock_count = optional($product->inventory)->stock_count;
     $isOutOfStock = $stock_count <= 0;
 @endphp
 
