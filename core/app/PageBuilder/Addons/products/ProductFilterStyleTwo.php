@@ -44,7 +44,7 @@ class ProductFilterStyleTwo extends PageBuilderBase
         ]);
 
         $output .= $this->product_order_item($widget_saved_values);
-        $output .= $this->paddings($widget_saved_values);
+        // $output .= $this->paddings($widget_saved_values);
         $output .= $this->admin_form_submit_button();
         $output .= $this->admin_form_end();
         $output .= $this->admin_form_after();

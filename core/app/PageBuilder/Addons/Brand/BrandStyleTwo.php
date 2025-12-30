@@ -30,7 +30,7 @@ class BrandStyleTwo extends PageBuilderBase
         $output .= $this->default_fields();
         $widget_saved_values = $this->get_settings();
 
-        $brands = Brand::select("id","name")->pluck("name", "id")->toArray();
+        $brands = Brand::select("id", "name")->pluck("name", "id")->toArray();
 
         $output .= NiceSelect::get([
             'name' => 'brands',
@@ -54,8 +54,8 @@ class BrandStyleTwo extends PageBuilderBase
         $all_settings = $this->get_settings();
         $brands_ids = $all_settings["brands"] ?? [];
 
-        $brands = Brand::with("logo")->when(!empty($brands_ids), function ($query) use ($brands_ids){
-            $query->where("id", $brands_ids)->get();
+        $brands = Brand::with("logo")->when(!empty($brands_ids), function ($query) use ($brands_ids) {
+            $query->whereIn("id", $brands_ids)->get();
         })->get();
 
         return $this->renderBlade("brand/style-02", compact("brands"));

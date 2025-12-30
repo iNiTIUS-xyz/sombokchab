@@ -75,18 +75,18 @@ class IconBoxStyleThree extends PageBuilderBase
             ]
         ]);
 
-        $output .= Slider::get([
-            'name' => 'padding_top',
-            'label' => __('Padding Top'),
-            'value' => $widget_saved_values['padding_top'] ?? 30,
-            'max' => 500,
-        ]);
-        $output .= Slider::get([
-            'name' => 'padding_bottom',
-            'label' => __('Padding Bottom'),
-            'value' => $widget_saved_values['padding_bottom'] ?? 30,
-            'max' => 500,
-        ]);
+        // $output .= Slider::get([
+        //     'name' => 'padding_top',
+        //     'label' => __('Padding Top'),
+        //     'value' => $widget_saved_values['padding_top'] ?? 30,
+        //     'max' => 500,
+        // ]);
+        // $output .= Slider::get([
+        //     'name' => 'padding_bottom',
+        //     'label' => __('Padding Bottom'),
+        //     'value' => $widget_saved_values['padding_bottom'] ?? 30,
+        //     'max' => 500,
+        // ]);
         $output .= $this->admin_form_submit_button();
         $output .= $this->admin_form_end();
         $output .= $this->admin_form_after();

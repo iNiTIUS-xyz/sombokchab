@@ -60,7 +60,7 @@ trait HelpersFunctions
             'name' => 'order_by',
             'label' => __('Order By'),
             'options' => [
-                'id' => __('ID'),
+                // 'id' => __('ID'),
                 'created_at' => __('Date'),
                 'sale_price' => __('Price'),
             ],

@@ -96,7 +96,7 @@
                                             </td>
                                             <td>
                                                 <a class="btn btn-success btn-sm mb-2 me-1"
-                                                    title="{{ __('View Campaign') }}"
+                                                    title="{{ __('View Campaign') }}" target="__blank"
                                                     href="{{ route('frontend.products.campaign', ['id' => $campaign->id, 'slug' => $campaign->slug]) }}">
                                                     <i class="ti-eye"></i>
                                                 </a>

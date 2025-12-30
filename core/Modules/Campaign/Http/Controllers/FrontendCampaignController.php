@@ -12,12 +12,15 @@ class FrontendCampaignController
     public function campaignPage($slug)
     {
         $campaign = Campaign::with("campaignImage")
-            ->whereHas("product")
             ->where("slug", $slug)
             ->firstOrFail();
 
         $products = Product::query()
-            ->withCount("orderItems", "inventoryDetail", "ratings")
+            ->withCount([
+                "orderItems",
+                "inventoryDetail",
+                "ratings"
+            ])
             ->with([
                 "campaign_product",
                 "campaign_sold_product",
@@ -28,7 +31,7 @@ class FrontendCampaignController
             ->withAvg("ratings", 'rating')
             ->orderByDesc("order_items_count")
             ->whereHas("campaign_product", function ($campaignProduct) use ($campaign) {
-                $campaignProduct->where("campaign_id", $campaign->id)->where("end_date", ">", now());
+                $campaignProduct->where("campaign_id", $campaign->id);
             });
 
         $products = CustomPaginationService::pagination_type($products, 10);
