@@ -220,7 +220,6 @@ class FrontendController extends Controller
             return [$item->id => $item->slug];
         })->toArray();
 
-
         if (in_array($slug, $pages_id_slugs) && $slug === $pages_id_slugs[$static_option['home_page']]) {
             return redirect()->route('homepage');
         } elseif (in_array($slug, $pages_id_slugs) && $slug === $pages_id_slugs[$static_option['blog_page']]) {
@@ -1290,6 +1289,7 @@ class FrontendController extends Controller
     private function fallbackBlogPage($page_post = null)
     {
         $page_name = $page_post->name ?? 'Blog';
+
         $all_blogs = Blog::with('category')->where('status', 'publish')->paginate();
 
         return view('frontend.dynamic-redirect.blog', [
