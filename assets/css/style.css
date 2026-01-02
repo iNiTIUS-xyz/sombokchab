@@ -29190,6 +29190,7 @@ select.form-control:not([size]):not([multiple]) {
   padding-bottom: 5px;
   padding-right: 5px;
   position: relative;
+  margin: 0px !important;
 }
 
 .select2-container--default .select2-selection--multiple:focus {
@@ -38637,4 +38638,61 @@ table.dataTable th.dt-type-numeric, table.dataTable th.dt-type-date, table.dataT
 
 table.dataTable .dt-type-numeric span.dt-column-order{
   position: absolute !important;
+}
+
+
+.flashSale__card {
+    height: 380px;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.flashSale__thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.flashSale__thumb {
+    height: 100%;
+}
+
+.flashSale__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.2) 0%,
+        rgba(0, 0, 0, 0.85) 100%
+    );
+    z-index: 1;
+}
+
+.flashSale__content {
+    bottom: 20px;
+    /* left: 20px;
+    right: 20px; */
+    z-index: 2;
+    color: #fff;
+    text-align: center;
+}
+
+.flashSale__title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #fff;
+    text-align: center;
+}
+
+.global__countdown {
+    display: flex;
+    justify-content: center;
+}
+
+.global__countdown__count {
+    background: var(--main-color-one);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-weight: 600;
 }

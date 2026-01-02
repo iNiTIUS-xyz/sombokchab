@@ -44,6 +44,7 @@ Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_
     Route::get('/', 'FrontendController@index')->name('homepage');
     Route::get('change-currency', 'FrontendController@changeCurrencySymbol')->name('changeCurrency');
     Route::get('products', 'FrontendController@dynamic_shop_single_page')->name('frontend.dynamic.shop.page');
+    Route::get('campaigns', 'FrontendController@dynamic_campaign_page')->name('frontend.dynamic.campaigns.page');
     Route::get('/home/{id}', 'FrontendController@home_page_change')->name('homepage.demo');
     // Newsletter
     Route::get('/subscriber/email-verify/{token}', 'FrontendController@subscriber_verify')->name('subscriber.verify');

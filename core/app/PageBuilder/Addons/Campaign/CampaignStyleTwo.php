@@ -2,10 +2,11 @@
 
 namespace App\PageBuilder\Addons\Campaign;
 
-use App\AdminShopManage;
 use App\Helpers\SanitizeInput;
-use App\PageBuilder\Fields\Select;
+use App\PageBuilder\Fields\NiceSelect;
+use App\PageBuilder\Fields\Text;
 use App\PageBuilder\PageBuilderBase;
+use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Translation\Translator;
 use Modules\Campaign\Entities\Campaign;
@@ -24,17 +25,37 @@ class CampaignStyleTwo extends PageBuilderBase
         $output .= $this->default_fields();
         $widget_saved_values = $this->get_settings();
 
-        $campaigns = Campaign::select('id', 'title')->where('status', 'publish')
-            ->whereNull('vendor_id')
+        $campaigns = Campaign::query()
+            ->where('status', 'publish')
+            // ->whereNull('vendor_id')
             ->latest('id')
-            ->pluck('title', 'id')->toArray();
+            ->pluck('title', 'id')
+            ->toArray();
 
-        $output .= Select::get([
-            'name' => 'campaign',
-            'label' => __('Select Campaign'),
-            'placeholder' => __('Select Campaign'),
+        // Section title
+        $output .= Text::get([
+            'name' => 'section_title',
+            'label' => __('Section Title'),
+            'value' => $widget_saved_values['section_title'] ?? null,
+        ]);
+
+        // Multi select campaigns (optional)
+        $output .= NiceSelect::get([
+            'name' => 'campaigns',
+            'multiple' => true,
+            'label' => __('Campaigns'),
+            'placeholder' => __('Select Campaigns'),
             'options' => $campaigns,
-            'value' => $widget_saved_values['campaign'] ?? null,
+            'value' => $widget_saved_values['campaigns'] ?? [],
+            'info' => __('Select campaigns to feature. Leave empty to show all campaigns.'),
+        ]);
+
+        // Limit (optional)
+        $output .= Text::get([
+            'name' => 'limit',
+            'label' => __('Limit of Campaigns'),
+            'value' => $widget_saved_values['limit'] ?? null,
+            'info' => __('Set a number to show only the latest N campaigns. Leave empty to show all campaigns.'),
         ]);
 
         $output .= $this->admin_form_submit_button();
@@ -47,46 +68,43 @@ class CampaignStyleTwo extends PageBuilderBase
     public function frontend_render(): string
     {
         $all_settings = $this->get_settings();
+
         $section_title = SanitizeInput::esc_html($all_settings['section_title'] ?? '');
-        $selectedCampaign = $all_settings['campaign'] ?? null;
-        $date = now();
+        $selectedCampaigns = $all_settings['campaigns'] ?? [];
 
-        $campaign = Campaign::with(['product' => function ($query) use ($date) {
-            $query->withCount('inventoryDetail', 'ratings');
-            $query->with(['campaign_sold_product', 'inventory', 'campaign_product' => function ($campaignProduct) use ($date) {
-                $campaignProduct->whereDate('end_date', '>=', $date)->whereDate('start_date', '<=', $date);
-            }, 'taxOptions:tax_class_options.id,country_id,state_id,city_id,rate', 'vendorAddress:vendor_addresses.id,country_id,state_id,city_id']);
-            $query->withAvg('ratings', 'rating');
-            // this line of code will return sum of tax rate for example I have 2 tax one is 5 percent another one is 10 percent then this will return 15 percent
-            $query->when(get_static_option('vendor_enable', 'on') != 'on', function ($query) {
-                $query->whereNull("vendor_id");
-            })->withSum('taxOptions', 'rate');
+        // limit: empty => load all, otherwise load N campaigns
+        $limit = $all_settings['limit'] ?? null;
+        $limit = is_numeric($limit) && (int) $limit > 0 ? (int) $limit : null;
 
-            return $query;
-        }])->when(! empty($selectedCampaign), function ($query) use ($selectedCampaign) {
-            $query->where('id', $selectedCampaign);
-        })->first();
+        $campaignQuery = Campaign::query()
+            ->where('status', 'publish')
+            // ->whereNull('vendor_id')
+            ->whereNotNull('end_date')
+            ->where('end_date', '>', Carbon::now()); // only active campaigns
 
-        if ($campaign) {
-            $campaign->product = $campaign->product->transform(function ($item) {
-                if (! empty($item->vendor_id) && get_static_option('calculate_tax_based_on') == 'vendor_shop_address') {
-                    $vendorAddress = $item->vendorAddress;
-                    $item = tax_options_sum_rate($item, $vendorAddress->country_id, $vendorAddress->state_id, $vendorAddress->city_id);
-                } elseif (empty($item->vendor_id) && get_static_option('calculate_tax_based_on') == 'vendor_shop_address') {
-                    $vendorAddress = AdminShopManage::select('id', 'country_id', 'state_id', 'city as city_id')->first();
-
-                    $item = tax_options_sum_rate($item, $vendorAddress->country_id, $vendorAddress->state_id, $vendorAddress->city_id);
-                }
-
-                return $item;
-            });
+        // If campaigns are selected, filter by them
+        if (!empty($selectedCampaigns)) {
+            $campaignQuery->whereIn('id', $selectedCampaigns);
         }
 
-        return $this->renderBlade('campaign/campaign-style-two', compact('campaign', 'section_title'));
+        // Always show campaigns ending first
+        $campaignQuery->orderBy('end_date', 'asc');
+
+        // Apply limit if set
+        if (!is_null($limit)) {
+            $campaignQuery->limit($limit);
+        }
+
+        $campaigns = $campaignQuery->get();
+
+        return $this->renderBlade(
+            'campaign/campaign-style-two',
+            compact('campaigns', 'section_title')
+        );
     }
 
     public function addon_title(): array|string|Translator|Application|null
     {
-        return __('Campaign Style: 02');
+        return __('Campaign Grid List');
     }
 }
