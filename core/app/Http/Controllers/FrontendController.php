@@ -284,12 +284,16 @@ class FrontendController extends Controller
 
     public function dynamic_campaign_page()
     {
+        $now = Carbon::now();
+
         $all_campaigns = Campaign::query()
             ->with('campaignImage')
             ->where('status', 'publish')
+            ->whereNotNull('start_date')
             ->whereNotNull('end_date')
-            ->where('end_date', '>', Carbon::now()) // active campaigns
-            ->orderBy('end_date', 'asc')            // ending soonest first
+            ->where('start_date', '<=', $now)
+            ->where('end_date', '>', $now)
+            ->orderBy('end_date', 'asc')
             ->paginate(12);
 
         return view('frontend.campaign.all-campaign', compact('all_campaigns'));

@@ -78,9 +78,10 @@ class CampaignStyleTwo extends PageBuilderBase
 
         $campaignQuery = Campaign::query()
             ->where('status', 'publish')
-            // ->whereNull('vendor_id')
+            ->whereNotNull('start_date')
             ->whereNotNull('end_date')
-            ->where('end_date', '>', Carbon::now()); // only active campaigns
+            ->where('start_date', '<=', Carbon::now())
+            ->where('end_date', '>', Carbon::now());
 
         // If campaigns are selected, filter by them
         if (!empty($selectedCampaigns)) {

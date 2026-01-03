@@ -166,24 +166,24 @@
             display: none !important;
         }
 
-/* Ensure header uses flex properly */
-#dataTable thead th .dt-column-header {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-}
+        /* Ensure header uses flex properly */
+        #dataTable thead th .dt-column-header {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
 
-/* Push sort icon to the RIGHT for numeric columns */
-#dataTable thead th.dt-type-numeric .dt-column-header,
-#dataTable thead th.dt-type-number .dt-column-header {
-    justify-content: space-between;
-}
+        /* Push sort icon to the RIGHT for numeric columns */
+        #dataTable thead th.dt-type-numeric .dt-column-header,
+        #dataTable thead th.dt-type-number .dt-column-header {
+            justify-content: space-between;
+        }
 
-/* Optional: small spacing polish */
-#dataTable thead th.dt-type-numeric .dt-column-order,
-#dataTable thead th.dt-type-number .dt-column-order {
-    margin-left: 0.5rem;
-}
+        /* Optional: small spacing polish */
+        #dataTable thead th.dt-type-numeric .dt-column-order,
+        #dataTable thead th.dt-type-number .dt-column-order {
+            margin-left: 0.5rem;
+        }
 
     </style>
 
@@ -293,9 +293,13 @@
             const title = $headerRow.find('th').eq(i).text().trim();
             const lower = title.toLowerCase();
 
-            const excludedColumns = ['image', 'attachment', 'file', 'action'];
+            const excludedColumns = ['image', 'logo', 'attachment', 'file', 'action'];
 
-            if (excludedColumns.includes(lower)) {
+            if (
+                excludedColumns.includes(lower) ||
+                $(this).find('.all-checkbox').length ||
+                $headerRow.find('th').eq(i).find('.all-checkbox').length
+            ) {
                 $(this).html('');
                 return;
             }
@@ -390,7 +394,7 @@
                 const clearBtn = api.button('.btn-clear-filters');
                 $(clearBtn.node()).hide();
 
-                /* 🔒 REMOVE SORTING FROM FILTER ROW */
+                /* REMOVE SORTING FROM FILTER ROW */
                 $('#dataTable thead tr.filters th')
                     .removeClass('sorting sorting_asc sorting_desc')
                     .off('click');
@@ -416,12 +420,63 @@
                         e.stopPropagation();
                     });
                 });
+
+                /* FIX CHECKBOX COLUMN WIDTH */
+                $('#dataTable thead th').each(function (i) {
+                    if ($(this).find('.all-checkbox').length) {
+                        // Header cell
+                        $(this).css({
+                            'max-width': '50px',
+                            'width': '50px',
+                            'text-align': 'center'
+                        });
+
+                        // Body cells
+                        $('#dataTable tbody tr').each(function () {
+                            $(this).find('td').eq(i).css({
+                                'max-width': '50px',
+                                'width': '50px',
+                                'text-align': 'center'
+                            });
+                        });
+                    }
+                });
             }
         });
 
     });
     </script>
 
+    <script>
+        document.addEventListener('click', function (e) {
+
+            // GLOBAL ADD
+            const addBtn = e.target.closest('.repeater-add-global');
+            if (addBtn) {
+                const wrapper = addBtn.closest('.iconbox-repeater-wrapper');
+                const items = wrapper.querySelector('.repeater-items');
+                const first = items.querySelector('.all-field-wrap');
+
+                if (!first) return;
+
+                const clone = first.cloneNode(true);
+
+                // clear inputs
+                clone.querySelectorAll('input, textarea, select').forEach(el => {
+                    el.value = '';
+                });
+
+                items.appendChild(clone);
+            }
+
+            // DELETE
+            const removeBtn = e.target.closest('.remove');
+            if (removeBtn) {
+                const item = removeBtn.closest('.all-field-wrap');
+                if (item) item.remove();
+            }
+        });
+    </script>
 
     <script>
         $(document).on('click', '.swal_delete_button', function(e) {
