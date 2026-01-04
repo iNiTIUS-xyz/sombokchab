@@ -184,7 +184,9 @@
         #dataTable thead th.dt-type-number .dt-column-order {
             margin-left: 0.5rem;
         }
-
+        .all-addons-wrapper .accordion-button{
+            padding: 0.25rem 1rem;
+        }
     </style>
 
     @yield('style')
@@ -267,214 +269,281 @@
 
     <x-notification.js />
     <script>
-    $(document).ready(function () {
+        $(document).ready(function () {
 
-        if (!$('#dataTable').length) return;
+            if (!$('#dataTable').length) return;
 
-        const $table = $('#dataTable');
-        const $thead = $table.find('thead');
-        const $headerRow = $thead.find('tr').first();
+            const $table = $('#dataTable');
+            const $thead = $table.find('thead');
+            const $headerRow = $thead.find('tr').first();
 
-        /* =====================================================
-        * 1. CLONE HEADER & ADD FILTER ROW
-        * ===================================================== */
-        const $filterRow = $headerRow.clone(false)
-            .addClass('filters')
-            .prependTo($thead);
+            /* =====================================================
+            * 1. CLONE HEADER & ADD FILTER ROW
+            * ===================================================== */
+            const $filterRow = $headerRow.clone(false)
+                .addClass('filters')
+                .prependTo($thead);
 
-        $filterRow
-            .find('.dropdown-menu, .btn-group, button, a, form, .badge')
-            .remove();
+            $filterRow
+                .find('.dropdown-menu, .btn-group, button, a, form, .badge')
+                .remove();
 
-        /* =====================================================
-        * 2. ADD FILTER INPUTS (EXCLUDING SPECIFIED COLUMNS)
-        * ===================================================== */
-        $filterRow.find('th').each(function (i) {
-            const title = $headerRow.find('th').eq(i).text().trim();
-            const lower = title.toLowerCase();
+            /* =====================================================
+            * 2. ADD FILTER INPUTS (EXCLUDING SPECIFIED COLUMNS)
+            * ===================================================== */
+            $filterRow.find('th').each(function (i) {
+                const title = $headerRow.find('th').eq(i).text().trim();
+                const lower = title.toLowerCase();
 
-            const excludedColumns = ['image', 'logo', 'attachment', 'file', 'action'];
+                const excludedColumns = ['image', 'logo', 'attachment', 'file', 'action'];
 
-            if (
-                excludedColumns.includes(lower) ||
-                $(this).find('.all-checkbox').length ||
-                $headerRow.find('th').eq(i).find('.all-checkbox').length
-            ) {
-                $(this).html('');
-                return;
+                if (
+                    excludedColumns.includes(lower) ||
+                    $(this).find('.all-checkbox').length ||
+                    $headerRow.find('th').eq(i).find('.all-checkbox').length
+                ) {
+                    $(this).html('');
+                    return;
+                }
+
+                $(this).html(
+                    `<input type="text" class="column-filter" placeholder="${title}" style="width:100%;" />`
+                );
+            });
+
+            /* =====================================================
+            * 3. STATUS COLUMN SEARCH RENDERER (UNCHANGED)
+            * ===================================================== */
+            function statusSearchRenderer(data, type) {
+                if (type === 'display') return data;
+                if (!data) return '';
+
+                const tmp = document.createElement('div');
+                tmp.innerHTML = data;
+
+                const btn = tmp.querySelector('button');
+                if (btn) return btn.textContent.trim();
+
+                return tmp.textContent.trim();
             }
 
-            $(this).html(
-                `<input type="text" class="column-filter" placeholder="${title}" style="width:100%;" />`
-            );
-        });
+            const columnDefs = [];
+            const $firstRow = $table.find('tbody tr:first');
 
-        /* =====================================================
-        * 3. STATUS COLUMN SEARCH RENDERER (UNCHANGED)
-        * ===================================================== */
-        function statusSearchRenderer(data, type) {
-            if (type === 'display') return data;
-            if (!data) return '';
+            if ($firstRow.length) {
+                $firstRow.find('td').each(function (idx) {
+                    const html = $(this).html() || '';
+                    if (html.includes('dropdown-toggle') && html.includes('status')) {
+                        columnDefs.push({
+                            targets: idx,
+                            render: statusSearchRenderer
+                        });
+                    }
+                });
+            }
 
-            const tmp = document.createElement('div');
-            tmp.innerHTML = data;
+            /* =====================================================
+            * 4. INIT DATATABLE (UNCHANGED)
+            * ===================================================== */
+            const table = new DataTable('#dataTable', {
+                paging: true,
+                lengthChange: true,
+                searching: true,
+                ordering: true,
+                order: [],
+                info: true,
+                autoWidth: false,
+                responsive: true,
+                pagingType: "simple_numbers",
 
-            const btn = tmp.querySelector('button');
-            if (btn) return btn.textContent.trim();
+                columnDefs: columnDefs,
 
-            return tmp.textContent.trim();
-        }
-
-        const columnDefs = [];
-        const $firstRow = $table.find('tbody tr:first');
-
-        if ($firstRow.length) {
-            $firstRow.find('td').each(function (idx) {
-                const html = $(this).html() || '';
-                if (html.includes('dropdown-toggle') && html.includes('status')) {
-                    columnDefs.push({
-                        targets: idx,
-                        render: statusSearchRenderer
-                    });
-                }
-            });
-        }
-
-        /* =====================================================
-        * 4. INIT DATATABLE (UNCHANGED)
-        * ===================================================== */
-        const table = new DataTable('#dataTable', {
-            paging: true,
-            lengthChange: true,
-            searching: true,
-            ordering: true,
-            order: [],
-            info: true,
-            autoWidth: false,
-            responsive: true,
-            pagingType: "simple_numbers",
-
-            columnDefs: columnDefs,
-
-            layout: {
-                topEnd: {
-                    buttons: [
-                        {
-                            text: 'Clear Filters',
-                            className: 'btn-clear-filters',
-                            action: function () {
-                                $('.column-filter').val('');
-                                table.columns().search('').draw();
-                                $(this.node()).hide();
+                layout: {
+                    topEnd: {
+                        buttons: [
+                            {
+                                text: 'Clear Filters',
+                                className: 'btn-clear-filters',
+                                action: function () {
+                                    $('.column-filter').val('');
+                                    table.columns().search('').draw();
+                                    $(this.node()).hide();
+                                }
+                            },
+                            {
+                                extend: 'excel',
+                                text: 'Export'
                             }
-                        },
-                        {
-                            extend: 'excel',
-                            text: 'Export'
+                        ],
+                        search: {
+                            placeholder: "Type Here"
                         }
-                    ],
-                    search: {
-                        placeholder: "Type Here"
+                    },
+                    bottomStart: 'info',
+                    bottomEnd: 'paging'
+                },
+
+                language: {
+                    search: "Filter:",
+                    paginate: {
+                        previous: '&laquo;',
+                        next: '&raquo;'
                     }
                 },
-                bottomStart: 'info',
-                bottomEnd: 'paging'
-            },
 
-            language: {
-                search: "Filter:",
-                paginate: {
-                    previous: '&laquo;',
-                    next: '&raquo;'
-                }
-            },
+                initComplete: function () {
+                    const api = this.api();
+                    const clearBtn = api.button('.btn-clear-filters');
+                    $(clearBtn.node()).hide();
 
-            initComplete: function () {
-                const api = this.api();
-                const clearBtn = api.button('.btn-clear-filters');
-                $(clearBtn.node()).hide();
+                    /* REMOVE SORTING FROM FILTER ROW */
+                    $('#dataTable thead tr.filters th')
+                        .removeClass('sorting sorting_asc sorting_desc')
+                        .off('click');
 
-                /* REMOVE SORTING FROM FILTER ROW */
-                $('#dataTable thead tr.filters th')
-                    .removeClass('sorting sorting_asc sorting_desc')
-                    .off('click');
+                    /* BIND COLUMN FILTERS */
+                    $('#dataTable thead tr.filters th').each(function (i) {
+                        const $input = $('input', this);
+                        if (!$input.length) return;
 
-                /* BIND COLUMN FILTERS */
-                $('#dataTable thead tr.filters th').each(function (i) {
-                    const $input = $('input', this);
-                    if (!$input.length) return;
+                        $input.on('keyup change', function () {
+                            api.column(i).search(this.value).draw();
 
-                    $input.on('keyup change', function () {
-                        api.column(i).search(this.value).draw();
+                            const hasValue = $('.column-filter')
+                                .toArray()
+                                .some(el => el.value.trim() !== '');
 
-                        const hasValue = $('.column-filter')
-                            .toArray()
-                            .some(el => el.value.trim() !== '');
-
-                        hasValue
-                            ? $(clearBtn.node()).show()
-                            : $(clearBtn.node()).hide();
-                    });
-
-                    $input.on('click', function (e) {
-                        e.stopPropagation();
-                    });
-                });
-
-                /* FIX CHECKBOX COLUMN WIDTH */
-                $('#dataTable thead th').each(function (i) {
-                    if ($(this).find('.all-checkbox').length) {
-                        // Header cell
-                        $(this).css({
-                            'max-width': '50px',
-                            'width': '50px',
-                            'text-align': 'center'
+                            hasValue
+                                ? $(clearBtn.node()).show()
+                                : $(clearBtn.node()).hide();
                         });
 
-                        // Body cells
-                        $('#dataTable tbody tr').each(function () {
-                            $(this).find('td').eq(i).css({
+                        $input.on('click', function (e) {
+                            e.stopPropagation();
+                        });
+                    });
+
+                    /* FIX CHECKBOX COLUMN WIDTH */
+                    $('#dataTable thead th').each(function (i) {
+                        if ($(this).find('.all-checkbox').length) {
+                            // Header cell
+                            $(this).css({
                                 'max-width': '50px',
                                 'width': '50px',
                                 'text-align': 'center'
                             });
-                        });
-                    }
-                });
-            }
-        });
 
-    });
+                            // Body cells
+                            $('#dataTable tbody tr').each(function () {
+                                $(this).find('td').eq(i).css({
+                                    'max-width': '50px',
+                                    'width': '50px',
+                                    'text-align': 'center'
+                                });
+                            });
+                        }
+                    });
+                }
+            });
+
+        });
     </script>
 
     <script>
         document.addEventListener('click', function (e) {
 
-            // GLOBAL ADD
+            /* ===============================
+            * GLOBAL ADD REPEATER ITEM
+            * =============================== */
             const addBtn = e.target.closest('.repeater-add-global');
             if (addBtn) {
+
                 const wrapper = addBtn.closest('.iconbox-repeater-wrapper');
-                const items = wrapper.querySelector('.repeater-items');
-                const first = items.querySelector('.all-field-wrap');
+                const items   = wrapper.querySelector('.repeater-items');
+                const first   = items.querySelector('.all-field-wrap');
 
                 if (!first) return;
 
+                // clone first row
                 const clone = first.cloneNode(true);
 
-                // clear inputs
+                // unique id suffix (VERY IMPORTANT)
+                const uid = 'rp_' + Date.now() + '_' + Math.floor(Math.random() * 100000);
+
+                /* ---------------------------------
+                * Make all IDs inside clone unique
+                * --------------------------------- */
+                clone.querySelectorAll('[id]').forEach(el => {
+                    el.id = el.id + '_' + uid;
+                });
+
+                clone.querySelectorAll('label[for]').forEach(label => {
+                    label.setAttribute('for', label.getAttribute('for') + '_' + uid);
+                });
+
+                clone.querySelectorAll('[href^="#"]').forEach(el => {
+                    el.setAttribute('href', el.getAttribute('href') + '_' + uid);
+                });
+
+                clone.querySelectorAll('[data-bs-target^="#"], [data-target^="#"]').forEach(el => {
+                    const attr = el.hasAttribute('data-bs-target') ? 'data-bs-target' : 'data-target';
+                    el.setAttribute(attr, el.getAttribute(attr) + '_' + uid);
+                });
+
+                clone.querySelectorAll('[aria-controls]').forEach(el => {
+                    el.setAttribute('aria-controls', el.getAttribute('aria-controls') + '_' + uid);
+                });
+
+                /* ---------------------------------
+                * Clear normal form fields
+                * --------------------------------- */
                 clone.querySelectorAll('input, textarea, select').forEach(el => {
+                    if (
+                        el.type === 'button' ||
+                        el.type === 'submit' ||
+                        el.type === 'file'
+                    ) return;
+
                     el.value = '';
                 });
 
+                /* ---------------------------------
+                * Reset IMAGE FIELD safely
+                * --------------------------------- */
+                clone.querySelectorAll('.media-upload-btn-wrapper').forEach(wrapper => {
+
+                    // clear hidden attachment id
+                    wrapper.querySelectorAll('input[type="hidden"]').forEach(input => {
+                        input.value = '';
+                    });
+
+                    // remove previous preview + remove icon
+                    wrapper.querySelectorAll('.attachment-preview, .rmv-span').forEach(el => {
+                        el.remove();
+                    });
+
+                    // reset img but DO NOT remove it
+                    const img = wrapper.querySelector('img');
+                    if (img) {
+                        img.src = '';
+                        img.removeAttribute('srcset');
+                        img.style.display = 'none';
+                    }
+                });
+
+                // append new row
                 items.appendChild(clone);
             }
 
-            // DELETE
+            /* ===============================
+            * REMOVE REPEATER ITEM
+            * =============================== */
             const removeBtn = e.target.closest('.remove');
             if (removeBtn) {
                 const item = removeBtn.closest('.all-field-wrap');
                 if (item) item.remove();
             }
+
         });
     </script>
 
