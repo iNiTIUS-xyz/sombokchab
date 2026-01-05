@@ -18,16 +18,14 @@ class MobileSliderController extends Controller
 
     public function index()
     {
-        $mobileSliders = MobileSlider::where("type", 1)->get();
+        $mobileSliders = MobileSlider::get();
 
         return view("mobileapp::mobile-slider.list", compact("mobileSliders"));
     }
 
     public function create()
     {
-        // first i need to get all campaigns first
         $campaigns = Campaign::select(["id", "title as name"])->get();
-        // now fetch all category
         $categories = Category::select("id", "name")->get();
 
         return view("mobileapp::mobile-slider.create", compact("campaigns", "categories"));
@@ -40,12 +38,6 @@ class MobileSliderController extends Controller
         $mobileSlider = MobileSlider::create($data + ["type" => 1]);
 
         return redirect(route("admin.mobile.slider.all"))->with(["type" => $mobileSlider ? "success" : "danger", "success" => $mobileSlider ?? false, "msg" => "Successfully Created Mobile Slider"]);
-    }
-
-    public function destroy(MobileSlider $mobileSlider)
-    {
-        $bool = $mobileSlider->delete();
-        return response()->json(["success" => $bool ?? false]);
     }
 
     public function edit(MobileSlider $mobileSlider)
@@ -113,7 +105,6 @@ class MobileSliderController extends Controller
     public function three_index()
     {
         $mobileSliders = MobileSlider::where("type", 3)->get();
-        // now return only view
         return view("mobileapp::mobile-slider-three.list", compact("mobileSliders"));
     }
 
@@ -154,5 +145,11 @@ class MobileSliderController extends Controller
         $bool = $mobileSlider->update($data);
 
         return redirect(route("admin.mobile.slider.three.all"))->with(["success" => $bool ?? false, "msg" => "Successfully updated mobile slider"]);
+    }
+
+    public function destroy(MobileSlider $mobileSlider)
+    {
+        $bool = $mobileSlider->delete();
+        return response()->json(["success" => $bool ?? false]);
     }
 }

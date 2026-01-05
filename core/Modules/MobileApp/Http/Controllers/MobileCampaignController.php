@@ -2,9 +2,10 @@
 
 namespace Modules\MobileApp\Http\Controllers;
 
-use Modules\Campaign\Entities\Campaign;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
+use Modules\Campaign\Entities\Campaign;
 use Modules\MobileApp\Entities\MobileCampaign;
 
 class MobileCampaignController extends Controller
@@ -17,17 +18,36 @@ class MobileCampaignController extends Controller
     public function index()
     {
         $campaigns = Campaign::select('title as name', 'id')->get();
-        $selectedCampaign = MobileCampaign::first();
+        $selectedCampaign = MobileCampaign::pluck('campaign_id');
+        $selectedCampaignIds = json_decode($selectedCampaign);
 
-        return view("mobileapp::mobile-campaign.create", compact('campaigns', 'selectedCampaign'));
+        return view("mobileapp::mobile-campaign.create", compact('campaigns', 'selectedCampaignIds'));
     }
 
     public function update(Request $request)
     {
-        $data = $request->validate(["campaign" => 'required']);
+        try {
+            $request->validate([
+                "campaign" => 'required'
+            ]);
 
-        MobileCampaign::updateOrCreate(['id' => 1], ['type' => '1', 'campaign_id' => $data['campaign']]);
+            MobileCampaign::truncate();
 
-        return back()->with(["type" => 'success', 'msg' => "Campaign updated successfully."]);
+            DB::beginTransaction();
+
+            foreach ($request->campaign as $campaign) {
+
+                MobileCampaign::firstOrCreate([
+                    'campaign_id' => $campaign
+                ]);
+            }
+
+            DB::commit();
+
+            return back()->with(["alert-type" => 'success', 'message' => "Campaign updated successfully."]);
+        } catch (\Throwable $e) {
+
+            return back()->with(["alert-type" => 'error', 'message' => "Something went wrong. Please try again."]);
+        }
     }
 }
