@@ -5,15 +5,13 @@ namespace App\PageBuilder\Fields;
 use App\PageBuilder\Helpers\Traits\FieldInstanceHelper;
 use App\PageBuilder\PageBuilderField;
 
-class NiceSelect extends PageBuilderField
-{
+class NiceSelect extends PageBuilderField {
     use FieldInstanceHelper;
 
     /**
      * render field markup
      * */
-    public function render()
-    {
+    public function render() {
         $output = '';
         $output .= $this->field_before();
         $output .= $this->label();
@@ -34,8 +32,8 @@ class NiceSelect extends PageBuilderField
 
         $multiple_attr = $multiple ? 'multiple' : '';
         $class = $multiple
-            ? 'form-control select2-multi'  // Use Select2 for multiple
-            : 'nice-select wide ' . $this->field_class();
+        ? 'form-control select2-multi' // Use Select2 for multiple
+        : 'nice-select wide ' . $this->field_class();
 
         $output .= '<select name="' . $name . '" class="' . $class . '" ' . $multiple_attr . ' style="width:100%;">';
 
@@ -54,16 +52,35 @@ class NiceSelect extends PageBuilderField
             $selected = '';
 
             if ($multiple) {
-                $selected = in_array((string)$value, array_map('strval', $current_value)) ? 'selected' : '';
+
+                // 🔥 Normalize + flatten current value
+                $normalized = [];
+
+                if (is_string($current_value)) {
+                    $decoded = json_decode($current_value, true);
+                    $current_value = is_array($decoded)
+                    ? $decoded
+                    : explode(',', $current_value);
+                }
+
+                if (is_array($current_value)) {
+                    array_walk_recursive($current_value, function ($item) use (&$normalized) {
+                        if ($item !== null && $item !== '') {
+                            $normalized[] = (string) $item;
+                        }
+                    });
+                }
+
+                $selected = in_array((string) $value, $normalized, true) ? 'selected' : '';
             } else {
-                $selected = ((string)$current_value === (string)$value) ? 'selected' : '';
+                $selected = ((string) $current_value === (string) $value) ? 'selected' : '';
             }
 
             // Use title attribute to show full text on hover
             $title_attr = ($original_label !== $label) ? ' title="' . htmlspecialchars($original_label) . '"' : '';
 
             $output .= '<option value="' . htmlspecialchars($value) . '" ' . $selected . $title_attr . '>'
-                . htmlspecialchars($label)
+            . htmlspecialchars($label)
                 . '</option>';
         }
 
