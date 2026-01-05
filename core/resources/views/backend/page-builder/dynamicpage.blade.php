@@ -2,6 +2,12 @@
 
 @section('style')
     <x-pagebuilder.css />
+    <style>
+        .available-form-field.form-field-space li:not(:last-child),
+        .available-form-field.main-fields li:not(:last-child) {
+            margin-bottom: 0 !important;
+        }
+    </style>
 @endsection
 
 @section('site-title')
@@ -97,7 +103,6 @@
 @section('script')
     <script>
         function colorPickerInit(selector) {
-
             $.each(selector, function(index, value) {
                 var el = $(this);
                 el.spectrum({
@@ -143,14 +148,14 @@
     </script>
     <x-pagebuilder.js />
     <x-pagebuilder.helper />
+
     <script>
         let summernoteConfig = {
             disableDragAndDrop: true,
-            height: 200, //set editable area's height
+            height: 200,
             codeviewFilter: true,
             codeviewIframeFilter: true,
             toolbar: [
-                // [groupName, [list of button]]
                 ['style', ['bold', 'italic', 'underline', 'clear']],
                 ['font', ['strikethrough', 'superscript', 'subscript']],
                 ['fontsize', ['fontsize']],
@@ -169,22 +174,19 @@
                 },
                 'pre', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'
             ],
-            codemirror: { // codemirror options
+            codemirror: {
                 theme: 'monokai'
             },
             callbacks: {
                 onPaste: function(e) {
-                    var bufferText = ((e.originalEvent || e).clipboardData || window
-                        .clipboardData).getData('Text');
+                    var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
                     e.preventDefault();
                     document.execCommand('insertText', false, bufferText);
                 }
             }
         };
 
-        // Function to initialize the icon picker
         function initializeIconPicker(container, defaultIcon = 'lab la-accessible-icon') {
-            // check container is empty or not if empty then go back
             if (container.html() == '') {
                 container.iconpicker({
                     iconset: 'line-awesome',
@@ -200,32 +202,21 @@
                 container.on("iconpickerSelected", function(e) {
                     $(this).parent().parent().children('input').val($(this).find('.iconpicker-selected').attr(
                         'title')?.replace('.', ''));
-
                     if (!e.icon) {
-                        // Destroy the icon picker instance
                         container.iconpicker('destroy');
                     }
                 });
-            } else {
-                return '';
             }
         }
 
         $(document).on("click", ".icp.icp-dd", function() {
-            // now find the container for this
             const currentEl = $(this);
             const container = currentEl.parent().find('.dropdown-menu');
-
-            // Check if the icon picker is not already initialized
             if (!container.attr('data-iconpicker')) {
-                // now initialize the iconpicker here by calling initializeIconPicker function
-                initializeIconPicker(container, currentEl.attr('data-selected'))
+                initializeIconPicker(container, currentEl.attr('data-selected'));
             }
-        })
+        });
 
-        /*---------------------------------
-         *   PREVIEW IMAGE
-         * --------------------------------*/
         $(document).on('mouseover', '.all-addons-wrapper ul.ui-sortable li.widget-handler', function(e) {
             var imgUrl = $(this).find('a').attr('href');
             $(this).append('<div class="imageupshow"><img src="' + imgUrl + '" alt=""></div>');
@@ -235,66 +226,6 @@
             $(this).find('.imageupshow').remove();
         });
 
-
-        $(document).on('change', '.addon_advertisement_size', function(e) {
-            e.preventDefault();
-            alert(1);
-        });
-
-        $(document).on('click', '#add_two_column_container', function(e) {
-            e.preventDefault();
-            let appendConMarkup = `
-                <div class="col-md-12 page-builder-area-wrapper extra-title">
-                    <ul id="dynamic_page_with_sidebar"
-                        class="sortable available-form-field main-fields sortable_widget_location margin-bottom-15">
-                            {!! \App\PageBuilder\PageBuilderSetup::get_saved_addons_for_dynamic_page('dynamic_page_list', $page->id) !!}
-                    </ul>
-                </div>
-            `;
-            $('#container_wrapper').append(appendConMarkup);
-
-            enable_draggable_addon();
-            //
-        });
-
-        $(document).on('click', '#add_with_sidebar_container', function(e) {
-            e.preventDefault();
-            let appendConMarkup = `
-                <div id="container_wrapper">
-                    <h4 class="main-title">
-                        {{ __('With Sidebar Layout') }}
-                         </h4>
-                    <div class="row g-4">
-                        <div class="col-md-5">
-                            <div class="page-builder-area-wrapper extra-title">
-                                <ul id="dynamic_page_left_sidebar"
-                                    class="sortable available-form-field main-fields sortable_widget_location margin-bottom-15">
-                                        {!! \App\PageBuilder\PageBuilderSetup::get_saved_addons_for_dynamic_page('dynamic_page_left_sidebar', $page->id) !!}
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-md-7 page-builder-area-wrapper extra-title">
-                            <ul id="dynamic_page_right_sidebar"
-                                class="sortable available-form-field main-fields sortable_widget_location margin-bottom-15">
-                                    {!! \App\PageBuilder\PageBuilderSetup::get_saved_addons_for_dynamic_page(
-                                        'dynamic_page_right_sidebar',
-                                        $page->id,
-                                    ) !!}
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            $('#parent-container').append(appendConMarkup);
-            //
-            enable_draggable_addon();
-        });
-
-
-        /*----------------------------------
-         *   SEARCH WIDGETS
-         * ---------------------------------*/
         $(document).on('keyup', '#search_addon_field', function() {
             var searchText = $(this).val();
             var allWidgets = $('.available-form-field.sortable_02 li > h4');
@@ -309,9 +240,6 @@
             });
         });
 
-        /*-----------------------------------
-         *   PAGE BUILDER CORE SCRIPT
-         * ---------------------------------*/
         enable_draggable_addon();
 
         function enable_draggable_addon() {
@@ -330,7 +258,6 @@
             });
         }
 
-
         function setAddonLocation(event) {
             var addonLocation = event.target.getAttribute('id');
             var allDraggerdAddon = $('#' + event.target.getAttribute('id')).find('li');
@@ -342,7 +269,6 @@
         }
 
         function renderWidgetMarkup(event, li) {
-
             var addonClass = li.item.attr('data-name');
             var namespace = li.item.attr('data-namespace');
             var markup = '';
@@ -383,9 +309,7 @@
             }
         }).disableSelection();
 
-
         $('body').on('click', '.remove-widget', function(e) {
-            //swal alert
             Swal.fire({
                 title: '{{ __('Are you sure to make this addon?') }}',
                 text: '{{ __('it will remove this addon with all data, you will not able to revert it again.') }}',
@@ -396,7 +320,6 @@
                 confirmButtonText: "{{ __('Yes, Accept it!') }}"
             }).then((result) => {
                 if (result.isConfirmed) {
-
                     $(this).parent().remove();
                     $(".sortable_02").sortable("refreshPositions");
                     var parent = $(this).parent();
@@ -415,7 +338,6 @@
                             success: function(data) {}
                         });
                     }
-
                 }
             });
         });
@@ -444,11 +366,13 @@
                 });
 
                 $(this).parent().find('.content-part').find('.nice-select').niceSelect();
+
+                // Re-init Select2 for multi-selects
+                setTimeout(initSelect2, 150);
             } else {
                 expand.attr('class', 'ti-angle-down');
                 $('body .nice-select').niceSelect('destroy');
                 $('li[data-name="' + classname + '"] .summernote').summernote('destroy');
-                // $('body .icp-dd').iconpicker('destroy');
                 $('body .nice-select').niceSelect('destroy');
             }
         });
@@ -471,44 +395,33 @@
                 url: formAction,
                 data: form.serializeArray(),
                 success: function(data) {
-
-                    // for newly created widget
                     if (widgetType === 'new' && data.id !== undefined) {
                         updateId = data.id;
-
-                        formContainer.attr(
-                            'action',
-                            "{{ route('admin.page.builder.update') }}"
-                        );
-
+                        formContainer.attr('action', "{{ route('admin.page.builder.update') }}");
                         formContainer.find('input[name="addon_type"]').val('update');
-
-                        formContainer.prepend(
-                            '<input type="hidden" name="id" value="' + updateId + '">'
-                        );
+                        formContainer.prepend('<input type="hidden" name="id" value="' + updateId +
+                            '">');
                     }
 
-                    // success message
                     if (data === 'ok' || data.status === 'ok') {
                         form.append(
                             '<span class="text-success d-block mt-2">{{ __('Saved successfully') }}</span>'
                         );
                     }
 
-                    // dynamic message
                     if (data.msg !== undefined) {
-                        form.append(
-                            '<span class="d-block mt-2 text-' + data.type + '">' + data.msg +
-                            '</span>'
-                        );
+                        form.append('<span class="d-block mt-2 text-' + data.type + '">' + data.msg +
+                            '</span>');
                     }
 
-                    // remove message after 2s
                     setTimeout(function() {
                         form.find('span').fadeOut(300, function() {
                             $(this).remove();
                         });
                     }, 2000);
+
+                    // Re-init Select2 after save
+                    setTimeout(initSelect2, 500);
                 },
                 error: function() {
                     alert('Something went wrong!');
@@ -521,7 +434,6 @@
 
         function resetOrder(dropedOn) {
             var allItems = $('#' + dropedOn + ' li');
-
             $.each(allItems, function(index) {
                 $(this).find('input[name="addon_order"]').val(index + 1);
                 $(this).find('input[name="addon_location"]').val(dropedOn);
@@ -544,38 +456,42 @@
                     id: id,
                     addon_order: addon_order
                 },
-                success: function(data) {
-                    // order saved
-                }
+                success: function(data) {}
             });
         }
 
         $(document).on('click', '.widget-area-expand', function(e) {
             e.preventDefault();
-
-            var widgetBody = $(this)
-                .parent()
-                .parent()
-                .find('.widget-area-body');
-
+            var widgetBody = $(this).parent().parent().find('.widget-area-body');
             widgetBody.toggleClass('hide');
-
             var expandIcon = $(this).children('i');
-
             if (expandIcon.hasClass('ti-angle-down')) {
                 expandIcon.attr('class', 'ti-angle-up');
             } else {
                 expandIcon.attr('class', 'ti-angle-down');
-
-                var allWidgets = $(this)
-                    .parent()
-                    .parent()
-                    .find('.widget-area-body ul li');
-
+                var allWidgets = $(this).parent().parent().find('.widget-area-body ul li');
                 $.each(allWidgets, function() {
                     $(this).find('.content-part').removeClass('show');
                 });
             }
+        });
+
+        // Select2 Initialization Function
+        function initSelect2() {
+            $('.select2-multi').each(function() {
+                if (!$(this).hasClass('select2-hidden-accessible')) {
+                    $(this).select2({
+                        placeholder: "{{ __('Select options') }}",
+                        allowClear: true,
+                        width: '100%'
+                    });
+                }
+            });
+        }
+
+        // Initialize Select2 on page load
+        $(document).ready(function() {
+            initSelect2();
         });
     </script>
 @endsection

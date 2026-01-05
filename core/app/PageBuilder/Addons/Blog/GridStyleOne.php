@@ -56,7 +56,7 @@ class GridStyleOne extends PageBuilderBase
         $output .= $this->default_fields();
         $widget_saved_values = $this->get_settings();
 
-        $blogs = Blog::where('status', 'publish')->pluck('title','id')->toArray();
+        $blogs = Blog::where('status', 'publish')->pluck('title', 'id')->toArray();
         $output .= NiceSelect::get([
             'name' => 'blogs',
             'multiple' => true,
@@ -68,7 +68,7 @@ class GridStyleOne extends PageBuilderBase
         ]);
         $output .= Number::get([
             'name' => 'items',
-            'label' => __('Items'),
+            'label' => __('Limit of blog'),
             'value' => $widget_saved_values['items'] ?? null,
             'info' => __('enter how many item you want to show per page, if you leave it empty 15 blogs will be shown per page'),
         ]);
@@ -78,18 +78,18 @@ class GridStyleOne extends PageBuilderBase
             'value' => $widget_saved_values['read_more_btn_text'] ?? null,
         ]);
 
-        $output .= Slider::get([
-            'name' => 'padding_top',
-            'label' => __('Padding Top'),
-            'value' => $widget_saved_values['padding_top'] ?? 60,
-            'max' => 500,
-        ]);
-        $output .= Slider::get([
-            'name' => 'padding_bottom',
-            'label' => __('Padding Bottom'),
-            'value' => $widget_saved_values['padding_bottom'] ?? 60,
-            'max' => 500,
-        ]);
+        // $output .= Slider::get([
+        //     'name' => 'padding_top',
+        //     'label' => __('Padding Top'),
+        //     'value' => $widget_saved_values['padding_top'] ?? 60,
+        //     'max' => 500,
+        // ]);
+        // $output .= Slider::get([
+        //     'name' => 'padding_bottom',
+        //     'label' => __('Padding Bottom'),
+        //     'value' => $widget_saved_values['padding_bottom'] ?? 60,
+        //     'max' => 500,
+        // ]);
 
         $output .= $this->admin_form_submit_button();
         $output .= $this->admin_form_end();
@@ -111,9 +111,10 @@ class GridStyleOne extends PageBuilderBase
         $padding_bottom = SanitizeInput::esc_html($this->setting_item('padding_bottom'));
 
         $selected_blog_ids = $this->setting_item('blogs');
+
         $blog_items = isset($selected_blog_ids)
-                        ? sanitizeArray($selected_blog_ids) ?? []
-                        : [];
+            ? sanitizeArray($selected_blog_ids) ?? []
+            : [];
         $items = SanitizeInput::esc_html($this->setting_item('items'));
         $readMoreBtnText = SanitizeInput::esc_html($this->setting_item('read_more_btn_text'));
         $readMoreBtnText = strlen($readMoreBtnText) ? $readMoreBtnText : __('Read More');

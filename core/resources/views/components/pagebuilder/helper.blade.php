@@ -34,9 +34,9 @@
                 clonedData.find('.iconpicker-popover').remove();
                 parent.parent().append(clonedData);
 
-                if (containerLength > 0) {
-                    parent.parent().find('.remove').show(300);
-                }
+                // if (containerLength > 0) {
+                //     parent.parent().find('.remove').show(300);
+                // }
 
                 parent.parent().find('.icp-dd').iconpicker('destroy');
                 $('body .color_picker').spectrum('destroy');

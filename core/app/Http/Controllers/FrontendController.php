@@ -9,6 +9,7 @@ use App\User;
 use App\Admin;
 use Exception;
 use Throwable;
+use Carbon\Carbon;
 use App\Language;
 use App\Newsletter;
 use App\BlogCategory;
@@ -220,7 +221,6 @@ class FrontendController extends Controller
             return [$item->id => $item->slug];
         })->toArray();
 
-
         if (in_array($slug, $pages_id_slugs) && $slug === $pages_id_slugs[$static_option['home_page']]) {
             return redirect()->route('homepage');
         } elseif (in_array($slug, $pages_id_slugs) && $slug === $pages_id_slugs[$static_option['blog_page']]) {
@@ -282,7 +282,22 @@ class FrontendController extends Controller
         return view('frontend.pages.product-list', compact('products'));
     }
 
+    public function dynamic_campaign_page()
+    {
+        $now = Carbon::now();
 
+        $all_campaigns = Campaign::query()
+            ->with('campaignImage')
+            ->where('status', 'publish')
+            ->whereNotNull('start_date')
+            ->whereNotNull('end_date')
+            ->where('start_date', '<=', $now)
+            ->where('end_date', '>', $now)
+            ->orderBy('end_date', 'asc')
+            ->paginate(12);
+
+        return view('frontend.campaign.all-campaign', compact('all_campaigns'));
+    }
 
     public function showAdminForgetPasswordForm()
     {
@@ -1290,6 +1305,7 @@ class FrontendController extends Controller
     private function fallbackBlogPage($page_post = null)
     {
         $page_name = $page_post->name ?? 'Blog';
+
         $all_blogs = Blog::with('category')->where('status', 'publish')->paginate();
 
         return view('frontend.dynamic-redirect.blog', [

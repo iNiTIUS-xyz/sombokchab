@@ -104,7 +104,7 @@ class PopularProductStyleTwo extends PageBuilderBase
         ]);
         $output .= Number::get([
             'name' => 'items',
-            'label' => __('Limit Of Product'),
+            'label' => __('Limit of Product'),
             'value' => $widget_saved_values['items'] ?? null,
             'info' => __('Enter how many item you want to show in frontend, leave it empty if you want to show all products'),
         ]);

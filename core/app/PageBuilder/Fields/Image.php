@@ -28,7 +28,7 @@ class Image extends PageBuilderField
             $output .= '<div class="attachment-preview"><div class="thumbnail"><div class="centered">';
             $output .= '<img class="avatar user-thumb" src="'.$img['img_url'].'" />';
             $output .= '</div></div></div>';
-            $image_upload_btn_label = __('Change Image');
+            $image_upload_btn_label = __('Upload Image');
         }
         $output .= '</div><br>';
         $output .= '<input type="hidden" value="'.$this->value().'" name="'.$this->name().'" />';

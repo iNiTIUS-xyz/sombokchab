@@ -459,7 +459,7 @@ small {
     font-size: 12px;
     line-height: 15px;
     font-weight: 400;
-    display: block;
+    display: none;
     color: var(--paragraph-color);
     margin-top: 7px;
 }

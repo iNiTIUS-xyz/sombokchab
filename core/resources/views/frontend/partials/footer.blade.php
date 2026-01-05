@@ -177,11 +177,15 @@
 @yield('script')
 
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
+        $('.flashCountdown').each(function () {
+            const classes = $(this).attr('class').split(' ');
+            const uniqueClass = classes.find(c => c.startsWith('flashCountdown-'));
 
-        if ($('.flashCountdown').length > 0) {
-            loopcounter('flashCountdown');
-        }
+            if (uniqueClass) {
+                loopcounter(uniqueClass);
+            }
+        });
     });
 
     $(document).on('submit', '.subscribe-form form', function(e) {
