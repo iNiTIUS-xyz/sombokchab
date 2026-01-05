@@ -269,6 +269,9 @@
         }
 
         function renderWidgetMarkup(event, li) {
+            if (li.item.find('form').data('preventReRender')) {
+                return;
+            }
             var addonClass = li.item.attr('data-name');
             var namespace = li.item.attr('data-namespace');
             var markup = '';
@@ -384,6 +387,7 @@
             parent.text('{{ __('Saving...') }}').attr('disabled', true);
 
             var form = parent.parent();
+            form.data('preventReRender', true);
             var widgetType = form.find('input[name="addon_type"]').val();
             var formAction = form.attr('action');
             var updateId = '';
@@ -395,6 +399,8 @@
                 url: formAction,
                 data: form.serializeArray(),
                 success: function(data) {
+
+
                     if (widgetType === 'new' && data.id !== undefined) {
                         updateId = data.id;
                         formContainer.attr('action', "{{ route('admin.page.builder.update') }}");
@@ -405,8 +411,9 @@
 
                     if (data === 'ok' || data.status === 'ok') {
                         form.append(
-                            '<span class="text-success d-block mt-2">{{ __('Saved successfully') }}</span>'
+                            '<span class="pb-save-msg text-success d-block mt-2">{{ __('Saved successfully') }}</span>'
                         );
+
                     }
 
                     if (data.msg !== undefined) {
@@ -415,9 +422,10 @@
                     }
 
                     setTimeout(function() {
-                        form.find('span').fadeOut(300, function() {
+                        form.find('.pb-save-msg').fadeOut(300, function() {
                             $(this).remove();
                         });
+
                     }, 2000);
 
                     // Re-init Select2 after save
