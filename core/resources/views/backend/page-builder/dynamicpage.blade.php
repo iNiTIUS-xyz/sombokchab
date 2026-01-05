@@ -7,6 +7,24 @@
         .available-form-field.main-fields li:not(:last-child) {
             margin-bottom: 0 !important;
         }
+
+
+        .select2-container--default .select2-selection--multiple {
+            max-height: 100px;
+            overflow-y: auto;
+        }
+
+        /* Red close icon */
+        .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+            color: #dc3545 !important;
+            /* Bootstrap danger red */
+            font-weight: bold;
+        }
+
+        /* Optional: darker red on hover */
+        .select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover {
+            color: #a71d2a !important;
+        }
     </style>
 @endsection
 
