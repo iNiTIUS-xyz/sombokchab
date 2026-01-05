@@ -8,6 +8,9 @@
     <div class="form-group" id="{{ $name }}">
         <label for="{{ $name }}">
             {{ __($title) }}
+            @if (isset($isRequired) && $isRequired)
+                <span class="text-danger">*</span>
+            @endif
         </label>
         <div class="media-upload-btn-wrapper">
             <div class="img-wrap">

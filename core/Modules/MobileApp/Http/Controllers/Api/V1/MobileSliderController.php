@@ -8,7 +8,9 @@ use Modules\MobileApp\Entities\MobileSlider;
 
 class MobileSliderController extends Controller
 {
-    public function index($type){
-         return MobileSliderResource::collection(MobileSlider::with("sliderCategory:id,name")->where("type",$type)->paginate(5))->withQueryString();
+    public function index($type)
+    {
+        $mobileSliderResource = MobileSliderResource::collection(MobileSlider::with("sliderCategory:id,name")->where("type", $type)->paginate(5))->withQueryString();
+        return $mobileSliderResource;
     }
 }

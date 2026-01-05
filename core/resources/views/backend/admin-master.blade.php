@@ -141,7 +141,7 @@
             border-radius: 4px;
         }
 
-        .dt-button.btn-clear-filters{
+        .dt-button.btn-clear-filters {
             background-color: var(--danger-color) !important;
             color: var(--white) !important;
             border: none !important;
@@ -151,6 +151,7 @@
             box-shadow: none !important;
             margin-top: 5px;
         }
+
         /* Disable sorting / clicking on filter row headers */
         #dataTable thead tr.filters th {
             pointer-events: none;
@@ -184,7 +185,8 @@
         #dataTable thead th.dt-type-number .dt-column-order {
             margin-left: 0.5rem;
         }
-        .all-addons-wrapper .accordion-button{
+
+        .all-addons-wrapper .accordion-button {
             padding: 0.25rem 1rem;
         }
     </style>
@@ -269,7 +271,7 @@
 
     <x-notification.js />
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
 
             if (!$('#dataTable').length) return;
 
@@ -278,8 +280,8 @@
             const $headerRow = $thead.find('tr').first();
 
             /* =====================================================
-            * 1. CLONE HEADER & ADD FILTER ROW
-            * ===================================================== */
+             * 1. CLONE HEADER & ADD FILTER ROW
+             * ===================================================== */
             const $filterRow = $headerRow.clone(false)
                 .addClass('filters')
                 .prependTo($thead);
@@ -289,9 +291,9 @@
                 .remove();
 
             /* =====================================================
-            * 2. ADD FILTER INPUTS (EXCLUDING SPECIFIED COLUMNS)
-            * ===================================================== */
-            $filterRow.find('th').each(function (i) {
+             * 2. ADD FILTER INPUTS (EXCLUDING SPECIFIED COLUMNS)
+             * ===================================================== */
+            $filterRow.find('th').each(function(i) {
                 const title = $headerRow.find('th').eq(i).text().trim();
                 const lower = title.toLowerCase();
 
@@ -312,8 +314,8 @@
             });
 
             /* =====================================================
-            * 3. STATUS COLUMN SEARCH RENDERER (UNCHANGED)
-            * ===================================================== */
+             * 3. STATUS COLUMN SEARCH RENDERER (UNCHANGED)
+             * ===================================================== */
             function statusSearchRenderer(data, type) {
                 if (type === 'display') return data;
                 if (!data) return '';
@@ -331,7 +333,7 @@
             const $firstRow = $table.find('tbody tr:first');
 
             if ($firstRow.length) {
-                $firstRow.find('td').each(function (idx) {
+                $firstRow.find('td').each(function(idx) {
                     const html = $(this).html() || '';
                     if (html.includes('dropdown-toggle') && html.includes('status')) {
                         columnDefs.push({
@@ -343,8 +345,8 @@
             }
 
             /* =====================================================
-            * 4. INIT DATATABLE (UNCHANGED)
-            * ===================================================== */
+             * 4. INIT DATATABLE (UNCHANGED)
+             * ===================================================== */
             const table = new DataTable('#dataTable', {
                 paging: true,
                 lengthChange: true,
@@ -360,11 +362,10 @@
 
                 layout: {
                     topEnd: {
-                        buttons: [
-                            {
+                        buttons: [{
                                 text: 'Clear Filters',
                                 className: 'btn-clear-filters',
-                                action: function () {
+                                action: function() {
                                     $('.column-filter').val('');
                                     table.columns().search('').draw();
                                     $(this.node()).hide();
@@ -391,7 +392,7 @@
                     }
                 },
 
-                initComplete: function () {
+                initComplete: function() {
                     const api = this.api();
                     const clearBtn = api.button('.btn-clear-filters');
                     $(clearBtn.node()).hide();
@@ -402,11 +403,11 @@
                         .off('click');
 
                     /* BIND COLUMN FILTERS */
-                    $('#dataTable thead tr.filters th').each(function (i) {
+                    $('#dataTable thead tr.filters th').each(function(i) {
                         const $input = $('input', this);
                         if (!$input.length) return;
 
-                        $input.on('keyup change', function () {
+                        $input.on('keyup change', function() {
                             api.column(i).search(this.value).draw();
 
                             const hasValue = $('.column-filter')
@@ -414,17 +415,18 @@
                                 .some(el => el.value.trim() !== '');
 
                             hasValue
-                                ? $(clearBtn.node()).show()
-                                : $(clearBtn.node()).hide();
+                                ?
+                                $(clearBtn.node()).show() :
+                                $(clearBtn.node()).hide();
                         });
 
-                        $input.on('click', function (e) {
+                        $input.on('click', function(e) {
                             e.stopPropagation();
                         });
                     });
 
                     /* FIX CHECKBOX COLUMN WIDTH */
-                    $('#dataTable thead th').each(function (i) {
+                    $('#dataTable thead th').each(function(i) {
                         if ($(this).find('.all-checkbox').length) {
                             // Header cell
                             $(this).css({
@@ -434,7 +436,7 @@
                             });
 
                             // Body cells
-                            $('#dataTable tbody tr').each(function () {
+                            $('#dataTable tbody tr').each(function() {
                                 $(this).find('td').eq(i).css({
                                     'max-width': '50px',
                                     'width': '50px',
@@ -450,17 +452,17 @@
     </script>
 
     <script>
-        document.addEventListener('click', function (e) {
+        document.addEventListener('click', function(e) {
 
             /* ===============================
-            * GLOBAL ADD REPEATER ITEM
-            * =============================== */
+             * GLOBAL ADD REPEATER ITEM
+             * =============================== */
             const addBtn = e.target.closest('.repeater-add-global');
             if (addBtn) {
 
                 const wrapper = addBtn.closest('.iconbox-repeater-wrapper');
-                const items   = wrapper.querySelector('.repeater-items');
-                const first   = items.querySelector('.all-field-wrap');
+                const items = wrapper.querySelector('.repeater-items');
+                const first = items.querySelector('.all-field-wrap');
 
                 if (!first) return;
 
@@ -471,8 +473,8 @@
                 const uid = 'rp_' + Date.now() + '_' + Math.floor(Math.random() * 100000);
 
                 /* ---------------------------------
-                * Make all IDs inside clone unique
-                * --------------------------------- */
+                 * Make all IDs inside clone unique
+                 * --------------------------------- */
                 clone.querySelectorAll('[id]').forEach(el => {
                     el.id = el.id + '_' + uid;
                 });
@@ -495,8 +497,8 @@
                 });
 
                 /* ---------------------------------
-                * Clear normal form fields
-                * --------------------------------- */
+                 * Clear normal form fields
+                 * --------------------------------- */
                 clone.querySelectorAll('input, textarea, select').forEach(el => {
                     if (
                         el.type === 'button' ||
@@ -508,8 +510,8 @@
                 });
 
                 /* ---------------------------------
-                * Reset IMAGE FIELD safely
-                * --------------------------------- */
+                 * Reset IMAGE FIELD safely
+                 * --------------------------------- */
                 clone.querySelectorAll('.media-upload-btn-wrapper').forEach(wrapper => {
 
                     // clear hidden attachment id
@@ -536,8 +538,8 @@
             }
 
             /* ===============================
-            * REMOVE REPEATER ITEM
-            * =============================== */
+             * REMOVE REPEATER ITEM
+             * =============================== */
             const removeBtn = e.target.closest('.remove');
             if (removeBtn) {
                 const item = removeBtn.closest('.all-field-wrap');
