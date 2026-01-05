@@ -9,6 +9,7 @@ use App\User;
 use App\Admin;
 use Exception;
 use Throwable;
+use Carbon\Carbon;
 use App\Language;
 use App\Newsletter;
 use App\BlogCategory;
@@ -281,7 +282,22 @@ class FrontendController extends Controller
         return view('frontend.pages.product-list', compact('products'));
     }
 
+    public function dynamic_campaign_page()
+    {
+        $now = Carbon::now();
 
+        $all_campaigns = Campaign::query()
+            ->with('campaignImage')
+            ->where('status', 'publish')
+            ->whereNotNull('start_date')
+            ->whereNotNull('end_date')
+            ->where('start_date', '<=', $now)
+            ->where('end_date', '>', $now)
+            ->orderBy('end_date', 'asc')
+            ->paginate(12);
+
+        return view('frontend.campaign.all-campaign', compact('all_campaigns'));
+    }
 
     public function showAdminForgetPasswordForm()
     {

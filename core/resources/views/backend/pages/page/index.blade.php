@@ -64,6 +64,9 @@
                                                         @elseif($dynamic_page_ids[$page->id] == 'product_page')
                                                             <strong class="text-primary"> -
                                                                 {{ __('Current Product Page') }}</strong>
+                                                        @elseif($dynamic_page_ids[$page->id] == 'campaign_page')
+                                                            <strong class="text-primary"> -
+                                                                {{ __('Current Campaign Page') }}</strong>
                                                         @endif
                                                     @endif
                                                 </p>

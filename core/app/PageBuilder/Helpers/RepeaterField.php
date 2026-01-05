@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\PageBuilder\Helpers;
-
 
 class RepeaterField
 {
@@ -19,14 +17,22 @@ class RepeaterField
     public const SWITCHER = 'Switcher';
     public const NUMBER = 'Number';
 
-    public static function remove_default_fields($all_settings){
-        $arr = ['id', 'addon_name','addon_type','addon_location','addon_order','addon_page_id','addon_page_type'];
-        foreach($arr as $ar){
-            if(isset($all_settings[$ar])){
-                unset($all_settings[$ar]);
-            }
+    public static function remove_default_fields($all_settings)
+    {
+        $remove = [
+            'id',
+            'addon_name',
+            'addon_type',
+            'addon_location',
+            'addon_order',
+            'addon_page_id',
+            'addon_page_type',
+        ];
+
+        foreach ($remove as $key) {
+            unset($all_settings[$key]);
         }
-        //unset($all_settings['id'], $all_settings['addon_name'], $all_settings['addon_type'], $all_settings['addon_location'], $all_settings['addon_order'], $all_settings['addon_page_id'], $all_settings['addon_page_type']);
+
         return $all_settings;
     }
 }

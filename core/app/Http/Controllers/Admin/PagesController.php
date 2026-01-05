@@ -18,6 +18,7 @@ class PagesController extends Controller {
                 'home_page',
                 'product_page',
                 'blog_page',
+                'campaign_page',
             ])
             ->latest()
             ->get()

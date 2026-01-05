@@ -42,7 +42,7 @@ class ProductStyleTwo extends PageBuilderBase
             'placeholder' =>  __('Select Products'),
             'options' => $products,
             'value' => $widget_saved_values['products'] ?? null,
-            'info' => __('Please select product if you not select than system will take 3 product randomly.')
+            'info' => __('Please select the product you want to showcase, otherwise system will render 3 products randomly')
         ]);
 
         $output .= $this->product_order_item($widget_saved_values);
