@@ -220,6 +220,8 @@
                                 'admin-home/mobile-slider/*',
                                 'admin-home/mobile-featured-product/*',
                                 'admin-home/mobile-campaign/*',
+                                'admin-home/mobile-category/*',
+                                'admin-home/mobile-product/*',
                                 'admin-home/mobile-settings/*',
                             ])) active @endif">
                             <a href="#1" aria-expanded="true">
@@ -260,6 +262,16 @@
                                 <li class="{{ active_menu('admin-home/mobile-campaign/create') }}">
                                     <a href="{{ route('admin.mobile.campaign.create') }}">
                                         {{ __('Campaign') }}
+                                    </a>
+                                </li>
+                                <li class="{{ active_menu('admin-home/mobile-category/create') }}">
+                                    <a href="{{ route('admin.mobile.category.create') }}">
+                                        {{ __('Category') }}
+                                    </a>
+                                </li>
+                                <li class="{{ active_menu('admin-home/mobile-product/create') }}">
+                                    <a href="{{ route('admin.mobile.product.create') }}">
+                                        {{ __('Product') }}
                                     </a>
                                 </li>
                                 {{-- <li class="{{ active_menu('admin-home/mobile-featured-product/new') }}">

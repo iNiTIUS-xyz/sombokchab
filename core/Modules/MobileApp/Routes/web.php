@@ -26,9 +26,9 @@ use Modules\MobileApp\Http\Controllers\VendorMobileIntrosController;
 /**--------------------------------------------------------------------------------------------------------------------------------
  *                          ADMIN PANEL ROUTES
  *----------------------------------------------------------------------------------------------------------------------------------*/
-Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable','auth:admin','role:Super Admin'])->group(function () {
+Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable', 'auth:admin', 'role:Super Admin'])->group(function () {
     Route::prefix('mobile-slider')->as("admin.mobile.slider.")->group(function () {
-        Route::controller(MobileSliderController::class)->group(function (){
+        Route::controller(MobileSliderController::class)->group(function () {
             Route::get('/list', "index")->name('all');
             Route::get('new', "create")->name('create');
             Route::post('new', "store");
@@ -39,7 +39,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
     });
 
     Route::prefix('mobile-intro')->as("admin.mobile.intro.")->group(function () {
-        Route::controller(MobileIntrosController::class)->group(function (){
+        Route::controller(MobileIntrosController::class)->group(function () {
             Route::get('/list', "index")->name('all');
             Route::get('new', "create")->name('create');
             Route::post('new', "store");
@@ -50,7 +50,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
     });
 
     Route::prefix('vendor-intro')->as("admin.mobile.vendor.intro.")->group(function () {
-        Route::controller(VendorMobileIntrosController::class)->group(function (){
+        Route::controller(VendorMobileIntrosController::class)->group(function () {
             Route::get('/list', "index")->name('all');
             Route::get('new', "create")->name('create');
             Route::post('new', "store");
@@ -61,7 +61,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
     });
 
     Route::prefix('mobile-slider-two')->as("admin.mobile.slider.two.")->group(function () {
-        Route::controller(MobileSliderController::class)->group(function (){
+        Route::controller(MobileSliderController::class)->group(function () {
             Route::get('list', "two_index")->name('all');
             Route::get('new', "two_create")->name('create');
             Route::post('new', "two_store");
@@ -72,7 +72,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
     });
 
     Route::prefix('mobile-slider-three')->as("admin.mobile.slider.three.")->group(function () {
-        Route::controller(MobileSliderController::class)->group(function (){
+        Route::controller(MobileSliderController::class)->group(function () {
             Route::get('list', "three_index")->name('all');
             Route::get('new', "three_create")->name('create');
             Route::post('new', "three_store");
@@ -83,7 +83,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
     });
 
     Route::prefix('mobile-featured-product')->as("admin.featured.product.")->group(function () {
-        Route::controller(MobileFeaturedProductController::class)->group(function (){
+        Route::controller(MobileFeaturedProductController::class)->group(function () {
             Route::get('list', "index")->name('all');
             Route::get('new', "create")->name('create');
             Route::post('new', "store");
@@ -94,14 +94,27 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
     });
 
     Route::prefix('mobile-campaign')->as("admin.mobile.campaign.")->group(function () {
-        Route::controller(MobileCampaignController::class)->group(function (){
+        Route::controller(MobileCampaignController::class)->group(function () {
             Route::get('create', "index")->name('create');
             Route::post('update', "update")->name("update");
         });
     });
 
+    Route::prefix('mobile-category')->as("admin.mobile.category.")->group(function () {
+        Route::controller(MobileCampaignController::class)->group(function () {
+            Route::get('create', "category")->name('create');
+            Route::post('update', "categoryUpdate")->name("update");
+        });
+    });
+    Route::prefix('mobile-product')->as("admin.mobile.product.")->group(function () {
+        Route::controller(MobileCampaignController::class)->group(function () {
+            Route::get('create', "product")->name('create');
+            Route::post('update', "productUpdate")->name("update");
+        });
+    });
+
     Route::prefix('mobile-settings')->as("admin.mobile.settings.")->group(function () {
-        Route::controller(AdminMobileController::class)->group(function (){
+        Route::controller(AdminMobileController::class)->group(function () {
             Route::get('terms-and-controller', "terms_and_condition")->name('terms_and_condition');
             Route::post('terms-and-controller', "update_terms_and_condition");
             Route::get('privacy-policy', "privacy_and_policy")->name('privacy.policy');
