@@ -23,8 +23,7 @@
                 <div class="col-md-6 col-lg-6">
                     <div class="sign-in register">
                         <div class="form-wrapper custom__form mt-4">
-                            <x-msg.error />
-                            <x-msg.flash />
+
 
                             <div class="alert alert-danger" id="error" style="display: none;"></div>
                             <div class="alert alert-success" id="sentSuccess" style="display: none;">
