@@ -8,7 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class MobileCampaign extends Model
 {
     use HasFactory;
-    protected $fillable = ['type', 'campaign_id'];
+
+    protected $fillable = ['campaign_ids', 'limit'];
+
+    protected function casts()
+    {
+        return [
+            'campaign_ids' => 'json',
+        ];
+    }
 
     public $timestamps = false;
 }

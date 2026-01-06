@@ -17,37 +17,42 @@ class MobileCampaignController extends Controller
 
     public function index()
     {
-        $campaigns = Campaign::select('title as name', 'id')->get();
-        $selectedCampaign = MobileCampaign::pluck('campaign_id');
-        $selectedCampaignIds = json_decode($selectedCampaign);
+        $campaigns = Campaign::latest()->get();
+        $selectedCampaign = MobileCampaign::first();
 
-        return view("mobileapp::mobile-campaign.create", compact('campaigns', 'selectedCampaignIds'));
+        return view("mobileapp::mobile-campaign.create", compact('campaigns', 'selectedCampaign'));
     }
 
     public function update(Request $request)
     {
         try {
             $request->validate([
-                "campaign" => 'required'
+                'campaign_ids' => 'required|array',
+                'limit' => 'required|integer',
             ]);
-
-            MobileCampaign::truncate();
 
             DB::beginTransaction();
 
-            foreach ($request->campaign as $campaign) {
-
-                MobileCampaign::firstOrCreate([
-                    'campaign_id' => $campaign
-                ]);
-            }
+            MobileCampaign::updateOrCreate(
+                ['id' => 1],
+                [
+                    'campaign_ids' => json_encode($request->campaign_ids),
+                    'limit' => $request->limit,
+                ]
+            );
 
             DB::commit();
 
-            return back()->with(["alert-type" => 'success', 'message' => "Campaign updated successfully."]);
+            return back()->with([
+                'alert-type' => 'success',
+                'message' => 'Campaign updated successfully.',
+            ]);
         } catch (\Throwable $e) {
-
-            return back()->with(["alert-type" => 'error', 'message' => "Something went wrong. Please try again."]);
+            DB::rollBack();
+            return back()->with([
+                'alert-type' => 'error',
+                'message' => 'Something went wrong. Please try again.',
+            ]);
         }
     }
 }
