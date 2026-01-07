@@ -1,7 +1,7 @@
 @extends('backend.admin-master')
 
 @section('site-title')
-    {{ __('App Campaigns') }}
+    {{ __('App Category') }}
 @endsection
 
 @section('style')
@@ -37,21 +37,21 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">
-                            {{ __('App Campaigns') }}
+                            {{ __('App Category') }}
                         </h4>
                     </div>
                     <div class="dashboard__card__body custom__form">
-                        <form action="{{ route('admin.mobile.campaign.update') }}" method="post">
+                        <form action="{{ route('admin.mobile.category.update') }}" method="post">
                             @csrf
                             <div class="row">
                                 <div class="col-md-12 mt-4">
                                     <div class="form-group" id="product-list">
-                                        <label for="products">Select Campaign</label>
-                                        <select id="products" name="campaign_ids[]" class="form-control select2" multiple>
-                                            @foreach ($campaigns as $item)
+                                        <label for="products">Select Category</label>
+                                        <select id="products" name="category_ids[]" class="form-control select2" multiple>
+                                            @foreach ($categories as $item)
                                                 <option value="{{ $item->id }}"
-                                                    {{ $selectedCampaign ? (in_array($item->id, json_decode($selectedCampaign->campaign_ids)) ? 'selected' : '') : '' }}>
-                                                    {{ $item->title }}
+                                                    {{ $selectedCategory ? (in_array($item->id, json_decode($selectedCategory->category_ids)) ? 'selected' : '') : '' }}>
+                                                    {{ $item->name }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -59,9 +59,9 @@
                                 </div>
                                 <div class="col-md-12 mt-4">
                                     <div class="form-group" id="product-list">
-                                        <label>Limit of Campaign</label>
+                                        <label>Limit of Category</label>
                                         <input type="number" name="limit" class="form-control"
-                                            value="{{ $selectedCampaign ? $selectedCampaign->limit : '' }}" />
+                                            value="{{ $selectedCategory ? $selectedCategory->limit : '' }}" />
                                     </div>
                                 </div>
                                 <div class="col-md-12 mt-4">

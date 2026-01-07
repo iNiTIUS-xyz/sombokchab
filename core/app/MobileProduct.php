@@ -1,20 +1,20 @@
 <?php
 
-namespace Modules\MobileApp\Entities;
+namespace App;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class MobileCampaign extends Model
+class MobileProduct extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['campaign_ids', 'limit'];
+    protected $fillable = ['product_ids', 'limit', 'created_at', 'updated_at'];
 
     protected function casts()
     {
         return [
-            'campaign_ids' => 'json',
+            'product_ids' => 'json',
         ];
     }
 
