@@ -209,11 +209,13 @@
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
                                             <label>{{ __('Coupon Title') }} <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" name="title" required>
+                                            <input type="text" class="form-control" name="title" required
+                                                placeholder="Enter Coupon Title">
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label>{{ __('Coupon Code') }} <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="code" name="code" required>
+                                            <input type="text" class="form-control" id="code" name="code" required
+                                                placeholder="Enter Coupon Code">
                                             <small id="status_text_add" class="text-danger mt-1" style="display:none;"></small>
                                         </div>
                                     </div>
@@ -242,7 +244,9 @@
                                         <select name="subcategory" class="form-control form-select">
                                             <option value="">{{ __('Select a Subcategory') }}</option>
                                             @foreach ($all_subcategories as $subcategory)
-                                                <option value="{{ $subcategory->id }}">{{ $subcategory->name }}</option>
+                                                <option value="{{ $subcategory->id }}">
+                                                    {{ $subcategory->name }}
+                                                </option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -252,7 +256,9 @@
                                         <select name="childcategory" class="form-control form-select">
                                             <option value="">{{ __('Select a child category') }}</option>
                                             @foreach ($all_child_categories as $child_category)
-                                                <option value="{{ $child_category->id }}">{{ $child_category->name }}</option>
+                                                <option value="{{ $child_category->id }}">
+                                                    {{ $child_category->name }}
+                                                </option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -273,11 +279,13 @@
                                         <div class="col-md-6 mb-3">
                                             <label>{{ __('Discount') }} <span class="text-danger">*</span></label>
                                             <input type="number" class="form-control discount" name="discount"
-                                                min="1" step="0.01" required pattern="[0-9]+(\.[0-9]{1,2})?">
+                                                min="1" step="0.01" required pattern="[0-9]+(\.[0-9]{1,2})?"
+                                                placeholder="Enter Discount">
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label>{{ __('Expire Date') }} <span class="text-danger">*</span></label>
-                                            <input type="date" class="form-control flatpickr" name="expire_date" required>
+                                            <input type="date" class="form-control flatpickr" name="expire_date" required
+                                                placeholder="Enter Expire Date">
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label>{{ __('Publish Status') }} <span class="text-danger">*</span></label>
@@ -316,7 +324,7 @@
                                         <div class="col-md-6 mb-3">
                                             <label>{{ __('Coupon Title') }} <span class="text-danger">*</span></label>
                                             <input type="text" class="form-control" id="edit_title" name="title"
-                                                required>
+                                                placeholder="Enter Coupon Title" required>
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label>{{ __('Coupon Code') }} <span class="text-danger">*</span></label>
@@ -385,12 +393,13 @@
                                         <div class="col-md-6 mb-3">
                                             <label>{{ __('Discount') }} <span class="text-danger">*</span></label>
                                             <input type="number" class="form-control discount" id="edit_discount"
-                                                name="discount" required pattern="[0-9]+(\.[0-9]{1,2})?">
+                                                placeholder="Enter Discount" name="discount" required
+                                                pattern="[0-9]+(\.[0-9]{1,2})?">
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label>{{ __('Expire Date') }} <span class="text-danger">*</span></label>
                                             <input type="date" class="form-control flatpickr" id="edit_expire_date"
-                                                name="expire_date">
+                                                placeholder="Enter Expire Date" name="expire_date">
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label>{{ __('Publish Status') }} <span class="text-danger">*</span></label>
