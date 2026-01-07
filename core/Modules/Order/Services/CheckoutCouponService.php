@@ -12,14 +12,14 @@ class CheckoutCouponService
     {
         $prd_ids = [];
 
-        foreach($products as $product){
-            if ($product?->category?->id === $category && $discount_on == "category"){
+        foreach ($products as $product) {
+            if ($product?->category?->id === $category && $discount_on == "category") {
                 $prd_ids[] = $product->id;
-            }elseif ($product?->subCategory?->id === $category && $discount_on == "subcategory"){
+            } elseif ($product?->subCategory?->id === $category && $discount_on == "subcategory") {
                 $prd_ids[] = $product->id;
-            }elseif ($discount_on == "childcategory"){
-                foreach($product?->childCategory as $childCategory){
-                    if (in_array($childCategory->id,$category)){
+            } elseif ($discount_on == "childcategory") {
+                foreach ($product?->childCategory as $childCategory) {
+                    if (in_array($childCategory->id, $category)) {
                         $prd_ids[] = $product->id;
                     }
                 }
@@ -29,11 +29,12 @@ class CheckoutCouponService
         return $prd_ids;
     }
 
-    private function get_sub_category_product_ids($products, $childCategories){
+    private function get_sub_category_product_ids($products, $childCategories)
+    {
         $prd_ids = [];
 
-        foreach($products as $product){
-            if (in_array($product?->childCategory?->pluck("id"), $childCategories)){
+        foreach ($products as $product) {
+            if (in_array($product?->childCategory?->pluck("id"), $childCategories)) {
                 $prd_ids[] = $product->id;
             }
         }
@@ -52,8 +53,8 @@ class CheckoutCouponService
         // now first of all need to get all cart items and take only available product for this coupon
         $cart_items = Cart::content();
         $total_price = 0;
-        foreach($cart_items as $item){
-            if (in_array($item->id,$product_ids)){
+        foreach ($cart_items as $item) {
+            if (in_array($item->id, $product_ids)) {
                 $total_price += $item->price * $item->qty;
             }
         }
@@ -112,8 +113,7 @@ class CheckoutCouponService
 
         $discount_on = $coupon->discount_on;
 
-        if ($purpose == 'type')
-        {
+        if ($purpose == 'type') {
             return [
                 'discount_on' => $discount_on,
                 'coupon_type' => $coupon_type,
@@ -124,7 +124,7 @@ class CheckoutCouponService
 
         if ($discount_on == 'all') {
             $discount_total = $coupon_amount; // not needed
-        }elseif ($discount_on == 'shipping') {
+        } elseif ($discount_on == 'shipping') {
             $discount_total = $coupon_amount; // not needed
         } elseif ($discount_on == 'category') {
             $categories = (array) json_decode($coupon->discount_on_details);
@@ -166,7 +166,7 @@ class CheckoutCouponService
         }
 
         // calculate based on coupon type
-        $subtotal = str_replace(',','',$subtotal);
+        $subtotal = str_replace(',', '', $subtotal);
         if ($coupon_type === 'percentage') {
             $discount_total = $subtotal / 100 * $coupon_amount;
         } elseif ($coupon_type === 'amount') { # =====
