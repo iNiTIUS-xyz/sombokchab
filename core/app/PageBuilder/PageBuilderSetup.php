@@ -140,36 +140,27 @@ class PageBuilderSetup
     //             </li>';
     // }
 
+
     /**
      * @throws ErrorException
      */
     public static function get_admin_panel_widgets(): string
     {
+        $widgets_markup = '';
         $groups = [];
 
         foreach (self::registerd_widgets() as $widget) {
-
-            if (!class_exists($widget)) {
-                // skip invalid class
-                continue;
-            }
-
             try {
                 $widget_instance = new $widget();
-            } catch (\Throwable $e) {
-                // ❗ DO NOT crash admin panel
-                logger()->error('Addon load failed', [
-                    'class' => $widget,
-                    'error' => $e->getMessage(),
-                ]);
+            } catch (\Exception $e) {
+                throw new ErrorException($e->getMessage());
+            }
+
+            if (! $widget_instance->enable()) {
                 continue;
             }
 
-            if (!$widget_instance->enable()) {
-                continue;
-            }
-
-            // Group name (from namespace)
+            // Group name from namespace
             // App\PageBuilder\Addons\Banner\BannerStyleOne → Banner
             $namespaceParts = explode('\\', $widget);
             $group = $namespaceParts[count($namespaceParts) - 2] ?? 'Other';
@@ -187,73 +178,158 @@ class PageBuilderSetup
         // Sort groups alphabetically
         ksort($groups);
 
-        // Sort addons inside each group
-        foreach ($groups as &$addons) {
-            usort($addons, fn ($a, $b) =>
-                strcmp($a['addon_title'], $b['addon_title'])
-            );
-        }
-
-        return self::render_admin_addon_accordion($groups);
-    }
-
-    private static function render_admin_addon_accordion(array $groups): string
-    {
-        $html = '<div class="accordion w-100" id="addonAccordion">';
-        $i = 0;
-
         foreach ($groups as $groupName => $addons) {
-            $collapseId = 'addonCollapse' . $i;
 
-            $html .= '
-            <div class="accordion-item mb-2">
-                <h2 class="accordion-header">
-                    <button class="accordion-button '.($i ? 'collapsed' : '').'" 
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#'.$collapseId.'">
-                        '.self::humanizeGroupTitle($groupName).'
-                        <span class="ms-2 badge bg-secondary">'.count($addons).'</span>
-                    </button>
-                </h2>
+            // GROUP HEADER (non-draggable)
+            $widgets_markup .= '
+                <li class="widget-group-header">
+                    <strong>' . self::humanizeGroupTitle($groupName) . '</strong>
+                </li>
+            ';
 
-                <div id="'.$collapseId.'" 
-                    class="accordion-collapse collapse '.(!$i ? 'show' : '').'">
-                    <div class="accordion-body">
-                        <ul class="sortable widget-list" style="display: block !important;">';
+            // Widgets under group
             foreach ($addons as $addon) {
-                $html .= self::render_admin_addon_item($addon);
+                $widgets_markup .= self::render_admin_addon_item($addon);
             }
-
-            $html .= '
-                        </ul>
-                    </div>
-                </div>
-            </div>';
-
-            $i++;
         }
 
-        $html .= '</div>';
-
-        return $html;
+        return $widgets_markup;
     }
 
     private static function render_admin_addon_item($args): string
     {
-        return '<li class="ui-state-default widget-handler w-100 my-1" data-name="' . $args['addon_name'] . '" data-namespace="' . base64_encode($args['addon_namespace']) . '">
-                    <h4 class="top-part"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>' . $args['addon_title'] . $args['preview_image'] . '</h4>
+        return '<li class="ui-state-default widget-handler"
+                    data-name="' . $args['addon_name'] . '"
+                    data-namespace="' . base64_encode($args['addon_namespace']) . '">
+                    <h4 class="top-part">
+                        <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
+                        ' . $args['addon_title'] . $args['preview_image'] . '
+                    </h4>
                 </li>';
     }
 
     private static function humanizeGroupTitle(string $group): string
     {
-        // Insert space before capital letters: AboutArea → About Area
+        // AboutArea → About Area
         $group = preg_replace('/(?<!^)([A-Z])/', ' $1', $group);
-
-        // Capitalize each word
         return ucwords(trim($group));
     }
+
+
+    // /**
+    //  * @throws ErrorException
+    //  */
+    // public static function get_admin_panel_widgets(): string
+    // {
+    //     $groups = [];
+
+    //     foreach (self::registerd_widgets() as $widget) {
+
+    //         if (!class_exists($widget)) {
+    //             // skip invalid class
+    //             continue;
+    //         }
+
+    //         try {
+    //             $widget_instance = new $widget();
+    //         } catch (\Throwable $e) {
+    //             // ❗ DO NOT crash admin panel
+    //             logger()->error('Addon load failed', [
+    //                 'class' => $widget,
+    //                 'error' => $e->getMessage(),
+    //             ]);
+    //             continue;
+    //         }
+
+    //         if (!$widget_instance->enable()) {
+    //             continue;
+    //         }
+
+    //         // Group name (from namespace)
+    //         // App\PageBuilder\Addons\Banner\BannerStyleOne → Banner
+    //         $namespaceParts = explode('\\', $widget);
+    //         $group = $namespaceParts[count($namespaceParts) - 2] ?? 'Other';
+
+    //         $groups[$group][] = [
+    //             'addon_name'      => $widget_instance->addon_name(),
+    //             'addon_namespace' => $widget_instance->addon_namespace(),
+    //             'addon_title'     => $widget_instance->addon_title(),
+    //             'preview_image'   => $widget_instance->get_preview_image(
+    //                 $widget_instance->preview_image()
+    //             ),
+    //         ];
+    //     }
+
+    //     // Sort groups alphabetically
+    //     ksort($groups);
+
+    //     // Sort addons inside each group
+    //     foreach ($groups as &$addons) {
+    //         usort($addons, fn ($a, $b) =>
+    //             strcmp($a['addon_title'], $b['addon_title'])
+    //         );
+    //     }
+
+    //     return self::render_admin_addon_accordion($groups);
+    // }
+
+    // private static function render_admin_addon_accordion(array $groups): string
+    // {
+    //     $html = '<div class="accordion w-100" id="addonAccordion">';
+    //     $i = 0;
+
+    //     foreach ($groups as $groupName => $addons) {
+    //         $collapseId = 'addonCollapse' . $i;
+
+    //         $html .= '
+    //         <div class="accordion-item mb-2">
+    //             <h2 class="accordion-header">
+    //                 <button class="accordion-button '.($i ? 'collapsed' : '').'" 
+    //                         type="button"
+    //                         data-bs-toggle="collapse"
+    //                         data-bs-target="#'.$collapseId.'">
+    //                     '.self::humanizeGroupTitle($groupName).'
+    //                     <span class="ms-2 badge bg-secondary">'.count($addons).'</span>
+    //                 </button>
+    //             </h2>
+
+    //             <div id="'.$collapseId.'" 
+    //                 class="accordion-collapse collapse '.(!$i ? 'show' : '').'">
+    //                 <div class="accordion-body">
+    //                     <ul class="sortable widget-list" style="display: block !important;">';
+    //         foreach ($addons as $addon) {
+    //             $html .= self::render_admin_addon_item($addon);
+    //         }
+
+    //         $html .= '
+    //                     </ul>
+    //                 </div>
+    //             </div>
+    //         </div>';
+
+    //         $i++;
+    //     }
+
+    //     $html .= '</div>';
+
+    //     return $html;
+    // }
+
+    // private static function render_admin_addon_item($args): string
+    // {
+    //     return '<li class="ui-state-default widget-handler w-100 my-1" data-name="' . $args['addon_name'] . '" data-namespace="' . base64_encode($args['addon_namespace']) . '">
+    //                 <h4 class="top-part"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>' . $args['addon_title'] . $args['preview_image'] . '</h4>
+    //             </li>';
+    // }
+
+    // private static function humanizeGroupTitle(string $group): string
+    // {
+    //     // Insert space before capital letters: AboutArea → About Area
+    //     $group = preg_replace('/(?<!^)([A-Z])/', ' $1', $group);
+
+    //     // Capitalize each word
+    //     return ucwords(trim($group));
+    // }
 
     public static function render_widgets_by_name_for_admin($args)
     {

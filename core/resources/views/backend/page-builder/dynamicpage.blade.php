@@ -7,6 +7,45 @@
         .available-form-field.main-fields li:not(:last-child) {
             margin-bottom: 0 !important;
         }
+
+        .all-widgets.available-form-field{
+            gap: 0px !important;
+        }
+
+        .widget-group-header {
+            background: var(--main-color-one) !important;
+            padding: 8px 12px;
+            margin: 10px 0 6px;
+            font-size: 13px;
+            text-transform: uppercase;
+            color: var(--white);
+            cursor: default;
+        }
+
+        .widget-group-header.ui-sortable-handle {
+            cursor: default !important;
+        }
+
+        ul.available-form-field li.widget-group-header{
+            width: 100%;
+        }
+
+        /* Right panel fixed & scrollable */
+.all-addons-wrapper {
+    max-height: calc(100vh - 260px); /* adjust if needed */
+    overflow-y: auto;
+    padding-right: 6px;
+}
+
+/* Optional: nicer scrollbar */
+.all-addons-wrapper::-webkit-scrollbar {
+    width: 6px;
+}
+
+.all-addons-wrapper::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+}
     </style>
 @endsection
 
@@ -46,7 +85,7 @@
                             <div class="col-lg-8" id="parent-container">
                                 <div class="page-builder-area-wrapper">
                                     <h4 class="dashboard__card__title">
-                                        {{ $page->title }} - {{ __('Without Sidebar Layout') }}
+                                        {{ __('Without Sidebar Layout') }}
                                     </h4>
                                     <ul id="dynamic_page"
                                         class="sortable available-form-field main-fields sortable_widget_location mt-4">
@@ -56,7 +95,6 @@
 
                                 <div class="row mt-4" id="container_wrapper">
                                     <h4 class="dashboard__card__title mb-3">
-                                        {{ $page->title }} -
                                         {{ __('With Sidebar Layout') }}
                                     </h4>
                                     <div class="col-md-5">
@@ -82,10 +120,13 @@
                                 <div class="search-wrap">
                                     <div class="form-group">
                                         <input type="text" class="form-control" id="search_addon_field"
-                                            placeholder="{{ __('Search Addon') }}" name="s">
+                                            placeholder="{{ __('Search Page Builder Templates') }}" name="s">
                                     </div>
                                 </div>
-                                <div class="all-addons-wrapper mt-4">
+                                <div class="all-addons-wrapper mt-2">
+                                    <h4 class="dashboard__card__title mb-2">
+                                        {{ __('Page Builder Templates') }}
+                                    </h4>
                                     <ul id="sortable_02" class="available-form-field all-widgets sortable_02">
                                         {!! \App\PageBuilder\PageBuilderSetup::get_admin_panel_widgets() !!}
                                     </ul>
