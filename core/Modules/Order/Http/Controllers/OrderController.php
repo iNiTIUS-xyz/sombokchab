@@ -39,7 +39,7 @@ class OrderController extends Controller
         if ($coupon_amount_total) {
             return response()->json([
                 'type' => 'success',
-                'coupon_amount' => toFixed($coupon_amount_total),
+                'coupon_amount' => $coupon_amount_total,
                 'msg' => __('Coupon applied successfully')
             ]);
         }
