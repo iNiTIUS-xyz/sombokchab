@@ -26,7 +26,7 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">{{ __('Add New Coupon') }}</h4>
-                        @can('view-campaign')
+                        @can('view-coupon')
                             <div class="btn-wrapper">
                                 <a href="{{ route('admin.products.coupon.all') }}" class="cmn_btn btn_bg_profile">
                                     {{ __('All Coupons') }}
@@ -134,7 +134,15 @@
                             </div>
                         </div>
 
-                        <button class="cmn_btn btn_bg_profile" type="submit">Add Coupon</button>
+                        @can('add-coupon')
+                            <div class="btn-wrapper mt-2">
+                                <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Add') }}</button>
+                                <a href="{{ route('admin.products.coupon.all') }}" class="cmn_btn default-theme-btn"
+                                    style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
+                                    {{ __('Back') }}
+                                </a>
+                            </div>
+                        @endcan
                     </form>
 
                 </div>
@@ -224,52 +232,7 @@
                 }
             });
 
-            $('#edit_discount_on').on('change', function() {
-                let val = $(this).val();
-                $('#edit_form_category, #edit_form_subcategory, #edit_form_childcategory, #edit_form_products')
-                    .hide();
 
-                if (val === 'product') {
-                    $('#edit_form_products').show(500);
-                    loadProducts('#edit_products');
-                } else if (val) {
-                    $('#edit_form_' + val).show(500);
-                }
-            });
-
-            // Edit Button Click
-            $('.category_edit_btn').on('click', function() {
-                let el = $(this);
-
-                $('#coupon_id').val(el.data('id'));
-                $('#edit_title').val(el.data('title'));
-                $('#edit_code').val(el.data('code'));
-                $('#edit_discount').val(el.data('discount'));
-                $('#edit_discount_type').val(el.data('discount_type')).trigger('change');
-                $('#edit_expire_date').val(el.data('expire_date'));
-                $('#edit_status').val(el.data('status')).trigger('change');
-                $('#edit_discount_on').val(el.data('discount_on')).trigger('change');
-
-                // Reset all fields
-                $('#edit_form_category, #edit_form_subcategory, #edit_form_childcategory, #edit_form_products')
-                    .hide();
-                $('#edit_category, #edit_subcategory, #edit_childcategory').val('');
-                let $editProducts = $('#edit_products');
-                if ($editProducts.data('select2')) $editProducts.select2('destroy');
-                $editProducts.empty();
-
-                let discountOn = el.data('discount_on');
-                let details = el.data('discount_on_details') || [];
-
-                // If product, load and preselect
-                if (discountOn === 'product' && details.length) {
-                    $('#edit_form_products').show(500);
-                    loadProducts('#edit_products', details);
-                } else if (discountOn && details) {
-                    $('#edit_' + discountOn).val(details).trigger('change');
-                    $('#edit_form_' + discountOn).show(500);
-                }
-            });
 
             // Coupon Code Validation
             $('#code, #edit_code').on('keyup', function() {
