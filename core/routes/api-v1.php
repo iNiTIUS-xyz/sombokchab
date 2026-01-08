@@ -45,11 +45,13 @@ Route::get('/cities/{state_id}', [CountryController::class, 'cityByCountryId']);
 Route::get('/get-countries', [CountryController::class, 'getCountries']);
 Route::get('/get-states/{country_id}', [CountryController::class, 'getStateByCountryId']);
 Route::get('/get-cities/{state_id}', [CountryController::class, 'getCityByCountryId']);
+
 /*
  * todo:: all category route are below this line
  * */
 
 /* category */
+
 Route::group(['prefix' => 'category'], function () {
     Route::get('/', [CategoryController::class, 'allCategory']);
     Route::get('/{id}', [CategoryController::class, 'singleCategory']);
@@ -92,7 +94,7 @@ Route::get("language", [LanguageController::class, 'languageInfo']);
 Route::get("mobile-slider/{type}", [MobileSliderController::class, "index"]);
 Route::get("mobile-intro", [MobileIntroApiController::class, "mobileIntro"]);
 Route::get("payment-gateway-list", [SiteSettingsController::class, "payment_gateway_list"]);
-Route::post("calculate-tax-amount", [ApiOrderController::class,"calculateTaxAmount"]);
+Route::post("calculate-tax-amount", [ApiOrderController::class, "calculateTaxAmount"]);
 
 
 Route::post("product-review", [ProductController::class, 'storeReview']);
@@ -100,14 +102,14 @@ Route::post("category/{id}", [ProductController::class, 'singleProducts']);
 Route::post("subcategory/{id}", [ProductController::class, 'singleProducts']);
 Route::post("translate-string", [LanguageController::class, 'translateString'])->middleware("setlang:frontend");
 Route::post("calculate-tax", [OrderApiController::class, "shippingMethods"]);
-Route::post("checkout-contents", [OrderApiController::class,"checkoutContents"]);
+Route::post("checkout-contents", [OrderApiController::class, "checkoutContents"]);
 Route::post("apply-coupon", [OrderApiController::class, "applyCoupon"]);
 
 Route::post("checkout", [ApiOrderController::class, "placeOrder"]);
 Route::post("update-payment", [ApiOrderController::class, "update_payment_status"]);
 Route::post('abapayway/redirect', [ApiOrderController::class, 'abaRedirect']);
 Route::post('aba-payway-ipn', [PaymentGatewayController::class, 'aba_ipn'])->name('abapayway.ipn');
-     
+
 
 Route::group(['prefix' => 'user/', 'middleware' => 'auth:sanctum'], function () {
     Route::get("product/{id}", [ProductController::class, 'productDetail']);
@@ -136,6 +138,6 @@ Route::group(['prefix' => 'user/', 'middleware' => 'auth:sanctum'], function () 
     Route::post("ticket/create", [UserController::class, 'createTicket']);
     Route::post("ticket/priority-change", [UserController::class, 'priority_change']);
     Route::post("ticket/status-change", [UserController::class, 'status_change']);
-    Route::get("order-list", [ApiOrderController::class,'orderList']);
-    Route::get("order-detail/{id}", [ApiOrderController::class,'orderDetails']);
+    Route::get("order-list", [ApiOrderController::class, 'orderList']);
+    Route::get("order-detail/{id}", [ApiOrderController::class, 'orderDetails']);
 });

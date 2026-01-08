@@ -42,9 +42,7 @@
                             @php
                                 $suborders = $order->suborders ?? collect();
                             @endphp
-
                             <tr>
-                                <!-- ORDER PRODUCTS COLUMN -->
                                 <td class="align-middle text-start">
                                     @foreach ($suborders as $sub)
                                         @foreach ($sub->orderItem as $item)
@@ -56,8 +54,6 @@
                                                 if (!empty($item->variant?->attr_image)) {
                                                     $image = $item->variant->attr_image;
                                                 }
-
-                                                // Check if this is the last item of the last suborder
                                                 $isLast = $loop->last && $loop->parent->last;
                                             @endphp
 
@@ -120,7 +116,17 @@
                                 </td>
 
                                 <td>
-                                    {{ Str::ucfirst($order->payment_status) }}
+                                    @if ($order->payment_status == 'complete')
+                                        <span class="badge bg-primary">Complete</span>
+                                    @elseif ($order->payment_status == 'pending')
+                                        <span class="badge bg-warning">Pending</span>
+                                    @elseif ($order->payment_status == 'failed')
+                                        <span class="badge bg-danger">Failed</span>
+                                    @elseif ($order->payment_status == 'canceled')
+                                        <span class="badge bg-danger">Canceled</span>
+                                    @elseif ($order->payment_status == 'rejected')
+                                        <span class="badge bg-danger">Rejected</span>
+                                    @endif
                                 </td>
 
                                 <!-- ACTION -->
@@ -136,10 +142,12 @@
                                             style="width: 40px;">
                                             <i class="las la-retweet"></i>
                                         </a>
-                                        @if ($order->payment_status == 'pending')
+                                        @if (
+                                            $order->payment_status == 'pending' &&
+                                                ($order->payment_gateway == 'abapayway' || $order->payment_gateway == 'acledapay'))
                                             <a href="{{ route('user.product.order.reorder', $order->id) }}"
                                                 class="btn btn-success btn-sm rounded-btn mt-2"
-                                                title="{{ __('Give Review') }}" style="width: 40px;">
+                                                title="{{ __('Re Payment') }}" style="width: 40px;">
                                                 <i class="las la-money-bill"></i>
                                             </a>
                                         @endif

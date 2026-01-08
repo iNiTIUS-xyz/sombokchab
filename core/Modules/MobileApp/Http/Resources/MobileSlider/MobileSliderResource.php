@@ -17,11 +17,11 @@ class MobileSliderResource extends JsonResource
     {
         $data = [];
 
-        if(!empty($this->campaign)){
+        if (!empty($this->campaign)) {
             $data = ["campaign" => $this->campaign, "category" => null];
-        }elseif(!empty($this->category)){
+        } elseif (!empty($this->category)) {
             $data = ["campaign" => null, "category" => $this->sliderCategory?->name];
-        }else{
+        } else {
             $data = ["campaign" => null, "category" => null];
         }
 

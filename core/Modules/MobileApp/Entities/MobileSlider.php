@@ -16,11 +16,11 @@ class MobileSlider extends Model
 
     protected $with = ["image"];
 
-    protected $fillable = ["title","description","image_id","button_text","url","type","campaign","category"];
+    protected $fillable = ["title", "description", "image_id", "button_text", "url", "type", "campaign", "category"];
 
     public function image(): BelongsTo
     {
-        return $this->belongsTo(MediaUpload::class, "image_id","id");
+        return $this->belongsTo(MediaUpload::class, "image_id", "id");
     }
 
     public function sliderCategory(): HasOne

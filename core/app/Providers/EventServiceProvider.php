@@ -30,7 +30,7 @@ class EventServiceProvider extends ServiceProvider
             SupportSendMailToAdmin::class,
             SupportSendMailToUser::class,
         ],
-//        SendMessage::class,
+        //        SendMessage::class,
         AssignDeliveryManEmail::class => [
             AssignDeliveryManPushNotificationListener::class,
         ],
