@@ -8,7 +8,7 @@
             margin-bottom: 0 !important;
         }
 
-        .all-widgets.available-form-field{
+        .all-widgets.available-form-field {
             gap: 0px !important;
         }
 
@@ -26,26 +26,27 @@
             cursor: default !important;
         }
 
-        ul.available-form-field li.widget-group-header{
+        ul.available-form-field li.widget-group-header {
             width: 100%;
         }
 
         /* Right panel fixed & scrollable */
-.all-addons-wrapper {
-    max-height: calc(100vh - 260px); /* adjust if needed */
-    overflow-y: auto;
-    padding-right: 6px;
-}
+        .all-addons-wrapper {
+            max-height: calc(100vh - 260px);
+            /* adjust if needed */
+            overflow-y: auto;
+            padding-right: 6px;
+        }
 
-/* Optional: nicer scrollbar */
-.all-addons-wrapper::-webkit-scrollbar {
-    width: 6px;
-}
+        /* Optional: nicer scrollbar */
+        .all-addons-wrapper::-webkit-scrollbar {
+            width: 6px;
+        }
 
-.all-addons-wrapper::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.25);
-    border-radius: 4px;
-}
+        .all-addons-wrapper::-webkit-scrollbar-thumb {
+            background-color: rgba(0, 0, 0, 0.25);
+            border-radius: 4px;
+        }
 
         .select2-container--default .select2-selection--multiple {
             max-height: 100px;
@@ -53,16 +54,6 @@
         }
 
         /* Red close icon */
-        .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
-            color: #dc3545 !important;
-            /* Bootstrap danger red */
-            font-weight: bold;
-        }
-
-        /* Optional: darker red on hover */
-        .select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover {
-            color: #a71d2a !important;
-        }
     </style>
 @endsection
 
