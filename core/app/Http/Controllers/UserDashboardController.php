@@ -624,6 +624,8 @@ class UserDashboardController extends Controller
             ->orderBy('created_at', 'DESC')
             ->get();
 
+        // dd($all_orders);
+
         return view(self::BASE_PATH . 'order.all', compact('all_orders'));
     }
 

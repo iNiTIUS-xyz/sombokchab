@@ -29,6 +29,9 @@
                                 {{ __('Total Amount') }}
                             </th>
                             <th>
+                                {{ __('Payment Status') }}
+                            </th>
+                            <th>
                                 {{ __('Action') }}
                             </th>
                         </tr>
@@ -116,6 +119,10 @@
                                     {{ float_amount_with_currency_symbol($order->paymentMeta?->total_amount) }}
                                 </td>
 
+                                <td>
+                                    {{ Str::ucfirst($order->payment_status) }}
+                                </td>
+
                                 <!-- ACTION -->
                                 <td class="align-middle text-start table-btn">
                                     <div class="btn-wrapper">
@@ -129,6 +136,13 @@
                                             style="width: 40px;">
                                             <i class="las la-retweet"></i>
                                         </a>
+                                        @if ($order->payment_status == 'pending')
+                                            <a href="{{ route('user.product.order.reorder', $order->id) }}"
+                                                class="btn btn-success btn-sm rounded-btn mt-2"
+                                                title="{{ __('Give Review') }}" style="width: 40px;">
+                                                <i class="las la-money-bill"></i>
+                                            </a>
+                                        @endif
                                         @if ($order->isDeliveredStatus && !$order->hasRefundRequest)
                                             <a href="{{ route('user.product.order.refund', $order->id) }}"
                                                 class="btn btn-warning btn-sm rounded-btn mt-2"
@@ -148,79 +162,6 @@
                             </tr>
                         @endforeach
                     </tbody>
-
-                    {{-- <tbody>
-                    @foreach ($all_orders as $order)
-                    <tr class="completed">
-                        <td class="order-numb">
-                            {{ $order->order_number }}
-                        </td>
-                        <td class="date">
-                            {{ $order->created_at->format('M j, Y') }}
-                        </td>
-                        <td class="status">
-                            @if ($order->hasRefundRequest && $order->refundRequest->currentTrackStatus)
-                            {{ __('Refund:') }}
-                            <span class="badge bg-light text-dark px-2 py-1">
-                                {{ __(ucwords(str_replace('_', ' ', $order->refundRequest->currentTrackStatus->name)))
-                                }}
-                            </span>
-                            @else
-                            @if ($order->order_status == 'complete')
-                            <span class="badge bg-primary px-2 py-1">{{ __('Complete') }}</span>
-                            @elseif ($order->order_status == 'pending')
-                            <span class="badge bg-warning px-2 py-1">{{ __('Pending') }}</span>
-                            @elseif ($order->order_status == 'failed')
-                            <span class="badge px-2 py-1" style="background: rgb(145, 2, 2) !important;">{{ __('Failed')
-                                }}</span>
-                            @elseif ($order->order_status == 'canceled')
-                            <span class="badge bg-danger px-2 py-1">{{ __('Canceled') }}</span>
-                            @elseif ($order->order_status == 'rejected')
-                            <span class="badge px-2 py-1" style="background: rgb(138, 1, 14) !important;">{{
-                                __('Rejected') }}</span>
-                            @endif
-                            @endif
-                        </td>
-                        <td class="amount">
-                            <div class="product__price ">
-                                <span class="product__price__current ">
-                                    {{ float_amount_with_currency_symbol($order->paymentMeta?->total_amount) }}
-                                </span>
-                            </div>
-                        </td>
-                        <td class="table-btn">
-                            <div class="btn-wrapper">
-                                @if ($order->isDeliveredStatus && !$order->hasRefundRequest)
-                                <a href="{{ route('user.product.order.refund', $order->id) }}"
-                                    class="btn btn-warning btn-sm rounded-btn" title="{{ __('Request Refund') }}"
-                                    style="width: 40px;">
-                                    <i class="las la-undo"></i>
-                                </a>
-                                @endif
-
-                                <a href="{{ route('user.product.order.details', $order->order_number) }}"
-                                    class="btn btn-secondary btn-sm rounded-btn" title="{{ __('View Details') }}"
-                                    style="width: 40px;">
-                                    <i class="las la-file-alt"></i>
-                                </a>
-                                @if ($order->isCancelableStatus && $order->order_status == 'pending')
-                                <button class="btn btn-danger btn-sm rounded-btn swal_cancel_button"
-                                    title="{{ __('Cancel Order') }}" data-order-id="{{ $order->id }}"
-                                    style="width: 40px;">
-                                    <i class="las la-times"></i>
-                                </button>
-                                @endif
-
-                                <a href="{{ route('user.product.order.reorder', $order->id) }}"
-                                    class="btn btn-info btn-sm rounded-btn" title="{{ __('Re-order') }}"
-                                    style="width: 40px;">
-                                    <i class="las la-retweet"></i>
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody> --}}
                 </table>
             </div>
         </div>
