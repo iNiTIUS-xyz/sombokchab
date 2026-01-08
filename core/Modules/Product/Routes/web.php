@@ -9,7 +9,7 @@
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+ */
 
 use Modules\Product\Http\Controllers\CategoryController;
 use Modules\Product\Http\Controllers\FrontendProductController;
@@ -20,7 +20,7 @@ use Modules\Product\Http\Controllers\VendorProductController;
 
 $product_page_slug = getSlugFromReadingSetting('product_page') ?? 'product';
 
-Route::group(['prefix' => $product_page_slug, 'as' => 'frontend.products.', 'middleware' => ['setlang:frontend', 'globalVariable', 'maintains_mode', 'check.auth.vendor'],], function () {
+Route::group(['prefix' => $product_page_slug, 'as' => 'frontend.products.', 'middleware' => ['setlang:frontend', 'globalVariable', 'maintains_mode', 'check.auth.vendor']], function () {
     Route::get('/', 'FrontendProductController@products')->name('all');
     Route::get('search', 'FrontendProductController@search')->name('search');
     Route::post("{slug}/rating-store", [FrontendProductController::class, 'storeReview'])->name('ratings.store');
@@ -74,20 +74,18 @@ Route::group(['prefix' => $product_page_slug, 'as' => 'frontend.products.', 'mid
     });
 });
 
-
-
 Route::group([
-    'prefix' => 'product',
-    'as' => 'frontend.products.',
+    'prefix'     => 'product',
+    'as'         => 'frontend.products.',
     'middleware' => ['setlang:frontend', 'globalVariable', 'maintains_mode', 'check.auth.vendor'],
 ], function () {
     Route::get('/{slug}', [FrontendProductController::class, 'productDetailsPage'])->name('single');
 });
 
-
 Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable', 'auth:admin'])->group(function () {
 
     Route::group(['prefix' => 'coupons', 'as' => 'admin.products.coupon.'], function () {
+        Route::get('create', 'ProductCouponController@create')->name('create')->permission('coupon-create');
         Route::get('/', 'ProductCouponController@index')->name('all')->permission('coupons');
         Route::post('new', 'ProductCouponController@store')->name('new')->permission('coupons-new');
         Route::post('update', 'ProductCouponController@update')->name('update')->permission('coupons-update');

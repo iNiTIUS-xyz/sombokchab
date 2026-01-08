@@ -12,17 +12,14 @@ use Modules\Attributes\Entities\SubCategory;
 use Modules\Product\Entities\Product;
 use Modules\Product\Entities\ProductCoupon;
 
-class ProductCouponController extends Controller
-{
+class ProductCouponController extends Controller {
 
-    public function index()
-    {
+    public function index() {
         $all_product_coupon = ProductCoupon::orderBy('created_at', 'desc')->get();
         $coupon_apply_options = CouponEnum::discountOptions();
         $all_categories = Category::select('id', 'name')->get();
         $all_subcategories = SubCategory::select('id', 'name')->get();
         $all_child_categories = ChildCategory::select('id', 'name')->get();
-
         return view('product::backend.coupon.all-coupon')->with([
             'all_product_coupon'   => $all_product_coupon,
             'coupon_apply_options' => $coupon_apply_options,
@@ -31,9 +28,21 @@ class ProductCouponController extends Controller
             'all_child_categories' => $all_child_categories,
         ]);
     }
-
-    public function store(Request $request)
-    {
+    public function create() {
+        $all_product_coupon = ProductCoupon::orderBy('created_at', 'desc')->get();
+        $coupon_apply_options = CouponEnum::discountOptions();
+        $all_categories = Category::select('id', 'name')->get();
+        $all_subcategories = SubCategory::select('id', 'name')->get();
+        $all_child_categories = ChildCategory::select('id', 'name')->get();
+        return view('product::backend.coupon.create')->with([
+            'all_product_coupon'   => $all_product_coupon,
+            'coupon_apply_options' => $coupon_apply_options,
+            'all_categories'       => $all_categories,
+            'all_subcategories'    => $all_subcategories,
+            'all_child_categories' => $all_child_categories,
+        ]);
+    }
+    public function store(Request $request) {
         $request->validate([
             'title'         => 'required|string|max:191',
             'code'          => 'required|string|max:191|unique:product_coupons',
@@ -72,18 +81,17 @@ class ProductCouponController extends Controller
         ]);
 
         return $product_coupon->id
-            ? back()->with([
-                'message'    => 'Coupon Created Successfully.',
-                'alert-type' => 'success',
-            ])
-            : back()->with([
-                'message'    => 'Coupon Creation Failed.',
-                'alert-type' => 'error',
-            ]);
+        ? back()->with([
+            'message'    => 'Coupon Created Successfully.',
+            'alert-type' => 'success',
+        ])
+        : back()->with([
+            'message'    => 'Coupon Creation Failed.',
+            'alert-type' => 'error',
+        ]);
     }
 
-    public function update(Request $request)
-    {
+    public function update(Request $request) {
         $request->validate([
             'title'         => 'required|string|max:191',
             'code'          => 'required|string|max:191',
@@ -122,31 +130,29 @@ class ProductCouponController extends Controller
         ]);
 
         return $updated
-            ? back()->with([
-                'message'    => 'Coupon Updated Successfully.',
-                'alert-type' => 'success',
-            ])
-            : back()->with([
-                'message'    => 'Coupon Updating Failed.',
-                'alert-type' => 'error',
-            ]);
+        ? back()->with([
+            'message'    => 'Coupon Updated Successfully.',
+            'alert-type' => 'success',
+        ])
+        : back()->with([
+            'message'    => 'Coupon Updating Failed.',
+            'alert-type' => 'error',
+        ]);
     }
 
-    public function destroy(ProductCoupon $item)
-    {
+    public function destroy(ProductCoupon $item) {
         return $item->delete()
-            ? back()->with([
-                'message'    => 'Coupon Deleted Successfully.',
-                'alert-type' => 'success',
-            ])
-            : back()->with([
-                'message'    => 'Coupon Deleting Failed.',
-                'alert-type' => 'error',
-            ]);
+        ? back()->with([
+            'message'    => 'Coupon Deleted Successfully.',
+            'alert-type' => 'success',
+        ])
+        : back()->with([
+            'message'    => 'Coupon Deleting Failed.',
+            'alert-type' => 'error',
+        ]);
     }
 
-    public function check(Request $request)
-    {
+    public function check(Request $request) {
         $code = $request->query('code');
         $excludeId = $request->query('id'); // may be null
 
@@ -166,22 +172,19 @@ class ProductCouponController extends Controller
         return response()->json($count);
     }
 
-    public function bulk_action(Request $request)
-    {
+    public function bulk_action(Request $request) {
         ProductCoupon::whereIn('id', $request->ids)->delete();
 
         return response()->json(['status' => 'ok']);
     }
 
-    public function allProductsAjax()
-    {
+    public function allProductsAjax() {
         $all_products = Product::select('id', 'name')->withOut('image', 'uom', 'badge')->where('status_id', 1)->get();
 
         return response()->json($all_products);
     }
 
-    public function statusChange(Request $request, $id)
-    {
+    public function statusChange(Request $request, $id) {
         ProductCoupon::where('id', $id)->update([
             'status' => $request->status,
         ]);
