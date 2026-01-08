@@ -24,11 +24,11 @@ class StoreMobileSliderRequest extends FormRequest
     public function rules()
     {
         return [
-            "title" => "required",
-            "description" => "required",
+            "title" => "nullable",
+            "description" => "nullable",
             "image_id" => "required",
-            "button_text" => "required",
-            "url" => "required",
+            "button_text" => "nullable",
+            "url" => "nullable",
             "category" => "nullable",
             "campaign" => "nullable",
         ];

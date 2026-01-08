@@ -126,7 +126,8 @@
                     </li>
                 @endcanany
 
-                @canany(['view-support-ticket', 'add-support-ticket', 'edit-support-ticket', 'delete-support-ticket', 'manage-support-ticket-departments'])
+                @canany(['view-support-ticket', 'add-support-ticket', 'edit-support-ticket', 'delete-support-ticket',
+                    'manage-support-ticket-departments'])
                     <li
                         class="main_dropdown {{ active_menu('admin-home/support-tickets') }} @if (request()->is('admin-home/support-tickets/*')) active open @endif">
                         <a href="#1" aria-expanded="true">
@@ -212,24 +213,33 @@
                         </li>
                     @endif --}}
 
-                    {{-- @if (auth('admin')->user()->hasRole('Super Admin'))
-                        <li class="main_dropdown @if (request()->is(['admin-home/mobile-slider-two/*', 'admin-home/mobile-slider-three/*', 'admin-home/mobile-slider/*', 'admin-home/mobile-featured-product/*', 'admin-home/mobile-campaign/*', 'admin-home/mobile-settings/*'])) active @endif">
+                    @if (auth('admin')->user()->hasRole('Super Admin'))
+                        <li class="main_dropdown @if (request()->is([
+                                'admin-home/mobile-slider-two/*',
+                                'admin-home/mobile-slider-three/*',
+                                'admin-home/mobile-slider/*',
+                                'admin-home/mobile-featured-product/*',
+                                'admin-home/mobile-campaign/*',
+                                'admin-home/mobile-category/*',
+                                'admin-home/mobile-product/*',
+                                'admin-home/mobile-settings/*',
+                            ])) active @endif">
                             <a href="#1" aria-expanded="true">
                                 <i class="ti-mobile"></i>
-                                <span>{{ __('Buyer App Management') }}</span>
+                                <span>{{ __('App Management') }}</span>
                             </a>
                             <ul class="collapse">
-                                <li class="{{ active_menu('admin-home/mobile-slider/new') }}">
-                                    <a href="{{ route('admin.mobile.slider.create') }}">
-                                        {{ __('Slider Create') }}
-                                    </a>
-                                </li>
                                 <li class="{{ active_menu('admin-home/mobile-slider/list') }}">
                                     <a href="{{ route('admin.mobile.slider.all') }}">
                                         {{ __('Slider List') }}
                                     </a>
                                 </li>
-                                <li class="{{ active_menu('admin-home/mobile-slider-two/new') }}">
+                                <li class="{{ active_menu('admin-home/mobile-slider/new') }}">
+                                    <a href="{{ route('admin.mobile.slider.create') }}">
+                                        {{ __('Add New Slider') }}
+                                    </a>
+                                </li>
+                                {{-- <li class="{{ active_menu('admin-home/mobile-slider-two/new') }}">
                                     <a href="{{ route('admin.mobile.slider.two.create') }}">
                                         {{ __('Slider Two Create') }}
                                     </a>
@@ -248,13 +258,23 @@
                                     <a href="{{ route('admin.mobile.slider.three.all') }}">
                                         {{ __('Slider Three List') }}
                                     </a>
-                                </li>
+                                </li> --}}
                                 <li class="{{ active_menu('admin-home/mobile-campaign/create') }}">
                                     <a href="{{ route('admin.mobile.campaign.create') }}">
-                                        {{ __('Campaign Update') }}
+                                        {{ __('App Campaigns') }}
                                     </a>
                                 </li>
-                                <li class="{{ active_menu('admin-home/mobile-featured-product/new') }}">
+                                <li class="{{ active_menu('admin-home/mobile-category/create') }}">
+                                    <a href="{{ route('admin.mobile.category.create') }}">
+                                        {{ __('App Categories') }}
+                                    </a>
+                                </li>
+                                <li class="{{ active_menu('admin-home/mobile-product/create') }}">
+                                    <a href="{{ route('admin.mobile.product.create') }}">
+                                        {{ __('App Products') }}
+                                    </a>
+                                </li>
+                                {{-- <li class="{{ active_menu('admin-home/mobile-featured-product/new') }}">
                                     <a href="{{ route('admin.featured.product.create') }}">
                                         {{ __('Featured Product Update') }}
                                     </a>
@@ -276,10 +296,10 @@
                                             {{ __('Buyer App Settings') }}
                                         </a>
                                     </li>
-                                @endif
+                                @endif --}}
                             </ul>
                         </li>
-                    @endif --}}
+                    @endif
                 @endif
 
                 @if (moduleExists('DeliveryMan'))
@@ -353,7 +373,8 @@
                 @endif
 
                 @if (moduleExists('Wallet'))
-                    @canany(['manage-wallet', 'view-wallet', 'view-wallet-request', 'view-wallet-history', 'edit-wallet'])
+                    @canany(['manage-wallet', 'view-wallet', 'view-wallet-request', 'view-wallet-history',
+                        'edit-wallet'])
                         <li class="main_dropdown @if (request()->is(['admin-home/wallet/*'])) active open @endif ">
                             <a href="#1" aria-expanded="true">
                                 <i class="ti-wallet"></i>
@@ -730,11 +751,7 @@
                 @endcanany --}}
 
                 @canany(['view-category', 'add-category', 'edit-category'])
-                    <li class="main_dropdown @if (request()->is([
-                            'admin-home/categories',
-                            'admin-home/sub-categories',
-                            'admin-home/child-categories',
-                        ])) active open @endif ">
+                    <li class="main_dropdown @if (request()->is(['admin-home/categories', 'admin-home/sub-categories', 'admin-home/child-categories'])) active open @endif ">
                         <a href="#1" aria-expanded="true">
                             <i class="ti-panel"></i>
                             <span>{{ __('Categories Management') }}</span>
@@ -1343,8 +1360,7 @@
                             @endcan
 
                             @can('manage-site-settings')
-                                <li class="{{ active_menu('admin-home/general-settings/reading') }}"
-                                    style="display: none;">
+                                <li class="{{ active_menu('admin-home/general-settings/reading') }}" style="display: none;">
                                     <a href="{{ route('admin.general.reading') }}">
                                         {{ __('Reading') }}
 
@@ -1543,4 +1559,3 @@
         </div>
     </div>
 </div>
- 

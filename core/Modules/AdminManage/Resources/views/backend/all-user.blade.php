@@ -30,18 +30,25 @@
                             <table id="dataTable" class="table">
                                 <thead class="text-capitalize">
                                     <tr>
-                                        <th>{{ __('Serial No') }}</th>
+                                        {{-- <th>{{ __('Serial No') }}</th> --}}
                                         <th>{{ __('Name') }}</th>
-                                        <th>{{ __('Image') }}</th>
                                         <th>{{ __('Role') }}</th>
+                                        <th>{{ __('Image') }}</th>
                                         <th>{{ __('Action') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($all_user as $key => $data)
                                         <tr>
-                                            <td>{{ $key + 1 }}</td>
+                                            {{-- <td>{{ $key + 1 }}</td> --}}
                                             <td>{{ $data->name }} ({{ $data->username }})</td>
+                                            <td>
+                                                @if (!empty($data->getRoleNames()))
+                                                    @foreach ($data->getRoleNames() as $v)
+                                                        {{ $v }}
+                                                    @endforeach
+                                                @endif
+                                            </td>
                                             <td>
                                                 @php
                                                     $img = get_attachment_image_by_id($data->image, null, true);
@@ -56,13 +63,6 @@
                                                         </div>
                                                     </div>
                                                     @php $img_url = $img['img_url']; @endphp
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if (!empty($data->getRoleNames()))
-                                                    @foreach ($data->getRoleNames() as $v)
-                                                        {{ $v }}
-                                                    @endforeach
                                                 @endif
                                             </td>
                                             <td>

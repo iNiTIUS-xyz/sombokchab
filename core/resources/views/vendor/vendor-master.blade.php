@@ -9,18 +9,18 @@
     <title>
         {{ get_static_option('site_title') }} -
         @if (request()->path() == 'admin-home')
-        {{ get_static_option('site_tag_line') }}
+            {{ get_static_option('site_tag_line') }}
         @else
-        @yield('site-title')
+            @yield('site-title')
         @endif
     </title>
     @php
-    $site_favicon = get_attachment_image_by_id(get_static_option('site_favicon'), 'full', false);
+        $site_favicon = get_attachment_image_by_id(get_static_option('site_favicon'), 'full', false);
     @endphp
     @include('frontend.partials.css-variable')
     @if (!empty($site_favicon))
-    <link rel="icon" href="{{ $site_favicon['img_url'] }}" type="image/png">
-    {!! render_favicon_by_id($site_favicon['img_url']) !!}
+        <link rel="icon" href="{{ $site_favicon['img_url'] }}" type="image/png">
+        {!! render_favicon_by_id($site_favicon['img_url']) !!}
     @endif
     <!-- favicon -->
     <link rel=icon href="{{ asset('assets/favicon-dashboard.png') }}" sizes="16x16" type="icon/png">
@@ -43,7 +43,7 @@
 
     @yield('style')
 
-    
+
     <style>
         #dataTable th,
         #dataTable td {
@@ -73,6 +73,46 @@
 
         table.dataTable .dt-type-numeric span.dt-column-order {
             position: relative !important;
+        }
+
+        .select2-container--default .select2-results__option {
+            background-color: #ffffff;
+            color: #555;
+        }
+
+        .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
+            background-color: #336A59;
+            color: #ffffff;
+        }
+
+        .select2-container--default .select2-results__option[aria-selected="true"] {
+            background-color: #336A59;
+            color: #ffffff;
+        }
+
+        .select2-container--default .select2-results__option--highlighted[aria-selected="true"] {
+            background-color: #336A59 !important;
+            color: #ffffff !important;
+        }
+
+        .select2-container--default .select2-results__option:hover {
+            background-color: #336A59 !important;
+            color: #ffffff !important;
+        }
+
+        .select2-container--default .select2-results__option--highlighted {
+            background-color: #336A59 !important;
+            color: #ffffff !important;
+        }
+
+        .select2-container--default .select2-results__option--selected {
+            background-color: #336A59 !important;
+            color: #ffffff !important;
+        }
+
+        .select2-container--default .select2-results__option--selected:hover {
+            background-color: #336A59 !important;
+            color: #ffffff !important;
         }
     </style>
 </head>
@@ -135,7 +175,7 @@
     <script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             if ($('#dataTable').length) {
                 new DataTable('#dataTable', {
                     layout: {
@@ -150,7 +190,7 @@
                     },
 
                     paging: true,
-                    lengthChange: true,   // keep this so DataTables *obeys* your dropdown
+                    lengthChange: true, // keep this so DataTables *obeys* your dropdown
                     searching: true,
                     ordering: true,
                     info: true,
@@ -339,51 +379,53 @@
     </script>
     <script>
         @if (Session::has('message'))
-        var type = "{{ Session::get('alert-type', 'success') }}";
+            var type = "{{ Session::get('alert-type', 'success') }}";
 
-        switch (type) {
-            case 'success':
-                toastr.success("{{ Session::get('message') }}");
-                break;
+            switch (type) {
+                case 'success':
+                    toastr.success("{{ Session::get('message') }}");
+                    break;
 
-            case 'info':
-                toastr.info("{{ Session::get('message') }}");
-                break;
+                case 'info':
+                    toastr.info("{{ Session::get('message') }}");
+                    break;
 
-            case 'warning':
-                toastr.warning("{{ Session::get('message') }}");
-                break;
+                case 'warning':
+                    toastr.warning("{{ Session::get('message') }}");
+                    break;
 
-            case 'error':
-                toastr.error("{{ Session::get('message') }}");
-                break;
-        }
-    @endif
+                case 'error':
+                    toastr.error("{{ Session::get('message') }}");
+                    break;
+            }
+        @endif
     </script>
     {!! Toastr::message() !!}
     <script>
-        @if($errors->any())
-                @foreach($errors->all() as $error)
-                    toastr.error('{{ $error }}','Error',{
-                        closeButton:true,
-                        progressBar:true,
-                    });
-                @endforeach
-            @endif
+        @if ($errors->any())
+            @foreach ($errors->all() as $error)
+                toastr.error('{{ $error }}', 'Error', {
+                    closeButton: true,
+                    progressBar: true,
+                });
+            @endforeach
+        @endif
     </script>
     @yield('script')
 
     <!--Start of Tawk.to Script-->
     <script type="text/javascript">
-    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-    (function(){
-    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-    s1.async=true;
-    s1.src='https://embed.tawk.to/69290e5e177985195e6b4a52/1jb4608i1';
-    s1.charset='UTF-8';
-    s1.setAttribute('crossorigin','*');
-    s0.parentNode.insertBefore(s1,s0);
-    })();
+        var Tawk_API = Tawk_API || {},
+            Tawk_LoadStart = new Date();
+        (function() {
+            var s1 = document.createElement("script"),
+                s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/69290e5e177985195e6b4a52/1jb4608i1';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
+        })();
     </script>
     <!--End of Tawk.to Script-->
 </body>

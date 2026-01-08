@@ -118,7 +118,7 @@ class ShopPageStyleTwo extends PageBuilderBase
 
         $output .= Number::get([
             'name' => 'items_count',
-            'label' => __('Number of items per page'),
+            'label' => __('Limit of Product'),
             'value' => $widget_saved_values['items_count'] ?? null,
             'info' => __('Enter how many item you want to show in frontend. If you leave it empty 15 products will be show by default.'),
         ]);

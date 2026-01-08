@@ -59,7 +59,7 @@ class ShopPage extends PageBuilderBase
         // section
         if (false) {
             $output .= '<div class="all-field-wrap">';
-            $output .= '<h6 class="mb-3">'.__('Page Settings').'</h6>';
+            $output .= '<h6 class="mb-3">' . __('Page Settings') . '</h6>';
             $output .= Text::get([
                 'name' => 'page_title',
                 'label' => __('Page Title'),
@@ -90,10 +90,10 @@ class ShopPage extends PageBuilderBase
 
         // product
         $output .= '<div class="all-field-wrap">';
-        $output .= '<h6 class="mb-3">'.__('Product Section').'</h6>';
+        $output .= '<h6 class="mb-3">' . __('Product Section') . '</h6>';
 
         $products = Product::where(['status_id' => 1])
-            ->when(get_static_option('vendor_enable', 'on') != 'on', function ($query){
+            ->when(get_static_option('vendor_enable', 'on') != 'on', function ($query) {
                 $query->whereNull("vendor_id");
             })->get()->pluck('name', 'id')->toArray();
 
@@ -110,7 +110,6 @@ class ShopPage extends PageBuilderBase
             'name' => 'order_by',
             'label' => __('Order By'),
             'options' => [
-                'id' => __('ID'),
                 'created_at' => __('Date'),
                 'sale_price' => __('Price'),
                 'sales' => __('Sales'),
@@ -131,7 +130,7 @@ class ShopPage extends PageBuilderBase
         ]);
         $output .= Number::get([
             'name' => 'items_count',
-            'label' => __('Number of items per page'),
+            'label' => __('Limit of Product'),
             'value' => $widget_saved_values['items_count'] ?? null,
             'info' => __('Enter how many item you want to show in frontend. If you leave it empty 15 products will be show by default.'),
         ]);
@@ -140,7 +139,7 @@ class ShopPage extends PageBuilderBase
         if (false) {
             // selected items
             $output .= '<div class="all-field-wrap">';
-            $output .= '<h6 class="mb-3">'.__('Selected Items').'</h6>';
+            $output .= '<h6 class="mb-3">' . __('Selected Items') . '</h6>';
             $output .= Text::get([
                 'name' => 'selected_items_name',
                 'label' => __('Section Title'),
@@ -170,7 +169,7 @@ class ShopPage extends PageBuilderBase
 
             // featured
             $output .= '<div class="all-field-wrap">';
-            $output .= '<h6 class="mb-3">'.__('Selected Items').'</h6>';
+            $output .= '<h6 class="mb-3">' . __('Selected Items') . '</h6>';
             $output .= Switcher::get([
                 'name' => 'featured_section_display_status',
                 'label' => __('Featured Section Display Status'),
@@ -297,7 +296,7 @@ class ShopPage extends PageBuilderBase
             $all_products = Product::query()
                 ->with('inventory', 'campaign', 'category', 'ratings')
                 ->withAvg('ratings', 'rating')
-                ->when(get_static_option('vendor_enable', 'on') != 'on', function ($query){
+                ->when(get_static_option('vendor_enable', 'on') != 'on', function ($query) {
                     $query->whereNull("vendor_id");
                 })
                 ->where('status_id', 1);
@@ -337,7 +336,7 @@ class ShopPage extends PageBuilderBase
                 if (is_array($filter_attributes)) {
                     foreach ($filter_attributes as $attr) {
                         if (isset($attr['id']) && isset($attr['attribute'])) {
-                            $all_products->whereJsonContains('attributes->'.$attr['id'], $attr['attribute']);
+                            $all_products->whereJsonContains('attributes->' . $attr['id'], $attr['attribute']);
                         }
                     }
                 }

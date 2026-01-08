@@ -292,7 +292,8 @@
                                 <div class="shop-left-list margin-top-15">
                                     <ul class="shop-lists active-list brand-list">
                                         @foreach ($all_brands as $brand)
-                                            <li data-type="brand" data-val="{{ $brand->name }}" class="list">
+                                            <li data-type="brand" data-val="{{ $brand->name }}"
+                                                class="list {{ request('brand') === $brand->name ? 'active' : '' }}">
                                                 <a href="#1" class="text-dark">
                                                     {{ langWiseShowValue($brand->name, $brand->name_km) }}
                                                 </a>

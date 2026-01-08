@@ -24,43 +24,44 @@
                         <div class="form-group">
                             <label for="title">
                                 Title
-                                <span class="text-danger">*</span>
+                                {{-- <span class="text-danger">*</span> --}}
                             </label>
                             <input class="form-control" id="title" name="title"
-                                placeholder="{{ __('Enter mobile slider title') }}" value="{{ $mobileSlider->title }}" required=""/>
+                                placeholder="{{ __('Enter mobile slider title') }}" value="{{ $mobileSlider->title }}" />
                         </div>
                         <div class="form-group">
                             <label for="description">
                                 Description
-                                <span class="text-danger">*</span>
+                                {{-- <span class="text-danger">*</span> --}}
                             </label>
                             <textarea class="form-control" id="description" name="description"
-                                placeholder="{{ __('Enter mobile slider description') }}" required=""> {{ $mobileSlider->description }}</textarea>
+                                placeholder="{{ __('Enter mobile slider description') }}">{{ $mobileSlider->description }}</textarea>
                         </div>
 
-                        <x-media-upload :title="__('Image')" :name="'image'" :dimentions="'1280x1280'" :oldimage="$mobileSlider->image" />
+                        <x-media-upload :title="__('Image')" :name="'image'" :dimentions="'1280x1280'" :oldimage="$mobileSlider->image"
+                            :isRequired="true" />
 
                         <div class="form-group">
                             <label for="button_text">
                                 Button Text
-                                <span class="text-danger">*</span>
+                                {{-- <span class="text-danger">*</span> --}}
                             </label>
                             <input class="form-control" id="button_text" name="button_text"
                                 placeholder="{{ __('Enter mobile slider button text') }}"
-                                value="{{ $mobileSlider->button_text }}" required=""/>
+                                value="{{ $mobileSlider->button_text }}" />
                         </div>
 
                         <div class="form-group">
                             <label for="button_url">
                                 Button URL
-                                <span class="text-danger">*</span>
+                                {{-- <span class="text-danger">*</span> --}}
                             </label>
                             <input class="form-control" id="button_url" name="button_url"
                                 placeholder="{{ __('Enter mobile slider button URL') }}"
-                                value="{{ $mobileSlider->url }}" required=""/>
+                                value="{{ $mobileSlider->url }}" />
                         </div>
 
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label for="category">
                                 Enable Category
                             </label>
@@ -96,7 +97,7 @@
                                     </option>
                                 @endforeach
                             </select>
-                        </div>
+                        </div> --}}
                         <div class="form-group">
                             <button class="cmn_btn btn_bg_profile">
                                 {{ __('Update') }}
