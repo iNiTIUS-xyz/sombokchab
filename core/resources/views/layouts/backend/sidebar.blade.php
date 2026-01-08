@@ -926,11 +926,29 @@
                 @endcan
 
                 @canany(['view-coupon', 'add-coupon'])
-                    <li class="@if (request()->is(['admin-home/coupons', 'admin-home/coupons/*'])) active open @endif">
-                        <a href="{{ route('admin.products.coupon.all') }}" aria-expanded="true">
+                    <li class="main_dropdown @if (request()->is(['admin-home/coupons', 'admin-home/coupons/*'])) active open @endif">
+                        <a href="#1" aria-expanded="true">
                             <i class="ti-layout-tab"></i>
                             <span>{{ __('Coupons Management') }}</span>
                         </a>
+                        <ul class="collapse">
+                            @can('view-coupon')
+                                <li class="{{ active_menu('admin-home/coupons') }}">
+                                    <a href="{{ route('admin.products.coupon.all') }}">
+                                        {{ __('Coupons List') }}
+
+                                    </a>
+                                </li>
+                            @endcan
+
+                            @can('add-coupon')
+                                <li class="{{ active_menu('admin-home/coupons/create') }}">
+                                    <a href="{{ route('admin.products.coupon.create') }}">
+                                        {{ __('Add New Coupon') }}
+                                    </a>
+                                </li>
+                            @endcan
+                        </ul>
                     </li>
                 @endcanany
 

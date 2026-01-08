@@ -96,8 +96,9 @@
             <div class="col-12">
                 <div class="mb-4">
                     @can('add-coupon')
-                        <a href="#1" data-bs-toggle="modal" data-bs-target="#coupon_add_modal"
-                            class="cmn_btn btn_bg_profile">{{ __('Add New Coupon') }}</a>
+                        <a href="{{ route('admin.products.coupon.create') }}" class="cmn_btn btn_bg_profile">
+                            {{ __('Add New Coupon') }}
+                        </a>
                     @endcan
                 </div>
 
@@ -141,9 +142,9 @@
                                             <td>
                                                 <div class="btn-group badge">
                                                     <button type="button"
-                                                        class="status-{{ $data->status }} {{ $data->status == 'publish' ? 'bg-primary' : 'bg-danger' }} dropdown-toggle"
+                                                        class="status-{{ $data->status }} {{ $data->status == 'publish' ? 'bg-primary status-open' : 'bg-danger status-close' }} dropdown-toggle"
                                                         data-bs-toggle="dropdown">
-                                                        {{ ucfirst($data->status == 'publish' ? __('Publish') : __('Unpublish')) }}
+                                                        {{ ucfirst($data->status == 'publish' ? __('Published') : __('Unpublished')) }}
                                                     </button>
                                                     <div class="dropdown-menu">
                                                         <form
@@ -429,167 +430,4 @@
             </div>
         </div>
     </div>
-@endsection
-
-@section('script')
-    <x-select2.select2-js />
-    <x-table.btn.swal.js />
-
-    <script>
-        $(document).ready(function() {
-            // Initialize Select2 properly
-            function initSelect2(element) {
-                if ($(element).length && !$(element).data('select2')) {
-                    $(element).select2({
-                        width: '100%',
-                        placeholder: "{{ __('Select Products') }}",
-                        allowClear: true
-                    });
-                }
-            }
-
-            // Flatpickr
-            flatpickr(".flatpickr", {
-                altInput: true,
-                altFormat: "F j, Y",
-                dateFormat: "Y-m-d"
-            });
-
-            // Prevent negative values
-            $('.discount').on('input', function() {
-                if (this.value < 0) this.value = 1;
-            });
-
-            // Load products and initialize Select2
-            function loadProducts(targetId, preselected = []) {
-                $('.lds-ellipsis').show();
-                $.get('{{ route('admin.products.coupon.products') }}')
-                    .done(function(data) {
-                        let $select = $(targetId);
-                        $select.empty();
-
-                        if (data && data.length) {
-                            data.forEach(function(product) {
-                                $select.append(
-                                    `<option value="${product.id}">${product.name}</option>`);
-                            });
-                        }
-
-                        // Destroy if already initialized
-                        if ($select.data('select2')) {
-                            $select.select2('destroy');
-                        }
-
-                        // Re-init Select2
-                        initSelect2($select);
-
-                        // Pre-select values if any
-                        if (preselected.length) {
-                            $select.val(preselected.map(String)).trigger('change');
-                        }
-
-                        $('.lds-ellipsis').hide();
-                    })
-                    .fail(function() {
-                        $('.lds-ellipsis').hide();
-                        alert('Failed to load products.');
-                    });
-            }
-
-            // Handle Discount On Change
-            $('#discount_on').on('change', function() {
-                let val = $(this).val();
-                $('#form_category, #form_subcategory, #form_childcategory, #form_products').hide();
-
-                if (val === 'product') {
-                    $('#form_products').show(500);
-                    loadProducts('#products');
-                } else if (val) {
-                    $('#form_' + val).show(500);
-                }
-            });
-
-            $('#edit_discount_on').on('change', function() {
-                let val = $(this).val();
-                $('#edit_form_category, #edit_form_subcategory, #edit_form_childcategory, #edit_form_products')
-                    .hide();
-
-                if (val === 'product') {
-                    $('#edit_form_products').show(500);
-                    loadProducts('#edit_products');
-                } else if (val) {
-                    $('#edit_form_' + val).show(500);
-                }
-            });
-
-            // Edit Button Click
-            $('.category_edit_btn').on('click', function() {
-                let el = $(this);
-
-                $('#coupon_id').val(el.data('id'));
-                $('#edit_title').val(el.data('title'));
-                $('#edit_code').val(el.data('code'));
-                $('#edit_discount').val(el.data('discount'));
-                $('#edit_discount_type').val(el.data('discount_type')).trigger('change');
-                $('#edit_expire_date').val(el.data('expire_date'));
-                $('#edit_status').val(el.data('status')).trigger('change');
-                $('#edit_discount_on').val(el.data('discount_on')).trigger('change');
-
-                // Reset all fields
-                $('#edit_form_category, #edit_form_subcategory, #edit_form_childcategory, #edit_form_products')
-                    .hide();
-                $('#edit_category, #edit_subcategory, #edit_childcategory').val('');
-                let $editProducts = $('#edit_products');
-                if ($editProducts.data('select2')) $editProducts.select2('destroy');
-                $editProducts.empty();
-
-                let discountOn = el.data('discount_on');
-                let details = el.data('discount_on_details') || [];
-
-                // If product, load and preselect
-                if (discountOn === 'product' && details.length) {
-                    $('#edit_form_products').show(500);
-                    loadProducts('#edit_products', details);
-                } else if (discountOn && details) {
-                    $('#edit_' + discountOn).val(details).trigger('change');
-                    $('#edit_form_' + discountOn).show(500);
-                }
-            });
-
-            // Coupon Code Validation
-            $('#code, #edit_code').on('keyup', function() {
-                let $input = $(this);
-                let code = $input.val().trim();
-                let $status = $input.attr('id') === 'code' ? $('#status_text_add') : $('#status_text_edit');
-                let couponId = $('#coupon_id').val() || null;
-                let $submit = $input.closest('form').find('button[type="submit"]');
-
-                $status.hide();
-                if (!code) {
-                    $submit.prop('disabled', false);
-                    return;
-                }
-
-                $submit.prop('disabled', true);
-                $.get("{{ route('admin.products.coupon.check') }}", {
-                        code: code,
-                        id: couponId
-                    })
-                    .done(function(count) {
-                        if (count > 0) {
-                            $status.removeClass('text-success').addClass('text-danger')
-                                .text("{{ __('This coupon is already taken') }}").show();
-                        } else {
-                            $status.removeClass('text-danger').addClass('text-success')
-                                .text("{{ __('This coupon is available') }}").show();
-                            $submit.prop('disabled', false);
-                        }
-                    })
-                    .fail(function() {
-                        $status.hide();
-                        $submit.prop('disabled', false);
-                    });
-            });
-        });
-    </script>
 @endsection

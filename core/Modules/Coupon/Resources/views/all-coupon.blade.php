@@ -276,9 +276,8 @@
                         <h5 class="modal-title">{{ __('Add Coupon') }}</h5>
                         <button type="button" class="close" data-bs-dismiss="modal"><span>×</span></button>
                     </div>
-                    <form action="{{ route('admin.product.coupon.new') }}" method="post"
-                                enctype="multipart/form-data">
-                                @csrf
+                    <form action="{{ route('admin.product.coupon.new') }}" method="post" enctype="multipart/form-data">
+                        @csrf
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="title">{{ __('Coupon Title') }}</label>
