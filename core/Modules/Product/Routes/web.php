@@ -86,6 +86,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend', 'adminglobalVariable
 
     Route::group(['prefix' => 'coupons', 'as' => 'admin.products.coupon.'], function () {
         Route::get('create', 'ProductCouponController@create')->name('create')->permission('coupon-create');
+        Route::get('edit/{id}', 'ProductCouponController@edit')->name('edit')->permission('coupon-edit');
         Route::get('/', 'ProductCouponController@index')->name('all')->permission('coupons');
         Route::post('new', 'ProductCouponController@store')->name('new')->permission('coupons-new');
         Route::post('update', 'ProductCouponController@update')->name('update')->permission('coupons-update');
