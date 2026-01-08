@@ -189,6 +189,52 @@
         .all-addons-wrapper .accordion-button {
             padding: 0.25rem 1rem;
         }
+
+        .select2-container--default .select2-results__option {
+            background-color: #ffffff;
+            color: #555;
+        }
+
+
+        .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
+            background-color: #336A59;
+            color: #ffffff;
+        }
+
+
+        .select2-container--default .select2-results__option[aria-selected="true"] {
+            background-color: #336A59;
+            color: #ffffff;
+        }
+
+
+        .select2-container--default .select2-results__option--highlighted[aria-selected="true"] {
+            background-color: #336A59 !important;
+            color: #ffffff !important;
+        }
+
+        .select2-container--default .select2-results__option:hover {
+            background-color: #336A59 !important;
+            color: #ffffff !important;
+        }
+
+
+        .select2-container--default .select2-results__option--highlighted {
+            background-color: #336A59 !important;
+            color: #ffffff !important;
+        }
+
+
+        .select2-container--default .select2-results__option--selected {
+            background-color: #336A59 !important;
+            color: #ffffff !important;
+        }
+
+
+        .select2-container--default .select2-results__option--selected:hover {
+            background-color: #336A59 !important;
+            color: #ffffff !important;
+        }
     </style>
 
     @yield('style')
