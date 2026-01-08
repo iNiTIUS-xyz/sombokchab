@@ -13,7 +13,7 @@
 
 
         .select2-container--default .select2-selection--multiple {
-            max-height: 100px;
+            max-height: 70px;
             overflow-y: auto;
         }
 
@@ -57,14 +57,14 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-12 mt-4">
+                                {{-- <div class="col-md-12 mt-4">
                                     <div class="form-group" id="product-list">
                                         <label>Limit of Product</label>
                                         <input type="number" name="limit" class="form-control"
                                             value="{{ $selectedProduct ? $selectedProduct->limit : '' }}" />
                                     </div>
-                                </div>
-                                <div class="col-md-12 mt-4">
+                                </div> --}}
+                                <div class="col-md-12 mt-5">
                                     <div class="form-group">
                                         <button type="submit" class="cmn_btn btn_bg_profile">{{ __('Update') }}</button>
                                     </div>

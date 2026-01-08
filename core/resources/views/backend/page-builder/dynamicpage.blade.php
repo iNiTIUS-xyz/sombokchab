@@ -30,7 +30,7 @@
             width: 100%;
         }
 
-        /* Right panel fixed & scrollable */
+
         .all-addons-wrapper {
             max-height: calc(100vh - 260px);
             /* adjust if needed */
@@ -38,7 +38,7 @@
             padding-right: 6px;
         }
 
-        /* Optional: nicer scrollbar */
+
         .all-addons-wrapper::-webkit-scrollbar {
             width: 6px;
         }
@@ -48,12 +48,11 @@
             border-radius: 4px;
         }
 
+
         .select2-container--default .select2-selection--multiple {
             max-height: 100px;
             overflow-y: auto;
         }
-
-        /* Red close icon */
     </style>
 @endsection
 
@@ -549,6 +548,7 @@
         // Initialize Select2 on page load
         $(document).ready(function() {
             initSelect2();
+
         });
     </script>
 @endsection
