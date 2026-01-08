@@ -9,7 +9,7 @@ class MobileFeaturedProduct extends Model
 {
     use HasFactory;
 
-    protected $fillable = ["type","ids"];
+    protected $fillable = ["type", "ids"];
 
     public $timestamps = false;
 }

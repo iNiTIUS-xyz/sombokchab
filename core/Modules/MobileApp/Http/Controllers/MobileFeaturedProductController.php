@@ -33,5 +33,4 @@ class MobileFeaturedProductController extends Controller
 
         return back()->with(['msg' => __('Feature product updated successfully.'), 'type' => 'success']);
     }
-
 }

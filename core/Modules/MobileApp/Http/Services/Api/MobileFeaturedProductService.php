@@ -9,7 +9,7 @@ use LaravelIdea\Helper\App\Product\_IH_Product_C;
 
 class MobileFeaturedProductService
 {
-    public static function get_product(): Collection|array|_IH_Product_C|null
+    public static function get_product()
     {
         $selectedProduct = MobileFeaturedProduct::first();
         $product = addonProductInstance();
