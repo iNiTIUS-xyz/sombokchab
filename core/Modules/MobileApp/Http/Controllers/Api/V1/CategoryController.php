@@ -2,6 +2,7 @@
 
 namespace Modules\MobileApp\Http\Controllers\Api\V1;
 
+use App\MobileCategory;
 use Illuminate\Routing\Controller;
 use Modules\Attributes\Entities\Category;
 use Modules\Attributes\Http\Resources\CategoryResource;
@@ -13,17 +14,27 @@ class CategoryController extends Controller
     */
     public function allCategory()
     {
-        $categories = Category::query()->select("id","name","image_id")->with("image")
+
+        $selectedCategory = MobileCategory::query()->first();
+
+        $categoryIds = $selectedCategory ? json_decode($selectedCategory->category_ids, true) : [];
+
+        $categories = Category::query()
+            ->when(isset($selectedCategory) && $categoryIds, function ($q) use ($categoryIds) {
+                $q->whereIn('id', $categoryIds);
+            })
+            ->select("id", "name", "image_id")
+            ->with("image")
             ->where('status_id', 1)
             ->whereHas("product")
             ->orderBy('name', 'asc')->get()
-            ->transform(function($item){
+            ->transform(function ($item) {
                 $image_url = null;
-                if(!empty($item->image_id)){
+                if (!empty($item->image_id)) {
                     $image_url = render_image($item->image, render_type: 'path');
                 }
 
-                $item->image_url = $image_url ?  : null;
+                $item->image_url = $image_url ?: null;
                 unset($item->image);
                 unset($item->image_id);
                 return $item;
@@ -34,25 +45,25 @@ class CategoryController extends Controller
             "success" => true,
         ]);
     }
-    
+
     /* 
     * fetch all state list based on provided country id from database
     */
     public function singleCategory($id)
     {
-        if(empty($id)){
-             return response()->json([
+        if (empty($id)) {
+            return response()->json([
                 'message' => __('provide a valid id')
             ])->setStatusCode(422);
         }
 
-        $categories = Category::select('id', 'name','image_id')->with("image")->where('id',$id)->first();
+        $categories = Category::select('id', 'name', 'image_id')->with("image")->where('id', $id)->first();
 
         $image_url = null;
-        if(!empty($categories->image_id)){
+        if (!empty($categories->image_id)) {
             $image_url = render_image($categories->image, render_type: 'path');
         }
-        $categories->image_url = $image_url ?  : null;
+        $categories->image_url = $image_url ?: null;
         unset($categories->image);
 
 
@@ -62,8 +73,9 @@ class CategoryController extends Controller
         ]);
     }
 
-    public function allCategories(){
+    public function allCategories()
+    {
         // before change please mind it this method is also used on vendor api
-        return CategoryResource::collection(Category::with("image","subcategory","subcategory.image","subcategory.childcategory","subcategory.childcategory.image")->get());
+        return CategoryResource::collection(Category::with("image", "subcategory", "subcategory.image", "subcategory.childcategory", "subcategory.childcategory.image")->get());
     }
 }

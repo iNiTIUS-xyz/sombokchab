@@ -32,7 +32,7 @@ class MobileCampaignController extends Controller
         try {
             $request->validate([
                 'campaign_ids' => 'required|array',
-                'limit' => 'required|integer',
+                'limit' => 'nullable|integer',
             ]);
 
             DB::beginTransaction();
@@ -72,7 +72,7 @@ class MobileCampaignController extends Controller
         try {
             $request->validate([
                 'category_ids' => 'required|array',
-                'limit' => 'required|integer',
+                'limit' => 'nullable|integer',
             ]);
 
             DB::beginTransaction();
@@ -114,7 +114,7 @@ class MobileCampaignController extends Controller
         try {
             $request->validate([
                 'product_ids' => 'required|array',
-                'limit' => 'required|integer',
+                'limit' => 'nullable|integer',
             ]);
 
             DB::beginTransaction();

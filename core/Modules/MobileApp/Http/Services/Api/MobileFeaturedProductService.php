@@ -15,9 +15,9 @@ class MobileFeaturedProductService
         $product = addonProductInstance();
         $ids = json_decode($selectedProduct->ids);
 
-        if($selectedProduct->type == 'product'){
-            return $product->whereIn("id",$ids)->get();
-        }elseif ($selectedProduct->type == 'category'){
+        if ($selectedProduct->type == 'product') {
+            return $product->whereIn("id", $ids)->get();
+        } elseif ($selectedProduct->type == 'category') {
             return $product->whereHas("category", function ($query) use ($ids) {
                 $query->whereIn("categories.id", $ids);
             })->get();

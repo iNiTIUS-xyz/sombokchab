@@ -21,7 +21,7 @@ class FeaturedProductController extends Controller
     }
 
     #[ArrayShape(["products" => "array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable", "campaign_info" => "array"])]
-    
+
     public function campaign($id = null)
     {
         // fetch all product id from a selected campaign
