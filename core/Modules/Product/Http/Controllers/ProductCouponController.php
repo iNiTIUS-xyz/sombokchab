@@ -3,95 +3,136 @@
 namespace Modules\Product\Http\Controllers;
 
 use App\Enums\CouponEnum;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Modules\Attributes\Entities\Category;
-use Modules\Attributes\Entities\ChildCategory;
-use Modules\Attributes\Entities\SubCategory;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Contracts\View\View;
 use Modules\Product\Entities\Product;
+use Modules\Attributes\Entities\Category;
 use Modules\Product\Entities\ProductCoupon;
+use Modules\Attributes\Entities\SubCategory;
+use Modules\Attributes\Entities\ChildCategory;
 
-class ProductCouponController extends Controller {
+class ProductCouponController extends Controller
+{
 
-    public function index() {
-        $all_product_coupon = ProductCoupon::orderBy('created_at', 'desc')->get();
-        $coupon_apply_options = CouponEnum::discountOptions();
-        $all_categories = Category::select('id', 'name')->get();
-        $all_subcategories = SubCategory::select('id', 'name')->get();
-        $all_child_categories = ChildCategory::select('id', 'name')->get();
-        return view('product::backend.coupon.all-coupon')->with([
-            'all_product_coupon'   => $all_product_coupon,
-            'coupon_apply_options' => $coupon_apply_options,
-            'all_categories'       => $all_categories,
-            'all_subcategories'    => $all_subcategories,
-            'all_child_categories' => $all_child_categories,
-        ]);
-    }
-    public function create() {
-        $all_product_coupon = ProductCoupon::orderBy('created_at', 'desc')->get();
-        $coupon_apply_options = CouponEnum::discountOptions();
-        $all_categories = Category::select('id', 'name')->get();
-        $all_subcategories = SubCategory::select('id', 'name')->get();
-        $all_child_categories = ChildCategory::select('id', 'name')->get();
-        return view('product::backend.coupon.create')->with([
-            'all_product_coupon'   => $all_product_coupon,
-            'coupon_apply_options' => $coupon_apply_options,
-            'all_categories'       => $all_categories,
-            'all_subcategories'    => $all_subcategories,
-            'all_child_categories' => $all_child_categories,
-        ]);
-    }
-    public function store(Request $request) {
-        $request->validate([
-            'title'         => 'required|string|max:191',
-            'code'          => 'required|string|max:191|unique:product_coupons',
-            'discount_on'   => 'required|string|max:191',
-            'category'      => 'nullable|numeric',
-            'subcategory'   => 'nullable|numeric',
-            'childcategory' => 'nullable|numeric',
-            'products'      => 'nullable|array',
-            'discount'      => 'required|string|max:191|min:0',
-            'discount_type' => 'required|string|max:191',
-            'expire_date'   => 'required|string|max:191',
-            'status'        => 'required|string|max:191',
-        ]);
+    public function index()
+    {
+        try {
 
-        $discount_details = '';
-        if ($request->discount_on == 'category') {
-            $discount_details = json_encode($request->category);
-        } elseif ($request->discount_on == 'subcategory') {
-            $discount_details = json_encode($request->subcategory);
-        } elseif ($request->discount_on == 'childcategory') {
-            $discount_details = json_encode($request->childcategory);
-        } elseif ($request->discount_on == 'product') {
-            $products = sanitizeArray($request->products);
-            $discount_details = json_encode($products);
+            $all_product_coupon = ProductCoupon::orderBy('created_at', 'desc')->get();
+            $coupon_apply_options = CouponEnum::discountOptions();
+            $all_categories = Category::select('id', 'name')->get();
+            $all_subcategories = SubCategory::select('id', 'name')->get();
+            $all_child_categories = ChildCategory::select('id', 'name')->get();
+
+            return view('product::backend.coupon.all-coupon')->with([
+                'all_product_coupon'   => $all_product_coupon,
+                'coupon_apply_options' => $coupon_apply_options,
+                'all_categories'       => $all_categories,
+                'all_subcategories'    => $all_subcategories,
+                'all_child_categories' => $all_child_categories,
+            ]);
+        } catch (\Throwable $e) {
+
+            return redirect()->back()->with([
+                'message'    => $e->getMessage(),
+                'alert-type' => 'error',
+            ]);
         }
-
-        $product_coupon = ProductCoupon::create([
-            'title'               => $request->sanitize_html('title'),
-            'code'                => $request->sanitize_html('code'),
-            'discount'            => $request->sanitize_html('discount'),
-            'discount_type'       => $request->sanitize_html('discount_type'),
-            'expire_date'         => $request->sanitize_html('expire_date'),
-            'status'              => $request->sanitize_html('status'),
-            'discount_on'         => $request->sanitize_html('discount_on'),
-            'discount_on_details' => $discount_details,
-        ]);
-
-        return $product_coupon->id
-        ? back()->with([
-            'message'    => 'Coupon Created Successfully.',
-            'alert-type' => 'success',
-        ])
-        : back()->with([
-            'message'    => 'Coupon Creation Failed.',
-            'alert-type' => 'error',
-        ]);
     }
 
-    public function update(Request $request) {
+    public function create()
+    {
+        try {
+
+            $all_product_coupon = ProductCoupon::orderBy('created_at', 'desc')->get();
+            $coupon_apply_options = CouponEnum::discountOptions();
+            $all_categories = Category::select('id', 'name')->get();
+            $all_subcategories = SubCategory::select('id', 'name')->get();
+            $all_child_categories = ChildCategory::select('id', 'name')->get();
+            return view('product::backend.coupon.create')->with([
+                'all_product_coupon'   => $all_product_coupon,
+                'coupon_apply_options' => $coupon_apply_options,
+                'all_categories'       => $all_categories,
+                'all_subcategories'    => $all_subcategories,
+                'all_child_categories' => $all_child_categories,
+            ]);
+        } catch (\Throwable $e) {
+
+            return redirect()->back()->with([
+                'message'    => $e->getMessage(),
+                'alert-type' => 'error',
+            ]);
+        }
+    }
+
+    public function store(Request $request)
+    {
+        try {
+
+            $request->validate([
+                'title'         => 'required|string|max:191',
+                'code'          => 'required|string|max:191|unique:product_coupons',
+                'discount_on'   => 'required|string|max:191',
+                'category'      => 'nullable|numeric',
+                'subcategory'   => 'nullable|numeric',
+                'childcategory' => 'nullable|numeric',
+                'products'      => 'nullable|array',
+                'discount'      => 'required|string|max:191|min:0',
+                'discount_type' => 'required|string|max:191',
+                'expire_date'   => 'required|string|max:191',
+                'status'        => 'required|string|max:191',
+            ]);
+
+            $discount_details = '';
+
+            if ($request->discount_on == 'category') {
+                $discount_details = json_encode($request->category);
+            } elseif ($request->discount_on == 'subcategory') {
+                $discount_details = json_encode($request->subcategory);
+            } elseif ($request->discount_on == 'childcategory') {
+                $discount_details = json_encode($request->childcategory);
+            } elseif ($request->discount_on == 'product') {
+                $products = sanitizeArray($request->products);
+                $discount_details = json_encode($products);
+            }
+
+            DB::beginTransaction();
+
+            $product_coupon = ProductCoupon::create([
+                'title'               => $request->sanitize_html('title'),
+                'code'                => $request->sanitize_html('code'),
+                'discount'            => $request->sanitize_html('discount'),
+                'discount_type'       => $request->sanitize_html('discount_type'),
+                'expire_date'         => $request->sanitize_html('expire_date'),
+                'status'              => $request->sanitize_html('status'),
+                'discount_on'         => $request->sanitize_html('discount_on'),
+                'discount_on_details' => $discount_details,
+            ]);
+
+            DB::commit();
+
+            return $product_coupon->id
+                ? back()->with([
+                    'message'    => 'Coupon Created Successfully.',
+                    'alert-type' => 'success',
+                ])
+                : back()->with([
+                    'message'    => 'Coupon Creation Failed.',
+                    'alert-type' => 'error',
+                ]);
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            return redirect()->back()->with([
+                'message'    => $e->getMessage(),
+                'alert-type' => 'error',
+            ]);
+        }
+    }
+
+    public function update(Request $request)
+    {
         $request->validate([
             'title'         => 'required|string|max:191',
             'code'          => 'required|string|max:191',
@@ -130,29 +171,31 @@ class ProductCouponController extends Controller {
         ]);
 
         return $updated
-        ? back()->with([
-            'message'    => 'Coupon Updated Successfully.',
-            'alert-type' => 'success',
-        ])
-        : back()->with([
-            'message'    => 'Coupon Updating Failed.',
-            'alert-type' => 'error',
-        ]);
+            ? back()->with([
+                'message'    => 'Coupon Updated Successfully.',
+                'alert-type' => 'success',
+            ])
+            : back()->with([
+                'message'    => 'Coupon Updating Failed.',
+                'alert-type' => 'error',
+            ]);
     }
 
-    public function destroy(ProductCoupon $item) {
+    public function destroy(ProductCoupon $item)
+    {
         return $item->delete()
-        ? back()->with([
-            'message'    => 'Coupon Deleted Successfully.',
-            'alert-type' => 'success',
-        ])
-        : back()->with([
-            'message'    => 'Coupon Deleting Failed.',
-            'alert-type' => 'error',
-        ]);
+            ? back()->with([
+                'message'    => 'Coupon Deleted Successfully.',
+                'alert-type' => 'success',
+            ])
+            : back()->with([
+                'message'    => 'Coupon Deleting Failed.',
+                'alert-type' => 'error',
+            ]);
     }
 
-    public function check(Request $request) {
+    public function check(Request $request)
+    {
         $code = $request->query('code');
         $excludeId = $request->query('id'); // may be null
 
@@ -172,19 +215,22 @@ class ProductCouponController extends Controller {
         return response()->json($count);
     }
 
-    public function bulk_action(Request $request) {
+    public function bulk_action(Request $request)
+    {
         ProductCoupon::whereIn('id', $request->ids)->delete();
 
         return response()->json(['status' => 'ok']);
     }
 
-    public function allProductsAjax() {
+    public function allProductsAjax()
+    {
         $all_products = Product::select('id', 'name')->withOut('image', 'uom', 'badge')->where('status_id', 1)->get();
 
         return response()->json($all_products);
     }
 
-    public function statusChange(Request $request, $id) {
+    public function statusChange(Request $request, $id)
+    {
         ProductCoupon::where('id', $id)->update([
             'status' => $request->status,
         ]);
