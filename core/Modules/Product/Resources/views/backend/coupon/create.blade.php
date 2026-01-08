@@ -171,6 +171,9 @@
                 if (this.value < 0) this.value = 1;
             });
 
+            function limitText(text, limit = 100) {
+                return text.length > limit ? text.substring(0, limit) + '...' : text;
+            }
             // Load products and initialize Select2
             function loadProducts(targetId, preselected = []) {
                 $('.lds-ellipsis').show();
@@ -182,7 +185,8 @@
                         if (data && data.length) {
                             data.forEach(function(product) {
                                 $select.append(
-                                    `<option value="${product.id}">${product.name}</option>`);
+                                    `<option value="${product.id}">${limitText(product.name, 100)}</option>`
+                                );
                             });
                         }
 
