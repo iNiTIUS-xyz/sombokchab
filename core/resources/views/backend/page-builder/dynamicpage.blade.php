@@ -274,19 +274,68 @@
             $(this).find('.imageupshow').remove();
         });
 
-        $(document).on('keyup', '#search_addon_field', function() {
-            var searchText = $(this).val();
-            var allWidgets = $('.available-form-field.sortable_02 li > h4');
-            $.each(allWidgets, function(index, value) {
-                var text = $(this).text();
-                var found = text.toLowerCase().match(searchText.toLowerCase().trim());
-                if (!found) {
-                    $(this).parent().hide();
+        // $(document).on('keyup', '#search_addon_field', function() {
+        //     var searchText = $(this).val();
+        //     var allWidgets = $('.available-form-field.sortable_02 li > h4');
+        //     $.each(allWidgets, function(index, value) {
+        //         var text = $(this).text();
+        //         var found = text.toLowerCase().match(searchText.toLowerCase().trim());
+        //         if (!found) {
+        //             $(this).parent().hide();
+        //         } else {
+        //             $(this).parent().show();
+        //         }
+        //     });
+        // });
+
+        $(document).on('keyup', '#search_addon_field', function () {
+            const searchText = $(this).val().toLowerCase().trim();
+
+            const $allItems = $('#sortable_02 > li');
+
+            // Step 1: filter widgets
+            $allItems.each(function () {
+                const $li = $(this);
+
+                // Skip group headers here
+                if ($li.hasClass('widget-group-header')) {
+                    return;
+                }
+
+                const text = $li.text().toLowerCase();
+
+                if (!searchText || text.includes(searchText)) {
+                    $li.show();
                 } else {
-                    $(this).parent().show();
+                    $li.hide();
+                }
+            });
+
+            // Step 2: handle group headers
+            $('#sortable_02 .widget-group-header').each(function () {
+                const $groupHeader = $(this);
+
+                // Find widgets until next group header
+                let hasVisibleWidget = false;
+                let $next = $groupHeader.next();
+
+                while ($next.length && !$next.hasClass('widget-group-header')) {
+                    if ($next.is(':visible')) {
+                        hasVisibleWidget = true;
+                        break;
+                    }
+                    $next = $next.next();
+                }
+
+                // Show or hide group title
+                if (hasVisibleWidget) {
+                    $groupHeader.show();
+                } else {
+                    $groupHeader.hide();
                 }
             });
         });
+
 
         enable_draggable_addon();
 
