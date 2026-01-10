@@ -16,7 +16,7 @@
             <x-msg.flash />
             <div class="dashboard__card">
                 <div class="dashboard__card__header">
-                    <h4 class="dashboard__card__title">{{ __('Update Mobile Slider') }}</h4>
+                    <h4 class="dashboard__card__title">{{ __('Update Homepage Banner') }}</h4>
                 </div>
                 <div class="dashboard__card__body custom__form mt-4">
                     <form action="{{ route('admin.mobile.slider.edit', $mobileSlider->id) }}" method="post">

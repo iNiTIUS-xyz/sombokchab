@@ -15,7 +15,7 @@
             <div class="dashboard__card">
                 <div class="dashboard__card__header">
                     <h4 class="dashboard__card__title">
-                        {{ __('Add New Slider') }}
+                        {{ __('Add New Homepage Banner') }}
                     </h4>
                 </div>
                 <div class="dashboard__card__body custom__form mt-4">
