@@ -1,7 +1,7 @@
 @extends('backend.admin-master')
 
 @section('site-title')
-    {{ __('Slider List') }}
+    {{ __('Homepage Banners') }}
 @endsection
 
 @section('style')
@@ -13,12 +13,12 @@
         <div class="col-lg-12">
             <div class="btn-wrapper mb-4">
                 <a class="cmn_btn btn_bg_profile" href="{{ route('admin.mobile.slider.create') }}">
-                    {{ __('Add New Slider') }}
+                    {{ __('Add New App Banner') }}
                 </a>
             </div>
             <div class="dashboard__card">
                 <div class="dashboard__card__header">
-                    <h4 class="dashboard__card__title">{{ __('Sliders List') }}</h4>
+                    <h4 class="dashboard__card__title">{{ __('Homepage Banners') }}</h4>
                 </div>
                 <div class="dashboard__card__body mt-4">
                     <div class="table-responsive">

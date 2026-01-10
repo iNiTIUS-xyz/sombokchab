@@ -1,7 +1,7 @@
 @extends('backend.admin-master')
 
 @section('site-title')
-    {{ __('App Campaigns') }}
+    {{ __('Homepage Campaigns') }}
 @endsection
 
 @section('style')
@@ -37,7 +37,7 @@
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">
                         <h4 class="dashboard__card__title">
-                            {{ __('App Campaigns') }}
+                            {{ __('Homepage Campaigns') }}
                         </h4>
                     </div>
                     <div class="dashboard__card__body custom__form">

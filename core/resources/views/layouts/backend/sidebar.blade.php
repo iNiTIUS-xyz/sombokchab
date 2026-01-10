@@ -226,19 +226,19 @@
                             ])) active @endif">
                             <a href="#1" aria-expanded="true">
                                 <i class="ti-mobile"></i>
-                                <span>{{ __('App Management') }}</span>
+                                <span>{{ __('App Homepage Management') }}</span>
                             </a>
                             <ul class="collapse">
                                 <li class="{{ active_menu('admin-home/mobile-slider/list') }}">
                                     <a href="{{ route('admin.mobile.slider.all') }}">
-                                        {{ __('Slider List') }}
+                                        {{ __('Homepage Banners') }}
                                     </a>
                                 </li>
-                                <li class="{{ active_menu('admin-home/mobile-slider/new') }}">
+                                {{-- <li class="{{ active_menu('admin-home/mobile-slider/new') }}">
                                     <a href="{{ route('admin.mobile.slider.create') }}">
                                         {{ __('Add New Slider') }}
                                     </a>
-                                </li>
+                                </li> --}}
                                 {{-- <li class="{{ active_menu('admin-home/mobile-slider-two/new') }}">
                                     <a href="{{ route('admin.mobile.slider.two.create') }}">
                                         {{ __('Slider Two Create') }}
@@ -261,17 +261,17 @@
                                 </li> --}}
                                 <li class="{{ active_menu('admin-home/mobile-campaign/create') }}">
                                     <a href="{{ route('admin.mobile.campaign.create') }}">
-                                        {{ __('App Campaigns') }}
+                                        {{ __('Homepage Campaigns') }}
                                     </a>
                                 </li>
                                 <li class="{{ active_menu('admin-home/mobile-category/create') }}">
                                     <a href="{{ route('admin.mobile.category.create') }}">
-                                        {{ __('App Categories') }}
+                                        {{ __('Homepage Categories') }}
                                     </a>
                                 </li>
                                 <li class="{{ active_menu('admin-home/mobile-product/create') }}">
                                     <a href="{{ route('admin.mobile.product.create') }}">
-                                        {{ __('App Products') }}
+                                        {{ __('Homepage Featured Products') }}
                                     </a>
                                 </li>
                                 {{-- <li class="{{ active_menu('admin-home/mobile-featured-product/new') }}">
