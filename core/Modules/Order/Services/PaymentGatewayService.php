@@ -15,6 +15,7 @@ class PaymentGatewayService
 {
     private const CANCEL_ROUTE = 'frontend.order.payment.cancel';
     private const SUCCESS_ROUTE = 'frontend.order.payment.success';
+
     public function payment_with_gateway($payment_gateway_name, $request, $order_id, $total)
     {
         try {
@@ -36,7 +37,7 @@ class PaymentGatewayService
         }
     }
 
-    public function common_charge_customer_data($payment_gateway_name, $request, $order_id, $total): array
+    public function common_charge_customer_data($payment_gateway_name, $request, $order_id, $total)
     {
         $user = Auth::guard('web')->user() ?? null;
         $email = $user->email ?? $request["email"];
@@ -55,6 +56,53 @@ class PaymentGatewayService
             'name' => $name,
             'payment_type' => 'order',
         ];
+    }
+
+    public function rePaymentWithGateway($payment_gateway_name, $order_id)
+    {
+        try {
+            $payment_gateway_name = strtolower($payment_gateway_name);
+            $gateway_function = 'get_' . $payment_gateway_name . '_credential';
+            $gateway = PaymentGatewayCredential::$gateway_function();
+
+            $subOrder = SubOrder::query()
+                ->where('order_id', $order_id)
+                ->get();
+
+            $totalAmount = $subOrder->sum('total_amount') + $subOrder->sum('shipping_cost');
+
+            return $gateway->charge_customer(
+                $this->rePaymentCommonChargeCustomerData($payment_gateway_name, $order_id, $totalAmount)
+            );
+        } catch (\Exception $e) {
+            return back()->with([
+                'message' => $e->getMessage(),
+                'alert-type' => 'error',
+            ]);
+        }
+    }
+
+    public function rePaymentCommonChargeCustomerData($payment_gateway_name, $order_id, $total)
+    {
+        $user = Auth::guard('web')->user() ?? null;
+        $email = $user->email;
+        $name = $user->name;
+
+        $datas =  [
+            'amount' => $total,
+            'title' => __("Payment for order"),
+            'description' => __("Payment For Order Id:") .  "#" . $order_id . " " . __("Payer Name:") . $name . " , " . __("Email:") . $email,
+            'ipn_url' => route('frontend.' . strtolower($payment_gateway_name) . '.ipn', $order_id),
+            'order_id' => $order_id,
+            'track' => Str::random(36),
+            'cancel_url' => route(self::CANCEL_ROUTE, $order_id),
+            'success_url' => route(self::SUCCESS_ROUTE, $order_id),
+            'email' => $email,
+            'name' => $name,
+            'payment_type' => 'order',
+        ];
+
+        return $datas;
     }
 
     // IPNs

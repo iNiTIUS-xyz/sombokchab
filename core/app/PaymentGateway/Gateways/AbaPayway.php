@@ -1,4 +1,5 @@
 <?php
+
 namespace App\PaymentGateway\Gateways;
 
 use App\PaymentGateway\PaymentGatewayBase;
@@ -68,34 +69,11 @@ class AbaPayway extends PaymentGatewayBase
         return number_format((float) self::get_amount_in_usd($amount), 2, '.', '');
     }
 
-    /**
-     * List of supported currencies (per your system).
-     */
     public function supported_currency_list()
     {
         return ['USD', 'KHR'];
     }
 
-    /**
-     * Charge Customer Using ABA PayWay Checkout
-     *
-     * This will generate an HTML form with `multipart/form-data` that auto-submits
-     * to the PayWay `/purchase` endpoint. The user sees the hosted PayWay page.
-     *
-     * @param array $args
-     *  - amount (required)
-     *  - tran_id (optional; fallback to e.g. 'TXN-1234')
-     *  - return_url, cancel_url, continue_success_url (optional)
-     *  - firstname, lastname, email, phone, etc. (optional)
-     *  - payment_option (optional: 'cards','abapay','alipay','wechat', etc.)
-     *  - currency (optional; or use your global)
-     *  - items (optional; an array of items, we’ll base64-encode)
-     *  - shipping (optional)
-     *  - type (purchase/pre-auth)
-     *  - lifetime, additional_params, google_pay_token, etc. (optional)
-     *
-     * @return \Illuminate\Http\Response (HTML form that auto-submits)
-     */
     public function charge_customer($args)
     {
         // 1) Basic validations
@@ -103,7 +81,7 @@ class AbaPayway extends PaymentGatewayBase
             abort(400, 'Invalid or missing amount');
         }
 
-                                         // 2) Prepare mandatory fields
+        // 2) Prepare mandatory fields
         $req_time    = gmdate('YmdHis'); // in UTC, e.g. "20230403121059"
         $merchant_id = $this->merchant_id;
         $tran_id     = $args['tran_id'] ?? ('TXN-' . time());
@@ -207,8 +185,8 @@ class AbaPayway extends PaymentGatewayBase
 
         // 9) Endpoint
         $endpoint = $this->env
-        ? 'https://checkout-sandbox.payway.com.kh/api/payment-gateway/v1/payments/purchase'
-        : 'https://checkout.payway.com.kh/api/payment-gateway/v1/payments/purchase';
+            ? 'https://checkout-sandbox.payway.com.kh/api/payment-gateway/v1/payments/purchase'
+            : 'https://checkout.payway.com.kh/api/payment-gateway/v1/payments/purchase';
 
         // 10) Build an HTML form that posts as multipart/form-data
         $html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Redirecting...</title></head>'

@@ -387,9 +387,6 @@
 @endphp
 
 @section('content')
-    <div>
-        <x-msg.flash />
-    </div>
     <div class="row">
         <div class="breadcrumb-area breadcrumb-padding bg-item-badge">
             <div class="breadcrumb-shapes">
@@ -399,14 +396,17 @@
             </div>
             <div class="container container-one">
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-lg-6">
                         <div class="breadcrumb-contents">
-                            <h2 class="breadcrumb-title"> {{ __('Order Details') }} </h2>
+                            <h2 class="breadcrumb-title">
+                                {{ __('Order Details') }}
+                            </h2>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
     <div class="patment-success-area padding-top-40 padding-bottom-40">
         @if (moduleExists('DeliveryMan'))
@@ -686,9 +686,22 @@
                 @if ($orders->count() > 0)
                     <div class="col-lg-12 padding-top-60">
                         <div class="order__details__single">
-                            <h4 class="title__two">
-                                {{ __('Order Details View') }}
-                            </h4>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <h4 class="title__two">
+                                    {{ __('Order Items') }}
+                                </h4>
+                                <div>
+                                    @if (
+                                        $payment_details->payment_status == 'pending' &&
+                                            ($payment_details->payment_gateway == 'abapayway' || $payment_details->payment_gateway == 'acledapay'))
+                                        <a href="{{ route('user.product.order.payment.now', ['id' => $payment_details->id, 'payment_gateway' => $payment_details->payment_gateway]) }}"
+                                            class="btn btn-success btn-sm rounded-btn mt-2"
+                                            title="{{ __('Re Payment') }}" style="width: 40px;">
+                                            <i class="las la-money-bill"></i>
+                                        </a>
+                                    @endif
+                                </div>
+                            </div>
                             <div class="order__details__wrap checkout-page-content-wrapper margin-top-20">
                                 @php
                                     $adminShopManage = \App\AdminShopManage::first();
@@ -730,7 +743,9 @@
                                                                             <h6 class="mb-1">
                                                                                 <a href="javascript:;"
                                                                                     class="text-dark text-decoration-none">
-                                                                                    {{ Str::limit(Str::words($productInfo->name), 50, '...') }}
+                                                                                    @if ($productInfo)
+                                                                                        {{ Str::limit($productInfo->name, 50, '...') }}
+                                                                                    @endif
                                                                                 </a>
                                                                             </h6>
                                                                             <small class="text-muted d-block">

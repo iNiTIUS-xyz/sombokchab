@@ -142,15 +142,6 @@
                                             style="width: 40px;">
                                             <i class="las la-retweet"></i>
                                         </a>
-                                        @if (
-                                            $order->payment_status == 'pending' &&
-                                                ($order->payment_gateway == 'abapayway' || $order->payment_gateway == 'acledapay'))
-                                            <a href="{{ route('user.product.order.reorder', $order->id) }}"
-                                                class="btn btn-success btn-sm rounded-btn mt-2"
-                                                title="{{ __('Re Payment') }}" style="width: 40px;">
-                                                <i class="las la-money-bill"></i>
-                                            </a>
-                                        @endif
                                         @if ($order->isDeliveredStatus && !$order->hasRefundRequest)
                                             <a href="{{ route('user.product.order.refund', $order->id) }}"
                                                 class="btn btn-warning btn-sm rounded-btn mt-2"

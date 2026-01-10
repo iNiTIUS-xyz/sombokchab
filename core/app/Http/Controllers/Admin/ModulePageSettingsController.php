@@ -40,9 +40,6 @@ class ModulePageSettingsController extends Controller {
         ]]);
     }
 
-    /** ==============================================
-     *              WISHLIST SETTINGS
-    ============================================== */
     public function wishlistPageSettings() {
         return view('backend.settings.wishlist');
     }
@@ -62,9 +59,6 @@ class ModulePageSettingsController extends Controller {
         ]);
     }
 
-    /** ==============================================
-     *              CART SETTINGS
-    ============================================== */
     public function cartPageSettings() {
         return view('backend.settings.cart');
     }

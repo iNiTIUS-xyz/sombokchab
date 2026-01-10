@@ -7,18 +7,21 @@ use Xgenious\Paymentgateway\Facades\XgPaymentGateway;
 
 class PaymentGatewayCredential
 {
-    public static function site_global_currency(){
+    public static function site_global_currency()
+    {
         return  get_static_option('site_global_currency');
     }
 
-    public static function exchange_rate_usd_to_usd(){
+    public static function exchange_rate_usd_to_usd()
+    {
         $global_currency = get_static_option('site_global_currency');
         $usd_exchange_rate = get_static_option('site_' . strtolower($global_currency) . '_to_usd_exchange_rate');
         $checked_currency_rate = empty($usd_exchange_rate) ? 83 : $usd_exchange_rate;
         return $checked_currency_rate;
     }
 
-    public static function exchange_rate_usd_to_inr(){
+    public static function exchange_rate_usd_to_inr()
+    {
 
         $global_currency = get_static_option('site_global_currency');
         $inr_exchange_rate = get_static_option('site_' . strtolower($global_currency) . '_to_inr_exchange_rate');
@@ -26,32 +29,37 @@ class PaymentGatewayCredential
         return $checked_currency_rate;
     }
 
-    public static function exchange_rate_usd_to_ngn(){
+    public static function exchange_rate_usd_to_ngn()
+    {
         $global_currency = get_static_option('site_global_currency');
         $ngn_exchange_rate = get_static_option('site_' . strtolower($global_currency) . '_to_ngn_exchange_rate');
         $checked_currency_rate = empty($ngn_exchange_rate) ? 83 : $ngn_exchange_rate;
         return $checked_currency_rate;
     }
 
-    public static function exchange_rate_usd_to_idr(){
+    public static function exchange_rate_usd_to_idr()
+    {
         $global_currency = get_static_option('site_global_currency') ?? "IDR";
         $idr_exchange_rate = get_static_option('site_' . strtolower($global_currency) . '_to_idr_exchange_rate');
         $checked_currency_rate = empty($idr_exchange_rate) ? 83 : $idr_exchange_rate;
         return $checked_currency_rate;
     }
 
-    public static function exchange_rate_usd_to_zar(){
+    public static function exchange_rate_usd_to_zar()
+    {
         return get_static_option('site_usd_to_zar_exchange_rate');
     }
 
-    public static function exchange_rate_usd_to_brl(){
+    public static function exchange_rate_usd_to_brl()
+    {
         $global_currency = get_static_option('site_global_currency');
         $brl_exchange_rate = get_static_option('site_' . strtolower($global_currency) . '_to_brl_exchange_rate');
         $checked_currency_rate = empty($brl_exchange_rate) ? 83 : $brl_exchange_rate;
         return $checked_currency_rate;
     }
 
-    public static function exchange_rate_usd_to_myr(){
+    public static function exchange_rate_usd_to_myr()
+    {
         $global_currency = get_static_option('site_global_currency');
         $myr_exchange_rate = get_static_option('site_' . strtolower($global_currency) . '_to_myr_exchange_rate');
         $checked_currency_rate = empty($myr_exchange_rate) ? 83 : $myr_exchange_rate;
@@ -59,7 +67,7 @@ class PaymentGatewayCredential
     }
 
 
-    public static function get_paypal_credential() : object
+    public static function get_paypal_credential(): object
     {
         $paypal_credential_from_database = PaymentGateway::where('name', 'paypal')->first();
         $decoded = json_decode($paypal_credential_from_database->credentials);
@@ -81,7 +89,7 @@ class PaymentGatewayCredential
         return $paypal;
     }
 
-    public static function get_paytm_credential() : object
+    public static function get_paytm_credential(): object
     {
         $paypal_credential_from_database = PaymentGateway::where('name', 'paytm')->first();
         $decoded = json_decode($paypal_credential_from_database->credentials);
@@ -106,7 +114,7 @@ class PaymentGatewayCredential
         return $paytm;
     }
 
-    public static function get_stripe_credential() : object
+    public static function get_stripe_credential(): object
     {
         $paypal_credential_from_database = PaymentGateway::where('name', 'stripe')->first();
         $decoded = json_decode($paypal_credential_from_database->credentials);
@@ -125,7 +133,7 @@ class PaymentGatewayCredential
         return $stripe;
     }
 
-    public static function get_razorpay_credential() : object
+    public static function get_razorpay_credential(): object
     {
         $paypal_credential_from_database = PaymentGateway::where('name', 'razorpay')->first();
         $decoded = json_decode($paypal_credential_from_database->credentials);
@@ -144,7 +152,7 @@ class PaymentGatewayCredential
         return $razorpay;
     }
 
-    public static function get_paystack_credential() : object
+    public static function get_paystack_credential(): object
     {
         $paypal_credential_from_database = PaymentGateway::where('name', 'paystack')->first();
         $decoded = json_decode($paypal_credential_from_database->credentials);
@@ -166,7 +174,7 @@ class PaymentGatewayCredential
         return $paystack;
     }
 
-    public static function get_mollie_credential() : object
+    public static function get_mollie_credential(): object
     {
         $paypal_credential_from_database = PaymentGateway::where('name', 'mollie')->first();
         $decoded = json_decode($paypal_credential_from_database->credentials);
@@ -182,7 +190,7 @@ class PaymentGatewayCredential
         return $mollie;
     }
 
-    public static function get_flutterwave_credential() : object
+    public static function get_flutterwave_credential(): object
     {
         $paypal_credential_from_database = PaymentGateway::where('name', 'flutterwave')->first();
         $decoded = json_decode($paypal_credential_from_database->credentials);
@@ -201,7 +209,7 @@ class PaymentGatewayCredential
         return $flutterwave;
     }
 
-    public static function get_midtrans_credential() : object
+    public static function get_midtrans_credential(): object
     {
         $paypal_credential_from_database = PaymentGateway::where('name', 'midtrans')->first();
         $decoded = json_decode($paypal_credential_from_database->credentials);
@@ -220,7 +228,7 @@ class PaymentGatewayCredential
         return $midtrans;
     }
 
-    public static function get_payfast_credential() : object
+    public static function get_payfast_credential(): object
     {
         $paypal_credential_from_database = PaymentGateway::where('name', 'payfast')->first();
         $decoded = json_decode($paypal_credential_from_database->credentials);
@@ -241,7 +249,7 @@ class PaymentGatewayCredential
         return $payfast;
     }
 
-    public static function get_cashfree_credential() : object
+    public static function get_cashfree_credential(): object
     {
 
         $paypal_credential_from_database = PaymentGateway::where('name', 'cashfree')->first();
@@ -261,7 +269,7 @@ class PaymentGatewayCredential
         return $cashfree;
     }
 
-    public static function get_instamojo_credential() : object
+    public static function get_instamojo_credential(): object
     {
         $paypal_credential_from_database = PaymentGateway::where('name', 'instamojo')->first();
         $decoded = json_decode($paypal_credential_from_database->credentials);
@@ -280,7 +288,7 @@ class PaymentGatewayCredential
         return $instamojo;
     }
 
-    public static function get_mercadopago_credential() : object
+    public static function get_mercadopago_credential(): object
     {
         $paypal_credential_from_database = PaymentGateway::where('name', 'mercadopago')->first();
         $decoded = json_decode($paypal_credential_from_database->credentials);
@@ -299,7 +307,7 @@ class PaymentGatewayCredential
         return $mercadopago;
     }
 
-    public static function get_squareup_credential() : object
+    public static function get_squareup_credential(): object
     {
         $paypal_credential_from_database = PaymentGateway::where('name', 'squareup')->first();
         $decoded = json_decode($paypal_credential_from_database->credentials);
@@ -320,7 +328,7 @@ class PaymentGatewayCredential
         return $squareup;
     }
 
-    public static function get_cinetpay_credential() : object
+    public static function get_cinetpay_credential(): object
     {
         $paypal_credential_from_database = PaymentGateway::where('name', 'cinetpay')->first();
         $decoded = json_decode($paypal_credential_from_database->credentials);
@@ -339,7 +347,7 @@ class PaymentGatewayCredential
         return $cinetpay;
     }
 
-    public static function get_paytabs_credential() : object
+    public static function get_paytabs_credential(): object
     {
         $paypal_credential_from_database = PaymentGateway::where('name', 'paytabs')->first();
         $decoded = json_decode($paypal_credential_from_database->credentials);
@@ -360,7 +368,7 @@ class PaymentGatewayCredential
         return $paytabs;
     }
 
-    public static function get_billplz_credential() : object
+    public static function get_billplz_credential(): object
     {
         $paypal_credential_from_database = PaymentGateway::where('name', 'billplz')->first();
         $decoded = json_decode($paypal_credential_from_database->credentials);
@@ -383,7 +391,7 @@ class PaymentGatewayCredential
         return $billplz;
     }
 
-    public static function get_zitopay_credential() : object
+    public static function get_zitopay_credential(): object
     {
         $paypal_credential_from_database = PaymentGateway::where('name', 'zitopay')->first();
         $decoded = json_decode($paypal_credential_from_database->credentials);
@@ -588,7 +596,8 @@ class PaymentGatewayCredential
         return $iyzipay;
     }
 
-    public static function get_awdpay_credential(){
+    public static function get_awdpay_credential()
+    {
         $awdpay_credential_from_database = PaymentGateway::where('name', 'awdpay')->first();
         $decoded = json_decode($awdpay_credential_from_database->credentials);
 
@@ -604,7 +613,8 @@ class PaymentGatewayCredential
         return $awdpay;
     }
 
-    public static function get_sslcommerz_credential(){
+    public static function get_sslcommerz_credential()
+    {
         $sslcommerz_credential_from_database = PaymentGateway::where('name', 'sslcommerz')->first();
         $decoded = json_decode($sslcommerz_credential_from_database->credentials);
 
@@ -619,9 +629,9 @@ class PaymentGatewayCredential
         $sslcommerz->setExchangeRate(self::exchange_rate_usd_to_inr());
         return $sslcommerz;
     }
-    
+
     // In PaymentGatewayCredential.php (or your equivalent file):
-    public static function get_abapayway_credential() : object
+    public static function get_abapayway_credential(): object
     {
         // 1) Grab the `abapayway` row from `payment_gateways` table
         $gateway = PaymentGateway::where('name', 'abapayway')->firstOrFail();
@@ -640,7 +650,7 @@ class PaymentGatewayCredential
         $abapayway->setMerchantId($merchant_id);
         $abapayway->setApiKey($api_key);
 
-        // 4) Set the environment: 
+        // 4) Set the environment:
         //    If test_mode=1 => sandbox, else live
         $abapayway->setEnv($mode == 1);
 
@@ -682,7 +692,4 @@ class PaymentGatewayCredential
 
         return $acledaPay;
     }
-
-
-
 }

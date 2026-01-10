@@ -2,38 +2,39 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\SupportMessage;
-use App\Http\Requests\ChangePhoneRequest;
-use App\Mail\BasicMail;
-use App\Mail\SupportTicketMail;
-use App\Shipping\ShippingAddress;
-use App\Support\SupportTicket;
-use App\Support\SupportTicketMessage;
+use Str;
 use App\User;
-use Gloudemans\Shoppingcart\Facades\Cart;
-use Illuminate\Contracts\View\View;
+use App\Mail\BasicMail;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Events\SupportMessage;
+use App\Support\SupportTicket;
+use App\Mail\SupportTicketMail;
+use Illuminate\Validation\Rule;
+use App\Shipping\ShippingAddress;
+use Modules\Order\Entities\Order;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Validation\Rule;
-use Modules\AdminManage\Entities\Admin;
-use Modules\CountryManage\Entities\Country;
-use Modules\DeliveryMan\Entities\DeliveryManRating;
-use Modules\Order\Entities\Order;
-use Modules\Order\Entities\OrderTrack;
 use Modules\Order\Entities\SubOrder;
+use App\Support\SupportTicketMessage;
 use Modules\Product\Entities\Product;
-use Modules\Product\Entities\ProductInventory;
-use Modules\Product\Entities\ProductSellInfo;
-use Modules\Refund\Entities\RefundPreferredOption;
+use Modules\Order\Entities\OrderTrack;
+use Modules\AdminManage\Entities\Admin;
+use App\Http\Requests\ChangePhoneRequest;
+use Gloudemans\Shoppingcart\Facades\Cart;
 use Modules\Refund\Entities\RefundReason;
 use Modules\Refund\Entities\RefundRequest;
-use Modules\Refund\Http\Requests\HandleUserRefundRequest;
+use Modules\CountryManage\Entities\Country;
+use Modules\Product\Entities\ProductSellInfo;
+use Modules\Product\Entities\ProductInventory;
 use Modules\Refund\Http\Services\RefundServices;
-use Str;
+use Modules\Order\Services\PaymentGatewayService;
+use Modules\Refund\Entities\RefundPreferredOption;
+use Modules\DeliveryMan\Entities\DeliveryManRating;
+use Modules\Refund\Http\Requests\HandleUserRefundRequest;
 
 class UserDashboardController extends Controller
 {
@@ -728,37 +729,44 @@ class UserDashboardController extends Controller
 
     public function orderDetailsPage($item)
     {
-        $payment_details = Order::query()
-            ->with(['address', 'paymentMeta'])
-            ->when(moduleExists("DeliveryMan"), function ($query) {
-                $query->with("deliveryMan");
-            })
-            ->where('order_number', $item)
-            ->first();
+        try {
+            $payment_details = Order::query()
+                ->with(['address', 'paymentMeta'])
+                ->when(moduleExists("DeliveryMan"), function ($query) {
+                    $query->with("deliveryMan");
+                })
+                ->where('order_number', $item)
+                ->first();
 
-        if (!$payment_details) {
-            return redirect()->route('user.home')->with([
-                'message'    => __('Order not found.'),
+            if (!$payment_details) {
+                return redirect()->back()->with([
+                    'message'    => __('Order not found.'),
+                    'alert-type' => 'error',
+                ]);
+            }
+
+            $orders = SubOrder::query()
+                ->with([
+                    'order',
+                    'vendor',
+                    'orderItem',
+                    'orderItem.product',
+                    'orderItem.variant',
+                    'orderItem.variant.productColor',
+                    'orderItem.variant.productSize',
+                ])
+                ->where('order_id', $payment_details->id)
+                ->get();
+
+            $orderTrack = OrderTrack::where('order_id', $payment_details->id)->orderByDesc('id')->first();
+
+            return view(self::BASE_PATH . 'order.details', compact('item', 'orders', 'payment_details', 'orderTrack'));
+        } catch (\Throwable $e) {
+            return redirect()->back()->with([
+                'message' => $e->getMessage(),
                 'alert-type' => 'error',
             ]);
         }
-
-        $orders = SubOrder::query()
-            ->with([
-                'order',
-                'vendor',
-                'orderItem',
-                'orderItem.product',
-                'orderItem.variant',
-                'orderItem.variant.productColor',
-                'orderItem.variant.productSize',
-            ])
-            ->where('order_id', $payment_details->id)
-            ->get();
-
-        $orderTrack = OrderTrack::where('order_id', $payment_details->id)->orderByDesc('id')->first();
-
-        return view(self::BASE_PATH . 'order.details', compact('item', 'orders', 'payment_details', 'orderTrack'));
     }
 
     public function reOrder($id)
@@ -775,6 +783,19 @@ class UserDashboardController extends Controller
         }
 
         return redirect()->route('frontend.checkout');
+    }
+
+    public function payment(Request $request)
+    {
+        try {
+
+            return (new PaymentGatewayService)->rePaymentWithGateway($request->payment_gateway, $request->id);
+        } catch (\Exception $e) {
+            return back()->with([
+                'message' => $e->getMessage(),
+                'alert-type' => 'error',
+            ]);
+        }
     }
 
     private function addToCart($productId)

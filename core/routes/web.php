@@ -160,6 +160,7 @@ Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_
             Route::post('/refund/{item}', 'UserDashboardController@handleRefundRequest');
             Route::get('/{item}', 'UserDashboardController@orderDetailsPage')->name('details');
             Route::get('reorder/{id}', 'UserDashboardController@reOrder')->name('reorder');
+            Route::get('re/payment', 'UserDashboardController@payment')->name('payment.now');
             Route::post('/delivery-man-ratting/{item}', 'UserDashboardController@orderDeliveryManRatting')->name('delivery-man-ratting');
         });
         Route::get("refund-request", 'UserDashboardController@allRefundsPage')->name("user.product.refund-request");
