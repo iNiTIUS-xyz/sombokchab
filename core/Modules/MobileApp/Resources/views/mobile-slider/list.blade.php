@@ -13,7 +13,7 @@
         <div class="col-lg-12">
             <div class="btn-wrapper mb-4">
                 <a class="cmn_btn btn_bg_profile" href="{{ route('admin.mobile.slider.create') }}">
-                    {{ __('Add New Homepage Banner') }}
+                    {{ __('Add New App Banner') }}
                 </a>
             </div>
             <div class="dashboard__card">
