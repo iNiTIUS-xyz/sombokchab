@@ -663,30 +663,41 @@ class PaymentGatewayCredential
 
     public static function get_acledapay_credential(): object
     {
-        // 1) Fetch the `acledapay` row from `payment_gateways` table
+        // 1) Fetch the `acledapay` row
         $gateway = PaymentGateway::where('name', 'acledapay')->firstOrFail();
 
-        // 2) Decode JSON credentials
+        // 2) Decode credentials
         $creds = json_decode($gateway->credentials);
         $mode  = $gateway->test_mode; // 1 => sandbox, 0 => live
 
         $merchant_id = $creds->merchant_id ?? '';
-        $secret     = $creds->secret ?? '';
+        $secret      = $creds->secret ?? '';      // ACLEDA Secret
         $login_id    = $creds->login_id ?? '';
         $password    = $creds->password ?? '';
 
-        // {"merchant_id":"VMtz5hy8QFxgmq06576jycISzGg=","login_id":"sombokchab","password":"sombokchab","secret":"5cf5e73f7556"}
-        // 3) Create an AcledaPay instance
+        /**
+         * Expected credentials JSON:
+         * {
+         *   "merchant_id": "VMtz5hy8QFxgmq06576jycISzGg=",
+         *   "login_id": "sombokchab",
+         *   "password": "sombokchab",
+         *   "secret": "5cf5e73f7556"
+         * }
+         */
+
+        // 3) Create AcledaPay instance (Facade – STATIC)
         $acledaPay = XgPaymentGateway::acledapay();
+
+        // 4) Inject credentials (matches setters in AcledaPay)
         $acledaPay->setMerchantId($merchant_id);
-        $acledaPay->setSecret($secret);
+        $acledaPay->setApiKey($secret);
         $acledaPay->setLoginId($login_id);
         $acledaPay->setPassword($password);
 
-        // 4) Set the environment (sandbox/live)
+        // 5) Environment (sandbox / live)
         $acledaPay->setEnv($mode == 1);
 
-        // 5) Set currency & exchange rate if needed
+        // 6) Currency & exchange rate
         $acledaPay->setCurrency(self::site_global_currency());
         $acledaPay->setExchangeRate(self::exchange_rate_usd_to_inr());
 
