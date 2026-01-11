@@ -18,6 +18,7 @@
                     <table class="table" id="dataTable">
                         <thead>
                             <tr>
+                                <th>{{ __('Shipping Address Name') }}</th>
                                 <th>{{ __('Full Name') }}</th>
                                 <th>{{ __('Address') }}</th>
                                 <th>{{ __('Default Status') }}</th>
@@ -27,6 +28,7 @@
                         <tbody>
                             @foreach ($all_shipping_address as $address)
                                 <tr>
+                                    <td>{{ $address->shipping_address_name }}</td>
                                     <td>{{ $address->name }}</td>
                                     <td>{{ $address->address }}</td>
                                     <td>
