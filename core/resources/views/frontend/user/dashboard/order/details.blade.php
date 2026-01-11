@@ -396,7 +396,7 @@
             </div>
             <div class="container container-one">
                 <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-12">
                         <div class="breadcrumb-contents">
                             <h2 class="breadcrumb-title">
                                 {{ __('Order Details') }}
@@ -854,6 +854,22 @@
                         {{ __('Back to Dashboard') }}
                     </a>
                 </div>
+                {{-- <div class="btn-wrapper margin-top-40 d-flex">
+                    <div>
+                        @if (
+                            $payment_details->payment_status == 'pending' &&
+                                ($payment_details->payment_gateway == 'abapayway' || $payment_details->payment_gateway == 'acledapay'))
+                            <a href="{{ route('user.product.order.payment.now', ['id' => $payment_details->id, 'payment_gateway' => $payment_details->payment_gateway]) }}"
+                                class="cmn_btn btn_bg_1 btn-success d-flex"
+                                title="{{ __('Pay Now') }}">
+                                Pay Now
+                            </a>
+                        @endif
+                    </div>
+                    <a href="{{ route('user.home') }}" class="cmn_btn btn_bg_2 btn-secondary me-2" style="color: var(--black) !important">
+                        {{ __('Back to Dashboard') }}
+                    </a>
+                </div> --}}
             </div>
         </div>
     </div>
