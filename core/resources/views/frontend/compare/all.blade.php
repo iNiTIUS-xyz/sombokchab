@@ -54,6 +54,13 @@
         ->toArray();
 
     $products = \Gloudemans\Shoppingcart\Facades\Cart::instance('compare')->content();
+    $compareProductIds = $products->pluck('id')->toArray();
+
+    $compareProducts = \Modules\Product\Entities\Product::withAvg('ratings', 'rating')
+        ->withCount('ratings')
+        ->whereIn('id', $compareProductIds)
+        ->get()
+        ->keyBy('id');
 
 @endphp
 
@@ -75,6 +82,7 @@
 
                         $stock_count =
                             $stock_count > (int) get_static_option('product_in_stock_limit_set') ? $stock_count : 0;
+                        $productWithRatings = $compareProducts[$product->id] ?? null;
                     @endphp
                     <div class="col-lg-4 col-md-6">
                         <div class="single-compare text-center border border-1">
@@ -89,20 +97,12 @@
                                         {{ Str::limit($product->name, 100, '...') }}
                                     </a>
                                 </h5>
-                                <ul class="compare-review-list mt-2">
-                                    <li class="rating-wrap">
-                                        <div class="ratings">
-                                            <span class="hide-rating"></span>
-                                            <span class="show-rating"
-                                                style="width: {{ $product->options->avg_review * 20 }}%!important"></span>
-                                        </div>
-                                        <p>
-                                            <span class="total-ratings">
-                                                ({{ $product->options->review_count ?? 0 }})
-                                            </span>
-                                        </p>
-                                    </li>
-                                </ul>
+                                <div class="compare-review-list mt-2">
+                                    <div class="rating-wrap mt-2">
+                                        <x-product::frontend.common.rating-markup :rating-count="$productWithRatings?->ratings_count ?? 0" :avg-rattings="$productWithRatings?->ratings_avg_rating ?? 0" />
+                                    </div>
+                                </div>
+
                                 <h4 class="common-price-title-four color-one mt-2">
                                     {{ float_amount_with_currency_symbol($product->price) }} </h4>
                                 <ul class="compare-content-list mt-3">
