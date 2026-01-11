@@ -163,13 +163,7 @@
                                     <input type="number" class="form-control" id="discountPercentage"
                                         placeholder="Set Discount Percentage" min="0" max="100" step="0.01">
                                 </div>
-                                <div class="form-check mb-2">
-                                    <input class="form-check-input" type="checkbox" id="set_fixed_date"
-                                        @if ($campaign->start_date || $campaign->end_date) checked @endif name="use_fixed_dates">
-                                    <label class="form-check-label" for="set_fixed_date">
-                                        Set Fixed Date Range
-                                    </label>
-                                </div>
+
                                 <div class="mb-3">
                                     <label class="form-label">
                                         Start Date
@@ -191,6 +185,13 @@
                                     @error('campaign_end_date')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="set_fixed_date"
+                                        @if ($campaign->start_date || $campaign->end_date) checked @endif name="use_fixed_dates">
+                                    <label class="form-check-label" for="set_fixed_date">
+                                        Set Global Fixed Date Range
+                                    </label>
                                 </div>
                                 <button class="btn btn-primary w-100" type="submit">
                                     {{ __('Update Campaign') }}

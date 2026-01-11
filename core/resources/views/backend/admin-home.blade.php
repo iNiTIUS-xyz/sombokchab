@@ -602,7 +602,7 @@
         </div>
         {{-- vendor management  --}}
         <div class="col-lg-12 col-ml-12 mb-3">
-            <div class="dashboard__card">
+            <div class="dashboard__card text-black">
                 <div class="dashboard__card__body">
                     <h4 class="my-3">Vendor Verifications</h4>
                     <div class="p-3 bg-light rounded-3">

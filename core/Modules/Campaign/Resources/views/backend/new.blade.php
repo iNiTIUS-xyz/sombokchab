@@ -130,13 +130,7 @@
                                         placeholder="Set Discount Percentage" min="0" max="100" step="0.01">
                                 </div>
 
-                                <div class="form-check mb-2">
-                                    <input class="form-check-input" type="checkbox" id="set_fixed_date"
-                                        name="use_fixed_dates">
-                                    <label class="form-check-label" for="set_fixed_date">
-                                        Set Global Fixed Date Range
-                                    </label>
-                                </div>
+
 
                                 <div class="mb-3">
                                     <label class="form-label">
@@ -155,7 +149,13 @@
                                     <input type="text" class="form-control flatpickr" id="fixed_to_date"
                                         name="campaign_end_date" required>
                                 </div>
-
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="set_fixed_date"
+                                        name="use_fixed_dates">
+                                    <label class="form-check-label" for="set_fixed_date">
+                                        Set Global Fixed Date Range
+                                    </label>
+                                </div>
                                 <button class="cmn_btn btn_bg_profile" type="submit">Add Campaign</button>
 
                             </div>
