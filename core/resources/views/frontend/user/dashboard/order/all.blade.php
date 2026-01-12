@@ -88,7 +88,7 @@
                                 </td>
 
                                 <!-- ORDER DATE -->
-                                <td class="align-middle text-start">
+                                <td data-order="{{ $order->created_at->format('Y-m-d') }}" class="align-middle text-start">
                                     {{ $order->created_at->format('M d, Y') }}
                                 </td>
 
@@ -115,7 +115,7 @@
                                     {{ float_amount_with_currency_symbol($order->paymentMeta?->total_amount) }}
                                 </td>
 
-                                <td>
+                                <td class="align-middle text-start">
                                     @if ($order->payment_status == 'complete')
                                         <span class="badge bg-primary">Complete</span>
                                     @elseif ($order->payment_status == 'pending')

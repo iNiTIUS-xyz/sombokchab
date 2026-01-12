@@ -46,8 +46,8 @@
                 <tr>
                     <td>{{ $data->order_id }}</td>
                     <td>{{ $data->title }}</td>
-                    <td>
-                        <small>{{ $data->created_at->format('M d, Y') }}</small>
+                    <td data-order="{{ $data->created_at->format('Y-m-d') }}">
+                        {{ $data->created_at->format('M d, Y') }}
                     </td>
                     <td>
                         <span
