@@ -327,6 +327,53 @@
     </script>
 
     <script>
+        $(document).ready(function() {
+
+            function loadShippingMethods(shippingAddressId) {
+                $.ajax({
+                    url: "{{ route('frontend.checkout.shipping.methods') }}",
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        shipping_address_id: shippingAddressId
+                    },
+                    beforeSend: function() {
+                        $('.showShippingDisplay').slideUp();
+                    },
+                    success: function(response) {
+
+                        $('.showShippingDisplay').html(response.html);
+                        $('.showShippingDisplay').stop(true, true).slideDown();
+
+                    },
+                    error: function() {
+                        $('.showShippingDisplay').slideUp();
+                        alert('Failed to load shipping methods');
+                    }
+                });
+            }
+            // On radio change
+            $('body').on('change', 'input[name="shipping_address_id"]', function() {
+                const shippingAddressId = $(this).val();
+
+                if (shippingAddressId) {
+                    loadShippingMethods(shippingAddressId);
+                } else {
+                    $('.showShippingDisplay').slideUp();
+                }
+            });
+
+            // Page load (default checked)
+            const defaultChecked = $('input[name="shipping_address_id"]:checked').val();
+
+            if (defaultChecked) {
+                loadShippingMethods(defaultChecked);
+            }
+
+        });
+    </script>
+
+    <script>
         function initialize() {
             // prevent enter submit during map typing
             $('form').on('keyup keypress', function(e) {

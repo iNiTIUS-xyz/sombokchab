@@ -96,6 +96,7 @@ Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_
     });
     // CHECKOUT ROUTES
     Route::get('checkout', 'FrontendController@checkoutPage')->name('frontend.checkout');
+    Route::post('frontend/checkout/shipping/methods', 'FrontendController@checkoutShippingMethods')->name('frontend.checkout.shipping.methods');
     Route::get('get-tax-based-on-billing-address', 'FrontendController@cartItemsBasedOnBillingAddress')->name('frontend.get-tax-based-on-billing-address');
     Route::get('vendors', [FrontendVendorController::class, "index"])->name('frontend.vendors');
     Route::get('vendor/product/{slug}', [FrontendVendorController::class, "vendorProducts"])->name('frontend.vendors.single');
