@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Mail;
 use Modules\Order\Entities\SubOrder;
 use Illuminate\Http\RedirectResponse;
 use App\Helpers\PaymentGatewayCredential;
+use Modules\Order\Entities\Order;
 
 class PaymentGatewayService
 {
@@ -65,6 +66,12 @@ class PaymentGatewayService
             $gateway_function = 'get_' . $payment_gateway_name . '_credential';
             $gateway = PaymentGatewayCredential::$gateway_function();
 
+            $order = Order::query()
+                ->findOrFail($order_id);
+
+            $order->payment_gateway = $payment_gateway_name;
+            $order->save();
+
             $subOrder = SubOrder::query()
                 ->where('order_id', $order_id)
                 ->get();
@@ -74,7 +81,6 @@ class PaymentGatewayService
             return $gateway->charge_customer(
                 $this->rePaymentCommonChargeCustomerData($payment_gateway_name, $order_id, $totalAmount)
             );
-
         } catch (\Exception $e) {
             return back()->with([
                 'message' => $e->getMessage(),
