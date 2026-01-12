@@ -49,12 +49,12 @@
                                 </a>
                             </li>
 
-                            <li class="nav-item {{ request()->routeIs('user.home') ? 'active' : '' }}">
+                            {{-- <li class="nav-item {{ request()->routeIs('user.home') ? 'active' : '' }}">
                                 <a class="nav-link {{ request()->routeIs('user.home') ? 'active' : '' }}"
                                     href="{{ route('user.home') }}">
                                     {{ __('Dashboard') }}
                                 </a>
-                            </li>
+                            </li> --}}
 
                             <li class="nav-item {{ request()->routeIs('user.home.edit.profile') ? 'active' : '' }}">
                                 <a class="nav-link {{ request()->routeIs('user.home.edit.profile') ? 'active' : '' }}"

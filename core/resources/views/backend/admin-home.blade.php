@@ -667,21 +667,14 @@
                                 <div
                                     class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
                                     <span>Completed</span>
-                                    <span class="fw-bold text-danger">{{ $completedWithdraw->count() }}</span>
+                                    <span class="fw-bold text-success">{{ $completedWithdraw->count() }}</span>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            {{-- <div class="col-md-4">
                                 <div
                                     class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
                                     <span>Processing</span>
-                                    <span class="fw-bold text-success">{{ $processingWithdraw->count() }}</span>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div
-                                    class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
-                                    <span>Failed</span>
-                                    <span class="fw-bold text-warning">{{ $failedWithdraw->count() }}</span>
+                                    <span class="fw-bold text-info">{{ $processingWithdraw->count() }}</span>
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -691,6 +684,13 @@
                                     <span class="fw-bold text-success">{{ $refundedWithdraw->count() }}</span>
                                 </div>
                             </div>
+                            <div class="col-md-4">
+                                <div
+                                    class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
+                                    <span>Failed</span>
+                                    <span class="fw-bold text-warning">{{ $failedWithdraw->count() }}</span>
+                                </div>
+                            </div> --}}
                             <div class="col-md-4">
                                 <div
                                     class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
@@ -719,7 +719,7 @@
                                 <div
                                     class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
                                     <span>High Priority Tickets</span>
-                                    <span class="fw-bold text-success">
+                                    <span class="fw-bold text-info">
                                         {{ $vendorTicketData['vendorTotalPriorityTicket']->count() }}
                                     </span>
                                 </div>
@@ -754,7 +754,7 @@
                                 <div
                                     class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
                                     <span>High Priority Tickets</span>
-                                    <span class="fw-bold text-success">
+                                    <span class="fw-bold text-info">
                                         {{ $customerTicketData['totalPriorityTicket']->count() }}
 
                                     </span>
@@ -872,8 +872,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-12 col-ml-12 mb-3">
-            <div class="dashboard__card">
+        <div class="col-lg-12 col-ml-12">
+            {{-- <div class="dashboard__card">
                 <div class="dashboard__card__body">
                     <h4 class="mb-4">Performance Monitoring</h4>
                     <div class="row g-3">
@@ -931,7 +931,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             {{-- <div class="row g-3">
                 <div class="col-md-4">
                     <div class="card shadow-sm rounded-3 p-3">
