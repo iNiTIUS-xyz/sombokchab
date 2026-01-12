@@ -18,7 +18,7 @@ class AdminStoreSupportTicketRequest extends FormRequest {
             'user_type'   => 'nullable',
             'description' => 'required|string',
             'departments' => 'required|string',
-            'customer'    => 'required|string',
+            'customer'    => 'nullable',
         ];
     }
 
