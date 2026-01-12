@@ -83,11 +83,11 @@
                                             {{ __('Welcome, ') }} {{ auth('web')->user()->name }}
                                         </a>
                                     </li>
-                                    <li class="list">
+                                    {{-- <li class="list">
                                         <a href="{{ route('user.home') }}">
                                             {{ __('Dashboard') }}
                                         </a>
-                                    </li>
+                                    </li> --}}
                                     <li class="list">
                                         <a href="{{ route('user.home.edit.profile') }}">
                                             {{ __('Edit Profile') }}

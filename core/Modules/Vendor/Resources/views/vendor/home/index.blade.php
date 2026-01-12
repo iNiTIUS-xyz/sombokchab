@@ -259,57 +259,63 @@
                             <h4 class="my-3">Vendor Support Tickets</h4>
                             <div class="p-3 bg-light rounded-3">
                                 <div class="row g-3 mb-2">
-                                    <div class="col-md-4">
-                                        <div
-                                            class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
-                                            <span>Total Tickets</span>
-                                            <span class="fw-bold text-danger">
-                                                {{ $supportTickets['all_tickets']->count() }}
-                                            </span>
+                                    <h6 class="text-center mb-0">Ticket Status</h6>
+                                    <div class="row g-3 mb-2 mt-0">
+                                        <div class="col-md-4">
+                                            <div
+                                                class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
+                                                <span>Total Tickets</span>
+                                                <span class="fw-bold text-info">
+                                                    {{ $supportTickets['all_tickets']->count() }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div
+                                                class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
+                                                <span>Total Open Tickets</span>
+                                                <span
+                                                    class="fw-bold text-warning">{{ $supportTickets['all_open_tickets']->count() }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div
+                                                class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
+                                                <span>Total Closed Tickets</span>
+                                                {{-- <span class="fw-bold text-danger">{{ $rejectedProduct->count() }}</span> --}}
+                                                <span class="fw-bold text-danger">
+                                                    {{ $supportTickets['all_close_tickets']->count() }}</span>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div
-                                            class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
-                                            <span>Total Open Tickets</span>
-                                            <span
-                                                class="fw-bold text-danger">{{ $supportTickets['all_open_tickets']->count() }}</span>
+                                    <h6 class="text-center mb-0">Ticket Priority Status</h6>
+                                    <div class="row g-3 mb-2 mt-0">
+                                        <div class="col-md-4">
+                                            <div
+                                                class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
+                                                <span>Low Priority Tickets</span>
+                                                {{-- <span class="fw-bold text-danger">{{ $rejectedProduct->count() }}</span> --}}
+                                                <span class="fw-bold text-info">
+                                                    {{ $supportTickets['all_low_tickets']->count() }}</span>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div
-                                            class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
-                                            <span>Total Closed Tickets</span>
-                                            {{-- <span class="fw-bold text-danger">{{ $rejectedProduct->count() }}</span> --}}
-                                            <span class="fw-bold text-danger">
-                                                {{ $supportTickets['all_close_tickets']->count() }}</span>
+                                        <div class="col-md-4">
+                                            <div
+                                                class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
+                                                <span>Medium Priority Tickets</span>
+                                                {{-- <span class="fw-bold text-danger">{{ $rejectedProduct->count() }}</span> --}}
+                                                <span class="fw-bold text-warning">
+                                                    {{ $supportTickets['all_medium_tickets']->count() }}</span>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div
-                                            class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
-                                            <span>High Priority Tickets</span>
-                                            {{-- <span class="fw-bold text-danger">{{ $rejectedProduct->count() }}</span> --}}
-                                            <span class="fw-bold text-danger">
-                                                {{ $supportTickets['all_high_tickets']->count() }}</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div
-                                            class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
-                                            <span>Low Priority Tickets</span>
-                                            {{-- <span class="fw-bold text-danger">{{ $rejectedProduct->count() }}</span> --}}
-                                            <span class="fw-bold text-danger">
-                                                {{ $supportTickets['all_low_tickets']->count() }}</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div
-                                            class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
-                                            <span>Medium Priority Tickets</span>
-                                            {{-- <span class="fw-bold text-danger">{{ $rejectedProduct->count() }}</span> --}}
-                                            <span class="fw-bold text-danger">
-                                                {{ $supportTickets['all_medium_tickets']->count() }}</span>
+                                        <div class="col-md-4">
+                                            <div
+                                                class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
+                                                <span>High Priority Tickets</span>
+                                                {{-- <span class="fw-bold text-danger">{{ $rejectedProduct->count() }}</span> --}}
+                                                <span class="fw-bold text-danger">
+                                                    {{ $supportTickets['all_high_tickets']->count() }}</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -317,7 +323,7 @@
                             </div>
                         </div>
                         <div class="dashboard__card__body">
-                            <h4 class="my-3">Verifications Section</h4>
+                            <h4 class="my-3">Verifications</h4>
                             <div class="p-3 bg-light rounded-3">
 
                                 <h6 class="text-center pb-2">Product Verification</h6>
@@ -361,15 +367,15 @@
                                         <div
                                             class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
                                             <span>Completed</span>
-                                            <span class="fw-bold text-danger">{{ $completedWithdraw->count() }}</span>
+                                            <span class="fw-bold text-success">{{ $completedWithdraw->count() }}</span>
 
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    {{-- <div class="col-md-4">
                                         <div
                                             class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
                                             <span>Processing</span>
-                                            <span class="fw-bold text-success">{{ $processingWithdraw->count() }}</span>
+                                            <span class="fw-bold text-danger">{{ $processingWithdraw->count() }}</span>
 
                                         </div>
                                     </div>
@@ -388,7 +394,7 @@
                                             <span class="fw-bold text-success">{{ $refundedWithdraw->count() }}</span>
 
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="col-md-4">
                                         <div
                                             class="d-flex justify-content-between align-items-center bg-light border rounded py-3 px-2">
