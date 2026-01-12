@@ -690,17 +690,15 @@
                                 <h4 class="title__two">
                                     {{ __('Order Items') }}
                                 </h4>
-                                <div>
-                                    @if (
-                                        $payment_details->payment_status == 'pending' &&
-                                            ($payment_details->payment_gateway == 'abapayway' || $payment_details->payment_gateway == 'acledapay'))
+                                {{-- <div>
+                                    @if ($payment_details->payment_status == 'pending' && ($payment_details->payment_gateway == 'abapayway' || $payment_details->payment_gateway == 'acledapay'))
                                         <a href="{{ route('user.product.order.payment.now', ['id' => $payment_details->id, 'payment_gateway' => $payment_details->payment_gateway]) }}"
                                             class="btn btn-success btn-sm rounded-btn mt-2"
                                             title="{{ __('Re Payment') }}" style="width: 40px;">
                                             <i class="las la-money-bill"></i>
                                         </a>
                                     @endif
-                                </div>
+                                </div> --}}
                             </div>
                             <div class="order__details__wrap checkout-page-content-wrapper margin-top-20">
                                 @php
@@ -849,27 +847,67 @@
                         </div>
                     </div>
                 @endif
-                <div class="btn-wrapper margin-top-40">
-                    <a href="{{ route('user.home') }}" class="cmn_btn btn_bg_1 btn-success" style="">
-                        {{ __('Back to Dashboard') }}
-                    </a>
-                </div>
-                {{-- <div class="btn-wrapper margin-top-40 d-flex">
+                <div class="btn-wrapper margin-top-40 d-flex">
                     <div>
                         @if (
                             $payment_details->payment_status == 'pending' &&
                                 ($payment_details->payment_gateway == 'abapayway' || $payment_details->payment_gateway == 'acledapay'))
-                            <a href="{{ route('user.product.order.payment.now', ['id' => $payment_details->id, 'payment_gateway' => $payment_details->payment_gateway]) }}"
-                                class="cmn_btn btn_bg_1 btn-success d-flex"
-                                title="{{ __('Pay Now') }}">
+                            <button type="button" class="cmn_btn btn_bg_1 btn-success d-flex"
+                                title="{{ __('Pay Now') }}" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                 Pay Now
-                            </a>
+                            </button>
                         @endif
                     </div>
-                    <a href="{{ route('user.home') }}" class="cmn_btn btn_bg_2 btn-secondary me-2" style="color: var(--black) !important">
-                        {{ __('Back to Dashboard') }}
+                    <a href="{{ route('user.product.order.all') }}" class="cmn_btn btn_bg_2 btn-secondary me-2"
+                        style="color: var(--white); background: var(--paragraph-color); border: 2px solid var(--paragraph-color);">
+                        {{ __('Back') }}
                     </a>
-                </div> --}}
+                </div>
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">
+                                    {{ __('Pay Now') }}
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <form action="{{ route('user.product.order.payment.now') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="id" value="{{ $payment_details->id }}">
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label>
+                                            {{ __('Payment Gateway') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <select class="form-select" name="payment_gateway" required>
+                                            <option value="" disabled>
+                                                {{ __('Select Payment Gateway') }}
+                                            </option>
+                                            <option value="abapayway" @if ($payment_details->payment_gateway == 'abapayway') selected @endif>
+                                                {{ __('Abapayway') }}
+                                            </option>
+                                            <option value="acledapay" @if ($payment_details->payment_gateway == 'acledapay') selected @endif>
+                                                {{ __('Acledapay') }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                    {{ __('Cancel') }}
+                                </button>
+                                <button type="button" class="btn btn-primary">
+                                    {{ __('Pay') }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
