@@ -74,6 +74,7 @@ class PaymentGatewayService
             return $gateway->charge_customer(
                 $this->rePaymentCommonChargeCustomerData($payment_gateway_name, $order_id, $totalAmount)
             );
+
         } catch (\Exception $e) {
             return back()->with([
                 'message' => $e->getMessage(),

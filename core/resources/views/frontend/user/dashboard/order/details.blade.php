@@ -896,15 +896,15 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                        {{ __('Cancel') }}
+                                    </button>
+                                    <button type="submit" class="btn btn-primary">
+                                        {{ __('Pay') }}
+                                    </button>
+                                </div>
                             </form>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                    {{ __('Cancel') }}
-                                </button>
-                                <button type="button" class="btn btn-primary">
-                                    {{ __('Pay') }}
-                                </button>
-                            </div>
                         </div>
                     </div>
                 </div>
