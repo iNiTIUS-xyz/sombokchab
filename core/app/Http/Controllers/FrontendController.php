@@ -2,77 +2,71 @@
 
 namespace App\Http\Controllers;
 
-use App\Faq;
-use App\Blog;
-use App\Page;
-use App\User;
-use App\Admin;
-use Exception;
-use Throwable;
-use Carbon\Carbon;
-use App\Language;
-use App\Newsletter;
-use App\BlogCategory;
-use App\HeaderSlider;
-use App\StaticOption;
-use App\Mail\BasicMail;
-use App\ContactInfoItem;
-use App\Helpers\FlashMsg;
 use App\Action\CartAction;
-use App\Helpers\CartHelper;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 use App\Action\CompareAction;
-use App\Mail\AdminResetEmail;
+use App\Admin;
+use App\Blog;
+use App\BlogCategory;
+use App\ContactInfoItem;
+use App\Faq;
+use App\HeaderSlider;
+use App\Helpers\CartHelper;
 use App\Helpers\CompareHelper;
+use App\Helpers\FlashMsg;
+use App\Helpers\HomePageStaticSettings;
 use App\Helpers\WishlistHelper;
-use App\Shipping\ShippingAddress;
 use App\Http\Services\CartService;
-use Illuminate\Support\Facades\DB;
+use App\Language;
+use App\Mail\AdminResetEmail;
+use App\Mail\BasicMail;
+use App\Newsletter;
+use App\Page;
+use App\Shipping\ShippingAddress;
+use App\Shipping\UserShippingAddress;
+use App\StaticOption;
+use App\User;
+use Carbon\Carbon;
+use Exception;
+use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Modules\Vendor\Entities\Vendor;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use App\Shipping\UserShippingAddress;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
+use Modules\Attributes\Entities\Brand;
+use Modules\Attributes\Entities\Category;
+use Modules\Attributes\Entities\Color;
 use Modules\Attributes\Entities\Size;
 use Modules\Attributes\Entities\Unit;
-use Modules\Product\Entities\Product;
-use Illuminate\Contracts\View\Factory;
-use Modules\Attributes\Entities\Brand;
-use Modules\Attributes\Entities\Color;
-use App\Helpers\HomePageStaticSettings;
-use Illuminate\Support\Facades\Session;
 use Modules\Campaign\Entities\Campaign;
 use Modules\CountryManage\Entities\City;
-use Modules\TaxModule\Entities\StateTax;
-use Gloudemans\Shoppingcart\Facades\Cart;
-use Illuminate\Support\Facades\Validator;
-use Modules\Attributes\Entities\Category;
-use Modules\CountryManage\Entities\State;
-use Modules\TaxModule\Entities\CountryTax;
-use App\Exceptions\NotArrayObjectException;
 use Modules\CountryManage\Entities\Country;
-use Modules\Attributes\Entities\SubCategory;
-use Psr\Container\NotFoundExceptionInterface;
+use Modules\CountryManage\Entities\State;
+use Modules\Product\Entities\Product;
 use Modules\Product\Entities\ProductAttribute;
-use Modules\TaxModule\Entities\TaxClassOption;
-use Psr\Container\ContainerExceptionInterface;
-use Illuminate\Contracts\Foundation\Application;
 use Modules\Product\Entities\ProductSubCategory;
-use Modules\TaxModule\Services\CalculateTaxServices;
 use Modules\Product\Services\FrontendProductServices;
 use Modules\ShippingModule\Http\ShippingZoneServices;
+use Modules\TaxModule\Entities\CountryTax;
+use Modules\TaxModule\Entities\StateTax;
+use Modules\TaxModule\Entities\TaxClassOption;
 use Modules\TaxModule\Services\CalculateTaxBasedOnCustomerAddress;
+use Modules\TaxModule\Services\CalculateTaxServices;
+use Modules\Vendor\Entities\Vendor;
+use Throwable;
 
 ini_set('max_execution_time', 300);
 
-class FrontendController extends Controller
-{
-    public function index()
-    {
+class FrontendController extends Controller {
+    public function index() {
         $home_page_id = get_static_option('home_page');
         $page_details = Page::findOrfail($home_page_id);
 
@@ -89,8 +83,7 @@ class FrontendController extends Controller
         return view('frontend.frontend-home', compact('static_field_data', 'page_details'));
     }
 
-    public function home_page_change($id)
-    {
+    public function home_page_change($id) {
         $all_header_slider = HeaderSlider::all();
         $all_blog = Blog::where(['status' => 'publish'])->orderBy('id', 'desc')->take(get_static_option('home_page_01_latest_news_items'))->get(); //make a function to call all static option by home page
         $static_field_data = StaticOption::whereIn('option_name', HomePageStaticSettings::get_home_field($id))->get()->mapWithKeys(function ($item) {
@@ -99,26 +92,23 @@ class FrontendController extends Controller
 
         return view('frontend.frontend-home-demo')->with([
             'all_header_slider' => $all_header_slider,
-            'all_blog' => $all_blog,
+            'all_blog'          => $all_blog,
             'static_field_data' => $static_field_data,
-            'home_page' => $id,
+            'home_page'         => $id,
         ]);
     }
 
-    public function flutterwave_pay_get()
-    {
+    public function flutterwave_pay_get() {
         return redirect_404_page();
     }
 
-    public function blog_page()
-    {
+    public function blog_page() {
         $page_details = Page::findOrFail(get_static_option('blog_page'));
 
         return view('frontend.frontend-home', compact('page_details'));
     }
 
-    final public function category_wise_blog_page(int $id, $slug = null)
-    {
+    final public function category_wise_blog_page(int $id, $slug = null) {
         $all_blogs = Blog::where(['blog_categories_id' => $id])->orderBy('id', 'desc')
             ->paginate(get_static_option('blog_page_item'));
 
@@ -137,15 +127,14 @@ class FrontendController extends Controller
         }
 
         return view('frontend.pages.blog.blog-category')->with([
-            'all_blogs' => $all_blogs,
-            'all_categories' => $all_category,
-            'category_name' => $category_name,
+            'all_blogs'        => $all_blogs,
+            'all_categories'   => $all_category,
+            'category_name'    => $category_name,
             'all_recent_blogs' => $all_recent_blogs,
         ]);
     }
 
-    public function tags_wise_blog_page($tag)
-    {
+    public function tags_wise_blog_page($tag) {
         $all_blogs = Blog::Where('tags', 'LIKE', '%' . $tag . '%')
             ->orderBy('id', 'desc')->paginate(get_static_option('blog_page_item'));
         if ($all_blogs->isEmpty()) {
@@ -156,30 +145,28 @@ class FrontendController extends Controller
         $all_category = BlogCategory::where(['status' => 'publish'])->orderBy('id', 'desc')->get();
 
         return view('frontend.pages.blog.blog-tags')->with([
-            'all_blogs' => $all_blogs,
-            'all_categories' => $all_category,
-            'tag_name' => $tag,
+            'all_blogs'        => $all_blogs,
+            'all_categories'   => $all_category,
+            'tag_name'         => $tag,
             'all_recent_blogs' => $all_recent_blogs,
         ]);
     }
 
-    public function blog_search_page(Request $request)
-    {
+    public function blog_search_page(Request $request) {
         $all_recent_blogs = Blog::orderBy('id', 'desc')->take(get_static_option('blog_page_recent_post_widget_item'))->get();
         $all_category = BlogCategory::where(['status' => 'publish'])->orderBy('id', 'desc')->get();
         $all_blogs = Blog::Where('title', 'LIKE', '%' . $request->search . '%')
             ->orderBy('id', 'desc')->paginate(get_static_option('blog_page_item'));
 
         return view('frontend.pages.blog.blog-search')->with([
-            'all_blogs' => $all_blogs,
-            'all_categories' => $all_category,
-            'search_term' => $request->search,
+            'all_blogs'        => $all_blogs,
+            'all_categories'   => $all_category,
+            'search_term'      => $request->search,
             'all_recent_blogs' => $all_recent_blogs,
         ]);
     }
 
-    public function blog_single_page($slug)
-    {
+    public function blog_single_page($slug) {
         $blog_post = Blog::where('slug', $slug)->first();
 
         if (empty($blog_post)) {
@@ -195,15 +182,14 @@ class FrontendController extends Controller
         $blog_post->increment('visit_count');
 
         return view('frontend.pages.blog.blog-single')->with([
-            'blog_post' => $blog_post,
-            'all_categories' => $all_category,
+            'blog_post'        => $blog_post,
+            'all_categories'   => $all_category,
             'all_recent_blogs' => $all_recent_blogs,
             'all_related_blog' => $all_related_blog,
         ]);
     }
 
-    public function dynamic_single_page($slug)
-    {
+    public function dynamic_single_page($slug) {
         $page_post = Page::where('slug', $slug)->first();
         $vendor = Vendor::where('username', $slug)->first();
 
@@ -238,8 +224,7 @@ class FrontendController extends Controller
         abort(404);
     }
 
-    public function dynamic_shop_single_page(Request $request)
-    {
+    public function dynamic_shop_single_page(Request $request) {
         $products = Product::query()
             ->with([
                 'category',
@@ -260,21 +245,21 @@ class FrontendController extends Controller
             })
             ->when($request->order_by, function ($q) use ($request) {
                 switch ($request->order_by) {
-                    case 'latest':
-                        $q->orderBy('id', 'desc');
-                        break;
-                    case 'oldest':
-                        $q->orderBy('id', 'asc');
-                        break;
-                    case 'price_low_high':
-                        $q->orderBy('sale_price', 'asc');
-                        break;
-                    case 'price_high_low':
-                        $q->orderBy('sale_price', 'desc');
-                        break;
-                    default:
-                        $q->orderBy('id', 'desc');
-                        break;
+                case 'latest':
+                    $q->orderBy('id', 'desc');
+                    break;
+                case 'oldest':
+                    $q->orderBy('id', 'asc');
+                    break;
+                case 'price_low_high':
+                    $q->orderBy('sale_price', 'asc');
+                    break;
+                case 'price_high_low':
+                    $q->orderBy('sale_price', 'desc');
+                    break;
+                default:
+                    $q->orderBy('id', 'desc');
+                    break;
                 }
             })
             ->paginate(10);
@@ -282,8 +267,7 @@ class FrontendController extends Controller
         return view('frontend.pages.product-list', compact('products'));
     }
 
-    public function dynamic_campaign_page()
-    {
+    public function dynamic_campaign_page() {
         $now = Carbon::now();
 
         $all_campaigns = Campaign::query()
@@ -299,13 +283,11 @@ class FrontendController extends Controller
         return view('frontend.campaign.all-campaign', compact('all_campaigns'));
     }
 
-    public function showAdminForgetPasswordForm()
-    {
+    public function showAdminForgetPasswordForm() {
         return view('auth.admin.forget-password');
     }
 
-    public function sendAdminForgetPasswordMail(Request $request)
-    {
+    public function sendAdminForgetPasswordMail(Request $request) {
         $request->validate(['username' => 'required|string:max:191']);
 
         $user_info = Admin::where('username', $request->username)->orWhere('email', $request->username)->first();
@@ -319,42 +301,40 @@ class FrontendController extends Controller
             $message = 'Here is you password reset link, If you did not request to reset your password just ignore this mail. <a class="btn" href="' . route('admin.reset.password', ['user' => $user_info->username, 'token' => $token_id]) . '">Click Reset Password</a>';
             $data = [
                 'username' => $user_info->username,
-                'message' => $message,
+                'message'  => $message,
             ];
 
             try {
                 Mail::to($user_info->email)->send(new AdminResetEmail($data));
             } catch (Exception $e) {
                 return redirect()->back()->with([
-                    'msg' => $e->getMessage(),
+                    'msg'  => $e->getMessage(),
                     'type' => 'success',
                 ]);
             }
 
             return redirect()->back()->with([
-                'msg' => __('Check Your Mail For Reset Password Link'),
+                'msg'  => __('Check Your Mail For Reset Password Link'),
                 'type' => 'success',
             ]);
         }
 
         return redirect()->back()->with([
-            'msg' => __('Your Username or Email Is Wrong!!!'),
+            'msg'  => __('Your Username or Email Is Wrong!!!'),
             'type' => 'danger',
         ]);
     }
 
-    public function showAdminResetPasswordForm($username, $token)
-    {
+    public function showAdminResetPasswordForm($username, $token) {
         return view('auth.admin.reset-password')->with([
             'username' => $username,
-            'token' => $token,
+            'token'    => $token,
         ]);
     }
 
-    public function AdminResetPassword(Request $request)
-    {
+    public function AdminResetPassword(Request $request) {
         $request->validate([
-            'token' => 'required',
+            'token'    => 'required',
             'username' => 'required',
             'password' => 'required|string|min:8|confirmed',
         ]);
@@ -371,8 +351,7 @@ class FrontendController extends Controller
         return redirect()->back()->with(['msg' => __('Unable to change the Password. Please try again or check your old Password.'), 'type' => 'danger']);
     }
 
-    public function lang_change(Request $request)
-    {
+    public function lang_change(Request $request) {
         session()->put('lang', $request->lang);
 
         return redirect()->route('homepage');
@@ -381,13 +360,11 @@ class FrontendController extends Controller
     /** ======================================================================================
      *                  OTHER PAGE FUNCTIONS
      * ======================================================================================*/
-    public function about_page()
-    {
+    public function about_page() {
         return view('frontend.pages.about');
     }
 
-    public function faq_page()
-    {
+    public function faq_page() {
         $all_faq = Faq::where(['status' => 'publish'])->get();
 
         return view('frontend.pages.faq-page')->with([
@@ -395,8 +372,7 @@ class FrontendController extends Controller
         ]);
     }
 
-    public function contact_page()
-    {
+    public function contact_page() {
         $all_contact_info = ContactInfoItem::get();
 
         return view('frontend.pages.contact-page')->with([
@@ -404,8 +380,7 @@ class FrontendController extends Controller
         ]);
     }
 
-    public function products_subcategory($id, $any = '')
-    {
+    public function products_subcategory($id, $any = '') {
         $default_item_count = get_static_option('default_item_count');
         $all_products = Product::where('status', 'publish')
             ->whereJsonContains('sub_category_id', "$id")
@@ -419,20 +394,19 @@ class FrontendController extends Controller
         }
 
         return view('frontend.pages.product.subcategory')->with([
-            'all_products' => $all_products,
+            'all_products'  => $all_products,
             'category_name' => $category_name,
         ]);
     }
 
-    public function subscribe_newsletter(Request $request)
-    {
+    public function subscribe_newsletter(Request $request) {
         $request->validate(['email' => 'required|string|email|max:191|unique:newsletters']);
 
         $verify_token = Str::random(32);
 
         Newsletter::create([
-            'email' => $request->email,
-            'verified' => 0,
+            'email'        => $request->email,
+            'verified'     => 0,
             'verify_token' => $verify_token,
         ]);
 
@@ -452,8 +426,7 @@ class FrontendController extends Controller
         return response()->json(['type' => 'success', 'msg' => __('Thanks for subscribing to our newsletter.')]);
     }
 
-    public function subscriber_verify(Request $request)
-    {
+    public function subscriber_verify(Request $request) {
         $newsletter = Newsletter::where('token', $request->token)->first();
         $title = __('Sorry');
         $description = __('your token is expired');
@@ -468,8 +441,7 @@ class FrontendController extends Controller
         return view('frontend.thankyou', compact('title', 'description'));
     }
 
-    public function newsletter_unsubscribe($id)
-    {
+    public function newsletter_unsubscribe($id) {
         Newsletter::where('id', $id)->update(['subscribe_status' => 0]);
         // Redirect to the homepage with a flash message
         return redirect()->to('/')->with([
@@ -479,13 +451,11 @@ class FrontendController extends Controller
         ]);
     }
 
-    public function showUserForgetPasswordForm()
-    {
+    public function showUserForgetPasswordForm() {
         return view('frontend.user.forget-password');
     }
 
-    public function sendUserForgetPasswordMail(Request $request)
-    {
+    public function sendUserForgetPasswordMail(Request $request) {
         $request->validate([
             'username' => 'required|string:max:191',
         ]);
@@ -503,31 +473,30 @@ class FrontendController extends Controller
             $message = __('Here is you password reset link, If you did not request to reset your password just ignore this mail.') . ' <a class="btn" href="' . route('user.reset.password', ['user' => $user_info->username, 'token' => $token_id]) . '">' . __('Click Reset Password') . '</a>';
             $data = [
                 'username' => $user_info->username,
-                'message' => $message,
+                'message'  => $message,
             ];
             try {
                 Mail::to($user_info->email)->send(new AdminResetEmail($data));
             } catch (Exception $e) {
                 return redirect()->back()->with([
                     'type' => 'danger',
-                    'msg' => $e->getMessage(),
+                    'msg'  => $e->getMessage(),
                 ]);
             }
 
             return redirect(route('user.home'))->with([
-                'msg' => __('Check Your Mail For Reset Password Link'),
+                'msg'  => __('Check Your Mail For Reset Password Link'),
                 'type' => 'success',
             ]);
         }
 
         return redirect()->back()->with([
-            'msg' => __('Your Username or Email Is Wrong!!!'),
+            'msg'  => __('Your Username or Email Is Wrong!!!'),
             'type' => 'danger',
         ]);
     }
 
-    public function checkPhoneInDb(Request $request)
-    {
+    public function checkPhoneInDb(Request $request) {
         $phone = $request->input('phone');
 
         // Check if phone is in DB
@@ -544,19 +513,15 @@ class FrontendController extends Controller
         // Return JSON: found=true, plus user ID & token
         return response()->json([
             'found' => true,
-            'user' => $user->id,
+            'user'  => $user->id,
             'token' => $token,
         ]);
     }
 
-
-
-    public function showVendorForgetPasswordForm()
-    {
+    public function showVendorForgetPasswordForm() {
         return view('frontend.vendor.forget-password');
     }
-    public function sendVendorForgetPasswordMail(Request $request)
-    {
+    public function sendVendorForgetPasswordMail(Request $request) {
         $request->validate([
             'username' => 'required|string:max:191',
         ]);
@@ -574,39 +539,37 @@ class FrontendController extends Controller
             $message = __('Here is you password reset link, If you did not request to reset your password just ignore this mail.') . ' <a class="btn" href="' . route('vendor.reset.password', ['user' => $vendor_info->username, 'token' => $token_id]) . '">' . __('Click Reset Password') . '</a>';
             $data = [
                 'username' => $vendor_info->username,
-                'message' => $message,
+                'message'  => $message,
             ];
             try {
                 Mail::to($vendor_info->email)->send(new AdminResetEmail($data));
             } catch (Exception $e) {
                 return redirect()->back()->with([
                     'type' => 'danger',
-                    'msg' => $e->getMessage(),
+                    'msg'  => $e->getMessage(),
                 ]);
             }
 
             return redirect(route('vendor.forget.password.form'))->with([
-                'msg' => __('Check Your Mail For Reset Password Link'),
+                'msg'  => __('Check Your Mail For Reset Password Link'),
                 'type' => 'success',
             ]);
         }
 
         return redirect()->back()->with([
-            'msg' => __('Your Username or Email Is Wrong!!!'),
+            'msg'  => __('Your Username or Email Is Wrong!!!'),
             'type' => 'danger',
         ]);
     }
-    public function showVendorResetPasswordForm($username, $token)
-    {
+    public function showVendorResetPasswordForm($username, $token) {
         return view('frontend.vendor.reset-password')->with([
             'username' => $username,
-            'token' => $token,
+            'token'    => $token,
         ]);
     }
-    public function VendorResetPassword(Request $request)
-    {
+    public function VendorResetPassword(Request $request) {
         $request->validate([
-            'token' => 'required',
+            'token'    => 'required',
             'username' => 'required',
             'password' => 'required|string|min:8|confirmed',
         ]);
@@ -622,17 +585,15 @@ class FrontendController extends Controller
 
         return redirect()->back()->with(['msg' => __('Unable to change the Password. Please try again or check your old Password..'), 'type' => 'danger']);
     }
-    public function showUserResetPasswordForm($username, $token)
-    {
+    public function showUserResetPasswordForm($username, $token) {
         return view('frontend.user.reset-password')->with([
             'username' => $username,
-            'token' => $token,
+            'token'    => $token,
         ]);
     }
-    public function UserResetPassword(Request $request)
-    {
+    public function UserResetPassword(Request $request) {
         $request->validate([
-            'token' => 'required',
+            'token'    => 'required',
             'username' => 'required',
             'password' => 'required|string|min:8|confirmed',
         ]);
@@ -649,13 +610,10 @@ class FrontendController extends Controller
         return redirect()->back()->with(['msg' => __('Unable to change the Password. Please try again or check your old Password..'), 'type' => 'danger']);
     }
 
-
-
-    public function ajax_login(Request $request)
-    {
+    public function ajax_login(Request $request) {
         // Custom validation
         $validator = \Validator::make($request->all(), [
-            'phone' => [
+            'phone'    => [
                 'required_without:email',
                 function ($attribute, $value, $fail) {
                     $countryCode = ['+1', '+880', '+855']; // Adjust as needed
@@ -668,15 +626,15 @@ class FrontendController extends Controller
             'password' => 'required|min:8',
         ], [
             'phone.required_without' => __('Phone number or email is required.'),
-            'password.required' => __('Password is required.'),
-            'password.min' => __('Password must be at least 8 characters.'),
+            'password.required'      => __('Password is required.'),
+            'password.min'           => __('Password must be at least 8 characters.'),
         ]);
 
         if ($validator->fails()) {
             \Log::info('Validation Errors: ' . json_encode($validator->errors()));
             return response()->json([
                 'message' => 'The given data was invalid.',
-                'errors' => $validator->errors(),
+                'errors'  => $validator->errors(),
             ], 422);
         }
 
@@ -695,16 +653,16 @@ class FrontendController extends Controller
 
         if (!$user) {
             return response()->json([
-                'msg' => __('Account not found.'),
-                'type' => 'danger',
+                'msg'    => __('Account not found.'),
+                'type'   => 'danger',
                 'status' => 'invalid',
             ]);
         }
 
         if ($user->deactive_status == 1) {
             return response()->json([
-                'msg' => __('Your account is deactivated. Please contact support.'),
-                'type' => 'danger',
+                'msg'    => __('Your account is deactivated. Please contact support.'),
+                'type'   => 'danger',
                 'status' => 'invalid',
             ]);
         }
@@ -723,24 +681,21 @@ class FrontendController extends Controller
             }
 
             return response()->json([
-                'msg' => __('Signed in successfully... Redirecting...'),
-                'type' => 'success',
-                'status' => 'valid',
+                'msg'                 => __('Signed in successfully... Redirecting...'),
+                'type'                => 'success',
+                'status'              => 'valid',
                 'user_identification' => random_int(11111111, 99999999) . $user->id . random_int(11111111, 99999999),
             ]);
         }
 
         return response()->json([
-            'msg' => __('Account credentials do not match.'),
-            'type' => 'danger',
+            'msg'    => __('Account credentials do not match.'),
+            'type'   => 'danger',
             'status' => 'invalid',
         ]);
     }
 
-
-
-    public function user_campaign()
-    {
+    public function user_campaign() {
         if (Auth::guard('web')->check()) {
             return redirect()->route('user.campaign.new');
         }
@@ -748,21 +703,19 @@ class FrontendController extends Controller
         return view('frontend.user.login')->with(['title' => __('Login To Create New Campaign.')]);
     }
 
-
-    public function addUserShippingAddress(Request $request)
-    {
+    public function addUserShippingAddress(Request $request) {
         if (!auth('web')->check()) {
             return back()->with(FlashMsg::explain('danger', __('Please login to add new address.')));
         }
 
         $request->validate([
-            'name' => 'required|string|max:191',
+            'name'    => 'required|string|max:191',
             'address' => 'required|string|max:191',
         ]);
 
         $UserShippingAddress = UserShippingAddress::create([
             'user_id' => auth('web')->user()->id,
-            'name' => $request->name,
+            'name'    => $request->name,
             'address' => $request->address,
         ]);
 
@@ -771,16 +724,14 @@ class FrontendController extends Controller
         return view('frontend.cart.checkout-user-shipping', compact('all_user_shipping'));
     }
 
-    public function getProductAttributeHtml(Request $request)
-    {
+    public function getProductAttributeHtml(Request $request) {
         $product = Product::where('slug', $request->slug)->first();
         if ($product) {
             return view('frontend.partials.product-attributes', compact('product'));
         }
     }
 
-    public function cartPage(Request $request)
-    {
+    public function cartPage(Request $request) {
         $default_shipping_cost = CartAction::getDefaultShippingCost();
 
         $all_cart_items = CartHelper::getItems();
@@ -798,9 +749,7 @@ class FrontendController extends Controller
         return view('frontend.cart.all', compact('all_cart_items', 'products', 'subtotal', 'default_shipping_cost', 'total'));
     }
 
-
-    public function checkoutPage(Request $request): Application|Factory|View
-    {
+    public function checkoutPage(Request $request): Application | Factory | View {
         $default_shipping_cost = CartAction::getDefaultShippingCost();
         $default_shipping = CartAction::getDefaultShipping();
         $user = getUserByGuard('web');
@@ -892,9 +841,7 @@ class FrontendController extends Controller
         ));
     }
 
-
-    public function cartItemsBasedOnBillingAddress(Request $request)
-    {
+    public function cartItemsBasedOnBillingAddress(Request $request) {
         $carts = Cart::instance('default')->content();
         $itemsTotal = null;
         $enableTaxAmount = !CalculateTaxServices::isPriceEnteredWithTax();
@@ -948,16 +895,14 @@ class FrontendController extends Controller
         ] + $taxAmount + $states + $cities);
     }
 
-    public function wishlistPage(Request $request)
-    {
+    public function wishlistPage(Request $request) {
         $all_wishlist_items = WishlistHelper::getItems();
         $products = Product::whereIn('id', array_keys($all_wishlist_items))->get();
 
         return view('frontend.wishlist.all', compact('all_wishlist_items', 'products'));
     }
 
-    public function productsComparePage()
-    {
+    public function productsComparePage() {
         $all_compare_items = CompareHelper::getItems();
         $all_compare_items = [
             array_pop($all_compare_items),
@@ -981,8 +926,7 @@ class FrontendController extends Controller
         ));
     }
 
-    public function topRatedProducts(): View|Factory|string|Application
-    {
+    public function topRatedProducts(): View | Factory | string | Application {
         $products = Product::where('status_id', 1)
             ->withAvg('ratings', 'rating')
             ->with('campaign_product', 'inventoryDetail', 'inventory', 'campaign_sold_product')
@@ -999,8 +943,7 @@ class FrontendController extends Controller
         return view('frontend.partials.filter-item', compact('products'));
     }
 
-    public function topSellingProducts()
-    {
+    public function topSellingProducts() {
         $products = Product::where('status_id', 1)
             ->withAvg('ratings', 'rating')
             ->with('campaign_product', 'inventoryDetail', 'inventory', 'campaign_sold_product')
@@ -1017,8 +960,7 @@ class FrontendController extends Controller
         return view('frontend.partials.filter-item', compact('products'));
     }
 
-    public function newProducts()
-    {
+    public function newProducts() {
         $products = Product::where('status_id', 1)
             ->withAvg('ratings', 'rating')
             ->with('campaign_product', 'inventoryDetail', 'inventory', 'campaign_sold_product')
@@ -1035,8 +977,7 @@ class FrontendController extends Controller
         return view('frontend.partials.filter-item', compact('products'));
     }
 
-    public function campaignProduct(Request $req)
-    {
+    public function campaignProduct(Request $req) {
         $limit = $this->validated_item_count($req);
         $products = Product::where('status', 'publish')
             ->withAvg('rating', 'rating')
@@ -1049,8 +990,7 @@ class FrontendController extends Controller
         return view('frontend.partials.product_filter_style_two', compact('products'))->render();
     }
 
-    public function discountedProduct(Request $req)
-    {
+    public function discountedProduct(Request $req) {
         $limit = $this->validated_item_count($req);
 
         $products = Product::where('status', 'publish')
@@ -1064,8 +1004,7 @@ class FrontendController extends Controller
         return view('frontend.partials.product_filter_style_two', compact('products'))->render();
     }
 
-    private function validated_item_count($req)
-    {
+    private function validated_item_count($req) {
         if ($req->limit ?? false) {
             $data = Validator::make($req->all(), ['limit' => 'required']);
 
@@ -1075,10 +1014,9 @@ class FrontendController extends Controller
         return null;
     }
 
-    public function filterCategoryProducts(Request $request)
-    {
+    public function filterCategoryProducts(Request $request) {
         $request->validate([
-            'id' => 'required|exists:product_categories',
+            'id'         => 'required|exists:product_categories',
             'item_count' => 'required|numeric',
         ]);
 
@@ -1095,16 +1033,14 @@ class FrontendController extends Controller
     /** ======================================================================
      *                          CAMPAIGN PAGE
      * ======================================================================*/
-    public function campaignPage($id, $any = '')
-    {
+    public function campaignPage($id, $any = '') {
         $campaign = Campaign::with(['products', 'products.product'])->findOrFail($id);
         $products = optional($campaign->products);
 
         return view('frontend.campaign.index', compact('campaign'));
     }
 
-    public function changeSiteCurrency(Request $request)
-    {
+    public function changeSiteCurrency(Request $request) {
         $request->validate(['currency' => 'required|string|max:191']);
         if (array_key_exists($request->currency, getAllCurrency())) {
             update_static_option('site_global_currency', $request->currency);
@@ -1113,15 +1049,13 @@ class FrontendController extends Controller
         return true;
     }
 
-    public function changeSiteLanguage(Request $request)
-    {
+    public function changeSiteLanguage(Request $request) {
         $language = Language::where('slug', $request->language)->first();
 
         session()->put('lang', $request->language);
 
-
         return redirect()->back()->with([
-            'msg' => __('Site language successfully changed.'),
+            'msg'  => __('Site language successfully changed.'),
             'type' => 'success',
         ]);
     }
@@ -1129,8 +1063,7 @@ class FrontendController extends Controller
     /** =====================================================================
      *                          AJAX FUNCTIONS
      * ===================================================================== */
-    public function getCountryInfo(Request $request)
-    {
+    public function getCountryInfo(Request $request) {
         $request->validate(['id' => 'required|exists:countries']);
 
         $country_tax = CountryTax::where('country_id', $request->id)->first();
@@ -1141,16 +1074,15 @@ class FrontendController extends Controller
         $tax = $country_tax ? $country_tax->tax_percentage : 0;
 
         return response()->json([
-            'tax' => $tax,
-            'states' => $states,
-            'shipping_options' => $shipping_options,
-            'default_shipping' => $default_shipping,
+            'tax'                   => $tax,
+            'states'                => $states,
+            'shipping_options'      => $shipping_options,
+            'default_shipping'      => $default_shipping,
             'default_shipping_cost' => $default_shipping_cost,
         ], 200);
     }
 
-    public function getCountryStateInfo(Request $request)
-    {
+    public function getCountryStateInfo(Request $request) {
         $request->validate(['id' => 'required']);
 
         $states = State::select('id', 'name')->where('country_id', $request->id)->get();
@@ -1162,8 +1094,7 @@ class FrontendController extends Controller
         return $html;
     }
 
-    public function getCountryCityInfo(Request $request)
-    {
+    public function getCountryCityInfo(Request $request) {
         $request->validate(['id' => 'required']);
 
         $cities = City::select('id', 'name')->where('state_id', $request->id)->get();
@@ -1176,8 +1107,7 @@ class FrontendController extends Controller
         return $html;
     }
 
-    public function getStates($country_id)
-    {
+    public function getStates($country_id) {
         $states = State::where('country_id', $country_id)->get();
 
         $html = "<option value=''>" . __('Select City') . '</option>';
@@ -1193,8 +1123,7 @@ class FrontendController extends Controller
         return response()->json(['success' => true, 'data' => $html, 'list' => $list]);
     }
 
-    public function getStateInfo(Request $request)
-    {
+    public function getStateInfo(Request $request) {
         $request->validate(['id' => 'required|exists:states']);
 
         $state_tax = StateTax::where('state_id', $request->id)->first();
@@ -1204,15 +1133,14 @@ class FrontendController extends Controller
         $tax = $state_tax ? $state_tax->tax_percentage : 0;
 
         return response()->json([
-            'tax' => $tax,
-            'shipping_options' => $shipping_options,
-            'default_shipping' => $default_shipping,
+            'tax'                   => $tax,
+            'shipping_options'      => $shipping_options,
+            'default_shipping'      => $default_shipping,
             'default_shipping_cost' => $default_shipping_cost,
         ], 200);
     }
 
-    private function fallbackProductPage($page_post = null, $vendor = null)
-    {
+    private function fallbackProductPage($page_post = null, $vendor = null) {
         $page_name = $page_post->name ?? 'Product';
         $display_item_count = request()->get('count') ?? 15;
         $all_category = Category::where('status_id', '1')->with('subcategory', 'subcategory.childcategory')->withCount('product')->get();
@@ -1221,7 +1149,7 @@ class FrontendController extends Controller
         $all_units = Unit::all();
         $all_colors = Color::whereHas('product')->get();
         $all_sizes = Size::whereHas('product')->get();
-        $all_brands = Brand::whereHas('product')->get();
+        $all_brands = Brand::with('products')->get();
 
         $maximum_available_price = Product::query()->max('price');
 
@@ -1274,10 +1202,10 @@ class FrontendController extends Controller
         // For AJAX requests, return JSON response
         if ($request->ajax()) {
             return response()->json([
-                'grid' => view('product::frontend.grid-style-07', ['all_products' => $all_products])->render(),
-                'list' => view('product::frontend.list-style-02', ['all_products' => $all_products])->render(),
+                'grid'          => view('product::frontend.grid-style-07', ['all_products' => $all_products])->render(),
+                'list'          => view('product::frontend.list-style-02', ['all_products' => $all_products])->render(),
                 'showing_items' => __('Showing') . ' ' . $all_products['from'] . '-' . $all_products['to'] . ' ' . __('of') . ' ' . $all_products['total_items'] . ' ' . __('results'),
-                'total_page' => $all_products['total_page']
+                'total_page'    => $all_products['total_page'],
             ]);
         }
 
@@ -1302,44 +1230,40 @@ class FrontendController extends Controller
         ));
     }
 
-    private function fallbackBlogPage($page_post = null)
-    {
+    private function fallbackBlogPage($page_post = null) {
         $page_name = $page_post->name ?? 'Blog';
 
         $all_blogs = Blog::with('category')->where('status', 'publish')->paginate();
 
         return view('frontend.dynamic-redirect.blog', [
-            'padding_top' => 100,
-            'padding_bottom' => 100,
-            'all_blogs' => $all_blogs,
+            'padding_top'     => 100,
+            'padding_bottom'  => 100,
+            'all_blogs'       => $all_blogs,
             'readMoreBtnText' => __('Read More'),
-            'page_post' => $page_post,
-            'page_name' => $page_name,
+            'page_post'       => $page_post,
+            'page_name'       => $page_name,
         ]);
     }
 
-    public function search(Request $request)
-    {
+    public function search(Request $request) {
         $all_products = FrontendProductServices::productSearch($request, 'frontend.ajax');
 
         $selected_search = view('product::frontend.search.selected-search-item')->render();
         $grid = view('product::frontend.search.grid', compact('all_products'))->render();
         $list = view('product::frontend.search.list', compact(['all_products']))->render();
         $paginationList = view('components.search-product-list-pagination', compact('all_products'))->render();
-        $showing_items = __('Showing') . ' ' . $all_products['from'] . '-' .  $all_products['to'] . ' ' . __('of') . ' ' . $all_products['total_items'] . ' ' . __('results');
+        $showing_items = __('Showing') . ' ' . $all_products['from'] . '-' . $all_products['to'] . ' ' . __('of') . ' ' . $all_products['total_items'] . ' ' . __('results');
 
         return [
             'pagination_list' => $paginationList,
-            'grid' => $grid,
-            'list' => $list,
+            'grid'            => $grid,
+            'list'            => $list,
             'selected_search' => $selected_search,
-            'showing_items' => $showing_items,
+            'showing_items'   => $showing_items,
         ];
     }
 
-
-    public function searchResults(Request $request)
-    {
+    public function searchResults(Request $request) {
         $query = Product::with(['category']);
 
         // Search by product name
@@ -1361,9 +1285,7 @@ class FrontendController extends Controller
             ->with('showing_items', 'Showing ' . $all_products->firstItem() . '-' . $all_products->lastItem() . ' of ' . $all_products->total() . ' results');
     }
 
-
-    public function checkPhoneExistence(Request $request)
-    {
+    public function checkPhoneExistence(Request $request) {
         $request->validate(['phone' => 'required']);
 
         $exists = User::where('phone', $request->phone)->exists();
@@ -1371,20 +1293,19 @@ class FrontendController extends Controller
         return response()->json(['exists' => $exists]);
     }
 
-    public function updateForgotPassword(Request $request)
-    {
+    public function updateForgotPassword(Request $request) {
         $request->validate([
-            'phone' => 'required',
-            'password' => 'required|confirmed|min:8',
-            'password_confirmation' => 'required|min:8'
+            'phone'                 => 'required',
+            'password'              => 'required|confirmed|min:8',
+            'password_confirmation' => 'required|min:8',
         ]);
 
         // Here, you would fetch the user by phone
         $user = User::where('phone', $request->phone)->first();
         if (!$user) {
             return response()->json([
-                'status' => 'error',
-                'message' => 'User not found'
+                'status'  => 'error',
+                'message' => 'User not found',
             ], 404);
         }
 
@@ -1395,8 +1316,7 @@ class FrontendController extends Controller
         return response()->json(['status' => 'success']);
     }
 
-    public function checkVendorPhoneExistence(Request $request)
-    {
+    public function checkVendorPhoneExistence(Request $request) {
         $request->validate(['phone' => 'required']);
 
         $exists = Vendor::where('phone', $request->phone)->exists();
@@ -1404,20 +1324,19 @@ class FrontendController extends Controller
         return response()->json(['exists' => $exists]);
     }
 
-    public function updateVendorForgotPassword(Request $request)
-    {
+    public function updateVendorForgotPassword(Request $request) {
         $request->validate([
-            'phone' => 'required',
-            'password' => 'required|confirmed|min:8',
-            'password_confirmation' => 'required|min:8'
+            'phone'                 => 'required',
+            'password'              => 'required|confirmed|min:8',
+            'password_confirmation' => 'required|min:8',
         ]);
 
         // Here, you would fetch the vendor by phone
         $vendor = Vendor::where('phone', $request->phone)->first();
         if (!$vendor) {
             return response()->json([
-                'status' => 'error',
-                'message' => 'Vendor not found'
+                'status'  => 'error',
+                'message' => 'Vendor not found',
             ], 404);
         }
 
@@ -1428,8 +1347,7 @@ class FrontendController extends Controller
         return response()->json(['status' => 'success']);
     }
 
-    public function searchByImage(Request $request)
-    {
+    public function searchByImage(Request $request) {
         $request->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
@@ -1447,25 +1365,25 @@ class FrontendController extends Controller
         return response()->json(['products' => $similarProducts]);
     }
 
-    private function generateImageHash($imagePath)
-    {
+    private function generateImageHash($imagePath) {
         $image = Image::make($imagePath)->resize(256, 256)->greyscale();
         $imageData = $image->encode('jpg');
         return md5($imageData);
     }
 
-    private function findSimilarProducts($uploadedHash)
-    {
+    private function findSimilarProducts($uploadedHash) {
         $products = Product::all();
         $matchingProducts = [];
 
         foreach ($products as $product) {
-            if (!$product->image)
+            if (!$product->image) {
                 continue;
+            }
 
             $productImagePath = storage_path('app/public/' . $product->image);
-            if (!file_exists($productImagePath))
+            if (!file_exists($productImagePath)) {
                 continue;
+            }
 
             $productHash = $this->generateImageHash($productImagePath);
 
@@ -1477,8 +1395,7 @@ class FrontendController extends Controller
         return $matchingProducts;
     }
 
-    private function hammingDistance($hash1, $hash2)
-    {
+    private function hammingDistance($hash1, $hash2) {
         $dist = 0;
         for ($i = 0; $i < strlen($hash1); $i++) {
             if ($hash1[$i] !== $hash2[$i]) {
@@ -1488,8 +1405,7 @@ class FrontendController extends Controller
         return $dist;
     }
 
-    public function changeCurrencySymbol(Request $request)
-    {
+    public function changeCurrencySymbol(Request $request) {
         Session::put('new_currency_symbol', $request->currency);
         return true;
     }

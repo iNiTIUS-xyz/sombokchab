@@ -99,31 +99,31 @@
         }
 
         /* Desktop only */
-@media (min-width: 992px) {
+        @media (min-width: 992px) {
 
-    /* 1) remove common sticky blockers on parents */
-    .shop-area,
-    .shop-contents-wrapper,
-    .shop-sidebar-content,
-    .shop-grid-contents {
-        overflow: visible !important;
-    }
+            /* 1) remove common sticky blockers on parents */
+            .shop-area,
+            .shop-contents-wrapper,
+            .shop-sidebar-content,
+            .shop-grid-contents {
+                overflow: visible !important;
+            }
 
-    /* If any parent has transform, sticky can fail */
-    .shop-contents-wrapper,
-    .shop-sidebar-content {
-        transform: none !important;
-    }
+            /* If any parent has transform, sticky can fail */
+            .shop-contents-wrapper,
+            .shop-sidebar-content {
+                transform: none !important;
+            }
 
-    /* 2) make the actual sidebar panel sticky (inner wrapper) */
-    .shop-sidebar-content .shop-close-main {
-        position: sticky;
+            /* 2) make the actual sidebar panel sticky (inner wrapper) */
+            .shop-sidebar-content .shop-close-main {
+                position: sticky;
                 /* top: 120px; */
                 height: calc(100vh - 140px);
                 overflow-y: auto;
                 align-self: flex-start;
-    }
-}
+            }
+        }
 
         @keyframes bounce {
 

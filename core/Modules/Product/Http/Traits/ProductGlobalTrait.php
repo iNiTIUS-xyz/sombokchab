@@ -2,86 +2,81 @@
 
 namespace Modules\Product\Http\Traits;
 
-use Str;
+use App\Http\Services\CustomPaginationService;
 use DateTime;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Modules\Product\Entities\Product;
-use Illuminate\Database\Eloquent\Model;
-use Modules\Product\Entities\ProductTag;
-use Modules\Product\Entities\ProductUom;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
-use Modules\Product\Entities\ProductGallery;
 use Modules\Product\Entities\ProductCategory;
-use App\Http\Services\CustomPaginationService;
-use Modules\Product\Entities\ProductCreatedBy;
-use Modules\Product\Entities\ProductInventory;
-use Modules\Product\Entities\ProductSubCategory;
 use Modules\Product\Entities\ProductChildCategory;
+use Modules\Product\Entities\ProductCreatedBy;
 use Modules\Product\Entities\ProductDeliveryOption;
+use Modules\Product\Entities\ProductGallery;
+use Modules\Product\Entities\ProductInventory;
 use Modules\Product\Entities\ProductInventoryDetail;
 use Modules\Product\Entities\ProductInventoryDetailAttribute;
+use Modules\Product\Entities\ProductSubCategory;
+use Modules\Product\Entities\ProductTag;
+use Modules\Product\Entities\ProductUom;
+use Str;
 
-trait ProductGlobalTrait
-{
-    private function product_type(): int
-    {
+trait ProductGlobalTrait {
+    private function product_type(): int {
         return 1;
     }
 
-    public function ProductData($data): array
-    {
+    public function ProductData($data): array {
         $user = $this->user_info();
 
         return [
-            "name" => $data["name"],
-            "name_km" => $data["name_km"],
-            "slug" => Str::slug($data["slug"] ?? $data["name"]),
-            "summary" => $data["summery"],
-            "summary_km" => $data["summery_km"],
-            "description" => $data["description"],
-            "description_km" => $data["description_km"],
-            "image_id" => $data["image_id"],
-            "price" => $data["price"] ?? null,
-            "sale_price" => $data["sale_price"],
-            "cost" => $data["cost"] ?? null,
-            "badge_id" => $data["badge_id"],
-            "brand_id" => $data["brand"],
-            "status_id" => $data["status_id"] ?? 1,
-            "product_type" => $this->product_type() ?? 2,
-            "min_purchase" => $data["min_purchase"],
-            "max_purchase" => $data["max_purchase"],
+            "name"                   => $data["name"],
+            "name_km"                => $data["name_km"],
+            "slug"                   => Str::slug($data["slug"] ?? $data["name"]),
+            "summary"                => $data["summery"],
+            "summary_km"             => $data["summery_km"],
+            "description"            => $data["description"],
+            "description_km"         => $data["description_km"],
+            "image_id"               => $data["image_id"],
+            "price"                  => $data["price"] ?? null,
+            "sale_price"             => $data["sale_price"],
+            "cost"                   => $data["cost"] ?? null,
+            "badge_id"               => $data["badge_id"],
+            "brand_id"               => $data["brand"],
+            "status_id"              => $data["status_id"] ?? 1,
+            "product_type"           => $this->product_type() ?? 2,
+            "min_purchase"           => $data["min_purchase"],
+            "max_purchase"           => $data["max_purchase"],
             "is_inventory_warn_able" => $data["is_inventory_warn_able"] ? 1 : 2,
-            "is_refundable" => !empty($data["is_refundable"]),
-            "is_in_house" => $user["type"] == "admin" ? 1 : 0,
-            "admin_id" => $user["type"] == "admin" ? $user["id"] : null,
-            "vendor_id" => $user["type"] == "vendor" ? $user["id"] : null,
-            "is_taxable" => $data["is_taxable"] ?? 0,
-            "tax_class_id" => ($data["is_taxable"] ?? 0) == 1 ? $data["tax_class_id"] ?? null : null,
-            "created_at" => isset($data["created_at"]) ? $data["created_at"] : now(),
+            "is_refundable"          => !empty($data["is_refundable"]),
+            "is_in_house"            => $user["type"] == "admin" ? 1 : 0,
+            "admin_id"               => $user["type"] == "admin" ? $user["id"] : null,
+            "vendor_id"              => $user["type"] == "vendor" ? $user["id"] : null,
+            "is_taxable"             => $data["is_taxable"] ?? 0,
+            "tax_class_id"           => ($data["is_taxable"] ?? 0) == 1 ? $data["tax_class_id"] ?? null : null,
+            "created_at"             => isset($data["created_at"]) ? $data["created_at"] : now(),
         ];
     }
 
-    public function prepareProductInventoryDetailsAndInsert($data, $product_id, $inventory_id, $type = "create"): bool
-    {
+    public function prepareProductInventoryDetailsAndInsert($data, $product_id, $inventory_id, $type = "create"): bool {
         if ($type == "update") {
             // get all product inventory detail id
             $prd_in_detail = ProductInventoryDetail::where([
-                "product_id" => $product_id,
-                "product_inventory_id" => $inventory_id
+                "product_id"           => $product_id,
+                "product_inventory_id" => $inventory_id,
             ])->select("id")?->pluck("id")?->toArray();
 
             // delete product inventory detail attribute
             ProductInventoryDetailAttribute::where([
-                "product_id" => $product_id
+                "product_id" => $product_id,
             ])->whereIn("inventory_details_id", $prd_in_detail)->delete();
 
             // delete all product inventory detail
             ProductInventoryDetail::where([
-                "product_id" => $product_id,
-                "product_inventory_id" => $inventory_id
+                "product_id"           => $product_id,
+                "product_inventory_id" => $inventory_id,
             ])->delete();
         }
 
@@ -89,16 +84,16 @@ trait ProductGlobalTrait
         $len = count($data["item_stock_count"] ?? []);
         for ($i = 0; $i < $len; $i++) {
             $arr = [
-                "product_id" => $product_id,
+                "product_id"           => $product_id,
                 "product_inventory_id" => $inventory_id,
-                "color" => $data["item_color"][$i],
-                "size" => $data["item_size"][$i],
-                "hash" => "",
-                "additional_price" => $data["item_additional_price"][$i],
-                "add_cost" => $data["item_extra_cost"][$i],
-                "image" => $data["item_image"][$i],
-                "stock_count" => $data["item_stock_count"][$i],
-                "sold_count" => 0
+                "color"                => $data["item_color"][$i],
+                "size"                 => $data["item_size"][$i],
+                "hash"                 => "",
+                "additional_price"     => $data["item_additional_price"][$i],
+                "add_cost"             => $data["item_extra_cost"][$i],
+                "image"                => $data["item_image"][$i],
+                "stock_count"          => $data["item_stock_count"][$i],
+                "sold_count"           => 0,
             ];
 
             $productDetailId = ProductInventoryDetail::create($arr);
@@ -108,10 +103,10 @@ trait ProductGlobalTrait
             if (isset($data["item_attribute_name"][$i]) && is_array($data["item_attribute_name"][$i])) {
                 for ($j = 0, $length = count($data["item_attribute_name"][$i] ?? []); $j < $length; $j++) {
                     $detailAttr[] = [
-                        "product_id" => $product_id,
+                        "product_id"           => $product_id,
                         "inventory_details_id" => $productDetailId->id,
-                        "attribute_name" => $data["item_attribute_name"][$i][$j] ?? "",
-                        "attribute_value" => $data["item_attribute_value"][$i][$j] ?? ""
+                        "attribute_name"       => $data["item_attribute_name"][$i][$j] ?? "",
+                        "attribute_value"      => $data["item_attribute_value"][$i][$j] ?? "",
                     ];
                 }
             }
@@ -122,16 +117,14 @@ trait ProductGlobalTrait
         return true;
     }
 
-    private function productCategoryData($data, $id, $arrKey = "category_id", $column = "category_id"): array
-    {
+    private function productCategoryData($data, $id, $arrKey = "category_id", $column = "category_id"): array {
         return [
-            $arrKey => $data[$column],
-            "product_id" => $id
+            $arrKey      => $data[$column],
+            "product_id" => $id,
         ];
     }
 
-    private function childCategoryData($data, $id): array
-    {
+    private function childCategoryData($data, $id): array {
         $cl_category = [];
 
         foreach ($data["child_category"] ?? [] as $item) {
@@ -141,24 +134,22 @@ trait ProductGlobalTrait
         return $cl_category;
     }
 
-    private function prepareDeliveryOptionData($data, $id): array
-    {
+    private function prepareDeliveryOptionData($data, $id): array {
         // explode string to array
         $arr = [];
         $exp_delivery_option = $this->separateStringToArray($data["delivery_option"], " , ") ?? [];
 
         foreach ($exp_delivery_option as $option) {
             $arr[] = [
-                "product_id" => $id,
-                "delivery_option_id" => $option
+                "product_id"         => $id,
+                "delivery_option_id" => $option,
             ];
         }
 
         return $arr;
     }
 
-    public function prepareProductGalleryData($data, $id): array
-    {
+    public function prepareProductGalleryData($data, $id): array {
         $galleries = $this->separateStringToArray(($data["product_gallery"] ?? '') ?? ($data->product_gallery ?? ''), "|");
         // explode string to array
         $arr = [];
@@ -166,15 +157,14 @@ trait ProductGlobalTrait
         foreach ($galleries as $image) {
             $arr[] = [
                 "product_id" => $id,
-                "image_id" => $image
+                "image_id"   => $image,
             ];
         }
 
         return $arr;
     }
 
-    private function prepareProductTagData($data, $id): array
-    {
+    private function prepareProductTagData($data, $id): array {
         // explode string to array
         $arr = [];
         $galleries = $this->separateStringToArray($data["tags"], ",");
@@ -182,52 +172,50 @@ trait ProductGlobalTrait
         foreach ($galleries as $tag) {
             $arr[] = [
                 "product_id" => $id,
-                "tag_name" => $tag
+                "tag_name"   => $tag,
             ];
         }
 
         return $arr;
     }
 
-    private function prepareInventoryData($data, $id = null): array
-    {
+    private function prepareInventoryData($data, $id = null): array {
         $inventoryStockCount = $data["item_stock_count"];
         $stock_count = is_array($inventoryStockCount) ? array_sum($inventoryStockCount ?? []) : false;
 
         $arr = [
-            "sku" => $data["sku"],
+            "sku"         => $data["sku"],
             "stock_count" => $stock_count ? $stock_count : $data["quantity"],
-            "unit_id" => $data["unit_id"],
-            "quantity" => $data["uom"],
+            "unit_id"     => $data["unit_id"],
+            "quantity"    => $data["uom"],
         ];
 
         return $id ? $arr + ["product_id" => $id] : $arr;
     }
 
-    private function separateStringToArray(string|null $string, string $separator = " , "): array|bool
-    {
-        if (empty($string))
+    private function separateStringToArray(string | null $string, string $separator = " , "): array | bool {
+        if (empty($string)) {
             return [];
+        }
+
         return explode($separator, $string);
     }
 
-    public function prepareMetaData($data): array
-    {
+    public function prepareMetaData($data): array {
         return [
-            'meta_title' => $data["general_title"] ?? '',
-            'meta_tags' => $data["general_title"] ?? '',
-            'meta_description' => $data["general_description"] ?? '',
-            'facebook_meta_tags' => $data["facebook_title"] ?? '',
+            'meta_title'                => $data["general_title"] ?? '',
+            'meta_tags'                 => $data["general_title"] ?? '',
+            'meta_description'          => $data["general_description"] ?? '',
+            'facebook_meta_tags'        => $data["facebook_title"] ?? '',
             'facebook_meta_description' => $data["facebook_description"] ?? '',
-            'facebook_meta_image' => $data["facebook_meta_image"] ?? '',
-            'twitter_meta_tags' => $data["twitter_title"] ?? '',
-            'twitter_meta_description' => $data["twitter_description"] ?? '',
-            'twitter_meta_image' => $data["twitter_meta_image"] ?? ''
+            'facebook_meta_image'       => $data["facebook_meta_image"] ?? '',
+            'twitter_meta_tags'         => $data["twitter_title"] ?? '',
+            'twitter_meta_description'  => $data["twitter_description"] ?? '',
+            'twitter_meta_image'        => $data["twitter_meta_image"] ?? '',
         ];
     }
 
-    private function userId()
-    {
+    private function userId() {
         if (Auth::guard("admin")->check()) {
             return Auth::guard("admin")->user()->id;
         }
@@ -243,44 +231,40 @@ trait ProductGlobalTrait
         return Auth::guard("admin")->check() ? Auth::guard("admin")->user()->id : Auth::guard("vendor")->user()->id;
     }
 
-    private function user_info(): array
-    {
+    private function user_info(): array {
         return Auth::guard("admin")->check() ?
-            [
-                "id" => Auth::guard("admin")->user()->id,
-                "type" => "admin",
-            ] : [
-                "id" => Auth::guard("vendor")->user()->id,
-                "type" => "vendor",
-            ];
+        [
+            "id"   => Auth::guard("admin")->user()->id,
+            "type" => "admin",
+        ] : [
+            "id"   => Auth::guard("vendor")->user()->id,
+            "type" => "vendor",
+        ];
     }
 
-    private function getGuardName(): string
-    {
+    private function getGuardName(): string {
         return Auth::guard("admin")->check() ? "admin" : "vendor";
     }
 
-
-    private function createArrayCreatedBy($product_id, $type): array
-    {
+    private function createArrayCreatedBy($product_id, $type): array {
         $arr = [];
 
         if ($type == 'create') {
             $arr = [
-                "product_id" => $product_id,
+                "product_id"    => $product_id,
                 "created_by_id" => $this->userId(),
-                "guard_name" => $this->getGuardName(),
+                "guard_name"    => $this->getGuardName(),
             ];
         } elseif ($type == 'update') {
             $arr = [
-                "product_id" => $product_id,
-                "updated_by" => $this->userId(),
+                "product_id"       => $product_id,
+                "updated_by"       => $this->userId(),
                 "updated_by_guard" => $this->getGuardName(),
             ];
         } elseif ($type == 'delete') {
             $arr = [
-                "product_id" => $product_id,
-                "deleted_by" => $this->userId(),
+                "product_id"       => $product_id,
+                "deleted_by"       => $this->userId(),
                 "deleted_by_guard" => $this->getGuardName(),
             ];
         }
@@ -288,27 +272,24 @@ trait ProductGlobalTrait
         return $arr;
     }
 
-    public function createdByUpdatedBy($product_id, $type = "create"): ProductCreatedBy
-    {
+    public function createdByUpdatedBy($product_id, $type = "create"): ProductCreatedBy {
         return ProductCreatedBy::updateOrCreate(
             [
-                "product_id" => $product_id
+                "product_id" => $product_id,
             ],
             $this->createArrayCreatedBy($product_id, $type)
         );
     }
 
-    private function prepareUomData($data, $product_id): array
-    {
+    private function prepareUomData($data, $product_id): array {
         return [
             "product_id" => $product_id,
-            "unit_id" => $data["unit_id"],
-            "quantity" => $data["uom"]
+            "unit_id"    => $data["unit_id"],
+            "quantity"   => $data["uom"],
         ];
     }
 
-    public function updateStatus($productId, $statusId): JsonResponse
-    {
+    public function updateStatus($productId, $statusId): JsonResponse {
         $product = Product::find($productId)->update(["status_id" => $statusId]);
         $this->createdByUpdatedBy($productId, "update");
 
@@ -316,8 +297,7 @@ trait ProductGlobalTrait
         return response()->json($response_status)->setStatusCode(200);
     }
 
-    protected function productInstance($type): Builder
-    {
+    protected function productInstance($type): Builder {
         $product = Product::query();
         if ($type == "edit") {
             $product->with(["product_category", "uom", "gallery_images", "tag", "uom", "product_sub_category", "product_child_category", "image", "inventory", "delivery_option", "created_at"]);
@@ -334,16 +314,14 @@ trait ProductGlobalTrait
         return $product;
     }
 
-    private function get_product($id, $type = "single"): Model|Builder|null
-    {
+    private function get_product($id, $type = "single"): Model | Builder | null {
         // get product instance
         $product = $this->productInstance($type);
 
         return $product->findOrFail($id);
     }
 
-    public function productStore($data): bool
-    {
+    public function productStore($data): bool {
         $product_data = self::ProductData($data);
         $product = Product::create($product_data);
         $id = $product->id;
@@ -355,8 +333,7 @@ trait ProductGlobalTrait
         return $this->product_relational_data_insert($data, $id, $data);
     }
 
-    public function productUpdate($data, $id): bool
-    {
+    public function productUpdate($data, $id): bool {
         $product_data = self::ProductData($data);
         $product = $this->get_product($id);
         $product->update($product_data);
@@ -375,8 +352,9 @@ trait ProductGlobalTrait
         ProductCategory::updateOrCreate(["product_id" => $id], $this->productCategoryData($data, $id));
         // this condition will make sub category optional
 
-        if ($data['sub_category'] ?? false)
+        if ($data['sub_category'] ?? false) {
             ProductSubCategory::updateOrCreate(["product_id" => $id], $this->productCategoryData($data, $id, "sub_category_id", "sub_category"));
+        }
 
         // delete product child category
         ProductChildCategory::where("product_id", $id)->delete();
@@ -386,51 +364,56 @@ trait ProductGlobalTrait
 
         ProductUom::updateOrCreate(["product_id" => $id], $this->prepareUomData($data, $id));
         // this condition is for making child category optional
-        if ($data["child_category"][0] ?? false)
+        if ($data["child_category"][0] ?? false) {
             ProductChildCategory::insert($this->childCategoryData($data, $id));
+        }
+
         // this condition is for making delivery_option optional
-        if ($data["delivery_option"] ?? false)
+        if ($data["delivery_option"] ?? false) {
             ProductDeliveryOption::insert($this->prepareDeliveryOptionData($data, $id));
+        }
+
         // this condition is for making product_gallery optional
-        if (!empty(($data["product_gallery"] ?? []) ?? ($data->product_gallery ?? [])))
+        if (!empty(($data["product_gallery"] ?? []) ?? ($data->product_gallery ?? []))) {
             ProductGallery::insert($this->prepareProductGalleryData($data, $id));
+        }
+
         // this condition is for making tags optional
-        if ($data["tags"] ?? false)
+        if ($data["tags"] ?? false) {
             ProductTag::insert($this->prepareProductTagData($data, $id));
+        }
 
         return true;
     }
 
-    public function CloneData($data): array
-    {
+    public function CloneData($data): array {
         $user = $this->user_info();
 
         return [
-            "name" => $data->name,
-            "slug" => createSlug(Str::slug($data->slug ?? $data->name), "product", true, "product"),
-            "summary" => $data->summary,
-            "description" => $data->description,
-            "image_id" => $data->image_id,
-            "price" => $data->price,
-            "sale_price" => $data->sale_price,
-            "cost" => $data->cost,
-            "badge_id" => $data->badge_id,
-            "brand_id" => $data->brand_id,
-            "status_id" => $data->status_id ?? 2,
-            "product_status" => 'unpublish',
-            "product_type" => $this->product_type() ?? 2,
-            "min_purchase" => $data->min_purchase,
-            "max_purchase" => $data->max_purchase,
+            "name"                   => $data->name,
+            "slug"                   => createSlug(Str::slug($data->slug ?? $data->name), "product", true, "product"),
+            "summary"                => $data->summary,
+            "description"            => $data->description,
+            "image_id"               => $data->image_id,
+            "price"                  => $data->price,
+            "sale_price"             => $data->sale_price,
+            "cost"                   => $data->cost,
+            "badge_id"               => $data->badge_id,
+            "brand_id"               => $data->brand_id,
+            "status_id"              => $data->status_id ?? 2,
+            "product_status"         => 'unpublish',
+            "product_type"           => $this->product_type() ?? 2,
+            "min_purchase"           => $data->min_purchase,
+            "max_purchase"           => $data->max_purchase,
             "is_inventory_warn_able" => $data->is_inventory_warn_able ? 1 : 2,
-            "is_refundable" => !empty($data->is_refundable),
-            "is_in_house" => $user["type"] == "admin" ? 1 : 0,
-            "admin_id" => $user["type"] == "admin" ? $user["id"] : null,
-            "vendor_id" => $user["type"] == "vendor" ? $user["id"] : null,
+            "is_refundable"          => !empty($data->is_refundable),
+            "is_in_house"            => $user["type"] == "admin" ? 1 : 0,
+            "admin_id"               => $user["type"] == "admin" ? $user["id"] : null,
+            "vendor_id"              => $user["type"] == "vendor" ? $user["id"] : null,
         ];
     }
 
-    public function productClone($id): bool
-    {
+    public function productClone($id): bool {
         $data = array();
         $product = Product::findOrFail($id);
         $product_data = self::CloneData($product);
@@ -442,14 +425,14 @@ trait ProductGlobalTrait
         if ($product?->metaData) {
             $metaData = [
                 //                'general_title' => $product?->metaData?->meta_tags,
-                'general_title' => $product?->metaData?->meta_title,
-                'general_description' => $product?->metaData?->meta_description,
-                'facebook_title' => $product?->metaData?->facebook_meta_tags,
+                'general_title'        => $product?->metaData?->meta_title,
+                'general_description'  => $product?->metaData?->meta_description,
+                'facebook_title'       => $product?->metaData?->facebook_meta_tags,
                 'facebook_description' => $product?->metaData?->facebook_meta_description,
-                'facebook_meta_image' => $product?->metaData?->facebook_meta_image,
-                'twitter_title' => $product?->metaData?->twitter_meta_tags,
-                'twitter_description' => $product?->metaData?->twitter_meta_description,
-                'twitter_image' => $product?->metaData?->twitter_meta_image,
+                'facebook_meta_image'  => $product?->metaData?->facebook_meta_image,
+                'twitter_title'        => $product?->metaData?->twitter_meta_tags,
+                'twitter_description'  => $product?->metaData?->twitter_meta_description,
+                'twitter_image'        => $product?->metaData?->twitter_meta_image,
             ];
         }
 
@@ -503,8 +486,7 @@ trait ProductGlobalTrait
         return $this->product_relational_data_insert($data, $id, $product);
     }
 
-    public function updateInventory($data, $id): bool
-    {
+    public function updateInventory($data, $id): bool {
         $product = Product::find($id);
         $updateData = $this->prepareInventoryData($data);
 
@@ -522,13 +504,11 @@ trait ProductGlobalTrait
         return true;
     }
 
-    protected function destroy($id): ?bool
-    {
+    protected function destroy($id): ?bool {
         return Product::find($id)?->delete() ?? false;
     }
 
-    protected function trash_destroy($id): bool
-    {
+    protected function trash_destroy($id): bool {
         $product = Product::onlyTrashed()->findOrFail($id);
         ProductUom::where('product_id', $product->id)->delete();
         ProductTag::where('product_id', $product->id)->delete();
@@ -545,14 +525,12 @@ trait ProductGlobalTrait
         return (bool) $product;
     }
 
-    protected function bulk_delete($ids)
-    {
+    protected function bulk_delete($ids) {
         $product = Product::whereIn('id', $ids)->delete();
         return (bool) $product;
     }
 
-    protected function trash_bulk_delete($ids): bool
-    {
+    protected function trash_bulk_delete($ids): bool {
         try {
             ProductUom::whereIn('product_id', $ids)->delete();
             ProductTag::whereIn('product_id', $ids)->delete();
@@ -573,8 +551,7 @@ trait ProductGlobalTrait
         return (bool) $products;
     }
 
-    private function search($request, $route = 'admin', $queryType = "admin", $isCustomPagination = "custom")
-    {
+    private function search($request, $route = 'admin', $queryType = "admin", $isCustomPagination = "custom") {
         $type = $request->type ?? 'default';
         $multiple_date = $this->is_date_range_multiple();
 
@@ -588,7 +565,7 @@ trait ProductGlobalTrait
                     "inventory",
                     "vendor",
                     "taxOptions:tax_class_options.id,country_id,state_id,city_id,rate",
-                    "vendorAddress:vendor_addresses.id,country_id,state_id,city_id"
+                    "vendorAddress:vendor_addresses.id,country_id,state_id,city_id",
                 ]);
         } else if ($queryType == 'frontend') {
             $all_products = Product::query()
@@ -605,7 +582,7 @@ trait ProductGlobalTrait
                     'uom',
                     'vendor',
                     "taxOptions:tax_class_options.id,country_id,state_id,city_id,rate",
-                    "vendorAddress:vendor_addresses.id,country_id,state_id,city_id"
+                    "vendorAddress:vendor_addresses.id,country_id,state_id,city_id",
                 ])
                 ->withAvg("ratings", "rating")
                 ->withCount("ratings")
@@ -639,7 +616,7 @@ trait ProductGlobalTrait
                     'campaign_product' => function ($query) {
                         $query = productCampaignConditionWith($query);
                     },
-                    'inventoryDetail' => function ($query) {
+                    'inventoryDetail'  => function ($query) {
                         $query->where("stock_count", ">", 0);
                     },
                     'inventory',
@@ -647,7 +624,7 @@ trait ProductGlobalTrait
                     'uom',
                     'vendor',
                     "taxOptions:tax_class_options.id,country_id,state_id,city_id,rate",
-                    "vendorAddress:vendor_addresses.id,country_id,state_id,city_id"
+                    "vendorAddress:vendor_addresses.id,country_id,state_id,city_id",
                 ])
                 ->withAvg("ratings", "rating")
                 ->withCount("ratings")
@@ -669,7 +646,7 @@ trait ProductGlobalTrait
                     "image_id",
                     "brand_id",
                     "product_status",
-                    "created_at"
+                    "created_at",
                 ])
                 ->with([
                     "brand:id,name",
@@ -678,7 +655,7 @@ trait ProductGlobalTrait
                     "category",
                     "subCategory",
                     "childCategory",
-                    "brand"
+                    "brand",
                 ])
                 ->without("badge", "uom");
         }
@@ -790,40 +767,43 @@ trait ProductGlobalTrait
             })
             ->when(!empty($request->order_by), function ($query) use ($request) {
                 switch ($request->order_by) {
-                    case 'asc':
-                        $query->orderBy('id', 'asc');
-                        break;
-                    case 'desc':
-                        $query->orderBy('id', 'desc');
-                        break;
-                    case 'a-z':
-                        $query->orderBy('name', 'asc');
-                        break;
-                    case 'z-a':
-                        $query->orderBy('name', 'desc');
-                        break;
-                    case 'price_low_to_high':
-                        $query->orderBy('sale_price', 'asc');
-                        break;
-                    case 'price_high_to_low':
-                        $query->orderBy('sale_price', 'desc');
-                        break;
-                    default:
-                        $query->orderBy('id', 'desc');
-                        break;
+                case 'asc':
+                    $query->orderBy('id', 'asc');
+                    break;
+                case 'desc':
+                    $query->orderBy('id', 'desc');
+                    break;
+                case 'a-z':
+                    $query->orderBy('name', 'asc');
+                    break;
+                case 'z-a':
+                    $query->orderBy('name', 'desc');
+                    break;
+                case 'price_low_to_high':
+                    $query->orderBy('sale_price', 'asc');
+                    break;
+                case 'price_high_to_low':
+                    $query->orderBy('sale_price', 'desc');
+                    break;
+                default:
+                    $query->orderBy('id', 'desc');
+                    break;
                 }
             })
             ->when(!empty($request->rating), function ($query) use ($request) {
-                $query->having('ratings_avg_rating', '>=', $request->rating);
-                $query->having('ratings_avg_rating', '>=', ($request->rating - 1));
+                $query->havingRaw(
+                    'ROUND(ratings_avg_rating) = ?',
+                    [(int) $request->rating]
+                );
             })
+
             ->latest();
 
-        if ($queryType == 'vendor' ||  $queryType == 'admin') {
+        if ($queryType == 'vendor' || $queryType == 'admin') {
             return $all_products->get();
         } else {
 
-            $display_item_count = request()->count ?? get_static_option('default_item_count', 10);
+            $display_item_count = get_static_option('default_item_count', 20);
             $current_query = request()->all();
             $create_query = http_build_query($current_query);
 
@@ -831,8 +811,7 @@ trait ProductGlobalTrait
         }
     }
 
-    private function is_date_range_multiple(): array
-    {
+    private function is_date_range_multiple(): array {
         $date = explode(" to ", request()->date_range);
 
         if (count($date) > 1 && !empty(request()->date_range)) {
@@ -852,8 +831,7 @@ trait ProductGlobalTrait
      * @param $product
      * @return bool
      */
-    private function product_relational_data_insert(array $data, $id, $product): bool
-    {
+    private function product_relational_data_insert(array $data, $id, $product): bool {
         $inventory = ProductInventory::create($this->prepareInventoryData($data, $id));
         $inventoryDetail = false;
 
@@ -863,28 +841,36 @@ trait ProductGlobalTrait
 
         ProductCategory::create($this->productCategoryData($product, $id));
         // this condition will make sub category optional
-        if ($product['sub_category'] ?? false)
+        if ($product['sub_category'] ?? false) {
             ProductSubCategory::create($this->productCategoryData($product, $id, "sub_category_id", "sub_category"));
+        }
+
         // this condition is for making child category optional
-        if ($data["child_category"][0] ?? false)
+        if ($data["child_category"][0] ?? false) {
             ProductChildCategory::insert($this->childCategoryData($product, $id));
+        }
+
         // this condition is for making delivery_option optional
-        if ($product["delivery_option"] ?? false)
+        if ($product["delivery_option"] ?? false) {
             ProductDeliveryOption::insert($this->prepareDeliveryOptionData($product, $id));
+        }
+
         // this condition is for making product_gallery optional
-        if (!empty(($product["product_gallery"] ?? []) ?? ($product->product_gallery ?? [])))
+        if (!empty(($product["product_gallery"] ?? []) ?? ($product->product_gallery ?? []))) {
             ProductGallery::insert($this->prepareProductGalleryData($product, $id));
+        }
+
         // this condition is for making tags optional
-        if ($product["tags"] ?? false)
+        if ($product["tags"] ?? false) {
             ProductTag::insert($this->prepareProductTagData($product, $id));
+        }
 
         ProductUom::create($this->prepareUomData($data, $id));
 
         return true;
     }
 
-    public static function fetch_inventory_product()
-    {
+    public static function fetch_inventory_product() {
         return ProductInventory::query()->with("product")
             ->when(Auth::guard("vendor")->check(), function ($query) {
                 $query->whereHas("product", function ($ven_query) {
