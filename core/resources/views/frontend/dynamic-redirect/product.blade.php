@@ -501,10 +501,7 @@
             }
 
             // Ensure submenu is expanded for active parent category
-            $('.shop-lists .list.active').each(function() {
-                $(this).parents('.submenu').addClass('show');
-                $(this).parents('.shop-left-title').addClass('open');
-            });
+
         });
 
 
@@ -592,37 +589,75 @@
         //     submitForm();
         // });
 
-        $(document).on("click", ".list[data-type=category] a", function() {
-            const $li = $(this).parent();
-            const catName = $li.attr("data-val");
+        $(document).on("click", ".list[data-type=category] > a", function(e) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
 
+            const $li = $(this).parent();
+            const catName = $li.data("val");
+            const isOpen = $li.hasClass("open");
+
+            // 🔁 TOGGLE CLOSE (same category clicked)
+            if (isOpen) {
+                $li.removeClass("active open");
+                $li.children(".submenu").stop(true, true).slideUp(150).removeClass("show");
+
+                // Clear filters ONLY when closing
+                $("#category").val('');
+                $("#sub_category").val('');
+                $("#child_category").val('');
+
+                $("#page-title-text").text("{{ __('Products') }}");
+
+                submitForm();
+                return;
+            }
+
+            // 🔥 OPEN NEW CATEGORY
+
+            // Clear previous states
+            $(".shop-lists .submenu").stop(true, true).slideUp(150).removeClass("show");
+            $(".shop-lists .list").removeClass("active open");
+
+            // Set filters
             $("#category").val(catName);
             $("#sub_category").val('');
             $("#child_category").val('');
+
+            // Activate current
+            $li.addClass("active open");
+            $li.children(".submenu").stop(true, true).slideDown(150).addClass("show");
 
             $("#page-title-text").text(catName);
 
             submitForm();
         });
 
-        $(document).on("click", ".list[data-type=sub_category] a", function() {
-            const $li = $(this).parent();
-            const subCatName = $li.attr("data-val");
 
-            const $parentCatLi = $li.closest('.menu-item-has-children[data-type=category]');
-            const parentCatName = $parentCatLi.attr("data-val") || '';
+
+
+        $(document).on("click", ".list[data-type=sub_category] > a", function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const $li = $(this).parent();
+            const subCatName = $li.data("val");
+
+            const $parentCat = $li.closest("[data-type=category]");
+            const parentCatName = $parentCat.data("val");
 
             $("#category").val(parentCatName);
             $("#sub_category").val(subCatName);
             $("#child_category").val('');
 
-            $li.siblings("[data-type=sub_category]").removeClass("active");
+            $li.siblings().removeClass("active");
             $li.addClass("active");
 
             $("#page-title-text").text(subCatName);
 
             submitForm();
         });
+
 
 
         $(document).on("click", ".list[data-type=child_category] a", function() {
@@ -665,10 +700,17 @@
         });
 
         $(document).on('click', '.active-list .list a', function() {
+
+            // ❗ Skip category clicks
+            if ($(this).parent().data('type') === 'category') {
+                return;
+            }
+
             $(this).parent().siblings().removeClass('active');
             $(this).parent().siblings().find('.submenu .list').removeClass('active');
             $(this).parent().addClass('active');
         });
+
 
         $(document).on("change", "#order_by", function() {
             $("#search_order_by").val($(this).val());
