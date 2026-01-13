@@ -1,7 +1,7 @@
 @php
     $modal = $modal ?? false;
-    $states = DB::table('states')->where('country_id', 31)->get();
-    $cities = DB::table('cities')->get();
+    // $states = DB::table('states')->where('country_id', 31)->get();
+    // $cities = DB::table('cities')->get();
 @endphp
 
 <div class="checkout-inner mt-1">
@@ -31,6 +31,7 @@
                 <div class="single-input mt-4">
                     <label class="label-title mb-3">
                         {{ __('Shipping Address Name') }}
+                        <span class="text-danger">*</span>
                     </label>
                     <input class="form--control" type="text" name="shipping_address_name"
                         value="{{ old('shipping_address_name') }}"
@@ -41,6 +42,7 @@
                 <div class="single-input mt-4">
                     <label class="label-title mb-3">
                         {{ __('Full Name') }}
+                        <span class="text-danger">*</span>
                     </label>
                     <input class="form--control" id="modal_full_name" type="text" name="name"
                         value="{{ old('full_name') }}" placeholder="{{ __('Enter full name') }}">
@@ -52,6 +54,7 @@
                         <div class="single-input">
                             <label class="label-title mb-3">
                                 {{ __('Country') }}
+                                <span class="text-danger">*</span>
                             </label>
                             <select class="form--control" id="modal_country_id" name="country_id">
                                 @foreach ($countries as $country)
@@ -64,6 +67,7 @@
                         <div class="single-input">
                             <label class="label-title mb-3">
                                 {{ __('City') }}
+                                <span class="text-danger">*</span>
                             </label>
                             <select class="form--control" id="modal_city_id" name="city">
                                 <option value="">
@@ -107,6 +111,7 @@
                         <div class="single-input mt-4">
                             <label class="label-title mb-3">
                                 {{ __('Address') }}
+                                <span class="text-danger">*</span>
                             </label>
                             <input class="form--control" id="modal_address" type="text" name="address"
                                 value="{{ old('address') }}" placeholder="{{ __('Enter Address') }}">
@@ -124,6 +129,7 @@
                         <div class="single-input">
                             <label class="label-title mb-3">
                                 {{ __('Phone Number') }}
+                                <span class="text-danger">*</span>
                             </label>
                             <input class="form--control" id="modal_phone" type="tel" name="phone"
                                 value="{{ old('phone') }}" placeholder="{{ __('Enter Phone Number') }}">
@@ -150,14 +156,15 @@
                         placeholder="{{ __('Enter your note (optional)') }}">{{ old('note') }}</textarea>
                 </div>
                 <div class="col-md-6">
-                    <div class="form-group">
+                    <div class="single-input">
                         <label for="country">{{ __('Is Default') }}</label>
-                        <select class="form-select" name="is_default" required>
+                        <select class="form--control" name="is_default" required>
                             <option value="1">{{ __('Yes') }}</option>
                             <option value="0">{{ __('No') }}</option>
                         </select>
                     </div>
                 </div>
+
                 @include('frontend.cart.partials.create-account')
 
                 <button type="submit" class="btn btn-primary mt-4 w-100">
