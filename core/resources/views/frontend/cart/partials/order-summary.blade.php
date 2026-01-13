@@ -16,7 +16,8 @@
         </div>
 
         @php
-            $default_shipping_cost_amount = isset($default_shipping) && $default_shipping->id ? $default_shipping_cost : 0;
+            $default_shipping_cost_amount =
+                isset($default_shipping) && $default_shipping->id ? $default_shipping_cost : 0;
         @endphp
 
         <div class="order-shipping-methods"></div>
@@ -113,6 +114,7 @@
     }
 </style>
 
+
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const CURRENCY = "{{ site_currency_symbol() }}";
@@ -138,7 +140,7 @@
         function getAllShippingCosts() {
             let total = 0;
             document.querySelectorAll(".shippingMethod__wrapper__item.active").forEach(function(item) {
-                total += parseFloat(item.getAttribute("data-shipping-cost")) || 0;
+                total += parseFloat(item.dataset.shippingCost) || 0;
             });
             return total;
         }
@@ -157,33 +159,45 @@
             document.getElementById("checkout_total").innerText = fmt(grandTotal);
         }
 
-        // Initial calc
-        updateTotals();
-
-        // When user changes a shipping option
-        document.querySelectorAll(".shippingMethod__wrapper__item").forEach(function(item) {
-            item.addEventListener("click", function() {
-                const parent = item.parentNode;
-                parent.querySelectorAll(".shippingMethod__wrapper__item").forEach(i => i
-                    .classList.remove("active"));
-                item.classList.add("active");
+        /** ✅ NEW: force initial shipping calculation */
+        function initShippingCalculation() {
+            // Wait a tick for DOM injection
+            setTimeout(() => {
                 updateTotals();
-            });
+            }, 50);
+        }
+
+        // Initial run
+        initShippingCalculation();
+
+        // When user clicks shipping option
+        document.addEventListener("click", function(e) {
+            const item = e.target.closest(".shippingMethod__wrapper__item");
+            if (!item) return;
+
+            const wrapper = item.closest(".shippingMethod__wrapper");
+            wrapper.querySelectorAll(".shippingMethod__wrapper__item")
+                .forEach(i => i.classList.remove("active"));
+
+            item.classList.add("active");
+            updateTotals();
         });
 
-        // Auto recalc when coupon updates
+        // Coupon auto update
         const couponEl = document.getElementById("coupon_amount");
         if (couponEl && window.MutationObserver) {
-            new MutationObserver(function() {
-                    updateTotals();
-                })
-                .observe(couponEl, {
-                    childList: true,
-                    subtree: true,
-                    characterData: true
-                });
+            new MutationObserver(updateTotals).observe(couponEl, {
+                childList: true,
+                subtree: true,
+                characterData: true
+            });
         }
 
         document.addEventListener("coupon_applied", updateTotals);
+
+        /** 🔥 IMPORTANT:
+         * Call this event whenever shipping HTML is reloaded (address change)
+         */
+        document.addEventListener("shipping_methods_loaded", initShippingCalculation);
     });
 </script>

@@ -344,6 +344,7 @@
 
                         $('.showShippingDisplay').html(response.html);
                         $('.showShippingDisplay').stop(true, true).slideDown();
+                        document.dispatchEvent(new Event("shipping_methods_loaded"));
 
                     },
                     error: function() {
