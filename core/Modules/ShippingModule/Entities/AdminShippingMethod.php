@@ -20,13 +20,13 @@ class AdminShippingMethod extends Model
         "is_default"
     ];
 
-    public function zone(): HasOne
+    public function zone()
     {
-        return $this->hasOne(Zone::class,"id","zone_id");
+        return $this->hasOne(Zone::class, "id", "zone_id");
     }
 
-    public function status(): HasOne
+    public function status()
     {
-        return $this->hasOne(Status::class,"id","status_id");
+        return $this->hasOne(Status::class, "id", "status_id");
     }
 }

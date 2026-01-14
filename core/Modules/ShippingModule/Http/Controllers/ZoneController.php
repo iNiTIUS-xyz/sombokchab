@@ -9,8 +9,10 @@ use Modules\ShippingModule\Entities\ZoneCountry;
 use Modules\ShippingModule\Entities\ZoneState;
 use Modules\ShippingModule\Http\Requests\StoreShippingZoneRequest;
 
-class ZoneController extends Controller {
-    public function index() {
+class ZoneController extends Controller
+{
+    public function index()
+    {
         $data = [
             "zones" => Zone::with("country", "country.zoneStates")->get(),
         ];
@@ -18,7 +20,8 @@ class ZoneController extends Controller {
         return view("shippingmodule::admin.index", $data);
     }
 
-    public function create() {
+    public function create()
+    {
         $data = [
             "countries" => Country::select("id", "name")->get(),
         ];
@@ -26,10 +29,12 @@ class ZoneController extends Controller {
         return view("shippingmodule::admin.create", $data);
     }
 
-    public function store(StoreShippingZoneRequest $request) {
+    public function store(StoreShippingZoneRequest $request)
+    {
         $data = $request->validated();
 
         $zone = Zone::create(["name" => $data["zone_name"]]);
+
         $this->insertAllCountryAndStates($request, $zone);
 
         return response()->json([
@@ -39,7 +44,8 @@ class ZoneController extends Controller {
         ]);
     }
 
-    public function edit($id) {
+    public function edit($id)
+    {
         $data = [
             "zone"      => Zone::with(["country", "country.zoneStates", "country.states"])->where("id", $id)->firstOrFail(),
             "countries" => Country::select("id", "name")->get(),
@@ -49,7 +55,8 @@ class ZoneController extends Controller {
         return view("shippingmodule::admin.edit", $data);
     }
 
-    public function update(StoreShippingZoneRequest $request, $id) {
+    public function update(StoreShippingZoneRequest $request, $id)
+    {
         $data = $request->validated();
 
         Zone::where("id", $id)->update(["name" => $data["zone_name"]]);
@@ -65,7 +72,8 @@ class ZoneController extends Controller {
         ]);
     }
 
-    public function destroy($id) {
+    public function destroy($id)
+    {
         $this->deleteAllCountryStatesAndZone($id, "delete");
 
         if (request()->ajax()) {
@@ -81,7 +89,8 @@ class ZoneController extends Controller {
         ]);
     }
 
-    public function deleteAllCountryStatesAndZone($zoneId, $type = "update") {
+    public function deleteAllCountryStatesAndZone($zoneId, $type = "update")
+    {
 
         ZoneCountry::where("zone_id", $zoneId)->delete();
 
@@ -92,7 +101,8 @@ class ZoneController extends Controller {
         return true;
     }
 
-    private function insertAllCountryAndStates($data, $zone): bool {
+    private function insertAllCountryAndStates($data, $zone): bool
+    {
         $states = [];
 
         foreach ($data["country"] as $key => $countryInt) {
@@ -115,7 +125,8 @@ class ZoneController extends Controller {
         return true;
     }
 
-    private function editAllCountryAndStates($data, $zone): bool {
+    private function editAllCountryAndStates($data, $zone): bool
+    {
         $states = [];
 
         $zoneCountry = ZoneCountry::where('zone_id', $zone->id)->get();

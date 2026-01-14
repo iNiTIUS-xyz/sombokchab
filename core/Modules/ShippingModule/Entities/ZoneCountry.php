@@ -14,13 +14,13 @@ class ZoneCountry extends Model
 {
     use HasFactory;
 
-    protected $fillable = ["country_id","zone_id"];
+    protected $fillable = ["country_id", "zone_id"];
 
     public $timestamps = false;
 
     public function zone(): HasOne
     {
-        return $this->hasOne(Zone::class,"id", "zone_id");
+        return $this->hasOne(Zone::class, "id", "zone_id");
     }
 
     public function country(): HasOne
@@ -30,11 +30,11 @@ class ZoneCountry extends Model
 
     public function zoneStates(): HasMany
     {
-        return $this->hasMany(ZoneState::class, "zone_country_id","id");
+        return $this->hasMany(ZoneState::class, "zone_country_id", "id");
     }
 
     public function states(): HasManyThrough
     {
-        return $this->hasManyThrough(State::class, ZoneState::class, "zone_country_id","id","id","state_id");
+        return $this->hasManyThrough(State::class, ZoneState::class, "zone_country_id", "id", "id", "state_id");
     }
 }
