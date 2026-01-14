@@ -34,7 +34,7 @@
                                     <tr>
                                         <th>{{ __('Zone Name') }}</th>
                                         <th>{{ __('Countries') }}</th>
-                                        <th>{{ __('States') }}</th>
+                                        <th>{{ __('City') }}</th>
                                         <th>{{ __('Action') }}</th>
                                     </tr>
                                 </thead>
@@ -43,21 +43,10 @@
                                         <tr>
                                             <td>{{ $zone->name }}</td>
                                             <td>
-                                                <b>
-                                                    {!! $zone?->country?->pluck('name')?->implode('</b>,<b> ') !!}
-                                                </b>
+                                                {{ $zone?->mrt_country?->name }}
                                             </td>
                                             <td>
-                                                @foreach ($zone?->country as $country)
-                                                    <b>
-                                                        {{ $country->name }}
-                                                        @if (!empty($country->zoneStates))
-                                                            ->
-                                                        @endif
-                                                    </b>
-                                                    {{ $country->zoneStates?->pluck('name')?->implode(', ') }}
-                                                    <br />
-                                                @endforeach
+                                                {{ $zone?->mrt_city?->name }}
                                             </td>
                                             <td>
                                                 @can('manage-shipping-settings')
@@ -66,7 +55,6 @@
                                                         <i class="ti-pencil"></i>
                                                     </a>
                                                 @endcan
-
                                                 @can('manage-shipping-settings')
                                                     <a class="btn btn-sm btn-danger swal-delete" title="{{ __('Delete') }}"
                                                         href="javascript:void(0)"

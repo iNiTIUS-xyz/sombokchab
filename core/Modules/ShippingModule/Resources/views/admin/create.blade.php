@@ -8,14 +8,10 @@
 
 @section('style')
 @endsection
+
 @section('content')
     <div class="col-lg-12 col-ml-12" id="shipping-zone-wrapper-box">
         <div class="row g-4">
-            <div class="col-lg-12">
-                <div class="">
-
-                </div>
-            </div>
             <div class="col-md-12">
                 <form id="shipping-zone-create-form">
                     <div class="dashboard__card py-5">
@@ -24,29 +20,48 @@
                         </div>
                         <div class="dashboard__card__body custom__form my-5">
                             @csrf
-                            <div class="form-group">
-                                <label>
-                                    {{ __('Shipping Zone') }}
-                                    <span class="text-danger">*</span>
-                                </label>
-                                <input class="form-control" name="zone_name"
-                                    placeholder="{{ __('Enter shipping zone name') }}" required="" />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>
+                                            {{ __('Shipping Zone') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input class="form-control" name="zone_name"
+                                            placeholder="{{ __('Enter shipping zone name') }}" required="" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>
+                                            {{ __('Country') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <select class="form-control" name="country_id">
+                                            @foreach ($countries as $country)
+                                                <option value="{{ $country->id }}">
+                                                    {{ $country->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mt-3">
+                                    <div class="form-group">
+                                        <label>
+                                            {{ __('City') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <select class="form-control" name="city_id">
+                                            @foreach ($cities as $city)
+                                                <option value="{{ $city->id }}">
+                                                    {{ $city->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
-                            <table class="table table-responsive">
-                                <thead>
-                                    <tr>
-                                        <th>{{ __('Country') }}</th>
-                                        <th>{{ __('States') }}</th>
-                                        <th>{{ __('Actions') }}</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @php
-                                        $rand = random_int(9999999, 11111111);
-                                    @endphp
-                                    @include('shippingmodule::admin.shipping-zone-tr')
-                                </tbody>
-                            </table>
                         </div>
                         <div class="form-group">
                             <button class="cmn_btn btn_bg_profile">

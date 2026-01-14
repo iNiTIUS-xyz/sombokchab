@@ -332,9 +332,8 @@
             function loadShippingMethods(shippingAddressId) {
                 $.ajax({
                     url: "{{ route('frontend.checkout.shipping.methods') }}",
-                    type: "POST",
+                    type: "GET",
                     data: {
-                        _token: "{{ csrf_token() }}",
                         shipping_address_id: shippingAddressId
                     },
                     beforeSend: function() {

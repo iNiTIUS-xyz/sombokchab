@@ -14,7 +14,7 @@
             <div class="col-md-12">
                 <form id="shipping-zone-create-form">
                     @csrf
-                    <input type="hidden" name="id" value="{{ $id }}" />
+                    <input type="hidden" name="id" value="{{ $zone->id }}" />
                     <div class="dashboard__card">
                         <div class="dashboard__card__header">
                             <h4 class="dashboard__card__title">
@@ -22,47 +22,53 @@
                             </h4>
                         </div>
                         <div class="dashboard__card__body custom__form mt-4">
-                            <div class="form-group">
-                                <label>
-                                    {{ __('Shipping Zone') }}
-                                    <span class="text-danger">*</span>
-                                </label>
-                                <input class="form-control" name="zone_name" value="{{ $zone->name }}"
-                                    placeholder="{{ __('Enter shipping zone.') }}" required="" />
-                            </div>
-                            <div class="table-wrap">
-                                <table class="table table-responsive">
-                                    <thead>
-                                        <tr>
-                                            <th>{{ __('Country') }}</th>
-                                            <th>{{ __('States') }}</th>
-                                            <th>{{ __('Actions') }}</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @php
-                                            use Modules\ShippingModule\Entities\ZoneState;
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>
+                                            {{ __('Shipping Zone') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input class="form-control" name="zone_name" value="{{ $zone->name }}"
+                                            placeholder="{{ __('Enter shipping zone.') }}" required="" />
+                                    </div>
+                                </div>
 
-                                            $zoneStates = ZoneState::query()
-                                                ->whereHas('zoneCountry', function ($query) use ($zone) {
-                                                    $query->where('zone_id', $zone->id);
-                                                })
-                                                ->with('zoneCountry')
-                                                ->get();
-
-                                        @endphp
-
-                                        @foreach ($zoneStates as $zoneCountry)
-                                            @php
-                                                $rand = random_int(9999999, 11111111);
-                                            @endphp
-                                            @include('shippingmodule::admin.shipping-zone-tr')
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>
+                                            {{ __('Country') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <select class="form-control" name="country_id">
+                                            @foreach ($countries as $country)
+                                                <option value="{{ $country->id }}"
+                                                    @if ($zone->country_id == $country->id) selected @endif>
+                                                    {{ $country->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mt-3">
+                                    <div class="form-group">
+                                        <label>
+                                            {{ __('City') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <select class="form-control" name="city_id">
+                                            @foreach ($cities as $city)
+                                                <option value="{{ $city->id }}"
+                                                    @if ($zone->city_id == $city->id) selected @endif>
+                                                    {{ $city->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group mt-4">
                             <button class="cmn_btn btn_bg_profile">
                                 {{ __('Update') }}
                             </button>

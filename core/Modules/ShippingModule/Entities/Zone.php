@@ -2,6 +2,7 @@
 
 namespace Modules\ShippingModule\Entities;
 
+use App\City;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -13,15 +14,26 @@ use Modules\CountryManage\Entities\Country;
 class Zone extends Model
 {
     use HasFactory;
-    protected $fillable = ['name'];
+
+    protected $fillable = ['name', 'city_id', 'country_id'];
 
     public function zoneCountry(): HasMany
     {
         return $this->hasMany(ZoneCountry::class, "zone_id", "id");
     }
 
-    public function country(): HasManyThrough
+    public function country()
     {
         return $this->hasManyThrough(Country::class, ZoneCountry::class, "zone_id", "id", "id", "country_id");
+    }
+
+    public function mrt_city()
+    {
+        return $this->hasOne(City::class, 'id', "city_id");
+    }
+
+    public function mrt_country()
+    {
+        return $this->hasOne(Country::class, 'id', "country_id");
     }
 }

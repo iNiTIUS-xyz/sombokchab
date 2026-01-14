@@ -887,6 +887,12 @@ class FrontendController extends Controller
     public function checkoutShippingMethods(Request $request)
     {
 
+        $user = User::query()
+            ->findOrFail(Auth::user()->id);
+
+        $shipping_addresses = ShippingAddress::query()
+            ->findOrFail($request->shipping_address_id);
+
         $adminShippingMethod = AdminShippingMethod::query()
             ->with([
                 'zone',
@@ -897,6 +903,8 @@ class FrontendController extends Controller
                 'zone.country',
             ])
             ->get();
+
+        // return response()->json($adminShippingMethod);
 
         $html = view('frontend.cart.shipping-methods', compact('adminShippingMethod'))->render();
 

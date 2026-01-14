@@ -3,10 +3,12 @@
 namespace Modules\ShippingModule\Http\Controllers;
 
 use Illuminate\Routing\Controller;
-use Modules\CountryManage\Entities\Country;
+use Illuminate\Support\Facades\DB;
+use Modules\CountryManage\Entities\City;
 use Modules\ShippingModule\Entities\Zone;
-use Modules\ShippingModule\Entities\ZoneCountry;
+use Modules\CountryManage\Entities\Country;
 use Modules\ShippingModule\Entities\ZoneState;
+use Modules\ShippingModule\Entities\ZoneCountry;
 use Modules\ShippingModule\Http\Requests\StoreShippingZoneRequest;
 
 class ZoneController extends Controller
@@ -14,7 +16,10 @@ class ZoneController extends Controller
     public function index()
     {
         $data = [
-            "zones" => Zone::with("country", "country.zoneStates")->get(),
+            "zones" => Zone::with([
+                "mrt_city",
+                "mrt_country"
+            ])->get(),
         ];
 
         return view("shippingmodule::admin.index", $data);
@@ -24,6 +29,7 @@ class ZoneController extends Controller
     {
         $data = [
             "countries" => Country::select("id", "name")->get(),
+            "cities" => City::get(),
         ];
 
         return view("shippingmodule::admin.create", $data);
@@ -31,17 +37,32 @@ class ZoneController extends Controller
 
     public function store(StoreShippingZoneRequest $request)
     {
-        $data = $request->validated();
+        try {
+            DB::beginTransaction();
 
-        $zone = Zone::create(["name" => $data["zone_name"]]);
+            $data = $request->validated();
 
-        $this->insertAllCountryAndStates($request, $zone);
+            Zone::create([
+                "name" => $data["zone_name"],
+                "city_id" => $data["city_id"],
+                "country_id" => $data["country_id"],
+            ]);
 
-        return response()->json([
-            "success" => true,
-            "type"    => "success",
-            "msg"     => __("Successfully inserted country and states"),
-        ]);
+            DB::commit();
+
+            return response()->json([
+                "success" => true,
+                "type"    => "success",
+                "msg"     => __("Zone successfully created."),
+            ]);
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            return response()->json([
+                "success" => false,
+                "type"    => "error",
+                "msg"     => $e->getMessage(),
+            ]);
+        }
     }
 
     public function edit($id)
@@ -49,7 +70,7 @@ class ZoneController extends Controller
         $data = [
             "zone"      => Zone::with(["country", "country.zoneStates", "country.states"])->where("id", $id)->firstOrFail(),
             "countries" => Country::select("id", "name")->get(),
-            "id"        => $id,
+            "cities" => City::get(),
         ];
 
         return view("shippingmodule::admin.edit", $data);
@@ -57,103 +78,64 @@ class ZoneController extends Controller
 
     public function update(StoreShippingZoneRequest $request, $id)
     {
-        $data = $request->validated();
+        try {
+            DB::beginTransaction();
 
-        Zone::where("id", $id)->update(["name" => $data["zone_name"]]);
+            $data = $request->validated();
 
-        $zone = Zone::where("id", $id)->first();
+            Zone::where('id', $id)->update([
+                "name" => $data["zone_name"],
+                "city_id" => $data["city_id"],
+                "country_id" => $data["country_id"],
+            ]);
 
-        $this->editAllCountryAndStates($request, $zone);
+            DB::commit();
 
-        return response()->json([
-            "success" => true,
-            "type"    => "success",
-            "msg"     => __("Successfully updated country and states"),
-        ]);
+            return response()->json([
+                "success" => true,
+                "type"    => "success",
+                "msg"     => __("Zone successfully updated."),
+            ]);
+        } catch (\Throwable $e) {
+
+            DB::rollBack();
+
+            return response()->json([
+                "success" => false,
+                "type"    => "error",
+                "msg"     => $e->getMessage(),
+            ]);
+        }
     }
 
     public function destroy($id)
     {
-        $this->deleteAllCountryStatesAndZone($id, "delete");
 
-        if (request()->ajax()) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Successfully deleted shipping Zone.',
-            ]);
-        }
+        try {
+            DB::beginTransaction();
 
-        return back()->with([
-            'alert-type' => 'success',
-            'message'    => 'Successfully deleted shipping Zone.',
-        ]);
-    }
+            Zone::where("id", $id)->delete();
 
-    public function deleteAllCountryStatesAndZone($zoneId, $type = "update")
-    {
-
-        ZoneCountry::where("zone_id", $zoneId)->delete();
-
-        if ($type == 'delete') {
-            Zone::where("id", $zoneId)->delete();
-        }
-
-        return true;
-    }
-
-    private function insertAllCountryAndStates($data, $zone): bool
-    {
-        $states = [];
-
-        foreach ($data["country"] as $key => $countryInt) {
-
-            $country = ZoneCountry::firstOrCreate([
-                "zone_id"    => $zone->id,
-                "country_id" => $countryInt,
-            ]);
-
-            foreach ($data["states"] ?? [] as $key => $state) {
-                $states[$key] = [
-                    "zone_country_id" => $country->id,
-                    "state_id"        => $state,
-                ];
+            if (request()->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Successfully deleted shipping Zone.',
+                ]);
             }
-        }
 
-        !empty($states) ? ZoneState::insert($states) : null;
-
-        return true;
-    }
-
-    private function editAllCountryAndStates($data, $zone): bool
-    {
-        $states = [];
-
-        $zoneCountry = ZoneCountry::where('zone_id', $zone->id)->get();
-
-        foreach ($zoneCountry as $zoneCou) {
-            ZoneState::where('zone_country_id', $zoneCou->zone_country_id)->delete();
-        }
-
-        ZoneCountry::where('zone_id', $zone->id)->delete();
-
-        foreach ($data["country"] as $key => $countryInt) {
-
-            $country = ZoneCountry::firstOrCreate([
-                "zone_id"    => $zone->id,
-                "country_id" => $countryInt,
+            return back()->with([
+                'alert-type' => 'success',
+                'message'    => 'Successfully deleted shipping Zone.',
             ]);
 
-            foreach ($data["states"] ?? [] as $key => $state) {
-                $states[$key] = [
-                    "zone_country_id" => $country->id,
-                    "state_id"        => $state,
-                ];
-            }
+            DB::commit();
+        } catch (\Throwable $e) {
+            DB::rollBack();
+
+            return back()->with([
+                'alert-type' => 'error',
+                'message'    => $e->getMessage(),
+            ]);
         }
-
-        !empty($states) ? ZoneState::insert($states) : null;
-
-        return true;
     }
 }
