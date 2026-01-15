@@ -11,14 +11,17 @@
             color: #ffffff !important;
         }
 
-        .btn-group button.dropdown-toggle.status-failed {
+
+
+        .btn-group button.dropdown-toggle.status-pending {
             color: #000000 !important;
         }
 
-        .bg-warning,
-        .status-failed.bg-warning {
-            color: #000 !important;
+        .btn-group button.dropdown-toggle.status-failed {
+            color: #ffffff !important;
         }
+
+
 
         table.dataTable th.dt-type-numeric div.dt-column-header,
         table.dataTable th.dt-type-numeric div.dt-column-footer,
@@ -29,10 +32,6 @@
         table.dataTable td.dt-type-date div.dt-column-header,
         table.dataTable td.dt-type-date div.dt-column-footer {
             flex-direction: row !important;
-        }
-
-        .status-failed .bg-warning {
-            color: #000 !important;
         }
     </style>
 @endsection
@@ -68,9 +67,9 @@
                                     $status = strtolower($order->order_status);
                                     $statusClass = match ($status) {
                                         'canceled' => 'bg-danger',
-                                        'pending' => 'bg-secondary',
+                                        'pending' => 'bg-warning',
                                         'complete' => 'bg-primary',
-                                        'failed' => 'bg-warning text-dark',
+                                        'failed' => 'bg-secondary text-dark',
                                         'rejected' => 'bg-info',
                                         default => 'bg-secondary',
                                     };
@@ -78,9 +77,9 @@
                                     $paymentStatus = strtolower($order->payment_status);
                                     $paymentStatusClass = match ($paymentStatus) {
                                         'canceled' => 'bg-danger',
-                                        'pending' => 'bg-secondary',
+                                        'pending' => 'bg-warning text-dark',
                                         'complete' => 'bg-primary',
-                                        'failed' => 'bg-warning text-dark',
+                                        'failed' => 'bg-secondary text-dark',
                                         'rejected' => 'bg-info',
                                         default => 'bg-secondary',
                                     };
