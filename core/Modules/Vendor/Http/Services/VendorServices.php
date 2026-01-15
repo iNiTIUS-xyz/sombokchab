@@ -140,8 +140,8 @@ class VendorServices
         return [
             "total_order_amount"          => $total_order_amount,
             "total_complete_order_amount" => $total_complete_order_amount,
-            "pending_balance"             => toFixed($wallet->pending_balance ?? 0, 0),
-            "current_balance"             => toFixed($wallet->balance ?? 0, 0),
+            "pending_balance"             => $wallet->pending_balance,
+            "current_balance"             => $wallet->balance,
             "yearly_income_statement"     => self::generateReport($vendor_id, now()->subYear(1)->format("Y-m-d")),
             "weekly_statement"            => self::generateReport($vendor_id, now()->subWeek(1)->format("Y-m-d"), type: 'week'),
         ];
