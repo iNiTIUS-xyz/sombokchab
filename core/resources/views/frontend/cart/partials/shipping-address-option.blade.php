@@ -15,7 +15,7 @@
         <span class="option-sub">
             ({{ $shipping_address->phone }}) - {{ $shipping_address->address }}
             @if ($isDefault)
-                <span class="option-badge">
+                <span class="option-badge bg-primary">
                     {{ __('Default') }}
                 </span>
             @endif
