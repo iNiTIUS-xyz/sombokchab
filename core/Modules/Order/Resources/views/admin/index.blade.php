@@ -55,6 +55,8 @@
                                     'pending' => 'bg-warning',
                                     'complete' => 'bg-primary',
                                     'failed' => 'bg-warning',
+                                    'product_sent_to_admin' => 'bg-info',
+                                    'approved_order_status' => 'bg-secondary',
                                     default => 'bg-secondary',
                                 };
                             @endphp
@@ -76,7 +78,7 @@
                                         <button type="button"
                                             class="status-{{ $status }} {{ $statusClass }} dropdown-toggle"
                                             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            {{ ucfirst($status) }}
+                                            {{ ucwords(str_replace('_', ' ', $status)) }}
                                         </button>
                                         <div class="dropdown-menu">
                                             {{-- Pending --}}
@@ -103,6 +105,22 @@
                                                 <input type="hidden" name="order_status" value="canceled">
                                                 <button type="submit" class="dropdown-item">
                                                     {{ __('Canceled') }}
+                                                </button>
+                                            </form>
+                                            <form action="{{ route('admin.orders.sub.change.status', $order->id) }}"
+                                                method="POST" id="status-form-product_sent_to_admin-{{ $order->id }}">
+                                                @csrf
+                                                <input type="hidden" name="order_status" value="product_sent_to_admin">
+                                                <button type="submit" class="dropdown-item">
+                                                    {{ __('Product Sent To Admin') }}
+                                                </button>
+                                            </form>
+                                            <form action="{{ route('admin.orders.sub.change.status', $order->id) }}"
+                                                method="POST" id="status-form-approved_order_status-{{ $order->id }}">
+                                                @csrf
+                                                <input type="hidden" name="order_status" value="approved_order_status">
+                                                <button type="submit" class="dropdown-item">
+                                                    {{ __('Approved Order Status') }}
                                                 </button>
                                             </form>
                                         </div>

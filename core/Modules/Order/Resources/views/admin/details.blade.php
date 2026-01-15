@@ -1,206 +1,206 @@
 @extends('backend.admin-master')
+
 @section('style')
-<x-datatable.css />
-<style>
-    @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 
-    .border-bottom-1 {
-        border-bottom: 1px solid #ddd;
-    }
-
-    .badge {
-        line-height: 15px;
-    }
-
-    body {
-        background-color: #eeeeee;
-        font-family: 'Open Sans', serif
-    }
-
-    .container {
-        margin-top: 50px;
-        margin-bottom: 50px
-    }
-
-    .card {
-        position: relative;
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-orient: vertical;
-        -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-        flex-direction: column;
-        min-width: 0;
-        word-wrap: break-word;
-        background-color: #fff;
-        background-clip: border-box;
-        border: 1px solid rgba(0, 0, 0, 0.1);
-        border-radius: 0.10rem
-    }
-
-    .card-header:first-child {
-        border-radius: calc(0.37rem - 1px) calc(0.37rem - 1px) 0 0
-    }
-
-    .card-header {
-        padding: 0.75rem 1.25rem;
-        margin-bottom: 0;
-        background-color: #fff;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.1)
-    }
-
-    .track-wrapper {
-        height: 100%;
-        display: block;
-    }
-
-    .track {
-        position: relative;
-        background-color: #ddd;
-        height: 5px;
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        margin-bottom: 60px;
-        margin-top: 50px;
-    }
-
-    @media screen and (max-width: 480px) {
-        .track {
-            margin-bottom: 80px;
+        .border-bottom-1 {
+            border-bottom: 1px solid #ddd;
         }
-    }
 
-    .track .step {
-        -webkit-box-flex: 1;
-        -ms-flex-positive: 1;
-        flex-grow: 1;
-        width: 20%;
-        margin-top: -13px;
-        text-align: center;
-        position: relative
-    }
+        .badge {
+            line-height: 15px;
+        }
 
-    .track .step.active:before {
-        background: #FF5722
-    }
+        body {
+            background-color: #eeeeee;
+            font-family: 'Open Sans', serif
+        }
 
-    .track .step::before {
-        height: 5px;
-        position: absolute;
-        content: "";
-        width: 100%;
-        left: 0;
-        top: 13px;
-    }
+        .container {
+            margin-top: 50px;
+            margin-bottom: 50px
+        }
 
-    .track .step.active .icon {
-        background: #ee5435;
-        color: #fff
-    }
+        .card {
+            position: relative;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            min-width: 0;
+            word-wrap: break-word;
+            background-color: #fff;
+            background-clip: border-box;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 0.10rem
+        }
 
-    .track .icon {
-        display: inline-block;
-        width: 30px;
-        height: 30px;
-        line-height: 30px;
-        position: relative;
-        border-radius: 100%;
-        background: #ddd
-    }
+        .card-header:first-child {
+            border-radius: calc(0.37rem - 1px) calc(0.37rem - 1px) 0 0
+        }
 
-    .track .step.active .text {
-        font-weight: 400;
-        color: #000
-    }
+        .card-header {
+            padding: 0.75rem 1.25rem;
+            margin-bottom: 0;
+            background-color: #fff;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1)
+        }
 
-    .track .text {
-        display: block;
-        margin-top: 7px
-    }
+        .track-wrapper {
+            height: 100%;
+            display: block;
+        }
 
-    .itemside {
-        position: relative;
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        width: 100%
-    }
+        .track {
+            position: relative;
+            background-color: #ddd;
+            height: 5px;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            margin-bottom: 60px;
+            margin-top: 50px;
+        }
 
-    .itemside .aside {
-        position: relative;
-        -ms-flex-negative: 0;
-        flex-shrink: 0
-    }
+        @media screen and (max-width: 480px) {
+            .track {
+                margin-bottom: 80px;
+            }
+        }
 
-    .img-sm {
-        width: 80px;
-        height: 80px;
-        padding: 7px
-    }
+        .track .step {
+            -webkit-box-flex: 1;
+            -ms-flex-positive: 1;
+            flex-grow: 1;
+            width: 20%;
+            margin-top: -13px;
+            text-align: center;
+            position: relative
+        }
 
-    ul.row,
-    ul.row-sm {
-        list-style: none;
-        padding: 0
-    }
+        .track .step.active:before {
+            background: #FF5722
+        }
 
-    .itemside .info {
-        padding-left: 15px;
-        padding-right: 7px
-    }
+        .track .step::before {
+            height: 5px;
+            position: absolute;
+            content: "";
+            width: 100%;
+            left: 0;
+            top: 13px;
+        }
 
-    .itemside .title {
-        display: block;
-        margin-bottom: 5px;
-        color: #212529
-    }
+        .track .step.active .icon {
+            background: #ee5435;
+            color: #fff
+        }
 
-    p {
-        margin-top: 0;
-        margin-bottom: 1rem
-    }
+        .track .icon {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            position: relative;
+            border-radius: 100%;
+            background: #ddd
+        }
 
-    .btn-warning {
-        color: #ffffff;
-        background-color: #ee5435;
-        border-color: #ee5435;
-        border-radius: 1px
-    }
+        .track .step.active .text {
+            font-weight: 400;
+            color: #000
+        }
 
-    .btn-warning:hover {
-        color: #ffffff;
-        background-color: #ff2b00;
-        border-color: #ff2b00;
-        border-radius: 1px
-    }
-</style>
+        .track .text {
+            display: block;
+            margin-top: 7px
+        }
+
+        .itemside {
+            position: relative;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            width: 100%
+        }
+
+        .itemside .aside {
+            position: relative;
+            -ms-flex-negative: 0;
+            flex-shrink: 0
+        }
+
+        .img-sm {
+            width: 80px;
+            height: 80px;
+            padding: 7px
+        }
+
+        ul.row,
+        ul.row-sm {
+            list-style: none;
+            padding: 0
+        }
+
+        .itemside .info {
+            padding-left: 15px;
+            padding-right: 7px
+        }
+
+        .itemside .title {
+            display: block;
+            margin-bottom: 5px;
+            color: #212529
+        }
+
+        p {
+            margin-top: 0;
+            margin-bottom: 1rem
+        }
+
+        .btn-warning {
+            color: #ffffff;
+            background-color: #ee5435;
+            border-color: #ee5435;
+            border-radius: 1px
+        }
+
+        .btn-warning:hover {
+            color: #ffffff;
+            background-color: #ff2b00;
+            border-color: #ff2b00;
+            border-radius: 1px
+        }
+    </style>
 @endsection
 @section('site-title')
-{{ __('My Orders') }}
+    {{ __('My Orders') }}
 @endsection
 @php
-$edit = $edit ?? false;
+    $edit = $edit ?? false;
 @endphp
 @section('content')
-<div class="row g-4">
-    <div class="col-md-12">
-        {{--
+    <div class="row g-4">
+        <div class="col-md-12">
+            {{--
         <x-msg.error />
         <x-msg.success /> --}}
-    </div>
-    @if ($edit)
-    <div class="col-md-12">
-        <div class="dashboard__card">
-            <div class="dashboard__card__header">
-                <h4 class="dashboard__card__title">
-                    {{ __('Update Order') }}
-                </h4>
-            </div>
-            <div class="dashboard__card__body mt-4">
-                <div class="row g-4">
-                    {{-- <div class="col-md-6">
+        </div>
+        @if ($edit)
+            <div class="col-md-12">
+                <div class="dashboard__card">
+                    <div class="dashboard__card__header">
+                        <h4 class="dashboard__card__title">
+                            {{ __('Update Order') }}
+                        </h4>
+                    </div>
+                    <div class="dashboard__card__body mt-4">
+                        <div class="row g-4">
+                            {{-- <div class="col-md-6">
                         <div class="dashboard__card">
                             <div class="dashboard__card__header">
                                 <h4 class="dashboard__card__title">
@@ -273,366 +273,366 @@ $edit = $edit ?? false;
                             </div>
                         </div>
                     </div> --}}
-                    <div class="col-md-12">
-                        <x-order::order-track :order="$order" />
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    @endif
-    <div class="col-md-6">
-        <div class="dashboard__card">
-            <div class="dashboard__card__header">
-                <h4 class="dashboard__card__title">
-                    {{ __('Orders Details') }}
-                </h4>
-            </div>
-            <div class="dashboard__card__body mt-4">
-                <div class="request__item">
-                    <span class="request__left">
-                        {{ __('Order Number') }}
-                    </span>
-                    <span class="request__right">
-                        {{ $order->order_number }}
-                    </span>
-                </div>
-                <div class="request__item">
-                    <span class="request__left">
-                        {{ __('Transaction ID') }}
-                    </span>
-                    <span class="request__right">
-                        {{ $order->transaction_id }}
-                    </span>
-                </div>
-                <div class="request__item">
-                    <span class="request__left">
-                        {{ __('Payment Gateway') }}
-                    </span>
-                    <span class="request__right">
-                        {{ ucwords(str_replace(['_', '-'], ' ', $order->payment_gateway)) }}
-                    </span>
-                </div>
-                <div class="request__item">
-                    <span class="request__left">
-                        {{ __('Payment Status') }}
-                    </span>
-                    <span class="request__right">
-                        {{ str($order->payment_status)->ucfirst() }}
-                    </span>
-                </div>
-                <div class="request__item">
-                    <span class="request__left">
-                        {{ __('Total Products') }}
-                    </span>
-                    <span class="request__right">
-                        {{ $order->order_items_count }}
-                    </span>
-                </div>
-                <div class="request__item">
-                    <span class="request__left">
-                        {{ __('Items Total') }}
-                    </span>
-                    <span class="request__right">
-                        {{ float_amount_with_currency_symbol($order?->paymentMeta?->sub_total) }}
-                    </span>
-                </div>
-                <div class="request__item">
-                    <span class="request__left">
-                        {{ __('Discount Amount') }}
-                    </span>
-                    <span class="request__right">
-                        {{ float_amount_with_currency_symbol($order?->paymentMeta?->coupon_amount) }}
-                    </span>
-                </div>
-                <div class="request__item">
-                    <span class="request__left">
-                        {{ __('Cost Summary') }}
-                    </span>
-                    <span class="request__right">
-                        {{ float_amount_with_currency_symbol($order?->paymentMeta?->shipping_cost) }}
-                    </span>
-                </div>
-                <div class="request__item">
-                    <span class="request__left">
-                        {{ __('Tax Amount') }}
-                    </span>
-                    <span class="request__right">
-                        {{ float_amount_with_currency_symbol($order?->paymentMeta?->tax_amount) }}
-                    </span>
-                </div>
-                <div class="request__item">
-                    <span class="request__left">
-                        {{ __('Total Amount') }}
-                    </span>
-                    <span class="request__right">
-                        {{ float_amount_with_currency_symbol($order?->paymentMeta?->total_amount) }}
-                    </span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    @php
-    $addr =
-    $order?->address?->cityInfo?->name .
-    ' , ' .
-    $order?->address?->state?->name .
-    ' , ' .
-    $order?->address?->country?->name .
-    ' , ' .
-    $order?->address?->zipcode;
-    @endphp
-
-    <div class="col-md-6">
-        <div class="dashboard__card">
-            <div class="dashboard__card__header">
-                <h4 class="dashboard__card__title">
-                    {{ __('Billing Information') }}
-                </h4>
-            </div>
-            <div class="dashboard__card__body mt-4">
-                <div class="request__item">
-                    <span class="request__left">
-                        {{ __('Name') }}
-                    </span>
-                    <span class="request__right">
-                        {{ $order?->address?->name }}
-                    </span>
-                </div>
-                <div class="request__item">
-                    <span class="request__left">
-                        {{ __('Email') }}
-                    </span>
-                    <span class="request__right">
-                        {{ $order?->address?->email }}
-                    </span>
-                </div>
-                <div class="request__item">
-                    <span class="request__left">
-                        {{ __('Mobile') }}
-                    </span>
-                    <span class="request__right">
-                        {{ $order?->address?->phone }}
-                    </span>
-                </div>
-                <div class="request__item">
-                    <span class="request__left">
-                        {{ __('Country') }}
-                    </span>
-                    <span class="request__right">
-                        {{ $order?->address?->country?->name }}
-                    </span>
-                </div>
-                <div class="request__item">
-                    <span class="request__left">
-                        {{ __('City') }}
-                    </span>
-                    <span class="request__right">
-                        {{ $order?->address?->state?->name }}
-                    </span>
-                </div>
-                <div class="request__item">
-                    <span class="request__left">
-                        {{ __('Province') }}
-                    </span>
-                    <span class="request__right">
-                        {{ $order?->address?->cityInfo?->name }}
-                    </span>
-                </div>
-                <div class="request__item">
-                    <span class="request__left">
-                        {{ __('Postal Code') }}
-                    </span>
-                    <span class="request__right">
-                        {{ $order?->address?->zipcode }}
-                    </span>
-                </div>
-                <div class="request__item">
-                    <span class="request__left">
-                        {{ __('Address') }}
-                    </span>
-                    <span class="request__right">
-                        {{ $order?->address?->address }}
-                    </span>
-                </div>
-                <div class="request__item">
-                    <span class="request__left">
-                        {{ __('Note') }}
-                    </span>
-                    <span class="request__right">
-                        {{ $order?->note }}
-                    </span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="dashboard__card mt-4">
-    <div class="dashboard__card__header">
-        <h4 class="dashboard__card__title">
-            {{ __('Sub Order Information') }}
-        </h4>
-    </div>
-    <div class="dashboard__card__body mt-4">
-        <div class="row g-4">
-            @foreach ($order->SubOrders as $subOrders)
-            @if (empty($subOrders->vendor))
-            @php
-            $adminShop = \App\AdminShopManage::with('logo')->first();
-            $adminProductCount = \Modules\Product\Entities\Product::query()
-            ->whereNotNull('admin_id')
-            ->count();
-            $adminTotalOrderCount = \Modules\Order\Entities\SubOrder::query()
-            ->whereNull('vendor_id')
-            ->count();
-            $adminCompleteOrderCount = \Modules\Order\Entities\SubOrder::query()
-            ->whereRelation('order', 'order_status', '=', 'complete')
-            ->whereNull('vendor_id')
-            ->count();
-            $adminPendingOrderCount = \Modules\Order\Entities\SubOrder::query()
-            ->whereRelation('order', 'order_status', '=', 'pending')
-            ->whereNull('vendor_id')
-            ->count();
-            $adminCompleteOrderIncome = \Modules\Order\Entities\SubOrder::query()
-            ->whereRelation('order', 'order_status', '=', 'complete')
-            ->whereNull('vendor_id')
-            ->sum('total_amount');
-            @endphp
-            <div class="col-md-12">
-                <div class="dashboard__card">
-                    <div class="dashboard__card__header">
-                        <h5 class="dashboard__card__title">
-                            {{ $adminShop->store_name }}
-                        </h5>
-                        <div class="dashboard__card__header__right">
-                            <div class="d-flex justify-content-between gap-1">
-                                <b>{{ __('Sub Order No') }} </b>
-                                <b class="request__right">
-                                    {{ $subOrders->order_number }}
-                                </b>
-                            </div>
-                            <a href="{{ route('admin.orders.details', $subOrders->id) }}"
-                                class="cmn_btn btn_bg_profile">
-                                <i class="las la-eye"></i>
-                                <small>
-                                    {{ __('View Sub Order') }}
-                                </small>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="dashboard__card__body mt-4">
-                        <div class="row g-4">
-                            <div class="col-xxl-3 col-xl-4 col-sm-6">
-                                <div class="subOrder__single">
-                                    <div class="subOrder__single__thumb">
-                                        {!! render_image($adminShop->logo, 'w-50') !!}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xxl-3 col-xl-4 col-sm-6">
-                                <div class="subOrder__single">
-                                    <div class="subOrder__single__item">
-                                        <span class="subOrder__single__item__left">
-                                            <h6>
-                                                {{ $adminShop->store_name }}
-                                            </h6>
-                                        </span>
-                                    </div>
-                                    <div class="subOrder__single__item">
-                                        <span class="subOrder__single__item__left">
-                                            {{ __('Total Income') }}
-                                        </span>
-                                        <h6 class="badge badge-sm bg-success subOrder__single__item__right">
-                                            {{ float_amount_with_currency_symbol($adminCompleteOrderIncome) }}
-                                        </h6>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xxl-3 col-xl-4 col-sm-6">
-                                <div class="subOrder__single">
-                                    <div class="subOrder__single__item">
-                                        <span class="subOrder__single__item__left">
-                                            {{ __('Total Products') }}
-                                        </span>
-                                        <h6 class="badge badge-sm bg-success subOrder__single__item__right">
-                                            {{ $adminProductCount }}
-                                        </h6>
-                                    </div>
-                                    <div class="subOrder__single__item">
-                                        <span class="subOrder__single__item__left">
-                                            {{ __('Total Orders') }}
-                                        </span>
-                                        <h6 class="badge badge-sm bg-success subOrder__single__item__right">
-                                            {{ $adminTotalOrderCount }}
-                                        </h6>
-                                    </div>
-                                    <div class="subOrder__single__item">
-                                        <span class="subOrder__single__item__left">
-                                            {{ __('Pending Orders') }}
-                                        </span>
-                                        <h6 class="badge badge-sm bg-success subOrder__single__item__right">
-                                            {{ $adminPendingOrderCount }}
-                                        </h6>
-                                    </div>
-                                    <div class="subOrder__single__item">
-                                        <span class="subOrder__single__item__left">
-                                            {{ __('Complete Orders') }}
-                                        </span>
-                                        <h6 class="badge badge-sm bg-success subOrder__single__item__right">
-                                            {{ $adminCompleteOrderCount }}
-                                        </h6>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xxl-3 col-xl-4 col-sm-6">
-                                <div class="subOrder__single">
-                                    <div class="subOrder__single__item">
-                                        <span class="subOrder__single__item__left">
-                                            <h6>{{ __('Order Information') }}
-
-                                            </h6>
-                                        </span>
-                                    </div>
-                                    <div class="subOrder__single__item">
-                                        <span class="subOrder__single__item__left">
-                                            {{ __('Order Product Count') }}
-                                        </span>
-                                        <h6 class="badge badge-sm bg-success subOrder__single__item__right">
-                                            {{ $subOrders->order_item_count }}
-                                        </h6>
-                                    </div>
-                                    <div class="subOrder__single__item">
-                                        <span class="subOrder__single__item__left">
-                                            {{ __('Payment Status') }}
-                                        </span>
-                                        <h6 class="badge badge-sm bg-success subOrder__single__item__right">
-                                            {{ ucwords($subOrders->payment_status) }}
-                                        </h6>
-                                    </div>
-                                    <div class="subOrder__single__item">
-                                        <span class="subOrder__single__item__left">
-                                            {{ __('Order Amount') }}
-                                        </span>
-                                        <h6 class="badge badge-sm bg-success subOrder__single__item__right">
-                                            {{ float_amount_with_currency_symbol($subOrders->total_amount) }}
-                                        </h6>
-                                    </div>
-                                </div>
+                            <div class="col-md-12">
+                                <x-order::order-track :order="$order" />
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            @else
-            <div class="col-md-12">
-                <div class="dashboard__card">
-                    <div class="dashboard__card__header">
-                        <h5 class="title">
-                            {{ $subOrders->vendor?->business_name }}
-                        </h5>
-                        <div class="dashboard__card__header__right">
-                            {{-- <div class="d-flex justify-content-between gap-1">
+        @endif
+        <div class="col-md-6">
+            <div class="dashboard__card">
+                <div class="dashboard__card__header">
+                    <h4 class="dashboard__card__title">
+                        {{ __('Orders Details') }}
+                    </h4>
+                </div>
+                <div class="dashboard__card__body mt-4">
+                    <div class="request__item">
+                        <span class="request__left">
+                            {{ __('Order Number') }}
+                        </span>
+                        <span class="request__right">
+                            {{ $order->order_number }}
+                        </span>
+                    </div>
+                    <div class="request__item">
+                        <span class="request__left">
+                            {{ __('Transaction ID') }}
+                        </span>
+                        <span class="request__right">
+                            {{ $order->transaction_id }}
+                        </span>
+                    </div>
+                    <div class="request__item">
+                        <span class="request__left">
+                            {{ __('Payment Gateway') }}
+                        </span>
+                        <span class="request__right">
+                            {{ ucwords(str_replace(['_', '-'], ' ', $order->payment_gateway)) }}
+                        </span>
+                    </div>
+                    <div class="request__item">
+                        <span class="request__left">
+                            {{ __('Payment Status') }}
+                        </span>
+                        <span class="request__right">
+                            {{ str($order->payment_status)->ucfirst() }}
+                        </span>
+                    </div>
+                    <div class="request__item">
+                        <span class="request__left">
+                            {{ __('Total Products') }}
+                        </span>
+                        <span class="request__right">
+                            {{ $order->order_items_count }}
+                        </span>
+                    </div>
+                    <div class="request__item">
+                        <span class="request__left">
+                            {{ __('Items Total') }}
+                        </span>
+                        <span class="request__right">
+                            {{ float_amount_with_currency_symbol($order?->paymentMeta?->sub_total) }}
+                        </span>
+                    </div>
+                    <div class="request__item">
+                        <span class="request__left">
+                            {{ __('Discount Amount') }}
+                        </span>
+                        <span class="request__right">
+                            {{ float_amount_with_currency_symbol($order?->paymentMeta?->coupon_amount) }}
+                        </span>
+                    </div>
+                    <div class="request__item">
+                        <span class="request__left">
+                            {{ __('Cost Summary') }}
+                        </span>
+                        <span class="request__right">
+                            {{ float_amount_with_currency_symbol($order?->paymentMeta?->shipping_cost) }}
+                        </span>
+                    </div>
+                    <div class="request__item">
+                        <span class="request__left">
+                            {{ __('Tax Amount') }}
+                        </span>
+                        <span class="request__right">
+                            {{ float_amount_with_currency_symbol($order?->paymentMeta?->tax_amount) }}
+                        </span>
+                    </div>
+                    <div class="request__item">
+                        <span class="request__left">
+                            {{ __('Total Amount') }}
+                        </span>
+                        <span class="request__right">
+                            {{ float_amount_with_currency_symbol($order?->paymentMeta?->total_amount) }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @php
+            $addr =
+                $order?->address?->cityInfo?->name .
+                ' , ' .
+                $order?->address?->state?->name .
+                ' , ' .
+                $order?->address?->country?->name .
+                ' , ' .
+                $order?->address?->zipcode;
+        @endphp
+
+        <div class="col-md-6">
+            <div class="dashboard__card">
+                <div class="dashboard__card__header">
+                    <h4 class="dashboard__card__title">
+                        {{ __('Billing Information') }}
+                    </h4>
+                </div>
+                <div class="dashboard__card__body mt-4">
+                    <div class="request__item">
+                        <span class="request__left">
+                            {{ __('Name') }}
+                        </span>
+                        <span class="request__right">
+                            {{ $order?->address?->name }}
+                        </span>
+                    </div>
+                    <div class="request__item">
+                        <span class="request__left">
+                            {{ __('Email') }}
+                        </span>
+                        <span class="request__right">
+                            {{ $order?->address?->email }}
+                        </span>
+                    </div>
+                    <div class="request__item">
+                        <span class="request__left">
+                            {{ __('Mobile') }}
+                        </span>
+                        <span class="request__right">
+                            {{ $order?->address?->phone }}
+                        </span>
+                    </div>
+                    <div class="request__item">
+                        <span class="request__left">
+                            {{ __('Country') }}
+                        </span>
+                        <span class="request__right">
+                            {{ $order?->address?->country?->name }}
+                        </span>
+                    </div>
+                    <div class="request__item">
+                        <span class="request__left">
+                            {{ __('City') }}
+                        </span>
+                        <span class="request__right">
+                            {{ $order?->address?->state?->name }}
+                        </span>
+                    </div>
+                    <div class="request__item">
+                        <span class="request__left">
+                            {{ __('Province') }}
+                        </span>
+                        <span class="request__right">
+                            {{ $order?->address?->cityInfo?->name }}
+                        </span>
+                    </div>
+                    <div class="request__item">
+                        <span class="request__left">
+                            {{ __('Postal Code') }}
+                        </span>
+                        <span class="request__right">
+                            {{ $order?->address?->zipcode }}
+                        </span>
+                    </div>
+                    <div class="request__item">
+                        <span class="request__left">
+                            {{ __('Address') }}
+                        </span>
+                        <span class="request__right">
+                            {{ $order?->address?->address }}
+                        </span>
+                    </div>
+                    <div class="request__item">
+                        <span class="request__left">
+                            {{ __('Note') }}
+                        </span>
+                        <span class="request__right">
+                            {{ $order?->note }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="dashboard__card mt-4">
+        <div class="dashboard__card__header">
+            <h4 class="dashboard__card__title">
+                {{ __('Sub Order Information') }}
+            </h4>
+        </div>
+        <div class="dashboard__card__body mt-4">
+            <div class="row g-4">
+                @foreach ($order->SubOrders as $subOrders)
+                    @if (empty($subOrders->vendor))
+                        @php
+                            $adminShop = \App\AdminShopManage::with('logo')->first();
+                            $adminProductCount = \Modules\Product\Entities\Product::query()
+                                ->whereNotNull('admin_id')
+                                ->count();
+                            $adminTotalOrderCount = \Modules\Order\Entities\SubOrder::query()
+                                ->whereNull('vendor_id')
+                                ->count();
+                            $adminCompleteOrderCount = \Modules\Order\Entities\SubOrder::query()
+                                ->whereRelation('order', 'order_status', '=', 'complete')
+                                ->whereNull('vendor_id')
+                                ->count();
+                            $adminPendingOrderCount = \Modules\Order\Entities\SubOrder::query()
+                                ->whereRelation('order', 'order_status', '=', 'pending')
+                                ->whereNull('vendor_id')
+                                ->count();
+                            $adminCompleteOrderIncome = \Modules\Order\Entities\SubOrder::query()
+                                ->whereRelation('order', 'order_status', '=', 'complete')
+                                ->whereNull('vendor_id')
+                                ->sum('total_amount');
+                        @endphp
+                        <div class="col-md-12">
+                            <div class="dashboard__card">
+                                <div class="dashboard__card__header">
+                                    <h5 class="dashboard__card__title">
+                                        {{ $adminShop->store_name }}
+                                    </h5>
+                                    <div class="dashboard__card__header__right">
+                                        <div class="d-flex justify-content-between gap-1">
+                                            <b>{{ __('Sub Order No') }} </b>
+                                            <b class="request__right">
+                                                {{ $subOrders->order_number }}
+                                            </b>
+                                        </div>
+                                        <a href="{{ route('admin.orders.details', $subOrders->id) }}"
+                                            class="cmn_btn btn_bg_profile">
+                                            <i class="las la-eye"></i>
+                                            <small>
+                                                {{ __('View Sub Order') }}
+                                            </small>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="dashboard__card__body mt-4">
+                                    <div class="row g-4">
+                                        <div class="col-xxl-3 col-xl-4 col-sm-6">
+                                            <div class="subOrder__single">
+                                                <div class="subOrder__single__thumb">
+                                                    {!! render_image($adminShop->logo, 'w-50') !!}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xxl-3 col-xl-4 col-sm-6">
+                                            <div class="subOrder__single">
+                                                <div class="subOrder__single__item">
+                                                    <span class="subOrder__single__item__left">
+                                                        <h6>
+                                                            {{ $adminShop->store_name }}
+                                                        </h6>
+                                                    </span>
+                                                </div>
+                                                <div class="subOrder__single__item">
+                                                    <span class="subOrder__single__item__left">
+                                                        {{ __('Total Income') }}
+                                                    </span>
+                                                    <h6 class="badge badge-sm bg-success subOrder__single__item__right">
+                                                        {{ float_amount_with_currency_symbol($adminCompleteOrderIncome) }}
+                                                    </h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xxl-3 col-xl-4 col-sm-6">
+                                            <div class="subOrder__single">
+                                                <div class="subOrder__single__item">
+                                                    <span class="subOrder__single__item__left">
+                                                        {{ __('Total Products') }}
+                                                    </span>
+                                                    <h6 class="badge badge-sm bg-success subOrder__single__item__right">
+                                                        {{ $adminProductCount }}
+                                                    </h6>
+                                                </div>
+                                                <div class="subOrder__single__item">
+                                                    <span class="subOrder__single__item__left">
+                                                        {{ __('Total Orders') }}
+                                                    </span>
+                                                    <h6 class="badge badge-sm bg-success subOrder__single__item__right">
+                                                        {{ $adminTotalOrderCount }}
+                                                    </h6>
+                                                </div>
+                                                <div class="subOrder__single__item">
+                                                    <span class="subOrder__single__item__left">
+                                                        {{ __('Pending Orders') }}
+                                                    </span>
+                                                    <h6 class="badge badge-sm bg-success subOrder__single__item__right">
+                                                        {{ $adminPendingOrderCount }}
+                                                    </h6>
+                                                </div>
+                                                <div class="subOrder__single__item">
+                                                    <span class="subOrder__single__item__left">
+                                                        {{ __('Complete Orders') }}
+                                                    </span>
+                                                    <h6 class="badge badge-sm bg-success subOrder__single__item__right">
+                                                        {{ $adminCompleteOrderCount }}
+                                                    </h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xxl-3 col-xl-4 col-sm-6">
+                                            <div class="subOrder__single">
+                                                <div class="subOrder__single__item">
+                                                    <span class="subOrder__single__item__left">
+                                                        <h6>{{ __('Order Information') }}
+
+                                                        </h6>
+                                                    </span>
+                                                </div>
+                                                <div class="subOrder__single__item">
+                                                    <span class="subOrder__single__item__left">
+                                                        {{ __('Order Product Count') }}
+                                                    </span>
+                                                    <h6 class="badge badge-sm bg-success subOrder__single__item__right">
+                                                        {{ $subOrders->order_item_count }}
+                                                    </h6>
+                                                </div>
+                                                <div class="subOrder__single__item">
+                                                    <span class="subOrder__single__item__left">
+                                                        {{ __('Payment Status') }}
+                                                    </span>
+                                                    <h6 class="badge badge-sm bg-success subOrder__single__item__right">
+                                                        {{ ucwords($subOrders->payment_status) }}
+                                                    </h6>
+                                                </div>
+                                                <div class="subOrder__single__item">
+                                                    <span class="subOrder__single__item__left">
+                                                        {{ __('Order Amount') }}
+                                                    </span>
+                                                    <h6 class="badge badge-sm bg-success subOrder__single__item__right">
+                                                        {{ float_amount_with_currency_symbol($subOrders->total_amount) }}
+                                                    </h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @else
+                        <div class="col-md-12">
+                            <div class="dashboard__card">
+                                <div class="dashboard__card__header">
+                                    <h5 class="title">
+                                        {{ $subOrders->vendor?->business_name }}
+                                    </h5>
+                                    <div class="dashboard__card__header__right">
+                                        {{-- <div class="d-flex justify-content-between gap-1">
                                 <b>
                                     {{ __('This order status') }}
                                 </b>
@@ -641,168 +641,170 @@ $edit = $edit ?? false;
                                     {{ ucfirst(str_replace(['_', '-'], ' ', $subOrders->order_status)) }}
                                 </b>
                             </div> --}}
-                            <div class="d-flex justify-content-between gap-1">
-                                <b>{{ __('Sub Order No') }} </b>
-                                <b class="request__right">
-                                    #{{ $subOrders->order_number }}
-                                </b>
-                            </div>
-                            <a href="{{ route('admin.orders.details', $subOrders->id) }}"
-                                class="cmn_btn btn_bg_profile">
-                                <i class="las la-eye"></i>
-                                <small>
-                                    {{ __('View Sub Order') }}
-                                </small>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="dashboard__card__body mt-4">
-                        <div class="row g-4">
-                            <div class="col-xxl-3 col-xl-4 col-sm-6">
-                                <div class="subOrder__single">
-                                    <div class="subOrder__single__thumb">
-                                        {!! render_image($subOrders->vendor->logo, class: 'w-50') !!}
+                                        <div class="d-flex justify-content-between gap-1">
+                                            <b>{{ __('Sub Order No') }} </b>
+                                            <b class="request__right">
+                                                #{{ $subOrders->order_number }}
+                                            </b>
+                                        </div>
+                                        <a href="{{ route('admin.orders.details', $subOrders->id) }}"
+                                            class="cmn_btn btn_bg_profile">
+                                            <i class="las la-eye"></i>
+                                            <small>
+                                                {{ __('View Sub Order') }}
+                                            </small>
+                                        </a>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-xxl-3 col-xl-4 col-sm-6">
-                                <div class="subOrder__single">
-                                    <div class="subOrder__single__item">
-                                        <span class="subOrder__single__item__left">
-                                            {{ $subOrders->vendor->owner_name }}
-                                        </span>
-                                        <div class="subOrder__single__item__right">
-                                            <h6>({{ $subOrders->vendor->username }})</h6>
+                                <div class="dashboard__card__body mt-4">
+                                    <div class="row g-4">
+                                        <div class="col-xxl-3 col-xl-4 col-sm-6">
+                                            <div class="subOrder__single">
+                                                <div class="subOrder__single__thumb">
+                                                    {!! render_image($subOrders->vendor->logo, class: 'w-50') !!}
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    {{-- <div class="subOrder__single__item">
+                                        <div class="col-xxl-3 col-xl-4 col-sm-6">
+                                            <div class="subOrder__single">
+                                                <div class="subOrder__single__item">
+                                                    <span class="subOrder__single__item__left">
+                                                        {{ $subOrders->vendor->owner_name }}
+                                                    </span>
+                                                    <div class="subOrder__single__item__right">
+                                                        <h6>({{ $subOrders->vendor->username }})</h6>
+                                                    </div>
+                                                </div>
+                                                {{-- <div class="subOrder__single__item">
                                         <span class="subOrder__single__item__left">
                                             {{ strip_tags($subOrders->vendor->description) }}
                                         </span>
                                     </div> --}}
-                                    <div class="subOrder__single__item">
-                                        <span class="subOrder__single__item__left">
-                                            {{ __('Total Income') }}
-                                        </span>
-                                        <h6 class="badge badge-sm bg-success subOrder__single__item__right">
-                                            {{ float_amount_with_currency_symbol($subOrders->vendor->total_earning) }}
-                                        </h6>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xxl-3 col-xl-4 col-sm-6">
-                                <div class="subOrder__single">
-                                    <div class="subOrder__single__item">
-                                        <span class="subOrder__single__item__left">
-                                            {{ __('Total Products') }}
-                                        </span>
-                                        <h6 class="badge badge-sm bg-success subOrder__single__item__right">
-                                            {{ $subOrders->vendor->product_count }}
-                                        </h6>
-                                    </div>
-                                    <div class="subOrder__single__item">
-                                        <span class="subOrder__single__item__left">
-                                            {{ __('Total Orders') }}
-                                        </span>
-                                        <h6 class="badge badge-sm bg-success subOrder__single__item__right">
-                                            {{ $subOrders->vendor->pending_order }}
-                                        </h6>
-                                    </div>
-                                    <div class="subOrder__single__item">
-                                        <span class="subOrder__single__item__left">
-                                            {{ __('Pending Orders') }}
-                                        </span>
-                                        <h6 class="badge badge-sm bg-success subOrder__single__item__right">
-                                            {{ $subOrders->vendor->pending_order }}
-                                        </h6>
-                                    </div>
-                                    <div class="subOrder__single__item">
-                                        <span class="subOrder__single__item__left">
-                                            {{ __('Complete Orders') }}
-                                        </span>
-                                        <h6 class="badge badge-sm bg-success subOrder__single__item__right">
-                                            {{ $subOrders->vendor->complete_order }}
-                                        </h6>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xxl-3 col-xl-4 col-sm-6">
-                                <div class="subOrder__single">
-                                    <div class="subOrder__single__item">
-                                        <span class="subOrder__single__item__left">
-                                            <h6>
-                                                {{ __('Order Information') }}
-                                            </h6>
-                                        </span>
-                                    </div>
-                                    <div class="subOrder__single__item">
-                                        <span class="subOrder__single__item__left">
-                                            {{ __('Order Product Count') }}
-                                        </span>
-                                        <h6 class="badge badge-sm bg-success subOrder__single__item__right">
-                                            {{ $subOrders->order_item_count }}
-                                        </h6>
-                                    </div>
-                                    <div class="subOrder__single__item">
-                                        <span class="subOrder__single__item__left">
-                                            {{ __('Payment Status') }}
-                                        </span>
-                                        @if ($subOrders->order->payment_status == 'complete')
-                                        <h6 class="badge badge-sm bg-success subOrder__single__item__right">
-                                            {{ __('Complete') }}
-                                        </h6>
-                                        @elseif ($subOrders->order->payment_status == 'pending')
-                                        <h6 class="badge badge-sm bg-warning subOrder__single__item__right">
-                                            {{ __('Pending') }}
-                                        </h6>
-                                        @elseif ($subOrders->order->payment_status == 'failed')
-                                        <h6 class="badge badge-sm bg-danger subOrder__single__item__right">
-                                            {{ __('Failed') }}
-                                        </h6>
-                                        @endif
-                                    </div>
-                                    <div class="subOrder__single__item">
-                                        <span class="subOrder__single__item__left">
-                                            {{ __('Order Status') }}
-                                        </span>
-                                        <span
-                                            class="badge {{ $subOrders->order_status === 'order_cancelled' ? 'bg-danger' : 'bg-dark' }}">
-                                            {{ ucfirst(str_replace(['_', '-'], ' ', $subOrders->order_status)) }}
-                                        </span>
-                                    </div>
-                                    <div class="subOrder__single__item">
-                                        <span class="subOrder__single__item__left">
-                                            {{ __('Order Amount') }}
-                                        </span>
-                                        <h6 class="badge badge-sm bg-success subOrder__single__item__right">
-                                            {{ float_amount_with_currency_symbol($subOrders->total_amount) }}
-                                        </h6>
+                                                <div class="subOrder__single__item">
+                                                    <span class="subOrder__single__item__left">
+                                                        {{ __('Total Income') }}
+                                                    </span>
+                                                    <h6 class="badge badge-sm bg-success subOrder__single__item__right">
+                                                        {{ float_amount_with_currency_symbol($subOrders->vendor->total_earning) }}
+                                                    </h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xxl-3 col-xl-4 col-sm-6">
+                                            <div class="subOrder__single">
+                                                <div class="subOrder__single__item">
+                                                    <span class="subOrder__single__item__left">
+                                                        {{ __('Total Products') }}
+                                                    </span>
+                                                    <h6 class="badge badge-sm bg-success subOrder__single__item__right">
+                                                        {{ $subOrders->vendor->product_count }}
+                                                    </h6>
+                                                </div>
+                                                <div class="subOrder__single__item">
+                                                    <span class="subOrder__single__item__left">
+                                                        {{ __('Total Orders') }}
+                                                    </span>
+                                                    <h6 class="badge badge-sm bg-success subOrder__single__item__right">
+                                                        {{ $subOrders->vendor->pending_order }}
+                                                    </h6>
+                                                </div>
+                                                <div class="subOrder__single__item">
+                                                    <span class="subOrder__single__item__left">
+                                                        {{ __('Pending Orders') }}
+                                                    </span>
+                                                    <h6 class="badge badge-sm bg-success subOrder__single__item__right">
+                                                        {{ $subOrders->vendor->pending_order }}
+                                                    </h6>
+                                                </div>
+                                                <div class="subOrder__single__item">
+                                                    <span class="subOrder__single__item__left">
+                                                        {{ __('Complete Orders') }}
+                                                    </span>
+                                                    <h6 class="badge badge-sm bg-success subOrder__single__item__right">
+                                                        {{ $subOrders->vendor->complete_order }}
+                                                    </h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xxl-3 col-xl-4 col-sm-6">
+                                            <div class="subOrder__single">
+                                                <div class="subOrder__single__item">
+                                                    <span class="subOrder__single__item__left">
+                                                        <h6>
+                                                            {{ __('Order Information') }}
+                                                        </h6>
+                                                    </span>
+                                                </div>
+                                                <div class="subOrder__single__item">
+                                                    <span class="subOrder__single__item__left">
+                                                        {{ __('Order Product Count') }}
+                                                    </span>
+                                                    <h6 class="badge badge-sm bg-success subOrder__single__item__right">
+                                                        {{ $subOrders->order_item_count }}
+                                                    </h6>
+                                                </div>
+                                                <div class="subOrder__single__item">
+                                                    <span class="subOrder__single__item__left">
+                                                        {{ __('Payment Status') }}
+                                                    </span>
+                                                    @if ($subOrders->order->payment_status == 'complete')
+                                                        <h6
+                                                            class="badge badge-sm bg-success subOrder__single__item__right">
+                                                            {{ __('Complete') }}
+                                                        </h6>
+                                                    @elseif ($subOrders->order->payment_status == 'pending')
+                                                        <h6
+                                                            class="badge badge-sm bg-warning subOrder__single__item__right">
+                                                            {{ __('Pending') }}
+                                                        </h6>
+                                                    @elseif ($subOrders->order->payment_status == 'failed')
+                                                        <h6 class="badge badge-sm bg-danger subOrder__single__item__right">
+                                                            {{ __('Failed') }}
+                                                        </h6>
+                                                    @endif
+                                                </div>
+                                                <div class="subOrder__single__item">
+                                                    <span class="subOrder__single__item__left">
+                                                        {{ __('Order Status') }}
+                                                    </span>
+                                                    <span
+                                                        class="badge {{ $subOrders->order_status === 'order_cancelled' ? 'bg-danger' : 'bg-dark' }}">
+                                                        {{ ucfirst(str_replace(['_', '-'], ' ', $subOrders->order_status)) }}
+                                                    </span>
+                                                </div>
+                                                <div class="subOrder__single__item">
+                                                    <span class="subOrder__single__item__left">
+                                                        {{ __('Order Amount') }}
+                                                    </span>
+                                                    <h6 class="badge badge-sm bg-success subOrder__single__item__right">
+                                                        {{ float_amount_with_currency_symbol($subOrders->total_amount) }}
+                                                    </h6>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    @endif
+                @endforeach
             </div>
-            @endif
-            @endforeach
         </div>
     </div>
-</div>
 @endsection
 
 @section('script')
-<script
-    src="https://maps.googleapis.com/maps/api/js?key={{ get_static_option('map_api_key_client') }}&libraries=drawing,places&v=3.45.8">
-</script>
-<script src="{{ asset('assets/backend/js/sweetalert2.js') }}"></script>
-<script>
-    function geocodeAddress(address) {
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key={{ get_static_option('map_api_key_client') }}&libraries=drawing,places&v=3.45.8">
+    </script>
+    <script src="{{ asset('assets/backend/js/sweetalert2.js') }}"></script>
+    <script>
+        function geocodeAddress(address) {
             var geocoder = new google.maps.Geocoder();
 
             geocoder.geocode({
                 address: address
-            }, function (results, status) {
+            }, function(results, status) {
                 if (status === google.maps.GeocoderStatus.OK) {
                     var latitude = results[0].geometry.location.lat();
                     var longitude = results[0].geometry.location.lng();
@@ -815,31 +817,31 @@ $edit = $edit ?? false;
         // Call the function with your address
         var address = "Dhaka, Dhaka, Bangladesh, 24727";
 
-        $(document).ready(function () {
+        $(document).ready(function() {
             console.log(geocodeAddress(address));
         });
 
 
-        (function ($) {
+        (function($) {
             "use strict";
-            $(document).on("change", ".order-track-input", function () {
+            $(document).on("change", ".order-track-input", function() {
                 let el = $(this);
                 $(".order-track-input").removeAttr("checked");
-                $(".order-track-input").each(function () {
+                $(".order-track-input").each(function() {
                     $(this).prop("checked", true);
                     if (el.val() == $(this).val()) {
                         return false;
                     }
                 })
             });
-            $(document).ready(function () {
-                $(document).on('click', '.bodyUser_overlay', function () {
+            $(document).ready(function() {
+                $(document).on('click', '.bodyUser_overlay', function() {
                     $('.user-dashboard-wrapper, .bodyUser_overlay').removeClass('show');
                 });
-                $(document).on('click', '.mobile_nav', function () {
+                $(document).on('click', '.mobile_nav', function() {
                     $('.user-dashboard-wrapper, .bodyUser_overlay').addClass('show');
                 });
-                $(document).on('click', '.swal_delete_button', function (e) {
+                $(document).on('click', '.swal_delete_button', function(e) {
                     e.preventDefault();
                     Swal.fire({
                         title: '{{ __('Are you sure?') }}',
@@ -858,6 +860,5 @@ $edit = $edit ?? false;
                 });
             })
         })(jQuery)
-</script>
-<x-datatable.js />
+    </script>
 @endsection

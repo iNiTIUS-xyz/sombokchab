@@ -1,7 +1,6 @@
 @extends('vendor.vendor-master')
 
 @section('style')
-    <x-datatable.css />
     <style>
         .card img {
             height: 110px;
@@ -57,26 +56,28 @@
                                 </div>
 
                                 @if (auth('vendor')->check())
-                                    @if ($subOrders->order_status !== 'order_cancelled')
-                                        @if ($subOrders->order_status == 'pending')
-                                            <div class="d-flex gap-2 mt-2">
-                                                <button
-                                                    class="btn btn-sm btn-primary approve-order-for-delivery">{{ __('Approve Order for Delivery') }}</button>
-                                                <button
-                                                    class="btn btn-sm btn-danger cancel-order">{{ __('Cancel Order') }}</button>
-                                            </div>
-                                        @endif
-
-                                        @if ($subOrders->order_status !== 'pending' && $subOrders->order_status !== 'product_sent_to_admin')
-                                            <div class="d-flex gap-2 mt-2">
-                                                <button
-                                                    class="btn btn-sm btn-primary product-sent-to-admin">{{ __('Product Sent to Admin') }}</button>
-                                            </div>
-                                        @endif
-                                    @else
+                                    @if ($subOrders->order_status === 'order_cancelled')
                                         <div class="d-flex gap-2 mt-2">
-                                            <button disabled
-                                                class="badge bg-danger">{{ __("You've cancelled this order") }}</button>
+                                            <button disabled class="badge bg-danger">
+                                                {{ __("You've cancelled this order") }}
+                                            </button>
+                                        </div>
+                                    @elseif ($subOrders->order_status === 'complete')
+
+                                    @elseif ($subOrders->order_status === 'pending')
+                                        <div class="d-flex gap-2 mt-2">
+                                            <button class="btn btn-sm btn-primary approve-order-for-delivery">
+                                                {{ __('Approve Order for Delivery') }}
+                                            </button>
+                                            <button class="btn btn-sm btn-danger cancel-order">
+                                                {{ __('Cancel Order') }}
+                                            </button>
+                                        </div>
+                                    @elseif ($subOrders->order_status !== 'product_sent_to_admin')
+                                        <div class="d-flex gap-2 mt-2">
+                                            <button class="btn btn-sm btn-primary product-sent-to-admin">
+                                                {{ __('Product Sent to Admin') }}
+                                            </button>
                                         </div>
                                     @endif
                                 @endif

@@ -43,25 +43,33 @@
                                         {{ $order->order->created_at->format('M d, Y') }}
                                     </td>
                                     <td class="status">
-                                        @if ($order->order->order_status == 'complete')
+                                        @if ($order->order_status == 'complete')
                                             <span class="badge bg-primary px-2 py-1 text-white">
                                                 {{ __('Completed') }}
                                             </span>
-                                        @elseif ($order->order->order_status == 'pending')
+                                        @elseif ($order->order_status == 'pending')
                                             <span class="badge bg-warning px-2 py-1">
                                                 {{ __('Pending') }}
                                             </span>
-                                        @elseif ($order->order->order_status == 'failed')
+                                        @elseif ($order->order_status == 'failed')
                                             <span class="badge px-2 py-1 bg-secondary text-white">
                                                 {{ __('Failed') }}
                                             </span>
-                                        @elseif ($order->order->order_status == 'rejected')
+                                        @elseif ($order->order_status == 'rejected')
                                             <span class="badge bg-danger px-2 py-1 text-white">
                                                 {{ __('Rejected') }}
                                             </span>
-                                        @elseif ($order->order->order_status == 'canceled')
+                                        @elseif ($order->order_status == 'canceled')
                                             <span class="badge bg-danger px-2 py-1 text-white">
                                                 {{ __('Canceled') }}
+                                            </span>
+                                        @elseif($order->order_status == 'product_sent_to_admin')
+                                            <span class="badge bg-info px-2 py-1 text-white">
+                                                {{ __('Product Sent To Admin') }}
+                                            </span>
+                                        @elseif($order->order_status == 'approved_order_status')
+                                            <span class="badge bg-secondary px-2 py-1 text-white">
+                                                {{ __('Approved Order Status') }}
                                             </span>
                                         @endif
                                     </td>

@@ -93,8 +93,15 @@
                 </div>
                 <div class="dashboard__card__body">
                     <div class="subOrder__single__item">
-                        <span class="subOrder__single__item__left">{{ __('Main Order No') }}</span>
-                        <span class="subOrder__single__item__right">{{ $subOrders?->order?->order_number }}</span>
+                        <span class="subOrder__single__item__left">
+                            {{ __('Main Order No') }}
+                        </span>
+                        <a href="{{ route('admin.orders.order.details', $subOrders?->order->id) }}" class="text-success"
+                            title="View Details">
+                            <span class="subOrder__single__item__right text-success">
+                                {{ $subOrders?->order?->order_number }}
+                            </span>
+                        </a>
                     </div>
                     <div class="subOrder__single__item">
                         <span class="subOrder__single__item__left">{{ __('Sub Order No') }}</span>
