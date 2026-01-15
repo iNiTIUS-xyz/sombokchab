@@ -78,7 +78,11 @@
                                         <button type="button"
                                             class="status-{{ $status }} {{ $statusClass }} dropdown-toggle"
                                             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            {{ ucwords(str_replace('_', ' ', $status)) }}
+                                            @if ($status == 'approved_order_status')
+                                                {{ __('Ready for Delivery') }}
+                                            @else
+                                                {{ ucwords(str_replace('_', ' ', $status)) }}
+                                            @endif
                                         </button>
                                         <div class="dropdown-menu">
                                             {{-- Pending --}}
@@ -120,7 +124,7 @@
                                                 @csrf
                                                 <input type="hidden" name="order_status" value="approved_order_status">
                                                 <button type="submit" class="dropdown-item">
-                                                    {{ __('Approved Order Status') }}
+                                                    {{ __('Ready for Delivery') }}
                                                 </button>
                                             </form>
                                         </div>

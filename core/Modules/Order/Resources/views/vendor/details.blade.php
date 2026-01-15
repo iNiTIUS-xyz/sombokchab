@@ -67,7 +67,7 @@
                                     @elseif ($subOrders->order_status === 'pending')
                                         <div class="d-flex gap-2 mt-2">
                                             <button class="btn btn-sm btn-primary approve-order-for-delivery">
-                                                {{ __('Approve Order for Delivery') }}
+                                                {{ __('Ready for Delivery') }}
                                             </button>
                                             <button class="btn btn-sm btn-danger cancel-order">
                                                 {{ __('Cancel Order') }}
@@ -105,11 +105,36 @@
                                 </div> --}}
                                 <div class="d-flex justify-content-between mb-1">
                                     <b>{{ __('Order status') }}</b>
-                                    <h6 @class([
-                                        $subOrders->order_status === 'order_cancelled' => 'text-danger',
-                                    ])>
-                                        {{ ucfirst(str_replace(['_', '-'], ' ', $subOrders->order_status)) }}
-                                    </h6>
+
+                                    @if ($subOrders->order_status == 'complete')
+                                        <span class="badge bg-primary px-2 py-1 text-white">
+                                            {{ __('Completed') }}
+                                        </span>
+                                    @elseif ($subOrders->order_status == 'pending')
+                                        <span class="badge bg-warning px-2 py-1">
+                                            {{ __('Pending') }}
+                                        </span>
+                                    @elseif ($subOrders->order_status == 'failed')
+                                        <span class="badge px-2 py-1 bg-secondary text-white">
+                                            {{ __('Failed') }}
+                                        </span>
+                                    @elseif ($subOrders->order_status == 'rejected')
+                                        <span class="badge bg-danger px-2 py-1 text-white">
+                                            {{ __('Rejected') }}
+                                        </span>
+                                    @elseif ($subOrders->order_status == 'canceled')
+                                        <span class="badge bg-danger px-2 py-1 text-white">
+                                            {{ __('Canceled') }}
+                                        </span>
+                                    @elseif($subOrders->order_status == 'product_sent_to_admin')
+                                        <span class="badge bg-info px-2 py-1 text-white">
+                                            {{ __('Product Sent to Admin') }}
+                                        </span>
+                                    @elseif($subOrders->order_status == 'approved_order_status')
+                                        <span class="badge bg-secondary px-2 py-1 text-white">
+                                            {{ __('Read for Delivery') }}
+                                        </span>
+                                    @endif
                                 </div>
                             </div>
                         </div>

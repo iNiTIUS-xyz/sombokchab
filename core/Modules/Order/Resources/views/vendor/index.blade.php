@@ -65,11 +65,11 @@
                                             </span>
                                         @elseif($order->order_status == 'product_sent_to_admin')
                                             <span class="badge bg-info px-2 py-1 text-white">
-                                                {{ __('Product Sent To Admin') }}
+                                                {{ __('Product Sent to Admin') }}
                                             </span>
                                         @elseif($order->order_status == 'approved_order_status')
                                             <span class="badge bg-secondary px-2 py-1 text-white">
-                                                {{ __('Approved Order Status') }}
+                                                {{ __('Read for Delivery') }}
                                             </span>
                                         @endif
                                     </td>
