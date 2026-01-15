@@ -1,7 +1,6 @@
 @extends('backend.admin-master')
 
 @section('style')
-    <x-datatable.css />
     <style>
         .card img {
             height: 110px;
@@ -93,6 +92,10 @@
                     <h4 class="dashboard__card__title">{{ __('Order Information') }}</h4>
                 </div>
                 <div class="dashboard__card__body">
+                    <div class="subOrder__single__item">
+                        <span class="subOrder__single__item__left">{{ __('Main Order No') }}</span>
+                        <span class="subOrder__single__item__right">{{ $subOrders?->order?->order_number }}</span>
+                    </div>
                     <div class="subOrder__single__item">
                         <span class="subOrder__single__item__left">{{ __('Sub Order No') }}</span>
                         <span class="subOrder__single__item__right">{{ $subOrders?->order_number }}</span>
