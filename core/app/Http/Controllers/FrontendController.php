@@ -27,6 +27,7 @@ use App\StaticOption;
 use App\User;
 use Carbon\Carbon;
 use Exception;
+use Modules\ShippingModule\Entities\Zone;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -886,25 +887,33 @@ class FrontendController extends Controller
 
     public function checkoutShippingMethods(Request $request)
     {
+        $user = User::findOrFail(Auth::id());
 
-        $user = User::query()
-            ->findOrFail(Auth::user()->id);
+        $shippingAddress = ShippingAddress::findOrFail($request->shipping_address_id);
 
-        $shipping_addresses = ShippingAddress::query()
-            ->findOrFail($request->shipping_address_id);
+        $zones = Zone::query()
+            ->where('city_id', $shippingAddress->city)
+            ->orWhere('city_id', $user->city)
+            ->pluck('id');
 
-        $adminShippingMethod = AdminShippingMethod::query()
-            ->with([
-                'zone',
-                'zone.zoneCountry',
-                'zone.zoneCountry.country',
-                'zone.zoneCountry.zoneStates',
-                'zone.zoneCountry.states',
-                'zone.country',
-            ])
-            ->get();
+        if ($zones->isEmpty()) {
+            $adminShippingMethod = AdminShippingMethod::query()
+                ->with('zone')
+                ->where('is_default', 1)
+                ->get();
+        } else {
+            $adminShippingMethod = AdminShippingMethod::query()
+                ->with('zone')
+                ->whereIn('zone_id', $zones)
+                ->get();
+        }
 
-        // return response()->json($adminShippingMethod);
+        if ($adminShippingMethod->count()  == 0) {
+            $adminShippingMethod = AdminShippingMethod::query()
+                ->with('zone')
+                ->where('is_default', 1)
+                ->get();
+        }
 
         $html = view('frontend.cart.shipping-methods', compact('adminShippingMethod'))->render();
 
@@ -912,6 +921,7 @@ class FrontendController extends Controller
             'html' => $html,
         ]);
     }
+
 
     public function cartItemsBasedOnBillingAddress(Request $request)
     {

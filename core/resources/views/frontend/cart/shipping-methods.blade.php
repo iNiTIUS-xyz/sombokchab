@@ -13,9 +13,9 @@
         @foreach ($adminShippingMethod ?? [] as $method)
             @php
                 $method->cost = calculatePrice($method->cost, $method, 'shipping');
-                if ($method->is_default) {
-                    $default_shipping_cost = $method->cost;
-                }
+                // if ($method->is_default) {
+                $default_shipping_cost = $method->cost;
+                // }
             @endphp
 
             <li data-shipping-cost-id="{{ $method->id }}" data-shipping-cost="{{ round($method->cost) }}"
