@@ -87,7 +87,7 @@
                                                     </a>
                                                 @endcan
                                                 @can('manage-country-province-city')
-                                                    <x-table.btn.swal.delete :route="route('admin.country.delete', $country->id)" />
+                                                    <x-delete-popover :url="route('admin.country.delete', $country->id)" />
                                                 @endcan
                                             </td>
                                         </tr>
