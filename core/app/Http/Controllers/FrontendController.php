@@ -887,30 +887,36 @@ class FrontendController extends Controller
 
     public function checkoutShippingMethods(Request $request)
     {
-        $user = User::findOrFail(Auth::id());
+        $user = User::findOrFail(Auth::user()->id);
 
         $shippingAddress = ShippingAddress::findOrFail($request->shipping_address_id);
 
         $zones = Zone::query()
-            ->where('city_id', $shippingAddress->city)
-            ->orWhere('city_id', $user->city)
+            ->where('city_id', $shippingAddress?->city)
+            ->orWhere('city_id', $user?->city)
             ->pluck('id');
 
         if ($zones->isEmpty()) {
             $adminShippingMethod = AdminShippingMethod::query()
-                ->with('zone')
+                ->with([
+                    'zone'
+                ])
                 ->where('is_default', 1)
                 ->get();
         } else {
             $adminShippingMethod = AdminShippingMethod::query()
-                ->with('zone')
+                ->with([
+                    'zone'
+                ])
                 ->whereIn('zone_id', $zones)
                 ->get();
         }
 
         if ($adminShippingMethod->count()  == 0) {
             $adminShippingMethod = AdminShippingMethod::query()
-                ->with('zone')
+                ->with([
+                    'zone'
+                ])
                 ->where('is_default', 1)
                 ->get();
         }
