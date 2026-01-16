@@ -67,7 +67,7 @@
                                     @elseif ($subOrders->order_status === 'pending')
                                         <div class="d-flex gap-2 mt-2">
                                             <button class="btn btn-sm btn-primary approve-order-for-delivery">
-                                                {{ __('Ready for Delivery') }}
+                                                {{ __('Ready for Pickup') }}
                                             </button>
                                             <button class="btn btn-sm btn-danger cancel-order">
                                                 {{ __('Cancel Order') }}
@@ -76,7 +76,7 @@
                                     @elseif ($subOrders->order_status !== 'product_sent_to_admin')
                                         <div class="d-flex gap-2 mt-2">
                                             <button class="btn btn-sm btn-primary product-sent-to-admin">
-                                                {{ __('Product Sent to Admin') }}
+                                                {{ __('Product Left Seller') }}
                                             </button>
                                         </div>
                                     @endif
@@ -128,24 +128,24 @@
                                         </span>
                                     @elseif($subOrders->order_status == 'product_sent_to_admin')
                                         <span class="badge bg-info px-2 py-1 text-white">
-                                            {{ __('Product Sent to Admin') }}
+                                            {{ __('Product Left Seller') }}
                                         </span>
                                     @elseif($subOrders->order_status == 'approved_order_status')
                                         <span class="badge bg-secondary px-2 py-1 text-white">
-                                            {{ __('Read for Delivery') }}
+                                            {{ __('Ready for Pickup') }}
                                         </span>
                                     @endif
                                 </div>
                             </div>
                         </div>
 
-                        <div class="row g-4">
+                        {{-- <div class="row g-4">
                             <div class="col-12">
                                 <p><b>{{ __('Note:') }}</b>
                                     {{ __('You can approve order or cancel order if you do this then your order status will be changed once you approved then you can change status for order item sent to admin') }}
                                 </p>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>

@@ -79,7 +79,7 @@
                                             class="status-{{ $status }} {{ $statusClass }} dropdown-toggle"
                                             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             @if ($status == 'approved_order_status')
-                                                {{ __('Ready for Delivery') }}
+                                                {{ __('Ready for Pickup') }}
                                             @else
                                                 {{ ucwords(str_replace('_', ' ', $status)) }}
                                             @endif
@@ -116,7 +116,7 @@
                                                 @csrf
                                                 <input type="hidden" name="order_status" value="product_sent_to_admin">
                                                 <button type="submit" class="dropdown-item">
-                                                    {{ __('Product Sent To Admin') }}
+                                                    {{ __('Product Left Seller') }}
                                                 </button>
                                             </form>
                                             <form action="{{ route('admin.orders.sub.change.status', $order->id) }}"
@@ -124,7 +124,7 @@
                                                 @csrf
                                                 <input type="hidden" name="order_status" value="approved_order_status">
                                                 <button type="submit" class="dropdown-item">
-                                                    {{ __('Ready for Delivery') }}
+                                                    {{ __('Ready for Pickup') }}
                                                 </button>
                                             </form>
                                         </div>
