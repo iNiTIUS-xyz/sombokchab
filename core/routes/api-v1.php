@@ -129,6 +129,7 @@ Route::group(['prefix' => 'user/', 'middleware' => 'auth:sanctum'], function () 
     Route::get("all-shipping-address", [UserController::class, "get_all_shipping_address"]);
     Route::get("shipping-address/delete/{shipping}", [UserController::class, "delete_shipping_address"]);
     Route::post("add-shipping-address", [UserController::class, "storeShippingAddress"]);
+    Route::post("update-shipping-address/{id}", [UserController::class, "updateShippingAddress"]);
     Route::get("get-department", [UserController::class, "get_department"]);
     Route::get("ticket", [UserController::class, "get_all_tickets"]);
     Route::get("ticket/{id}", [UserController::class, "single_ticket"]);
