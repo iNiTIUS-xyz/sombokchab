@@ -884,39 +884,32 @@ class FrontendController extends Controller
             'defaultShippingAddress'
         ));
     }
-
     public function checkoutShippingMethods(Request $request)
     {
-        $user = User::findOrFail(Auth::user()->id);
+        $user = Auth::user();
 
-        $shippingAddress = ShippingAddress::findOrFail($request->shipping_address_id);
+        $shippingAddress = ShippingAddress::find($request->shipping_address_id);
 
-        $zones = Zone::query()
-            ->where('city_id', $shippingAddress?->city)
-            ->orWhere('city_id', $user?->city)
-            ->pluck('id');
+        // Collect possible city IDs
+        $cityIds = collect([
+            optional($shippingAddress)->city,
+            $user->city,
+        ])->filter()->unique();
 
-        if ($zones->isEmpty()) {
-            $adminShippingMethod = AdminShippingMethod::query()
-                ->with([
-                    'zone'
-                ])
-                ->where('is_default', 1)
-                ->get();
-        } else {
-            $adminShippingMethod = AdminShippingMethod::query()
-                ->with([
-                    'zone'
-                ])
-                ->whereIn('zone_id', $zones)
-                ->get();
-        }
+        // Get zone IDs in one query
+        $zoneIds = Zone::whereIn('city_id', $cityIds)->pluck('id');
 
-        if ($adminShippingMethod->count()  == 0) {
-            $adminShippingMethod = AdminShippingMethod::query()
-                ->with([
-                    'zone'
-                ])
+        // Base query
+        $query = AdminShippingMethod::with('zone');
+
+        // Apply condition
+        $adminShippingMethod = $zoneIds->isNotEmpty()
+            ? $query->whereIn('zone_id', $zoneIds)->get()
+            : $query->where('is_default', 1)->get();
+
+        // Fallback to default if no result found
+        if ($adminShippingMethod->isEmpty()) {
+            $adminShippingMethod = AdminShippingMethod::with('zone')
                 ->where('is_default', 1)
                 ->get();
         }

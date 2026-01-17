@@ -20,6 +20,7 @@ class OrderController extends Controller
 
     public function checkout(SubmitCheckoutRequest $request)
     {
+        dd($request->all());
         $data = $request->validated();
         return OrderService::testOrder($data);
     }

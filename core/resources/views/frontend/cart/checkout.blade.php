@@ -605,7 +605,7 @@
             calculateOrderSummaryNoTax();
         });
 
-        $(document).on("click", ".checkout-shipping-method", function() {
+        $(document).on("click", ".checkout-shipping-method", function()
             let shippingCost = Number($(this).attr("data-shipping-cost"));
             let shippingCostId = $(this).attr("data-shipping-cost-id");
             let currencySymbol = "{{ site_currency_symbol() }}";
