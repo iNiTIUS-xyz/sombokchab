@@ -152,8 +152,8 @@
                             <div class="col-md-6 mb-3">
                                 <label>{{ __('Discount') }} <span class="text-danger">*</span></label>
                                 <input type="number" class="form-control discount" id="edit_discount" step="0.01"
-                                    placeholder="Enter Discount" name="discount" required pattern="[0-9]+(\.[0-9]{1,2})?"
-                                    value="{{ $coupon->discount }}">
+                                    max="99..99" placeholder="Enter Discount" name="discount" required
+                                    pattern="[0-9]+(\.[0-9]{1,2})?" value="{{ $coupon->discount }}">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label>{{ __('Expire Date') }} <span class="text-danger">*</span></label>
@@ -271,6 +271,23 @@
 
 
 
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const discount = document.querySelector('.discount');
+
+            discount.addEventListener('input', function() {
+                let value = parseFloat(this.value);
+
+                if (value > 99.99) {
+                    this.value = 99.99;
+                }
+
+                if (value < 1) {
+                    this.value = '';
+                }
+            });
         });
     </script>
 @endsection
