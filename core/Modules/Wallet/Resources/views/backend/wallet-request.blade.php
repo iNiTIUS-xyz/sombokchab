@@ -126,16 +126,16 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                @if ($withdrawRequest->request_status == 'pending' || $withdrawRequest->request_status == 'processing')
-                                                    <a title="{{ __('Edit') }}" data-fields="{{ $fields }}"
-                                                        data-id="{{ $withdrawRequest->id }}"
-                                                        data-request-status="{{ $withdrawRequest->request_status }}"
-                                                        id="update-wallet-request" data-bs-target="#updateWalletStatus"
-                                                        data-bs-toggle="modal" class="btn btn-sm btn-warning text-dark">
-                                                        <i class="ti-pencil"></i>
-                                                    </a>
-                                                @endif
+                                                <a title="{{ __('Edit') }}" data-fields="{{ $fields }}"
+                                                    data-id="{{ $withdrawRequest->id }}"
+                                                    data-request-status="{{ $withdrawRequest->request_status }}"
+                                                    id="update-wallet-request" data-bs-target="#updateWalletStatus"
+                                                    data-bs-toggle="modal" class="btn btn-sm btn-warning text-dark">
+                                                    <i class="ti-pencil"></i>
+                                                </a>
                                             </td>
+
+
                                         </tr>
                                     @endforeach
                                 </tbody>

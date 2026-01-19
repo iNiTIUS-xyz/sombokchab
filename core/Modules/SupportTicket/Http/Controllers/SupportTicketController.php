@@ -80,7 +80,7 @@ class SupportTicketController extends Controller {
             'description'      => $request->description,
             'subject'          => null,
             'status'           => 'open',
-            'priority'         => null,
+            'priority'         => $request->priority,
             'user_id'          => $request->user_type == 'customer' ? $request->user_id : null,
             'vendor_id'        => $request->user_type == 'vendor' ? $request->vendor_id : null,
             'departments'      => $request->departments,
