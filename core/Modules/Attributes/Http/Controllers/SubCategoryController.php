@@ -85,8 +85,13 @@ class SubCategoryController extends Controller {
         ]);
     }
 
-    public function destroy(SubCategory $item): ?bool {
-        return $item->delete();
+    public function destroy(SubCategory $item) {
+        $item = $item->delete();
+        return back()->with([
+            "message"    => $item ? __("Successfully Deleted Sub Category") : __("Failed To Delete Sub Category"),
+            "alert-type" => 'success',
+            "success"    => (bool) $item,
+        ]);
     }
 
     public function bulk_action(Request $request): JsonResponse {
