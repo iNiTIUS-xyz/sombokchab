@@ -26,6 +26,8 @@ class CampaignController extends Controller
         $selectedCampaigns = MobileCampaign::query()->first();
 
         $campaignIds = $selectedCampaigns ? json_decode($selectedCampaigns->campaign_ids, true) : [];
+        
+        $now = Carbon::now();
 
         $campaigns = Campaign::query()
             ->when(isset($selectedCampaigns) && $campaignIds, function ($q) use ($campaignIds) {
@@ -33,7 +35,11 @@ class CampaignController extends Controller
             })
             ->with('campaignImage')
             ->where('status', 'publish')
-            ->whereDate('end_date', '>', Carbon::now())
+            ->whereNotNull('start_date')
+            ->whereNotNull('end_date')
+            ->where('start_date', '<=', $now)
+            ->where('end_date', '>', $now)
+            ->orderBy('end_date', 'asc')
             ->get();
 
         return CampaignResource::collection($campaigns);

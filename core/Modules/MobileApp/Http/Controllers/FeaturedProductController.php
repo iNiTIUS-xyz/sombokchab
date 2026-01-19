@@ -15,7 +15,7 @@ class FeaturedProductController extends Controller
 {
     public function index()
     {
-        $product = MobileFeaturedProductService::get_product();
+        $product = MobileFeaturedProductService::getProducts();
 
         return MobileFeatureProductResource::collection($product);
     }
