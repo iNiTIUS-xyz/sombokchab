@@ -6,6 +6,8 @@ use App\MobileCategory;
 use Illuminate\Routing\Controller;
 use Modules\Attributes\Entities\Category;
 use Modules\Attributes\Http\Resources\CategoryResource;
+use Modules\Product\Entities\ProductCategory;
+use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
@@ -79,7 +81,6 @@ class CategoryController extends Controller
         return CategoryResource::collection(Category::with("image", "subcategory", "subcategory.image", "subcategory.childcategory", "subcategory.childcategory.image")->get());
     }
 
-
     public function selectedCategoriesWithSubcategories()
     {
         $selectedCategory = MobileCategory::select('category_ids')->first();
@@ -98,39 +99,56 @@ class CategoryController extends Controller
             ]);
         }
 
+        /** -----------------------------
+         * Load categories
+         * ---------------------------- */
         $categories = Category::query()
             ->select('id', 'name')
             ->where('status_id', 1)
             ->whereIn('id', $categoryIds)
             ->whereExists(function ($q) {
                 $q->selectRaw(1)
-                ->from('products')
-                ->whereColumn('products.category_id', 'categories.id')
+                ->from((new ProductCategory)->getTable())
+                ->whereColumn('product_categories.category_id', 'categories.id')
                 ->limit(1);
-            }) // faster than whereHas
-            ->with([
-                'subcategories' => function ($q) {
-                    $q->select('id', 'name', 'image_id', 'category_id')
-                    ->where('status_id', 1)
-                    ->inRandomOrder()
-                    ->limit(4)
-                    ->with('image:id,path');
-                }
-            ])
+            })
             ->orderBy('name')
+            ->get();
+
+        /** -----------------------------
+         * Load ALL subcategories (one query)
+         * ---------------------------- */
+        $allSubcategories = DB::table('sub_categories')
+            ->select('id', 'name', 'image_id', 'category_id')
+            ->where('status_id', 1)
+            ->whereIn('category_id', $categories->pluck('id'))
             ->get()
-            ->map(function ($category) {
-                $category->subcategories->transform(function ($sub) {
-                    $sub->image_url = $sub->image
-                        ? render_image($sub->image, render_type: 'path')
-                        : null;
+            ->groupBy('category_id');
 
-                    unset($sub->image, $sub->image_id);
-                    return $sub;
-                });
+        /** -----------------------------
+         * Attach 4 RANDOM per category (PHP-side)
+         * ---------------------------- */
+        $categories->transform(function ($category) use ($allSubcategories) {
 
-                return $category;
-            });
+            $subs = $allSubcategories[$category->id] ?? collect();
+
+            $category->subcategory = $subs
+                ->shuffle()
+                ->take(4)
+                ->map(function ($sub) {
+                    return [
+                        'id' => $sub->id,
+                        'name' => $sub->name,
+                        'category_id' => $sub->category_id,
+                        'image_url' => !empty($sub->image_id)
+                            ? render_image($sub->image_id, render_type: 'path')
+                            : null,
+                    ];
+                })
+                ->values();
+
+            return $category;
+        });
 
         return response()->json([
             'selected_category' => [
@@ -140,5 +158,6 @@ class CategoryController extends Controller
             'success' => true,
         ]);
     }
+
 
 }
