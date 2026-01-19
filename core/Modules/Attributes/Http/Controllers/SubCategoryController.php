@@ -88,7 +88,7 @@ class SubCategoryController extends Controller {
     public function destroy(SubCategory $item) {
         $item = $item->delete();
         return back()->with([
-            "message"    => $item ? __("Successfully Deleted Sub Category") : __("Failed To Delete Sub Category"),
+            "message"    => $item ? __("Successfully Deleted Product Sub Category") : __("Failed To Delete Product Sub Category"),
             "alert-type" => 'success',
             "success"    => (bool) $item,
         ]);

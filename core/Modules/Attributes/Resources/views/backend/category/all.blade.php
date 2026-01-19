@@ -118,7 +118,8 @@
                                                 @endcan
 
                                                 @can('delete-category')
-                                                    <x-table.btn.swal.delete :route="route('admin.category.delete', $category->id)" />
+                                                    {{-- <x-table.btn.swal.delete :route="route('admin.category.delete', $category->id)" /> --}}
+                                                    <x-delete-popover :url="route('admin.category.delete', $category->id)" />
                                                 @endcan
                                             </td>
                                         </tr>
