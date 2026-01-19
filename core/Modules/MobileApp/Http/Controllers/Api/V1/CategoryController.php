@@ -78,4 +78,67 @@ class CategoryController extends Controller
         // before change please mind it this method is also used on vendor api
         return CategoryResource::collection(Category::with("image", "subcategory", "subcategory.image", "subcategory.childcategory", "subcategory.childcategory.image")->get());
     }
+
+
+    public function selectedCategoriesWithSubcategories()
+    {
+        $selectedCategory = MobileCategory::select('category_ids')->first();
+
+        $categoryIds = $selectedCategory
+            ? json_decode($selectedCategory->category_ids, true)
+            : [];
+
+        if (empty($categoryIds)) {
+            return response()->json([
+                'selected_category' => [
+                    'title' => 'Selected Categories',
+                    'categories' => [],
+                ],
+                'success' => true,
+            ]);
+        }
+
+        $categories = Category::query()
+            ->select('id', 'name')
+            ->where('status_id', 1)
+            ->whereIn('id', $categoryIds)
+            ->whereExists(function ($q) {
+                $q->selectRaw(1)
+                ->from('products')
+                ->whereColumn('products.category_id', 'categories.id')
+                ->limit(1);
+            }) // faster than whereHas
+            ->with([
+                'subcategories' => function ($q) {
+                    $q->select('id', 'name', 'image_id', 'category_id')
+                    ->where('status_id', 1)
+                    ->inRandomOrder()
+                    ->limit(4)
+                    ->with('image:id,path');
+                }
+            ])
+            ->orderBy('name')
+            ->get()
+            ->map(function ($category) {
+                $category->subcategories->transform(function ($sub) {
+                    $sub->image_url = $sub->image
+                        ? render_image($sub->image, render_type: 'path')
+                        : null;
+
+                    unset($sub->image, $sub->image_id);
+                    return $sub;
+                });
+
+                return $category;
+            });
+
+        return response()->json([
+            'selected_category' => [
+                'title' => 'Selected Categories',
+                'categories' => $categories,
+            ],
+            'success' => true,
+        ]);
+    }
+
 }
