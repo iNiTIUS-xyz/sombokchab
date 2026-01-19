@@ -87,6 +87,15 @@ class SupportTicketController extends Controller {
             'admin_id'         => Auth::guard('admin')->user()->id,
         ]);
 
+        if ($request->hasFile('file')) {
+            $uploaded_file = $request->file;
+            $file_extension = 'zip';
+            $file_name = Str::uuid() . '-' . time() . '.' . $file_extension;
+            $uploaded_file->move('assets/uploads/ticket', $file_name);
+            $support_ticket->attachment = $file_name;
+            $support_ticket->save();
+        }
+
         $notification = new XGNotification();
         $notification->vendor_id = $support_ticket->vendor_id ?? null;
         $notification->delivery_man_id = null;
