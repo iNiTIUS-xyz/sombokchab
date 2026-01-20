@@ -52,7 +52,7 @@
                         <div class="single-input">
                             <label class="label-title mb-2">
                                 {{ __('Password') }}
-                                    <span class="text-danger">*</span>
+                                <span class="text-danger">*</span>
                             </label>
                             <div class="position-relative">
                                 <input class="form--control" type="password" id="login_password" name="password"
@@ -87,7 +87,7 @@
                     </div>
                     <div class="dashboard-bottom-contents" style="display: flex; justify-content: center;">
                         <div class="account-bottom">
-                            <span class="account-title mt-3"> {{ __("Dont have account") }} </span>
+                            <span class="account-title mt-3"> {{ __('Dont have account') }} </span>
                             <a href="{{ route('user.register') }}" class="signup-login mt-3">
                                 {{ __('Sign Up') }}
                             </a>
@@ -236,13 +236,13 @@
                 if (rememberedType === "email") {
                     phoneInputDiv.style.display = "none";
                     emailInputDiv.style.display = "block";
-                    toggleButton.textContent = '{{ __("Use Phone") }}';
+                    toggleButton.textContent = '{{ __('Use Phone') }}';
                     emailInput.value = rememberedValue;
 
                 } else if (rememberedType === "phone") {
                     phoneInputDiv.style.display = "block";
                     emailInputDiv.style.display = "none";
-                    toggleButton.textContent = '{{ __("Use Email") }}';
+                    toggleButton.textContent = '{{ __('Use Email') }}';
                     phoneInput.value = rememberedValue;
 
                     if (rememberedCode) {
@@ -307,5 +307,4 @@
             document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
         }
     </script>
-
 @endsection

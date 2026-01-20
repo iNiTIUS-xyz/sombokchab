@@ -56,7 +56,7 @@ class UserSupportTicketController extends Controller {
 
     public function store(Request $request) {
         $request->validate([
-            'title'       => 'required|string|max:191',
+            'title'       => 'required|string|max:191|regex:/^[A-Za-z ]+$/',
             'description' => 'required|string',
             'departments' => 'required|string',
             'order_id'    => 'required|string|exists:orders,order_number',

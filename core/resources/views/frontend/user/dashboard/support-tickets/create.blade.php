@@ -93,6 +93,7 @@
                                             <span class="text-danger">*</span>
                                         </label>
                                         <input type="text" class="form-control" name="title"
+                                            oninput="this.value = this.value.replace(/[^A-Za-z ]/g, '')"
                                             placeholder="{{ __('Enter Title') }}" required>
                                         @error('title')
                                             <span class="text-danger">{{ $message }}</span>

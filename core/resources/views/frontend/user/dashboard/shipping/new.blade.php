@@ -23,6 +23,7 @@
                                 <span class="text-danger">*</span>
                             </label>
                             <input class="form--control" type="text" name="shipping_address_name"
+                                oninput="this.value = this.value.replace(/[^A-Za-z ]/g, '')"
                                 value="{{ old('shipping_address_name') ?? '' }}" required
                                 placeholder="{{ __('Shipping Address Name') }}">
                         </div>
@@ -35,6 +36,7 @@
                                 <span class="text-danger">*</span>
                             </label>
                             <input type="text" class="form-control" name="name" id="name"
+                                oninput="this.value = this.value.replace(/[^A-Za-z ]/g, '')"
                                 placeholder="{{ __('Enter Full Name') }}">
                         </div>
                     </div>
@@ -42,6 +44,7 @@
                         <div class="form-group">
                             <label for="email">{{ __('Email') }} </label>
                             <input type="text" class="form-control" name="email" id="email"
+                                oninput="this.value = this.value.replace(/[^a-zA-Z0-9._+@-]/g, '')"
                                 placeholder="{{ __('Enter Email') }}">
                         </div>
                     </div>
@@ -90,7 +93,8 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="zipcode">{{ __('Postal Code') }} </label>
-                            <input type="text" class="form-control" name="zipcode" id="zipcode"
+                            <input type="text" class="form-control" name="zipcode" id="zipcode" maxlength="5"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                                 placeholder="{{ __('Enter Postal Code') }}">
                         </div>
                     </div>

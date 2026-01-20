@@ -96,6 +96,7 @@
                                                     {{-- <span class="text-danger">*</span> --}}
                                                 </label>
                                                 <input type="email" name="email" id="email"
+                                                    oninput="this.value = this.value.replace(/[^a-zA-Z0-9._+@-]/g, '')"
                                                     class="form--control radius-10" placeholder="{{ __('Enter Email') }}">
                                                 <small class="text-danger" id="emailError"></small>
                                             </div>
