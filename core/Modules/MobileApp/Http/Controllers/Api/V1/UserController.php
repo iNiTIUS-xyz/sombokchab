@@ -670,6 +670,11 @@ class UserController extends Controller
 
         return ShippingAddressServices::store($data);
     }
+    public function updateShippingAddress(StoreShippingAddressRequest $request, $id)
+    {
+        $data = $request->validated();
+        return ShippingAddressServices::update($id, $data);
+    }
 
     public function viewTickets(Request $request, $id = null)
     {

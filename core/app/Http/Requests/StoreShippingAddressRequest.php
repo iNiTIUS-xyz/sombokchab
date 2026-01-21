@@ -3,17 +3,20 @@
 namespace App\Http\Requests;
 
 use Auth;
-use Illuminate\Contracts\Validation\Validator;
+use App\Shipping\ShippingAddress;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class StoreShippingAddressRequest extends FormRequest {
+class StoreShippingAddressRequest extends FormRequest
+{
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function authorize(): bool {
+    public function authorize(): bool
+    {
         return true;
     }
 
@@ -22,7 +25,8 @@ class StoreShippingAddressRequest extends FormRequest {
      *
      * @return array<string, mixed>
      */
-    public function rules(): array {
+    public function rules(): array
+    {
         return [
             "shipping_address_name" => "required",
             "name"                  => "required|string",
@@ -40,12 +44,14 @@ class StoreShippingAddressRequest extends FormRequest {
     /**
      * @throws HttpResponseException
      */
-    public function failedValidation(Validator $validator) {
+    public function failedValidation(Validator $validator)
+    {
         $errors = $validator->errors(); // Here is your array of errors
         return $errors;
     }
 
-    protected function prepareForValidation() {
+    protected function prepareForValidation()
+    {
         if (Auth::guard("web")->check()) {
             $user_id = Auth::guard("web")->user()->id;
         } elseif (Auth::guard("sanctum")->check()) {
@@ -59,7 +65,8 @@ class StoreShippingAddressRequest extends FormRequest {
         ]);
     }
 
-    public function messages(): array {
+    public function messages(): array
+    {
         return [
             "user_id.required" => "Please login first before creating Shipping Address",
         ];
