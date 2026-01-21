@@ -174,6 +174,15 @@
                                             placeholder="{{ __('Enter description') }}"></textarea>
                                     </div>
                                 </div>
+                                <div class="col-md-12">
+                                    <div class="form-group mt-4">
+                                        <label for="file">{{ __('File') }}</label>
+                                        <input type="file" name="file">
+                                        <small class="info-text d-block text-danger">
+                                            {{ __('Max file size 200mb, only zip, png, gif, jpg, jpeg, pdf, docx, doc, odd file is allowed') }}
+                                        </small>
+                                    </div>
+                                </div>
                             </div>
                             @can('add-support-ticket')
                                 <div class="btn-wrapper mt-4">

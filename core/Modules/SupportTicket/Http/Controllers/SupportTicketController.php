@@ -80,12 +80,21 @@ class SupportTicketController extends Controller {
             'description'      => $request->description,
             'subject'          => null,
             'status'           => 'open',
-            'priority'         => null,
+            'priority'         => $request->priority,
             'user_id'          => $request->user_type == 'customer' ? $request->user_id : null,
             'vendor_id'        => $request->user_type == 'vendor' ? $request->vendor_id : null,
             'departments'      => $request->departments,
             'admin_id'         => Auth::guard('admin')->user()->id,
         ]);
+
+        if ($request->hasFile('file')) {
+            $uploaded_file = $request->file;
+            $file_extension = 'zip';
+            $file_name = Str::uuid() . '-' . time() . '.' . $file_extension;
+            $uploaded_file->move('assets/uploads/ticket', $file_name);
+            $support_ticket->attachment = $file_name;
+            $support_ticket->save();
+        }
 
         $notification = new XGNotification();
         $notification->vendor_id = $support_ticket->vendor_id ?? null;

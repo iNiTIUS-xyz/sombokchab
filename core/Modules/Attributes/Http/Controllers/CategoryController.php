@@ -81,8 +81,13 @@ class CategoryController extends Controller {
         ]);
     }
 
-    public function destroy(Category $item): ?bool {
-        return $item->delete();
+    public function destroy(Category $item) {
+        $item = $item->delete();
+        return back()->with([
+            "message"    => $item ? __("Successfully Deleted Product Category") : __("Failed To Delete Product Category"),
+            "alert-type" => 'success',
+            "success"    => (bool) $item,
+        ]);
     }
 
     public function bulk_action(Request $request): JsonResponse {

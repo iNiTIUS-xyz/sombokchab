@@ -23,6 +23,7 @@
                                 <span class="text-danger">*</span>
                             </label>
                             <input class="form--control" type="text" name="shipping_address_name"
+                                oninput="this.value = this.value.replace(/[^A-Za-z ]/g, '')"
                                 value="{{ $address->shipping_address_name }}" required
                                 placeholder="{{ __('Shipping Address Name') }}">
                         </div>
@@ -32,13 +33,15 @@
                         <div class="form-group">
                             <label for="name">{{ __('Full Name') }}<span class="text-danger">*</span></label>
                             <input type="text" class="form-control" name="name" id="name"
-                                value="{{ $address->name }}" placeholder="{{ __('Enter Full Name') }}" required>
+                                oninput="this.value = this.value.replace(/[^A-Za-z ]/g, '')" value="{{ $address->name }}"
+                                placeholder="{{ __('Enter Full Name') }}" required>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="email">{{ __('Email') }}</label>
                             <input type="text" class="form-control" name="email" id="email"
+                                oninput="this.value = this.value.replace(/[^a-zA-Z0-9._+@-]/g, '')"
                                 value="{{ $address->email }}" placeholder="{{ __('Enter Email') }}">
                         </div>
                     </div>
@@ -89,7 +92,8 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="zipcode">{{ __('Postal Code') }}</label>
-                            <input type="text" class="form-control" name="zipcode" id="zipcode"
+                            <input type="text" class="form-control" name="zipcode" id="zipcode" maxlength="5"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                                 placeholder="{{ __('Enter Postal Code') }}" value="{{ $address->zip_code }}">
                         </div>
                     </div>

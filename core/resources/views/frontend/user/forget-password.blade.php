@@ -28,7 +28,7 @@
 
                                     <div class="form-group">
                                         <label>{{ __('Phone Number') }} <span class="text-danger">*</span></label>
-                                        <input type="text" id="phone" name="phone" class="form-control"
+                                        <input type="number" id="phone" name="phone" class="form-control"
                                             placeholder="{{ __('Enter Phone Number') }}" required>
                                         <small class="text-danger" id="phoneError"></small>
                                     </div>

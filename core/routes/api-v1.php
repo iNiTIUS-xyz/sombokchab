@@ -55,6 +55,11 @@ Route::get('/get-cities/{state_id}', [CountryController::class, 'getCityByCountr
 Route::group(['prefix' => 'category'], function () {
     Route::get('/', [CategoryController::class, 'allCategory']);
     Route::get('/{id}', [CategoryController::class, 'singleCategory']);
+
+    Route::get(
+        '/selected/with-subcategories',
+        [CategoryController::class, 'selectedCategoriesWithSubcategories']
+    );
 });
 /* sub category */
 Route::group(['prefix' => 'subcategory'], function () {
