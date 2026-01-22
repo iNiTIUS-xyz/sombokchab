@@ -136,7 +136,10 @@
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label>{{ __('Discount Type') }} <span class="text-danger">*</span></label>
+                                <label>
+                                    {{ __('Discount Type') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <select name="discount_type" id="edit_discount_type" class="form-control form-select"
                                     required>
                                     <option value="percentage"
@@ -146,11 +149,13 @@
                                     <option value="amount" {{ $coupon->discount_type === 'amount' ? 'selected' : '' }}>
                                         {{ __('Amount') }}
                                     </option>
-
                                 </select>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label>{{ __('Discount') }} <span class="text-danger">*</span></label>
+                                <label>
+                                    {{ __('Discount') }}
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input type="number" class="form-control discount" id="edit_discount" step="0.01"
                                     max="99..99" placeholder="Enter Discount" name="discount" required
                                     pattern="[0-9]+(\.[0-9]{1,2})?" value="{{ $coupon->discount }}">
@@ -189,6 +194,7 @@
         </div>
     </div>
 @endsection
+
 @section('script')
     <x-select2.select2-js />
     <x-table.btn.swal.js />
@@ -196,15 +202,11 @@
         $(document).ready(function() {
 
             const $editProducts = $('#edit_products');
-
-            // Init select2
             $editProducts.select2({
                 width: '100%',
                 placeholder: "{{ __('Select Products') }}",
                 allowClear: true
             });
-
-            // Lazy load ALL products when opening dropdown
             let productsLoaded = false;
 
             $editProducts.on('select2:opening', function() {
@@ -233,8 +235,6 @@
                     $editProducts.trigger('change');
                 });
             });
-
-            // Discount On toggle
             $('#edit_discount_on').on('change', function() {
                 const val = $(this).val();
                 $('#edit_form_category, #edit_form_subcategory, #edit_form_childcategory, #edit_form_products')
@@ -245,7 +245,6 @@
     </script>
     <script>
         $(document).ready(function() {
-            // Initialize Select2 properly
             function initSelect2(element) {
                 if ($(element).length && !$(element).data('select2')) {
                     $(element).select2({
@@ -255,39 +254,61 @@
                     });
                 }
             }
-
-            // Flatpickr
             flatpickr(".flatpickr", {
                 altInput: true,
                 altFormat: "F j, Y",
                 dateFormat: "Y-m-d"
             });
 
-            // Prevent negative values
             $('.discount').on('input', function() {
                 if (this.value < 0) this.value = 1;
             });
-
-
-
-
         });
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const discount = document.querySelector('.discount');
+            const discountType = document.querySelector('select[name="discount_type"]');
+            const discountInput = document.querySelector('.discount');
 
-            discount.addEventListener('input', function() {
-                let value = parseFloat(this.value);
+            function validateDiscount() {
+                const type = discountType.value;
+                let value = parseFloat(discountInput.value) || 0;
 
-                if (value > 99.99) {
-                    this.value = 99.99;
+                if (type === 'percentage') {
+                    if (value > 99.99) {
+                        discountInput.value = 99.99;
+                    } else if (value < 1 && discountInput.value !== '') {
+                        discountInput.value = 1;
+                    }
                 }
 
-                if (value < 1) {
-                    this.value = '';
+            }
+
+            discountInput.addEventListener('input', validateDiscount);
+
+            discountType.addEventListener('change', function() {
+                const type = this.value;
+                let value = parseFloat(discountInput.value) || 0;
+
+                if (type === 'percentage') {
+
+                    if (value < 1 && discountInput.value !== '') {
+                        discountInput.value = 1;
+                    }
+                    discountInput.min = 1;
+                    discountInput.max = 99.99;
+                    discountInput.placeholder = "Enter Discount (1-99.99%)";
+                } else if (type === 'amount') {
+                    // Remove restrictions for amount
+                    discountInput.min = 0;
+                    discountInput.max = "";
+                    discountInput.placeholder = "Enter Discount Amount";
                 }
+
+                validateDiscount();
             });
+
+            discountType.dispatchEvent(new Event('change'));
         });
     </script>
 @endsection

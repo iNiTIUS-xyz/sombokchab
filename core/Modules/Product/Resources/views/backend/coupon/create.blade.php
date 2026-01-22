@@ -273,19 +273,48 @@
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const discount = document.querySelector('.discount');
+            const discountType = document.querySelector('select[name="discount_type"]');
+            const discountInput = document.querySelector('.discount');
 
-            discount.addEventListener('input', function() {
-                let value = parseFloat(this.value);
+            function validateDiscount() {
+                const type = discountType.value;
+                let value = parseFloat(discountInput.value) || 0;
 
-                if (value > 99.99) {
-                    this.value = 99.99;
+                if (type === 'percentage') {
+                    if (value > 99.99) {
+                        discountInput.value = 99.99;
+                    } else if (value < 1 && discountInput.value !== '') {
+                        discountInput.value = 1;
+                    }
                 }
 
-                if (value < 1) {
-                    this.value = '';
+            }
+
+            discountInput.addEventListener('input', validateDiscount);
+
+            discountType.addEventListener('change', function() {
+                const type = this.value;
+                let value = parseFloat(discountInput.value) || 0;
+
+                if (type === 'percentage') {
+
+                    if (value < 1 && discountInput.value !== '') {
+                        discountInput.value = 1;
+                    }
+                    discountInput.min = 1;
+                    discountInput.max = 99.99;
+                    discountInput.placeholder = "Enter Discount (1-99.99%)";
+                } else if (type === 'amount') {
+                    // Remove restrictions for amount
+                    discountInput.min = 0;
+                    discountInput.max = "";
+                    discountInput.placeholder = "Enter Discount Amount";
                 }
+
+                validateDiscount();
             });
+
+            discountType.dispatchEvent(new Event('change'));
         });
     </script>
 @endsection
