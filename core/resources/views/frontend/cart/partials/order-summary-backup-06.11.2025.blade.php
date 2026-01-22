@@ -15,8 +15,7 @@
         </div>
 
         @php
-            $default_shipping_cost_amount =
-                isset($default_shipping) && $default_shipping->id ? $default_shipping_cost : 0;
+            $default_shipping_cost_amount = isset($default_shipping) && $default_shipping->id ? $default_shipping_cost : 0;
         @endphp
 
         <div class="order-shipping-methods">
@@ -130,7 +129,8 @@
         </div>
 
         <div class="btn-wrapper mt-3">
-            <a href="#1" id="place_order" class="cmn-btn btn-bg-1 w-100 radius-0"> {{ __('Confirm Your Order') }}
+            <a href="#1" id="place_order" class="cmn-btn btn-bg-1 w-100 radius-0">
+                {{ __('Confirm Your Order') }}
             </a>
         </div>
 

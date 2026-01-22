@@ -605,7 +605,7 @@
             calculateOrderSummaryNoTax();
         });
 
-        $(document).on("click", ".checkout-shipping-method", function()
+        $(document).on("click", ".checkout-shipping-method", function() {
             let shippingCost = Number($(this).attr("data-shipping-cost"));
             let shippingCostId = $(this).attr("data-shipping-cost-id");
             let currencySymbol = "{{ site_currency_symbol() }}";
@@ -755,33 +755,33 @@
             )
         });
 
-        // $(document).on("change", "#modal_state_id", function() {
-        //     let state_id = $(this).val();
-        //     let payload = new FormData();
-        //     payload.append("id", state_id);
-        //     payload.append("type", "state");
-        //     payload.append("_token", "{{ csrf_token() }}");
+        $(document).on("change", "#modal_state_id", function() {
+            let state_id = $(this).val();
+            let payload = new FormData();
+            payload.append("id", state_id);
+            payload.append("type", "state");
+            payload.append("_token", "{{ csrf_token() }}");
 
-        //     // We only use this for cities; no tax handling.
-        //     send_ajax_request(
-        //         "POST",
-        //         payload,
-        //         "{{ route('frontend.shipping.module.methods') }}",
-        //         () => {},
-        //         (data) => {
-        //             if (data.success) {
-        //                 let cityhtml = "<option value=''> {{ __('Select an city') }} </option>";
-        //                 data?.cities?.forEach((city) => {
-        //                     cityhtml += "<option value='" + city.id + "'>" + city.name + "</option>";
-        //                 });
-        //                 $("#modal_city_id").html(cityhtml);
-        //             }
-        //         },
-        //         function(xhr) {
-        //             ajax_toastr_error_message(xhr);
-        //         }
-        //     )
-        // });
+            // We only use this for cities; no tax handling.
+            send_ajax_request(
+                "POST",
+                payload,
+                "{{ route('frontend.shipping.module.methods') }}",
+                () => {},
+                (data) => {
+                    if (data.success) {
+                        let cityhtml = "<option value=''> {{ __('Select an city') }} </option>";
+                        data?.cities?.forEach((city) => {
+                            cityhtml += "<option value='" + city.id + "'>" + city.name + "</option>";
+                        });
+                        $("#modal_city_id").html(cityhtml);
+                    }
+                },
+                function(xhr) {
+                    ajax_toastr_error_message(xhr);
+                }
+            )
+        });
 
         $(document).on('click', '.billing_details_click', function() {
             $('.popup_modal_checkout, .popup_modal_checkout_overlay').toggleClass('show');

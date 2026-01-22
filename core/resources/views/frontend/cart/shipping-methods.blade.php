@@ -61,15 +61,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    function getTotalShippingCost() {
-        let totalAmount = 0;
-        $(".vendor_shipping_cost").each(function() {
-            totalAmount += replaceSymbol($(this).text());
-        });
-        return totalAmount;
-    }
-
-    getTotalShippingCost();
-</script>

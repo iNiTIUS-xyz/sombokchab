@@ -92,7 +92,7 @@
         </div>
 
         <div class="btn-wrapper mt-3">
-            <a href="javascript:;" id="place_order" class="cmn-btn btn-bg-1 w-100 radius-0">
+            <a href="#1" id="place_order" class="cmn-btn btn-bg-1 w-100 radius-0">
                 {{ __('Confirm Your Order') }}
             </a>
         </div>
