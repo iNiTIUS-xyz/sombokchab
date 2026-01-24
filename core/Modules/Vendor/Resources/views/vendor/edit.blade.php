@@ -396,7 +396,7 @@
                                                                 <input value="{{ $vendor?->vendor_shop_info?->location }}"
                                                                     name="location" type="text"
                                                                     class="form--control radius-10"
-                                                                    placeholder="Set Link/URL From Map">
+                                                                    placeholder="Enter Link/URL From Map">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">

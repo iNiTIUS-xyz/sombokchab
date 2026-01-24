@@ -22,7 +22,7 @@
                 <div class="dashboard-input">
                     <label class="dashboard-label"> {{ __('Tags') }} </label>
                     <input type="text" name="tags" class="form-control tags_input radius-10" data-role="tagsinput"
-                        value="{{ $tag_name }}">
+                        value="{{ $tag_name }}" placeholder="Enter Tags">
                 </div>
             </div>
             <div class="col-sm-12">

@@ -20,7 +20,7 @@
                     </label>
                     <input type="text" step="0.01" class="form--control radius-10 form-control" maxlength="30"
                         oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1'); "
-                        value="{{ $product?->cost }}" name="cost" placeholder="{{ __('Base Cost...') }}" required>
+                        value="{{ $product?->cost }}" name="cost" placeholder="{{ __('Enter Base Cost') }}" required>
                     <p>{{ __('Purchase price of this product.') }}</p>
                 </div>
             </div>
@@ -33,7 +33,7 @@
                     <input type="text" step="0.01" class="form--control radius-10" value="{{ $product?->price }}"
                         maxlength="30"
                         oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1'); "
-                        name="price" placeholder="{{ __('Enter Regular Price...') }}">
+                        name="price" placeholder="{{ __('Enter Regular Price') }}">
                     <small>{{ __('This price will display like this') }} <del>( {{ site_currency_symbol() }}
                             10)</del></small>
                 </div>
@@ -47,7 +47,7 @@
                     <input type="text" step="0.01" class="form--control radius-10 form-control" maxlength="30"
                         oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1'); "
                         value="{{ $product?->sale_price }}" name="sale_price"
-                        placeholder="{{ __('Enter Sale Price...') }}" required>
+                        placeholder="{{ __('Enter Sale Price') }}" required>
                     <small>{{ __('This will be your product selling price') }}</small>
                 </div>
             </div>
