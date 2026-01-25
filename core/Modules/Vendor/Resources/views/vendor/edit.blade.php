@@ -249,6 +249,15 @@
                                                                     placeholder="{{ __('Enter Description') }}" cols="30" rows="10">{{ $vendor->description }}</textarea>
                                                             </div>
                                                         </div>
+                                                        <div class="col-sm-12">
+                                                            <div class="single-input">
+                                                                <label class="label-title color-light mb-2">
+                                                                    {{ __('ការពិពណ៌នា (ខ្មែរ)') }}
+                                                                </label>
+                                                                <textarea name="description_km" class="form--control form--message radius-10"
+                                                                    placeholder="{{ __('បញ្ចូលការពិពណ៌នា') }}" cols="30" rows="10">{{ $vendor->description_km }}</textarea>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
