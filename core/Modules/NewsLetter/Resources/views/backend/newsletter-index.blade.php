@@ -13,9 +13,6 @@
     <div class="col-lg-12 col-ml-12">
         <div class="row g-4">
             <div class="col-lg-12">
-                {{--
-            <x-msg.success />
-            <x-msg.error /> --}}
                 @can('add-subscriber')
                     <div class="btn-wrapper mb-4">
                         <button class="cmn_btn btn_bg_profile" data-bs-toggle="modal" data-bs-target="#new_subscribe_model">
@@ -89,19 +86,19 @@
                                                         <i class="ti-email"></i>
                                                     </a>
 
-                                                    {{-- @if ($data->verified < 1) <form class="mb-2 me-2"
-                                            style="display: inline;float: left;"
-                                            action="{{ route('admin.newsletter.verify.mail.send') }}" method="post"
-                                            enctype="multipart/form-data">
-                                            @csrf
-                                            <input type="hidden" name="id" value="{{ $data->id }}">
-                                            <button class="btn btn-sm btn-secondary" type="submit"
-                                                data-bs-toggle="tooltip" data-bs-placement="top"
-                                                title="{{ __('Send Verify Mail') }}">
-                                                <i class="ti-receipt"></i>
-                                            </button>
-                                            </form>
-                                            @endif --}}
+                                                    {{-- @if ($data->verified < 1)
+                                                        <form class="mb-2 me-2" style="display: inline;float: left;"
+                                                            action="{{ route('admin.newsletter.verify.mail.send') }}"
+                                                            method="post" enctype="multipart/form-data">
+                                                            @csrf
+                                                            <input type="hidden" name="id" value="{{ $data->id }}">
+                                                            <button class="btn btn-sm btn-secondary" type="submit"
+                                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                title="{{ __('Send Verify Mail') }}">
+                                                                <i class="ti-receipt"></i>
+                                                            </button>
+                                                        </form>
+                                                    @endif --}}
                                                 @endcan
 
                                                 @can('delete-subscriber')
