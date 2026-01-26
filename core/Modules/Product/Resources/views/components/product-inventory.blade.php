@@ -23,14 +23,16 @@
                 <span class="text-danger">*</span>
             </label>
             <input type="text" class="form--control radius-10 form-control" name="sku"
-                value="{{ $inventory?->sku }}" required placeholder="Enter SKU">
+                oninput="this.value = this.value.replace(/[^a-zA-Z0-9-]/g, '')" value="{{ $inventory?->sku }}" required
+                placeholder="Enter SKU">
             <small class="mt-2 mb-0 d-block">{{ __('Custom Unique Code for this product.') }}</small>
         </div>
 
         <div class="@if (isset($inventoryPage)) col-md-4 @else dashboard-input @endif">
             <label class="dashboard-label"> {{ __('Stock Quantity') }} </label>
-            <input type="number" step="0.01" class="form--control radius-10" name="quantity"
-                placeholder="Enter stock quantity" value="{{ $inventory?->stock_count }}">
+            <input type="text" step="0.01" class="form--control radius-10" name="quantity"
+                oninput="this.value = this.value.replace(/\D/g, '')" placeholder="Enter stock quantity"
+                value="{{ $inventory?->stock_count }}">
             <small class="mt-2 mb-0 d-block">
                 {{ __('This will be replaced with the sum of inventory items. if any inventory  item is registered..') }}
             </small>

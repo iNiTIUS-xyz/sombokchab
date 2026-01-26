@@ -34,6 +34,7 @@ class UpdateVendorRequest extends FormRequest {
                 'regex:/^[A-Za-z]\d{12}$/',
             ],
             "description"        => "nullable",
+            "description_km"     => "nullable",
             "logo_id"            => "nullable",
             "cover_photo_id"     => "nullable",
             "country_id"         => "required",

@@ -39,6 +39,7 @@ class Vendor extends Authenticatable {
         "business_type_id",
         "tax_id",
         "description",
+        "description_km",
         "status_id",
         "email",
         "email_verified",
