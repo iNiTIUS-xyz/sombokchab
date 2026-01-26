@@ -158,7 +158,6 @@
 @endsection
 
 @section('script')
-
     <script>
         (function($) {
             'use strict';
@@ -177,8 +176,12 @@
                     () => {},
                     (data) => {
                         loadHeaderCardAndWishlistArea(data);
-                        if ((data.type ?? '') == 'warning') {
-                            toastr.warning(data.quantity_msg ?? 'Something went wrong');
+                        if (data.type === 'success') {
+                            toastr.success(data.msg);
+                        } else if (data.type === 'warning') {
+                            toastr.warning(data.msg);
+                        } else if (data.type === 'error') {
+                            toastr.error(data.msg);
                         } else {
                             ajax_toastr_success_message(data);
                         }

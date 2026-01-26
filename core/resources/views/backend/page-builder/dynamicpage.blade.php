@@ -53,6 +53,18 @@
             max-height: 100px;
             overflow-y: auto;
         }
+
+        .page-builder-content-wrap font[color],
+        .page-builder-content-wrap span[style*="color"],
+        .page-builder-content-wrap p[style*="color"],
+        .page-builder-content-wrap h1[style*="color"],
+        .page-builder-content-wrap h2[style*="color"],
+        .page-builder-content-wrap h3[style*="color"],
+        .page-builder-content-wrap h4[style*="color"],
+        .page-builder-content-wrap h5[style*="color"],
+        .page-builder-content-wrap h6[style*="color"] {
+            color: unset !important;
+        }
     </style>
 @endsection
 
@@ -70,7 +82,8 @@
                     </h4>
                     <div class="dashboard__card__header__right">
                         @can('edit-page')
-                            <a class="btn btn-lg btn-secondary btn-sm mb-2 me-1" href="{{ route('admin.page.edit', $page->id) }}">
+                            <a class="btn btn-lg btn-secondary btn-sm mb-2 me-1"
+                                href="{{ route('admin.page.edit', $page->id) }}">
                                 {{ __('Back') }}
                             </a>
                         @endcan
@@ -203,6 +216,7 @@
             height: 200,
             codeviewFilter: true,
             codeviewIframeFilter: true,
+
             toolbar: [
                 ['style', ['bold', 'italic', 'underline', 'clear']],
                 ['font', ['strikethrough', 'superscript', 'subscript']],
@@ -288,13 +302,13 @@
         //     });
         // });
 
-        $(document).on('keyup', '#search_addon_field', function () {
+        $(document).on('keyup', '#search_addon_field', function() {
             const searchText = $(this).val().toLowerCase().trim();
 
             const $allItems = $('#sortable_02 > li');
 
             // Step 1: filter widgets
-            $allItems.each(function () {
+            $allItems.each(function() {
                 const $li = $(this);
 
                 // Skip group headers here
@@ -312,7 +326,7 @@
             });
 
             // Step 2: handle group headers
-            $('#sortable_02 .widget-group-header').each(function () {
+            $('#sortable_02 .widget-group-header').each(function() {
                 const $groupHeader = $(this);
 
                 // Find widgets until next group header
