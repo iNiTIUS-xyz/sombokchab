@@ -11,17 +11,14 @@ use Illuminate\Support\Str;
 use Modules\NewsLetter\Entities\NewsLetter;
 use Modules\NewsLetter\Http\Requests\AdminSendAllEmailRequest;
 
-class AdminNewsLetterController extends Controller
-{
-    public function index()
-    {
+class AdminNewsLetterController extends Controller {
+    public function index() {
         $all_subscriber = Newsletter::all();
 
         return view('newsletter::backend.newsletter-index')->with(['all_subscriber' => $all_subscriber]);
     }
 
-    public function send_mail(Request $request)
-    {
+    public function send_mail(Request $request) {
 
         $request->validate([
             'email'   => 'required|email',
@@ -48,8 +45,7 @@ class AdminNewsLetterController extends Controller
         ]);
     }
 
-    public function newsletter_unsubscribe($id)
-    {
+    public function newsletter_unsubscribe($id) {
         Newsletter::where('id', $id)->update(['subscribe_status' => 0]);
         return redirect()->back()->with([
             'message'    => __('Successfully unsubscribed.'),
@@ -57,8 +53,7 @@ class AdminNewsLetterController extends Controller
         ]);
     }
 
-    public function delete($id)
-    {
+    public function delete($id) {
         Newsletter::find($id)->delete();
 
         return redirect()->back()->with([
@@ -67,13 +62,11 @@ class AdminNewsLetterController extends Controller
         ]);
     }
 
-    public function send_mail_all_index()
-    {
+    public function send_mail_all_index() {
         return view('newsletter::backend.send-main-to-all');
     }
 
-    public function send_mail_all(AdminSendAllEmailRequest $request)
-    {
+    public function send_mail_all(AdminSendAllEmailRequest $request) {
         $all_subscriber = Newsletter::all();
 
         foreach ($all_subscriber as $subscriber) {
@@ -96,8 +89,7 @@ class AdminNewsLetterController extends Controller
         ]);
     }
 
-    public function add_new_sub(Request $request)
-    {
+    public function add_new_sub(Request $request) {
         $request->validate(
             [
                 'email' => 'required|email|unique:newsletters',
@@ -115,8 +107,7 @@ class AdminNewsLetterController extends Controller
         ]);
     }
 
-    public function bulk_action(Request $request)
-    {
+    public function bulk_action(Request $request) {
         $all = Newsletter::find($request->ids);
         foreach ($all as $item) {
             $item->delete();
@@ -125,8 +116,7 @@ class AdminNewsLetterController extends Controller
         return response()->json(['status' => 'ok']);
     }
 
-    public function verify_mail_send(Request $request)
-    {
+    public function verify_mail_send(Request $request) {
         $subscriber_details = Newsletter::findOrFail($request->id);
         $token = $subscriber_details->token ?? Str::random(32);
         if (empty($subscriber_details->token)) {
