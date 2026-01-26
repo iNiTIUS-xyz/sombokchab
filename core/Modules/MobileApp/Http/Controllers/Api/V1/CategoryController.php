@@ -29,7 +29,7 @@ class CategoryController extends Controller
             ->with("image")
             ->where('status_id', 1)
             ->whereHas("product")
-            ->orderBy('name', 'asc')->get()
+            // ->orderBy('name', 'asc')->get()
             ->transform(function ($item) {
                 $image_url = null;
                 if (!empty($item->image_id)) {

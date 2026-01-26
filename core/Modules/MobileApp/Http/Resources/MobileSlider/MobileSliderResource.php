@@ -29,6 +29,7 @@ class MobileSliderResource extends JsonResource
             "title" => $this->title,
             "description" => $this->description,
             "image" => get_attachment_image_by_id($this->image_id)["img_url"] ?? null,
+            "url" => $this->url,
             "button_url" => $this->url,
             "button_text" => $this->button_text,
         ] + $data;

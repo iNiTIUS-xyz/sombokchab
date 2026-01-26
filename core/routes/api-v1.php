@@ -121,7 +121,7 @@ Route::group(['prefix' => 'user/', 'middleware' => 'auth:sanctum'], function () 
     Route::post("logout", [UserController::class, 'logout']);
     Route::get("profile", [UserController::class, 'profile']);
     Route::post('update-subscribe-token', [UserController::class, 'updateFirebaseToken']);
-    Route::get("delete-account", [UserController::class, 'deleteAccount']);
+    Route::post("delete-account", [UserController::class, 'deleteAccount']);
 
     Route::post("change-password", [UserController::class, 'changePassword']);
     Route::post("update-profile", [UserController::class, 'updateProfile']);

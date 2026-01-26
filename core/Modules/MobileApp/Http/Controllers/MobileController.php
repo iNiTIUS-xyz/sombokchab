@@ -7,17 +7,35 @@ use App\Page;
 
 class MobileController extends Controller
 {
-    public function termsAndCondition(){
-        $selected_page = get_static_option("checkout_page_terms_link_url");
+    // public function termsAndCondition(){
+    //     $selected_page = get_static_option("checkout_page_terms_link_url");
 
-        $page = Page::where('slug', $selected_page)->select( "title","content")->first();
+    //     $page = Page::where('slug', $selected_page)->select( "title","content")->first();
+    //     return response()->json($page);
+    // }
+
+    // public function privacyPolicy(){
+    //     $selected_page = get_static_option("mobile_privacy_and_policy");
+
+    //     $page = Page::where('id', $selected_page)->select( "title","content")->first();
+    //     return response()->json($page);
+    // }
+
+    public function termsAndCondition()
+    {
+        $page = Page::where('slug', 'terms-and-conditions')
+            ->select('title', 'content')
+            ->first();
+
         return response()->json($page);
     }
 
-    public function privacyPolicy(){
-        $selected_page = get_static_option("mobile_privacy_and_policy");
+    public function privacyPolicy()
+    {
+        $page = Page::where('slug', 'privacy-policy')
+            ->select('title', 'content')
+            ->first();
 
-        $page = Page::where('id', $selected_page)->select( "title","content")->first();
         return response()->json($page);
     }
 
