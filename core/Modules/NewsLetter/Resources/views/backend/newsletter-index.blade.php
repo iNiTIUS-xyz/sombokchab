@@ -161,7 +161,7 @@
                                 <label for="email">
                                     {{ __('Email') }}
                                 </label>
-                                <input type="email" class="form-control" id="email" name="email"
+                                <input type="email" class="form-control" id="send_mail_email" name="email"
                                     placeholder="{{ __('Enter email') }}">
                             </div>
                             <div class="form-group">
@@ -280,17 +280,20 @@
         (function($) {
             "use strict";
             $(document).ready(function() {
-                <
-                x - btn.submit / >
+                $('#send_mail_to_subscriber_edit_modal_form').on('submit', function() {
+                    let content = $('.summernote').summernote('code');
+                    $(this).find('input[name="message"]').val(content);
+                });
 
-                    $(document).on('click', '.send_mail_modal_btn', function() {
-                        var el = $(this);
-                        var id = el.data('id');
-                        var email = el.data('email');
-                        var form = $('#send_mail_to_subscriber_edit_modal_form');
-                        form.find('#email').val(email);
-                        form.find('#newsletter_id').val(id);
-                    });
+
+                $(document).on('click', '.send_mail_modal_btn', function() {
+                    var el = $(this);
+                    var id = el.data('id');
+                    var email = el.data('email');
+                    var form = $('#send_mail_to_subscriber_edit_modal_form');
+                    form.find('#send_mail_email').val(email);
+                    form.find('#newsletter_id').val(id);
+                });
 
                 $(document).on('click', '.swal_delete_button', function(e) {
                     e.preventDefault();
