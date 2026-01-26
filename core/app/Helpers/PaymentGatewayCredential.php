@@ -693,14 +693,11 @@ class PaymentGatewayCredential
         $acledaPay->setApiKey($secret);
         $acledaPay->setLoginId($login_id);
         $acledaPay->setPassword($password);
-
         // 5) Environment (sandbox / live)
         $acledaPay->setEnv($mode == 1);
-
         // 6) Currency & exchange rate
         $acledaPay->setCurrency(self::site_global_currency());
         $acledaPay->setExchangeRate(self::exchange_rate_usd_to_inr());
-
         return $acledaPay;
     }
 }

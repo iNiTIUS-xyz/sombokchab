@@ -6,7 +6,6 @@ use DB;
 use App\Mail\BasicMail;
 use App\Mail\TrackOrder;
 use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 use App\Support\SupportTicket;
 use Modules\User\Entities\User;
 use App\Shipping\ShippingAddress;
@@ -15,6 +14,7 @@ use App\Support\SupportDepartment;
 use Illuminate\Routing\Controller;
 use Modules\Vendor\Entities\Vendor;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use App\Shipping\UserShippingAddress;
@@ -65,7 +65,7 @@ class UserController extends Controller
 
         if (!$user || !Hash::check($validated["password"], $user->password)) {
             return response()->json([
-                'message' => __('Invalid username or password')
+                'message' => __('Invalid credentials')
             ])->setStatusCode(422);
         }
 
@@ -433,16 +433,32 @@ class UserController extends Controller
     }
 
     //User Profile
-    public function deleteAccount()
+    public function deleteAccount(Request $request)
     {
-        $user_id = auth('sanctum')->id();
+        $user = auth('sanctum')->user();
+        if (!$user) {
+            return response()->json([
+                'message' => 'Unauthorized',
+                'status' => false,
+            ], 401);
+        }
 
-        $user = User::with('userCountry', 'shipping', 'userState')
-            ->where('id', $user_id)->delete();
+        $request->validate([
+            'password' => 'required|string',
+        ]);
 
-        return [
-            "status" => $user
-        ];
+        if (!Hash::check($request->password, $user->password)) {
+            return response()->json([
+                'message' => 'Password does not match',
+                'status' => false,
+            ], 422);
+        }
+
+        $deleted = User::where('id', $user->id)->delete();
+
+        return response()->json([
+            'status' => (bool) $deleted,
+        ]);
     }
     public function profile()
     {
