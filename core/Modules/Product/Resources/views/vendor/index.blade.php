@@ -187,7 +187,21 @@
                                 </button>
                             </div>
                             <div class="btn-wrapper">
-                                <x-product::table.bulk-action />
+                                <div class="bulk-delete-wrapper d-flex mt-3">
+                                    <select name="bulk_option" id="bulk_option">
+                                        <option value="">
+                                            {{ __('Bulk Action') }}
+                                        </option>
+                                        <option value="delete">
+                                            {{ __('Delete') }}
+                                        </option>
+                                        {{-- <option value="active">{{ __('Active') }}</option>
+                                        <option value="inactive">{{ __('Inactive') }}</option> --}}
+                                    </select>
+                                    <button class="btn btn-primary " id="bulk_delete_btn">
+                                        {{ __('Apply') }}
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -216,6 +230,96 @@
     <x-media.js type="vendor" />
     <script>
         $(".select2").select2();
+    </script>
+
+    <script>
+        (function($) {
+            $(document).ready(function() {
+
+                $(document).on('click', '#bulk_delete_btn', function(e) {
+                    e.preventDefault();
+
+                    var bulkOption = $('#bulk_option').val();
+                    var allCheckbox = $('.bulk-checkbox:checked');
+                    var allIds = [];
+
+                    allCheckbox.each(function() {
+                        allIds.push($(this).val());
+                    });
+
+                    if (bulkOption == "") {
+                        Swal.fire('Warning!', 'Please choose a bulk action first.', 'warning');
+                        return;
+                    }
+
+                    if (allIds.length === 0) {
+                        Swal.fire('Warning!', 'Please select at least one item.', 'warning');
+                        return;
+                    }
+
+                    // 🔥 Dynamic Messages
+                    let title = '';
+                    let text = '';
+                    let successMsg = '';
+
+                    if (bulkOption === 'delete') {
+                        title = 'Are you sure?';
+                        text = 'This will permanently delete selected items!';
+                        successMsg = 'Selected items have been deleted.';
+                    } else if (bulkOption === 'active') {
+                        title = 'Publish Items?';
+                        text = 'Selected items will be published.';
+                        successMsg = 'Selected items are now published.';
+                    } else if (bulkOption === 'inactive') {
+                        title = 'Unpublish Items?';
+                        text = 'Selected items will be unpublished.';
+                        successMsg = 'Selected items are now unpublished.';
+                    }
+
+                    Swal.fire({
+                        title: title,
+                        text: text,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: bulkOption === 'delete' ? '#ee0000' : '#28a745',
+                        cancelButtonColor: '#55545b',
+                        confirmButtonText: 'Yes, continue!',
+                        cancelButtonText: 'Cancel'
+                    }).then((result) => {
+
+                        if (result.isConfirmed) {
+
+                            $.ajax({
+                                type: "POST",
+                                url: "{{ route('vendor.products.bulk.action') }}",
+                                data: {
+                                    _token: "{{ csrf_token() }}",
+                                    ids: allIds,
+                                    type: bulkOption,
+                                },
+                                success: function() {
+                                    Swal.fire('Success!', successMsg, 'success');
+                                    // reload after action
+                                    setTimeout(function() {
+                                        location.reload();
+                                    }, 1000);
+                                },
+                                error: function() {
+                                    Swal.fire('Error!', 'Action failed. Try again.',
+                                        'error');
+                                }
+                            });
+
+                        }
+                    });
+                });
+                $('.all-checkbox').on('change', function() {
+                    var value = $(this).is(':checked');
+                    $(this).closest('table').find('.bulk-checkbox').prop('checked', value);
+                });
+
+            });
+        })(jQuery);
     </script>
     <script>
         $(function() {
