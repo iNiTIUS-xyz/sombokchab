@@ -86,9 +86,9 @@
                         class="badge
                             @if ($product->product_status == 'publish') bg-primary status-open
                             @elseif ($product->product_status == 'unpublish')
-                                bg-warning status-close
+                                bg-danger status-close
                             @elseif($product->product_status == 'rejected')
-                                bg-danger status-close @endif
+                                bg-warning status-close @endif
                         ">
                         @if ($product->product_status == 'publish')
                             {{ __('Approved') }}
@@ -103,7 +103,7 @@
                     @if ($product->status_id == 1)
                         <span class="badge bg-primary">Published</span>
                     @else
-                        <span class="badge bg-warning">Unpublished</span>
+                        <span class="badge bg-danger">Unpublished</span>
                     @endif
                 </td>
                 <td>
