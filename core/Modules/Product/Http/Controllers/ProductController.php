@@ -260,21 +260,33 @@ class ProductController extends Controller
 
     public function bulkAction(Request $request)
     {
-        $products = Product::query()
-            ->select(['id', 'status_id'])
-            ->whereIn('id', $request->ids)
-            ->get();
+        try {
 
-        foreach ($products as $product) {
-            $updateProduct = Product::findOrFail($product->id);
-            $updateProduct->status_id = $request->status == 'active' ? 1 : 2;
-            $updateProduct->save();
+            if ($request->type === 'delete') {
+                return response()->json((new AdminProductServices)->bulk_delete_action($request->ids) ? ["success" => true, "type" => "success"] : ["success" => false, "type" => "danger"]);
+            }
+
+            $products = Product::query()
+                ->select(['id', 'status_id'])
+                ->whereIn('id', $request->ids)
+                ->get();
+
+            foreach ($products as $product) {
+                $updateProduct = Product::findOrFail($product->id);
+                $updateProduct->status_id = $request->type === 'active' ? 1 : 2;
+                $updateProduct->save();
+            }
+
+            return response()->json([
+                'success' => true,
+                'type'    => 'success',
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'status' => false,
+                'msg'    => $e->getMessage()
+            ]);
         }
-
-        return response()->json([
-            'status' => true,
-            'msg'    => 'Product successfully updated',
-        ]);
     }
 
     public function productImport()

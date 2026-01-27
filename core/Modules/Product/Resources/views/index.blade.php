@@ -199,7 +199,22 @@
                                 </div>
                             @endcan
                             <div class="btn-wrapper">
-                                <x-product::table.bulk-action />
+                                <div class="bulk-delete-wrapper d-flex mt-3">
+                                    <select name="bulk_option" id="bulk_option">
+                                        <option value="">
+                                            {{ __('Bulk Action') }}
+                                        </option>
+                                        <option value="delete">
+                                            {{ __('Delete') }}
+                                        </option>
+                                        <option value="active">{{ __('Publish') }}</option>
+                                        <option value="inactive">{{ __('Unpublish') }}</option>
+                                    </select>
+                                    <button class="btn btn-primary " id="bulk_delete_btn">
+                                        {{ __('Apply') }}
+                                    </button>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -229,6 +244,7 @@
         <script>
             (function($) {
                 $(document).ready(function() {
+
                     $(document).on('click', '#bulk_delete_btn', function(e) {
                         e.preventDefault();
 
@@ -236,68 +252,80 @@
                         var allCheckbox = $('.bulk-checkbox:checked');
                         var allIds = [];
 
-                        allCheckbox.each(function(index, value) {
+                        allCheckbox.each(function() {
                             allIds.push($(this).val());
                         });
 
-                        if (allIds.length > 0 && bulkOption == 'delete') {
-                            Swal.fire({
-                                title: '{{ __('Are you sure?') }}',
-                                text: '{{ __('You would not be able to revert this action!') }}',
-                                icon: 'warning',
-                                showCancelButton: true,
-                                confirmButtonColor: '#ee0000',
-                                cancelButtonColor: '#55545b',
-                                confirmButtonText: '{{ __('Yes, delete them!') }}',
-                                cancelButtonText: "{{ __('No') }}"
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    $('#bulk_delete_btn').text('{{ __('Deleting...') }}');
-
-                                    $.ajax({
-                                        type: "POST",
-                                        url: "{{ route('admin.products.bulk.destroy') }}",
-                                        data: {
-                                            _token: "{{ csrf_token() }}",
-                                            ids: allIds,
-                                        },
-                                        success: function(data) {
-                                            Swal.fire(
-                                                '{{ __('Deleted!') }}',
-                                                '{{ __('Selected data have been deleted.') }}',
-                                                'success'
-                                            );
-                                            setTimeout(function() {
-                                                location.reload();
-                                            }, 1000);
-                                        },
-                                        error: function() {
-                                            Swal.fire(
-                                                'Error!',
-                                                'Failed to delete data.',
-                                                'error'
-                                            );
-                                        }
-                                    });
-                                }
-                            });
-                        } else {
-                            Swal.fire(
-                                'Warning!',
-                                '{{ __('Please select at least one item and choose delete option.') }}',
-                                'warning'
-                            );
+                        if (bulkOption == "") {
+                            Swal.fire('Warning!', 'Please choose a bulk action first.', 'warning');
+                            return;
                         }
-                    });
 
-                    // Handle "select all" checkbox
-                    $('.all-checkbox').on('change', function(e) {
-                        e.preventDefault();
+                        if (allIds.length === 0) {
+                            Swal.fire('Warning!', 'Please select at least one item.', 'warning');
+                            return;
+                        }
+
+                        // 🔥 Dynamic Messages
+                        let title = '';
+                        let text = '';
+                        let successMsg = '';
+
+                        if (bulkOption === 'delete') {
+                            title = 'Are you sure?';
+                            text = 'This will permanently delete selected items!';
+                            successMsg = 'Selected items have been deleted.';
+                        } else if (bulkOption === 'active') {
+                            title = 'Publish Items?';
+                            text = 'Selected items will be published.';
+                            successMsg = 'Selected items are now published.';
+                        } else if (bulkOption === 'inactive') {
+                            title = 'Unpublish Items?';
+                            text = 'Selected items will be unpublished.';
+                            successMsg = 'Selected items are now unpublished.';
+                        }
+
+                        Swal.fire({
+                            title: title,
+                            text: text,
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: bulkOption === 'delete' ? '#ee0000' : '#28a745',
+                            cancelButtonColor: '#55545b',
+                            confirmButtonText: 'Yes, continue!',
+                            cancelButtonText: 'Cancel'
+                        }).then((result) => {
+
+                            if (result.isConfirmed) {
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: "{{ route('admin.products.bulk.action') }}",
+                                    data: {
+                                        _token: "{{ csrf_token() }}",
+                                        ids: allIds,
+                                        type: bulkOption,
+                                    },
+                                    success: function() {
+                                        Swal.fire('Success!', successMsg, 'success');
+                                        // reload after action
+                                        setTimeout(function() {
+                                            location.reload();
+                                        }, 1000);
+                                    },
+                                    error: function() {
+                                        Swal.fire('Error!', 'Action failed. Try again.', 'error');
+                                    }
+                                });
+
+                            }
+                        });
+                    });
+                    $('.all-checkbox').on('change', function() {
                         var value = $(this).is(':checked');
-                        var allChek = $(this).closest('table').find('.bulk-checkbox');
-
-                        allChek.prop('checked', value);
+                        $(this).closest('table').find('.bulk-checkbox').prop('checked', value);
                     });
+
                 });
             })(jQuery);
         </script>
