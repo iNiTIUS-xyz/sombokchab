@@ -195,8 +195,8 @@
                                         <option value="delete">
                                             {{ __('Delete') }}
                                         </option>
-                                        {{-- <option value="active">{{ __('Active') }}</option>
-                                        <option value="inactive">{{ __('Inactive') }}</option> --}}
+                                        {{-- <option value="active">{{ __('Publish') }}</option>
+                                        <option value="inactive">{{ __('Unpublish') }}</option> --}}
                                     </select>
                                     <button class="btn btn-primary " id="bulk_delete_btn">
                                         {{ __('Apply') }}
