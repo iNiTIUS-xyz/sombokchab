@@ -77,7 +77,7 @@
                                                     </a>
                                                 @endcan
 
-                                                @can('manage-shipping-settings')
+                                                {{-- @can('manage-shipping-settings')
                                                     @if (!$method->is_default)
                                                         <form action="{{ route('admin.shipping-method.make-default') }}"
                                                             method="post" style="display: inline">
@@ -92,7 +92,7 @@
                                                             {{ __('Default') }}
                                                         </button>
                                                     @endif
-                                                @endcan
+                                                @endcan --}}
                                                 @can('manage-shipping-settings')
                                                     @if (!$method->is_default)
                                                         <a href="{{ route('admin.shipping-method.destroy', $method->id) }}"

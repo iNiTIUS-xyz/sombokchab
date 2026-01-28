@@ -12,6 +12,7 @@ class AcledaPay extends PaymentGatewayBase
     protected $api_key;
     protected $login_id;
     protected $password;
+    protected $is_sandbox = true;
 
     public function __construct()
     {
@@ -39,6 +40,12 @@ class AcledaPay extends PaymentGatewayBase
     public function setPassword($password)
     {
         $this->password = $password;
+        return $this;
+    }
+
+    public function setEnv($is_sandbox)
+    {
+        $this->is_sandbox = (bool) $is_sandbox;
         return $this;
     }
 
@@ -90,26 +97,32 @@ class AcledaPay extends PaymentGatewayBase
         $client = new Client();
         $charge_amount = number_format((float)$args['amount'], 2, '.', '');
         $order_id = $args['payment_track'] ?? 'ORDER-' . time();
+        $currency = $this->charge_currency();
+        $base_url = $this->is_sandbox ? 'https://epaymentuat.acledabank.com.kh' : 'https://epayment.acledabank.com.kh';
+        $txid = substr($order_id, 0, 16);
+        $hash_message = $this->merchant_id . $this->login_id . $this->password . $txid;
+        $hash = strtoupper(hash_hmac('sha512', $hash_message, $this->api_key));
 
         $sessionRequest = [
             'loginId' => $this->login_id,
             'password' => $this->password,
             'merchantID' => $this->merchant_id,
-            'signature' => hash('sha256', $this->merchant_id . $order_id . $charge_amount . $this->api_key),
+            'hash' => $hash,
             'xpayTransaction' => [
-                'txid' => $order_id,
+                'txid' => $txid,
                 'purchaseAmount' => $charge_amount,
-                'purchaseCurrency' => 'USD',
-                'purchaseDate' => time() * 1000,
+                'purchaseCurrency' => $currency,
+                'purchaseDate' => gmdate('d-m-Y'),
                 'purchaseDesc' => $args['description'] ?? 'Transaction',
-                'invoiceid' => $order_id,
+                'invoiceid' => $txid,
                 'item' => 1,
                 'quantity' => 1,
                 'expiryTime' => 5,
+                'paymentCard' => 1,
             ]
         ];
 
-        $response = $client->post('https://epaymentuat.acledabank.com.kh:8443/SOMBOKCHAB/XPAYConnectorServiceInterfaceImplV2/XPAYConnectorServiceInterfaceImplV2RS/openSessionV2', [
+        $response = $client->post($base_url . '/SOMBOKCHAB/XPAYConnectorServiceInterfaceImplV2/XPAYConnectorServiceInterfaceImplV2RS/openSessionV2', [
             'json' => $sessionRequest
         ]);
 
@@ -121,7 +134,7 @@ class AcledaPay extends PaymentGatewayBase
         $session_id = $sessionResponse['result']['sessionid'];
         $payment_token = $sessionResponse['result']['xTran']['paymentTokenid'];
 
-        $payway_endpoint = 'https://epaymentuat.acledabank.com.kh:8443/SOMBOKCHAB/paymentPage.jsp';
+        $payway_endpoint = $base_url . '/SOMBOKCHAB/paymentPage.jsp';
         $html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Redirecting...</title></head><body onload="document.forms[0].submit();">';
         $html .= '<form action="' . $payway_endpoint . '" method="POST">';
 
@@ -134,9 +147,9 @@ class AcledaPay extends PaymentGatewayBase
             'amount' => $charge_amount,
             'quantity' => 1,
             'item' => 1,
-            'invoiceid' => $order_id,
-            'currencytype' => 'USD',
-            'transactionID' => $order_id,
+            'invoiceid' => $txid,
+            'currencytype' => $currency,
+            'transactionID' => $txid,
             'successUrlToReturn' => $args['ipn_url'],
             'errorUrl' => $args['cancel_url']
         ];
