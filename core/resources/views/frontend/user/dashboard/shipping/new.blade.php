@@ -6,8 +6,9 @@
 
 @section('section')
     @php
-        $all_countries = DB::table('countries')->select('id', 'name')->where('status', 'publish')->get();
+        $all_countries = DB::table('countries')->select('id', 'name')->where('status', 'publish')->where('id', 31)->get();
         $states = \Modules\CountryManage\Entities\State::where('country_id', 31)->get();
+        $cities = \Modules\CountryManage\Entities\City::select('id', 'name')->where('country_id', 31)->get();
     @endphp
     <div class="dashboard__card">
         <div class="dashboard__card__header">
@@ -70,9 +71,9 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="state">{{ __('City') }} <span class="text-danger">*</span></label>
+                            <label for="state">{{ __('Province') }} <span class="text-danger">*</span></label>
                             <select class="form-select" name="state" id="state">
-                                <option value="">{{ __('Select City') }}</option>
+                                <option value="">{{ __('Select Province') }}</option>
                                 @foreach ($states as $state)
                                     <option value="{{ $state->id }}"
                                         {{ $state->id == Auth::guard('web')->user()->state ? 'selected' : '' }}>
@@ -84,9 +85,12 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for='city'> {{ __('Province') }} </label>
+                            <label for='city'> {{ __('City') }} </label>
                             <select id="city" class='form-select select-state' name="city">
-                                <option value="">{{ __('Select City First...') }}</option>
+                                <option value="">{{ __('Select City') }}</option>
+                                @foreach ($cities as $city)
+                                    <option value="{{ $city->id }}">{{ $city->name }}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -151,7 +155,7 @@
                         id: id
                     }).then(function(data) {
                         $('.lds-ellipsis').hide();
-                        $('#state').html('<option value="">{{ __('Select City') }}</option>');
+                        $('#state').html('<option value="">{{ __('Select Province') }}</option>');
                         data.states.map(function(e) {
                             $('#state').append('<option value="' + e.id + '">' + e
                                 .name + '</option>');
@@ -169,15 +173,6 @@
                         () => {}, (data) => {
                             // do success action
                             $('.cart-items-wrapper').html(data.cart_items);
-
-                            let cityhtml =
-                                "<option value=''> {{ __('Select Province') }} </option>";
-                            data?.cities?.forEach((city) => {
-                                cityhtml += "<option value='" + city.id + "'>" + city.name +
-                                    "</option>";
-                            });
-
-                            $("#city").html(cityhtml);
                         }, (errors) => {
                             prepare_errors(errors);
                         })

@@ -3,6 +3,11 @@
     <x-loader.css />
 @endsection
 @section('section')
+    @php
+        $all_country = DB::table('countries')->select('id', 'name')->where('status', 'publish')->where('id', 31)->get();
+        $states = \Modules\CountryManage\Entities\State::select('id', 'name')->where('country_id', 31)->get();
+        $cities = \Modules\CountryManage\Entities\City::select('id', 'name')->where('country_id', 31)->get();
+    @endphp
     <div class="dashboard__card">
         <div class="dashboard__card__header">
             {{-- <h5 class="dashboard__card__title">{{ __('Edit Shipping Address') }}</h5> --}}
@@ -68,24 +73,27 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="state">{{ __('City') }}<span class="text-danger">*</span></label>
+                            <label for="state">{{ __('Province') }}<span class="text-danger">*</span></label>
                             <select class="form-select" name="state" id="state">
-                                <option value="">{{ __('Select City') }}</option>
-                                @if ($address->state_id)
-                                    <option value="{{ $address->state_id }}" selected>{{ $address->state->name ?? '' }}
+                                <option value="">{{ __('Select Province') }}</option>
+                                @foreach ($states as $state)
+                                    <option value="{{ $state->id }}" @selected($address->state_id == $state->id)>
+                                        {{ $state->name }}
                                     </option>
-                                @endif
+                                @endforeach
                             </select>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="city">{{ __('Province') }}</label>
+                            <label for="city">{{ __('City') }}</label>
                             <select class="form-select" name="city" id="city">
-                                <option value="">{{ __('Select Province') }}</option>
-                                @if ($address->city)
-                                    <option value="{{ $address->city }}" selected>{{ $address->city }}</option>
-                                @endif
+                                <option value="">{{ __('Select City') }}</option>
+                                @foreach ($cities as $city)
+                                    <option value="{{ $city->id }}" @selected($address->city == $city->id)>
+                                        {{ $city->name }}
+                                    </option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -153,7 +161,7 @@
                         id: id
                     }).then(function(data) {
                         $('.lds-ellipsis').hide();
-                        $('#state').html('<option value="">{{ __('Select City') }}</option>');
+                        $('#state').html('<option value="">{{ __('Select Province') }}</option>');
                         data.states.map(function(e) {
                             $('#state').append('<option value="' + e.id + '">' + e
                                 .name + '</option>');
@@ -170,15 +178,6 @@
                         () => {}, (data) => {
                             // do success action
                             $('.cart-items-wrapper').html(data.cart_items);
-
-                            let cityhtml =
-                                "<option value=''> {{ __('Select Province') }} </option>";
-                            data?.cities?.forEach((city) => {
-                                cityhtml += "<option value='" + city.id + "'>" + city.name +
-                                    "</option>";
-                            });
-
-                            $("#city").html(cityhtml);
                         }, (errors) => {
                             prepare_errors(errors);
                         })

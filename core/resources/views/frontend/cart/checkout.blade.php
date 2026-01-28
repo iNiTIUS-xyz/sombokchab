@@ -328,6 +328,42 @@
 
     <script>
         $(document).ready(function() {
+            let lastCityId = null;
+
+            function getSelectedAddressCity($input) {
+                if (!$input || !$input.length) return null;
+                const $data = $input.closest('label').next('.visually-hidden');
+                return $data.length ? $data.data('city') : null;
+            }
+
+            function syncShippingMethods() {
+                $('.showShippingDisplay').each(function() {
+                    const $container = $(this);
+                    const vendorId = $container.data('vendor-id') || 'admin';
+                    const $shippingInput = $container.find('input.shipping_cost');
+
+                    if ($shippingInput.length) {
+                        $shippingInput.attr('name', `shipping_cost[${vendorId}]`);
+                    }
+
+                    const $items = $container.find('.checkout-shipping-method');
+                    if (!$items.length) return;
+
+                    let $active = $items.filter('.active').first();
+                    if (!$active.length) {
+                        $active = $items.first().addClass('active');
+                    }
+
+                    const shippingCost = Number($active.data('shipping-cost')) || 0;
+                    const shippingCostId = $active.data('shipping-cost-id') || '';
+
+                    $container.find('.vendor_shipping_cost').text(amount_with_currency_symbol(shippingCost));
+                    $container.find('.shipping_cost').val(shippingCostId);
+                });
+
+                calculateOrderSummaryNoTax();
+                document.dispatchEvent(new Event("shipping_methods_loaded"));
+            }
 
             function loadShippingMethods(shippingAddressId) {
                 $.ajax({
@@ -343,7 +379,7 @@
 
                         $('.showShippingDisplay').html(response.html);
                         $('.showShippingDisplay').stop(true, true).slideDown();
-                        document.dispatchEvent(new Event("shipping_methods_loaded"));
+                        syncShippingMethods();
 
                     },
                     error: function() {
@@ -355,10 +391,12 @@
             // On radio change
             $('body').on('change', 'input[name="shipping_address_id"]', function() {
                 const shippingAddressId = $(this).val();
+                const cityId = getSelectedAddressCity($(this));
 
-                if (shippingAddressId) {
+                if (shippingAddressId && (lastCityId === null || String(cityId) !== String(lastCityId))) {
+                    lastCityId = cityId;
                     loadShippingMethods(shippingAddressId);
-                } else {
+                } else if (!shippingAddressId) {
                     $('.showShippingDisplay').slideUp();
                 }
             });
@@ -367,6 +405,7 @@
             const defaultChecked = $('input[name="shipping_address_id"]:checked').val();
 
             if (defaultChecked) {
+                lastCityId = getSelectedAddressCity($('input[name="shipping_address_id"]:checked'));
                 loadShippingMethods(defaultChecked);
             }
 
@@ -616,7 +655,7 @@
                 $(this).addClass("active");
                 $(this).parent().parent().find("#vendor_shipping_cost").html(amount_with_currency_symbol(
                     shippingCost));
-                $(this).parent().parent().find("#shipping_cost").val(shippingCostId);
+                $(this).parent().parent().find(".shipping_cost").val(shippingCostId);
 
                 calculateOrderSummaryNoTax();
             }
