@@ -19,7 +19,7 @@
             @endphp
 
             <li data-shipping-cost-id="{{ $method->id }}" data-shipping-cost="{{ round($method->cost) }}"
-                class="shippingMethod__wrapper__item checkout-shipping-method align-items-center border-1 py-2 px-4 {{ $method->is_default ? 'active' : '' }}">
+                class="shippingMethod__wrapper__item checkout-shipping-method align-items-center border-1 py-2 px-4 {{ $loop->first ? 'active' : '' }}">
                 <span class="checkbox">
                     <span class="inner"></span>
                 </span>

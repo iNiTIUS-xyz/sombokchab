@@ -68,6 +68,43 @@ trait OrderTrait
         return $cartContent->groupBy(self::groupByColumn());
     }
 
+    private static function prepareShippingCostMap($shippingCostInput, $shippingCost, $shippingTaxClass): array
+    {
+        $map = [];
+        $shippingCostInput = $shippingCostInput ?? [];
+
+        foreach ($shippingCostInput as $vendorKey => $methodId) {
+            if (empty($methodId)) {
+                continue;
+            }
+
+            $methodId = (int) $methodId;
+            $method = $shippingCost["vendor"]?->firstWhere("id", $methodId);
+
+            if (!$method && $shippingCost["admin"] && (int) $shippingCost["admin"]->id === $methodId) {
+                $method = $shippingCost["admin"];
+            }
+
+            if (!$method) {
+                $method = \Modules\ShippingModule\Entities\AdminShippingMethod::query()
+                    ->where("status_id", 1)
+                    ->find($methodId);
+            }
+
+            if (!$method) {
+                $method = \Modules\ShippingModule\Entities\VendorShippingMethod::query()
+                    ->where("status_id", 1)
+                    ->find($methodId);
+            }
+
+            if ($method) {
+                $map[(string) $vendorKey] = calculatePrice($method->cost, $shippingTaxClass, "shipping");
+            }
+        }
+
+        return $map;
+    }
+
     private static function cartContent($request = null, $type = null)
     {
         if ($type == 'pos') {
@@ -99,6 +136,7 @@ trait OrderTrait
             $shippingCostTemp += calculatePrice($shippingCost["admin"]?->cost ?? 0, $shippingTaxClass, "shipping") ?? 0;
 
             $totalShippingCharge = $shippingCostTemp;
+            $shippingCostMap = self::prepareShippingCostMap($request["shipping_cost"], $shippingCost, $shippingTaxClass);
         } else {
 
             $shippingTaxClass = TaxClassOption::where("class_id", get_static_option("shipping_tax_class"))->sum("rate");
@@ -112,6 +150,7 @@ trait OrderTrait
             $shippingCostTemp += calculatePrice($shippingCost["admin"]?->cost ?? 0, $shippingTaxClass, "shipping") ?? 0;
 
             $totalShippingCharge = $shippingCostTemp;
+            $shippingCostMap = self::prepareShippingCostMap($request["shipping_cost"], $shippingCost, $shippingTaxClass);
         }
 
         $order = self::storeOrder($request, $type);
@@ -156,8 +195,8 @@ trait OrderTrait
             $subOrderTotal = 0;
 
             $vendor_id = $key;
-
-            $subOrderShippingCost = $totalShippingCharge;
+            $vendorKey = empty($vendor_id) ? 'admin' : (string) $vendor_id;
+            $subOrderShippingCost = $shippingCostMap[$vendorKey] ?? 0;
 
             $orderItem = [];
             $orderTotalAmount = 0;

@@ -329,6 +329,7 @@
     <script>
         $(document).ready(function() {
             let lastCityId = null;
+            let pendingCheckoutSubmit = false;
 
             function getSelectedAddressCity($input) {
                 if (!$input || !$input.length) return null;
@@ -336,7 +337,11 @@
                 return $data.length ? $data.data('city') : null;
             }
 
-            function syncShippingMethods() {
+            window.syncShippingMethods = function syncShippingMethods(options = {}) {
+                const dispatchEvent = options.dispatchEvent !== false;
+                let allReady = true;
+                const totalMethods = $('.showShippingDisplay .checkout-shipping-method').length;
+
                 $('.showShippingDisplay').each(function() {
                     const $container = $(this);
                     const vendorId = $container.data('vendor-id') || 'admin';
@@ -347,7 +352,12 @@
                     }
 
                     const $items = $container.find('.checkout-shipping-method');
-                    if (!$items.length) return;
+                    if (!$items.length) {
+                        if (totalMethods > 0) {
+                            allReady = false;
+                        }
+                        return;
+                    }
 
                     let $active = $items.filter('.active').first();
                     if (!$active.length) {
@@ -362,8 +372,12 @@
                 });
 
                 calculateOrderSummaryNoTax();
-                document.dispatchEvent(new Event("shipping_methods_loaded"));
-            }
+                if (dispatchEvent) {
+                    document.dispatchEvent(new Event("shipping_methods_loaded"));
+                }
+
+                return allReady;
+            };
 
             function loadShippingMethods(shippingAddressId) {
                 $.ajax({
@@ -379,7 +393,7 @@
 
                         $('.showShippingDisplay').html(response.html);
                         $('.showShippingDisplay').stop(true, true).slideDown();
-                        syncShippingMethods();
+                        window.syncShippingMethods();
 
                     },
                     error: function() {
@@ -407,6 +421,12 @@
             if (defaultChecked) {
                 lastCityId = getSelectedAddressCity($('input[name="shipping_address_id"]:checked'));
                 loadShippingMethods(defaultChecked);
+            }
+
+            if ($('.showShippingDisplay .checkout-shipping-method').length) {
+                window.syncShippingMethods({
+                    dispatchEvent: false
+                });
             }
 
         });
@@ -640,7 +660,6 @@
             if (defaultAddress.length > 0) {
                 defaultAddress.trigger('click');
             }
-            selectDefaultShippingMethod();
             calculateOrderSummaryNoTax();
         });
 
@@ -675,10 +694,31 @@
             }
 
             // Ensure shipping and payment details synced
+            const ready = window.syncShippingMethods({
+                dispatchEvent: false
+            });
+            if (!ready) {
+                pendingCheckoutSubmit = true;
+                toastr.info("Loading shipping methods, please wait...");
+                return false;
+            }
             selectDefaultShippingMethod();
 
             // Submit form
             $('.checkout-billing-form').trigger('submit');
+        });
+
+        $(document).on('submit', '#billing_info', function(e) {
+            const ready = window.syncShippingMethods({
+                dispatchEvent: false
+            });
+            if (!ready) {
+                pendingCheckoutSubmit = true;
+                toastr.info("Loading shipping methods, please wait...");
+                e.preventDefault();
+                return false;
+            }
+            selectDefaultShippingMethod();
         });
 
 
@@ -745,6 +785,17 @@
                 $(this).parent().parent().find(".shipping_cost").val(shippingCostId);
             });
         }
+
+        document.addEventListener("shipping_methods_loaded", function() {
+            if (!pendingCheckoutSubmit) return;
+            const ready = window.syncShippingMethods({
+                dispatchEvent: false
+            });
+            if (!ready) return;
+            pendingCheckoutSubmit = false;
+            selectDefaultShippingMethod();
+            $('.checkout-billing-form').trigger('submit');
+        });
     </script>
 
     @if (moduleExists('ShippingModule'))
