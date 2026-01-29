@@ -13,7 +13,7 @@
                 <x-msg.error />
                 <x-msg.flash />
                 <a href="{{ route('vendor.shipping-method.create') }}" class="cmn_btn btn_bg_profile mb-4">
-                    Create Shipping Method
+                    Add New Shipping Method
                 </a>
                 <div class="dashboard__card">
                     <div class="dashboard__card__header">

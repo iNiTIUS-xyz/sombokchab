@@ -94,7 +94,7 @@
             </div>
 
 
-            <div class="showShippingDisplay" data-vendor-id="{{ empty($key) ? 'admin' : $c_vendor?->id }}">
+            <div class="showShippingDisplay" data-vendor-id="{{ empty($key) ? 'admin' : $key }}">
 
             </div>
 

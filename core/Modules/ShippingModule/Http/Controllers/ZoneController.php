@@ -17,7 +17,6 @@ class ZoneController extends Controller
     {
         $data = [
             "zones" => Zone::with([
-                "mrt_city",
                 "mrt_country"
             ])->get(),
         ];
@@ -41,10 +40,11 @@ class ZoneController extends Controller
             DB::beginTransaction();
 
             $data = $request->validated();
+            $cityIds = isset($data["city_ids"]) ? array_values(array_filter(array_map('intval', $data["city_ids"]))) : null;
 
             Zone::create([
                 "name" => $data["zone_name"],
-                "city_id" => $data["city_id"],
+                "city_ids" => $cityIds ?: null,
                 "country_id" => $data["country_id"],
             ]);
 
@@ -82,10 +82,11 @@ class ZoneController extends Controller
             DB::beginTransaction();
 
             $data = $request->validated();
+            $cityIds = isset($data["city_ids"]) ? array_values(array_filter(array_map('intval', $data["city_ids"]))) : null;
 
             Zone::where('id', $id)->update([
                 "name" => $data["zone_name"],
-                "city_id" => $data["city_id"],
+                "city_ids" => $cityIds ?: null,
                 "country_id" => $data["country_id"],
             ]);
 

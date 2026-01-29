@@ -896,8 +896,21 @@ class FrontendController extends Controller
             $user->city,
         ])->filter()->unique();
 
-        // Get zone IDs in one query
-        $zoneIds = Zone::whereIn('city_id', $cityIds)->pluck('id');
+        // Get zone IDs in one query (city_ids stored as JSON array).
+        // Also include zones with no city_ids (apply to all cities).
+        $zoneIds = Zone::query()
+            ->where(function ($query) use ($cityIds) {
+                if ($cityIds->isNotEmpty()) {
+                    foreach ($cityIds as $cityId) {
+                        $query->orWhereJsonContains('city_ids', (int) $cityId)
+                              ->orWhereJsonContains('city_ids', (string) $cityId);
+                    }
+                }
+
+                $query->orWhereNull('city_ids')
+                    ->orWhereJsonLength('city_ids', 0);
+            })
+            ->pluck('id');
 
         // Base query
         $query = AdminShippingMethod::with('zone');

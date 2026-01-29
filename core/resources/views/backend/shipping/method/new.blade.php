@@ -88,7 +88,7 @@
                                         </div>
                                         <div class="form-group">
                                             <button type="submit"
-                                                class="cmn_btn btn_bg_profile">{{ __('Create Shipping Method') }}</button>
+                                                class="cmn_btn btn_bg_profile">{{ __('Add New Shipping Method') }}</button>
                                         </div>
                                     </div>
                                 </div>

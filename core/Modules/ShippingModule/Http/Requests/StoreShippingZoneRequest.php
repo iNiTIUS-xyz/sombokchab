@@ -16,7 +16,8 @@ class StoreShippingZoneRequest extends FormRequest
 
         return [
             "zone_name" => "required",
-            "city_id" => "required",
+            "city_ids" => "nullable|array",
+            "city_ids.*" => "nullable|integer|exists:cities,id",
             "country_id" => "required"
         ];
     }

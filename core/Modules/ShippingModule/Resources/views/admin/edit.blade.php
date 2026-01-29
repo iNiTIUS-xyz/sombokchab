@@ -8,6 +8,14 @@
     {{ __('Shipping Zones') }}
 @endsection
 
+@section('style')
+<style>
+    .select2-container .select2-selection--multiple{
+        max-height: 52px;
+    }
+</style>
+@endsection
+
 @section('content')
     <div class="col-lg-12 col-ml-12" id="shipping-zone-wrapper-box">
         <div class="row g-4">
@@ -50,16 +58,15 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-6 mt-3">
+                                <div class="col-md-12 my-3">
                                     <div class="form-group">
                                         <label>
-                                            {{ __('City') }}
-                                            <span class="text-danger">*</span>
+                                            {{ __('Cities') }}
                                         </label>
-                                        <select class="form-control" name="city_id">
+                                        <select class="form-control select2" name="city_ids[]" multiple style="height: 44px">
                                             @foreach ($cities as $city)
                                                 <option value="{{ $city->id }}"
-                                                    @if ($zone->city_id == $city->id) selected @endif>
+                                                    @if (in_array($city->id, $zone->city_ids ?? [])) selected @endif>
                                                     {{ $city->name }}
                                                 </option>
                                             @endforeach
@@ -139,5 +146,7 @@
                 tr.remove();
             }
         });
+
+        $(".select2").select2();
     </script>
 @endsection

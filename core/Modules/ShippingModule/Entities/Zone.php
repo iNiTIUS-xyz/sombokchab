@@ -15,7 +15,11 @@ class Zone extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'city_id', 'country_id'];
+    protected $fillable = ['name', 'city_ids', 'country_id'];
+
+    protected $casts = [
+        'city_ids' => 'array',
+    ];
 
     public function zoneCountry(): HasMany
     {
@@ -35,5 +39,15 @@ class Zone extends Model
     public function mrt_country()
     {
         return $this->hasOne(Country::class, 'id', "country_id");
+    }
+
+    public function getCityNamesAttribute(): string
+    {
+        $ids = $this->city_ids ?? [];
+        if (empty($ids)) {
+            return '';
+        }
+
+        return City::whereIn('id', $ids)->pluck('name')->implode(', ');
     }
 }

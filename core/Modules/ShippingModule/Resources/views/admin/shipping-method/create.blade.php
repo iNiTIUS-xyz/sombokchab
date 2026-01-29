@@ -13,7 +13,7 @@
             <div class="col-lg-12">
                 <div class="dashboard__card">
                     <div class="dashboard__card__header mb-2">
-                        <h4 class="dashboard__card__title">{{ __('Create Shipping Method') }}</h4>
+                        <h4 class="dashboard__card__title">{{ __('Add New Shipping Method') }}</h4>
                     </div>
                     <div class="dashboard__card__body custom__form dashboard-recent-order">
                         <form action="{{ route('admin.shipping-method.store') }}" method="post" enctype="multipart/form-data">

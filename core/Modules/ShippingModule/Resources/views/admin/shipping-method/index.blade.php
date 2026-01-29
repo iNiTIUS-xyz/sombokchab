@@ -11,8 +11,8 @@
                 <div class="mb-4">
                     @can('manage-shipping-settings')
                         <a href="{{ route('admin.shipping-method.create') }}" class="cmn_btn btn_bg_profile"
-                            title="{{ __('Create Shipping Method') }}">
-                            {{ __('Create Shipping Method') }}
+                            title="{{ __('Add New Shipping Method') }}">
+                            {{ __('Add New Shipping Method') }}
                         </a>
                     @endcan
                 </div>

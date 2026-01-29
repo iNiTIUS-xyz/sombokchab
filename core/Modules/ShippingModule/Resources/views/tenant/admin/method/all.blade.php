@@ -22,7 +22,7 @@
                             @can('manage-shipping-settings')
                                 <div class="btn-wrapper">
                                     <a href="{{ route('admin.shipping.method.new') }}"
-                                        class="cmn_btn btn_bg_profile">{{ __('Create Shipping Method') }}</a>
+                                        class="cmn_btn btn_bg_profile">{{ __('Add New Shipping Method') }}</a>
                                 </div>
                             @endcan
                         </div>

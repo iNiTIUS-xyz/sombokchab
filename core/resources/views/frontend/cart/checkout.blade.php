@@ -337,6 +337,30 @@
                 return $data.length ? $data.data('city') : null;
             }
 
+            window.rebuildShippingCostInputs = function rebuildShippingCostInputs() {
+                const $form = $('#billing_info');
+                $form.find('input.shipping_cost_dynamic').remove();
+
+                $('.showShippingDisplay').each(function() {
+                    const $container = $(this);
+                    const vendorId = $container.data('vendor-id') || 'admin';
+                    const $active = $container.find('.checkout-shipping-method.active').first();
+
+                    if (!$active.length) return;
+
+                    const methodId = $active.data('shipping-cost-id');
+                    if (!methodId) return;
+
+                    const $input = $('<input>', {
+                        type: 'hidden',
+                        class: 'shipping_cost_dynamic',
+                        name: `shipping_cost[${vendorId}]`,
+                        value: methodId
+                    });
+                    $form.append($input);
+                });
+            };
+
             window.syncShippingMethods = function syncShippingMethods(options = {}) {
                 const dispatchEvent = options.dispatchEvent !== false;
                 let allReady = true;
@@ -371,6 +395,7 @@
                     $container.find('.shipping_cost').val(shippingCostId);
                 });
 
+                window.rebuildShippingCostInputs();
                 calculateOrderSummaryNoTax();
                 if (dispatchEvent) {
                     document.dispatchEvent(new Event("shipping_methods_loaded"));
@@ -703,6 +728,7 @@
                 return false;
             }
             selectDefaultShippingMethod();
+            window.rebuildShippingCostInputs();
 
             // Submit form
             $('.checkout-billing-form').trigger('submit');
@@ -719,6 +745,7 @@
                 return false;
             }
             selectDefaultShippingMethod();
+            window.rebuildShippingCostInputs();
         });
 
 

@@ -46,7 +46,7 @@
                                                 {{ $zone?->mrt_country?->name }}
                                             </td>
                                             <td>
-                                                {{ $zone?->mrt_city?->name }}
+                                                {{ $zone->city_names }}
                                             </td>
                                             <td>
                                                 @can('manage-shipping-settings')

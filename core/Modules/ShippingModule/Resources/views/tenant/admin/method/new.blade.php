@@ -88,7 +88,7 @@
                                                 placeholder="{{ __('Cost') }}">
                                         </div>
                                         <button type="submit"
-                                            class="btn btn-primary my-4 px-4">{{ __('Create Shipping Method') }}</button>
+                                            class="btn btn-primary my-4 px-4">{{ __('Add New Shipping Method') }}</button>
                                     </div>
                                 </div>
                             </form>

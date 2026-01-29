@@ -7,6 +7,11 @@
 @endsection
 
 @section('style')
+<style>
+    .select2-container .select2-selection--multiple{
+        max-height: 52px;
+    }
+</style>
 @endsection
 
 @section('content')
@@ -46,13 +51,12 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-6 mt-3">
+                                <div class="col-md-12 my-3">
                                     <div class="form-group">
                                         <label>
-                                            {{ __('City') }}
-                                            <span class="text-danger">*</span>
+                                            {{ __('Cities') }}
                                         </label>
-                                        <select class="form-control" name="city_id">
+                                        <select class="form-control select2" name="city_ids[]" multiple style="height: 44px">
                                             @foreach ($cities as $city)
                                                 <option value="{{ $city->id }}">
                                                     {{ $city->name }}
@@ -111,5 +115,7 @@
                 tr.remove();
             }
         });
+
+        $(".select2").select2();
     </script>
 @endsection
