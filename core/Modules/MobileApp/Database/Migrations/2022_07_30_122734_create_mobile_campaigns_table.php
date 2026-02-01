@@ -15,8 +15,9 @@ class CreateMobileCampaignsTable extends Migration
     {
         Schema::create('mobile_campaigns', function (Blueprint $table) {
             $table->id();
-            $table->integer("type")->default(0);
-            $table->integer("campaign_id");
+            $table->string("type")->nullable();
+            $table->integer("limit")->nullable();
+            $table->json("campaign_ids")->nullable();
         });
     }
 

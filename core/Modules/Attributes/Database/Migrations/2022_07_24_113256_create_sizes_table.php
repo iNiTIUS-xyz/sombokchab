@@ -15,7 +15,8 @@ return new class extends Migration
     {
         Schema::create('sizes', function (Blueprint $table) {
             $table->id();
-            $table->string('name'); // Extra Large
+            $table->string('name')->nullable(); // Extra Large
+            $table->string('name_km')->nullable(); // Extra Large
             $table->string('size_code'); // XL
             $table->string('slug')->unique(); // xl
             $table->timestamps();

@@ -15,9 +15,11 @@ return new class extends Migration
     {
         Schema::create('delivery_options', function (Blueprint $table) {
             $table->id();
-            $table->string("icon");
-            $table->string("title");
-            $table->string("sub_title");
+            $table->string("icon")->nullable();
+            $table->string("title_km")->nullable();
+            $table->string("title")->nullable();
+            $table->string("sub_title")->nullable();
+            $table->string("sub_title_km")->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -16,9 +16,12 @@ class CreateProductsTable extends Migration
         if (!Schema::hasTable('products')) {
             Schema::create('products', function (Blueprint $table) {
                 $table->id();
-                $table->string('title');
+                $table->string('title')->nullable();
+                $table->string('name_km')->nullable();
                 $table->text('summary')->nullable();
+                $table->text('summary_km')->nullable();
                 $table->longText('description')->nullable();
+                $table->longText('description_km')->nullable();
                 $table->bigInteger('category_id')->nullable();
                 $table->text('sub_category_id')->nullable();
                 $table->string('image')->nullable();
@@ -27,6 +30,7 @@ class CreateProductsTable extends Migration
                 $table->double('sale_price')->nullable();
                 $table->string('badge')->nullable();
                 $table->string('status')->default('draft');
+                $table->string('product_status')->nullable();
                 $table->string('slug')->nullable();
                 $table->longText('attributes')->nullable();
                 $table->softDeletes();

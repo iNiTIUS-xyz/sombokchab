@@ -9,7 +9,12 @@ return new class extends Migration {
     {
         Schema::create('vendor_wallet_gateway_settings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("vendor_id")->constrained();
+            $table->integer("vendor_id")->nullable();
+            $table->string('merchant_name')->nullable();
+            $table->string('merchant_id')->nullable();
+            $table->string('is_file')->nullable();
+            $table->string('qr_file')->nullable();
+            $table->string('gateway_qr_file')->nullable();
             $table->foreignId("vendor_wallet_gateway_id")->constrained();
         });
     }

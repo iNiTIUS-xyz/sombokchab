@@ -18,7 +18,9 @@ return new class extends Migration
             Schema::create('product_attributes', function (Blueprint $table) {
                 $table->id();
                 $table->string('title')->nullable();
+                $table->string('title_km')->nullable();
                 $table->longText('terms')->nullable();
+                $table->longText('terms_km')->nullable();
                 $table->timestamps();
             });
         }

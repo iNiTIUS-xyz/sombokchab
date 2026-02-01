@@ -34,6 +34,10 @@ class CreateProductsTable extends Migration
                 $table->string('slug')->nullable();
                 $table->longText('attributes')->nullable();
                 $table->integer('sold_count')->nullable()->after('attributes');
+                $table->string('name_km')->nullable();
+                $table->text('summary_km')->nullable();
+                $table->longText('description_km')->nullable();
+                $table->string('product_status')->nullable();
                 $table->softDeletes();
                 $table->timestamps();
             });

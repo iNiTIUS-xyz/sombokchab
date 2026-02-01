@@ -16,6 +16,7 @@ return new class extends Migration
                 $table->id();
                 $table->string('name')->index();
                 $table->string('slug')->index();
+                $table->string('name_km')->nullable();
                 $table->text('title')->index()->nullable();
                 $table->longText('description')->nullable();
                 $table->string('image_id')->nullable();
@@ -34,7 +35,10 @@ return new class extends Migration
                 $table->boolean('is_inventory_worn_able')->index()->nullable();
                 $table->timestamps();
                 $table->softDeletes();
-
+                $table->text('summary')->nullable();
+                $table->text('summary_km')->nullable();
+                $table->longText('description_km')->nullable();
+                $table->string('product_status')->nullable();
                 // Foreign keys
                 $table->foreign("badge_id")->references("id")->on("badges");
                 $table->foreign("brand_id")->references("id")->on("brands");

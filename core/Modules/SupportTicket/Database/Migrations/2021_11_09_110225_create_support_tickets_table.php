@@ -21,6 +21,7 @@ class CreateSupportTicketsTable extends Migration
             $table->string('user_agent')->nullable();
             $table->longText('description')->nullable();
             $table->text('subject')->nullable();
+            $table->string('attachment')->nullable();
             $table->string('status')->nullable();
             $table->string('priority')->nullable();
             $table->unsignedBigInteger('departments')->nullable();

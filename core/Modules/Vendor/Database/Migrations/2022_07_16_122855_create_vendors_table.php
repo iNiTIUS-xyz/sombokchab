@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string("owner_name");
             $table->string("business_name");
             $table->tinyText("description");
+            $table->longText("description_km")->nullable();
             $table->unsignedBigInteger("business_type_id");
             $table->unsignedBigInteger("status_id");
             $table->timestamps();

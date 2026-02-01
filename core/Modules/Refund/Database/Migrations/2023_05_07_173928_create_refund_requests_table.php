@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('preferred_option_id');
             $table->json('preferred_option_fields')->nullable();
             $table->string('status');
+            $table->string('qr_file')->nullable();
             $table->decimal("refund_fee")->nullable();
             $table->timestamps();
             $table->foreign("order_id")->references('id')->on("orders");

@@ -12,8 +12,12 @@ return new class extends Migration {
             $table->decimal("amount")->nullable();
             $table->unsignedBigInteger("gateway_id")->index();
             $table->foreignId("vendor_id")->constrained();
-            $table->string("request_status");
-            $table->text("gateway_fields");
+            $table->string("request_status")->nullable();
+            $table->string("merchant_name")->nullable();
+            $table->string("merchant_id")->nullable();
+            $table->string("is_file")->nullable();
+            $table->string("qr_file")->nullable();
+            $table->text("gateway_fields")->nullable();
             $table->text("note")->nullable();
             $table->string("image")->nullable();
             $table->foreign("gateway_id")->references("id")->on("vendor_wallet_gateways");

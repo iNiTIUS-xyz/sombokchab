@@ -19,6 +19,7 @@ class CreateSupportTicketMessagesTable extends Migration
             $table->string('notify')->nullable();
             $table->string('attachment')->nullable();
             $table->string('type')->nullable();
+            $table->string('notify_phone')->nullable();
             $table->unsignedBigInteger('support_ticket_id')->nullable();
             $table->timestamps();
         });
