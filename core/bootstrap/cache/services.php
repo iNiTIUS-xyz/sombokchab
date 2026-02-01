@@ -74,6 +74,7 @@
     70 => 'Ladumor\\LaravelPwa\\PWAServiceProvider',
     71 => 'Paytabscom\\Laravel_paytabs\\PaypageServiceProvider',
     72 => 'Modules\\DeliveryMan\\Providers\\DeliveryManServiceProvider',
+    73 => 'Modules\\Chat\\Providers\\ChatServiceProvider',
   ),
   'eager' => 
   array (
@@ -133,6 +134,7 @@
     53 => 'Ladumor\\LaravelPwa\\PWAServiceProvider',
     54 => 'Paytabscom\\Laravel_paytabs\\PaypageServiceProvider',
     55 => 'Modules\\DeliveryMan\\Providers\\DeliveryManServiceProvider',
+    56 => 'Modules\\Chat\\Providers\\ChatServiceProvider',
   ),
   'deferred' => 
   array (

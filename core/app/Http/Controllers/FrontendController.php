@@ -903,7 +903,7 @@ class FrontendController extends Controller
                 if ($cityIds->isNotEmpty()) {
                     foreach ($cityIds as $cityId) {
                         $query->orWhereJsonContains('city_ids', (int) $cityId)
-                              ->orWhereJsonContains('city_ids', (string) $cityId);
+                            ->orWhereJsonContains('city_ids', (string) $cityId);
                     }
                 }
 

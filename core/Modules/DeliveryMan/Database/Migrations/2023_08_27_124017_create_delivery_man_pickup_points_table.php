@@ -27,6 +27,12 @@ class CreateDeliveryManPickupPointsTable extends Migration
 
     public function down(): void
     {
+        // First, drop the foreign key from delivery_man_orders
+        Schema::table('delivery_man_orders', function (Blueprint $table) {
+            $table->dropForeign(['pickup_point_id']); // make sure this column name matches the FK
+        });
+
+        // Now drop the table
         Schema::dropIfExists('delivery_man_pickup_points');
     }
 }

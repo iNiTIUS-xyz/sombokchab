@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Modules\Order\Services\OrderNumberGenerator;
+
 class CheckServiceMiddleware
 {
     /**
@@ -16,7 +17,7 @@ class CheckServiceMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if(!get_static_option("make_order_number",false)){
+        if (!get_static_option("make_order_number", false)) {
             OrderNumberGenerator::makeOrderNumber();
         }
 

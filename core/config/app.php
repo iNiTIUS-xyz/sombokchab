@@ -186,6 +186,7 @@ return [
         Ladumor\LaravelPwa\PWAServiceProvider::class,
         Paytabscom\Laravel_paytabs\PaypageServiceProvider::class,
         Modules\DeliveryMan\Providers\DeliveryManServiceProvider::class,
+        Modules\Chat\Providers\ChatServiceProvider::class,
 
     ],
 

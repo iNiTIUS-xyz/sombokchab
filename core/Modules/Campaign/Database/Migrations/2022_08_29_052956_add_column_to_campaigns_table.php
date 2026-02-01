@@ -35,31 +35,14 @@ return new class extends Migration
 
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
+
         Schema::table('campaigns', function (Blueprint $table) {
-            // Drop foreign keys safely
-            if (Schema::hasColumn('campaigns', 'admin_id')) {
-                try {
-                    $table->dropForeign(['admin_id']);
-                } catch (\Exception $e) {
-                }
-            }
-
-            if (Schema::hasColumn('campaigns', 'vendor_id')) {
-                try {
-                    $table->dropForeign(['vendor_id']);
-                } catch (\Exception $e) {
-                }
-            }
-
-            // Drop columns safely
-            $columns = [];
-            if (Schema::hasColumn('campaigns', 'admin_id')) $columns[] = 'admin_id';
-            if (Schema::hasColumn('campaigns', 'vendor_id')) $columns[] = 'vendor_id';
-            if (Schema::hasColumn('campaigns', 'type')) $columns[] = 'type';
-
-            if (!empty($columns)) {
-                $table->dropColumn($columns);
-            }
+            if (Schema::hasColumn('campaigns', 'admin_id')) $table->dropColumn('admin_id');
+            if (Schema::hasColumn('campaigns', 'vendor_id')) $table->dropColumn('vendor_id');
+            if (Schema::hasColumn('campaigns', 'type')) $table->dropColumn('type');
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 };

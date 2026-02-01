@@ -31,6 +31,8 @@ class CreateDeliveryMenTable extends Migration
 
     public function down(): void
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('delivery_mans');
+        Schema::enableForeignKeyConstraints();
     }
 }
