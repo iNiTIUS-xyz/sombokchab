@@ -73,6 +73,7 @@
     69 => 'Gloudemans\\Shoppingcart\\ShoppingcartServiceProvider',
     70 => 'Ladumor\\LaravelPwa\\PWAServiceProvider',
     71 => 'Paytabscom\\Laravel_paytabs\\PaypageServiceProvider',
+    72 => 'Modules\\DeliveryMan\\Providers\\DeliveryManServiceProvider',
   ),
   'eager' => 
   array (
@@ -131,6 +132,7 @@
     52 => 'Gloudemans\\Shoppingcart\\ShoppingcartServiceProvider',
     53 => 'Ladumor\\LaravelPwa\\PWAServiceProvider',
     54 => 'Paytabscom\\Laravel_paytabs\\PaypageServiceProvider',
+    55 => 'Modules\\DeliveryMan\\Providers\\DeliveryManServiceProvider',
   ),
   'deferred' => 
   array (

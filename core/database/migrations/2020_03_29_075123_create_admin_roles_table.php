@@ -13,13 +13,14 @@ class CreateAdminRolesTable extends Migration
      */
     public function up()
     {
-        if (Schema::hasTable('admin_roles')){
+        if (Schema::hasTable('admin_roles')) {
             return;
         }
         Schema::create('admin_roles', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
-            $table->longText('permission');
+            $table->string('name')->nullable();
+            $table->longText('permission')->nullable();
+            $table->text('hierarchy')->nullable();
             $table->timestamps();
         });
     }

@@ -14,39 +14,51 @@ return new class extends Migration
     public function up()
     {
         Schema::table('campaigns', function (Blueprint $table) {
-            $table->unsignedBigInteger("admin_id")->nullable();
-            $table->unsignedBigInteger("vendor_id")->nullable();
-            $table->string("type")->nullable();
-            $table->foreign("admin_id")->references("id")->on("admins");
-            $table->foreign("vendor_id")->references("id")->on("vendors");
+            // Add admin_id if it doesn't exist
+            if (!Schema::hasColumn('campaigns', 'admin_id')) {
+                $table->unsignedBigInteger("admin_id")->nullable();
+                $table->foreign("admin_id")->references("id")->on("admins");
+            }
+
+            // Add vendor_id if it doesn't exist
+            if (!Schema::hasColumn('campaigns', 'vendor_id')) {
+                $table->unsignedBigInteger("vendor_id")->nullable();
+                $table->foreign("vendor_id")->references("id")->on("vendors");
+            }
+
+            // Add type if it doesn't exist
+            if (!Schema::hasColumn('campaigns', 'type')) {
+                $table->string("type")->nullable();
+            }
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
-
         Schema::table('campaigns', function (Blueprint $table) {
-            try {
-                $table->dropForeign(['admin_id']);
-            } catch (\Exception $e) {
-            }
-            try {
-                $table->dropForeign(['vendor_id']);
-            } catch (\Exception $e) {
+            // Drop foreign keys safely
+            if (Schema::hasColumn('campaigns', 'admin_id')) {
+                try {
+                    $table->dropForeign(['admin_id']);
+                } catch (\Exception $e) {
+                }
             }
 
-            if (
-                Schema::hasColumn('campaigns', 'admin_id') ||
-                Schema::hasColumn('campaigns', 'vendor_id') ||
-                Schema::hasColumn('campaigns', 'type')
-            ) {
+            if (Schema::hasColumn('campaigns', 'vendor_id')) {
+                try {
+                    $table->dropForeign(['vendor_id']);
+                } catch (\Exception $e) {
+                }
+            }
 
-                $table->dropColumn(['admin_id', 'vendor_id', 'type']);
+            // Drop columns safely
+            $columns = [];
+            if (Schema::hasColumn('campaigns', 'admin_id')) $columns[] = 'admin_id';
+            if (Schema::hasColumn('campaigns', 'vendor_id')) $columns[] = 'vendor_id';
+            if (Schema::hasColumn('campaigns', 'type')) $columns[] = 'type';
+
+            if (!empty($columns)) {
+                $table->dropColumn($columns);
             }
         });
     }

@@ -15,12 +15,14 @@ return new class extends Migration
     {
         Schema::create('brands', function (Blueprint $table) {
             $table->id();
-            $table->string("name");
-            $table->string("slug");
+            $table->string("name")->nullable();
+            $table->string("name_km")->nullable();
+            $table->string("slug")->nullable();
             $table->unsignedBigInteger("image_id");
             $table->unsignedBigInteger("banner_id");
             $table->string("title")->nullable();
             $table->tinyText("description")->nullable();
+            $table->tinyText("description_km")->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->foreign("image_id")->references("id")->on("media_uploads");

@@ -184,7 +184,9 @@ return [
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         Gloudemans\Shoppingcart\ShoppingcartServiceProvider::class,
         Ladumor\LaravelPwa\PWAServiceProvider::class,
-        Paytabscom\Laravel_paytabs\PaypageServiceProvider::class
+        Paytabscom\Laravel_paytabs\PaypageServiceProvider::class,
+        Modules\DeliveryMan\Providers\DeliveryManServiceProvider::class,
+
     ],
 
     /*

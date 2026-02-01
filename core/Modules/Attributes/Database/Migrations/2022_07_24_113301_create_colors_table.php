@@ -15,9 +15,10 @@ return new class extends Migration
     {
         Schema::create('colors', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('color_code');
-            $table->string('slug')->unique();
+            $table->string('name')->nullable();
+            $table->string('name_km')->nullable();
+            $table->string('color_code')->nullable();
+            $table->string('slug')->nullable();
             $table->timestamps();
         });
     }
