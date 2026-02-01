@@ -9,7 +9,7 @@ return new class extends Migration {
     {
         Schema::create('refund_request_tracks', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('refund_request_id');
+            $table->unsignedBigInteger('refund_request_id')->nullable();
             $table->string('name');
             $table->unsignedBigInteger('updated_by')->index();
             $table->string('table');
@@ -20,6 +20,10 @@ return new class extends Migration {
 
     public function down(): void
     {
+
+        // Disable FK checks to safely drop parent table
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('refund_request_tracks');
+        Schema::enableForeignKeyConstraints();
     }
 };

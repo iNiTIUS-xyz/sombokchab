@@ -13,12 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tags', function (Blueprint $table) {
-            $table->id();
-            $table->string('tag_text');
-            $table->timestamps();
-            $table->softDeletes();
-        });
+        if (!Schema::hasTable('tags')) {
+            Schema::create('tags', function (Blueprint $table) {
+                $table->id();
+                $table->string('tag_text');
+                $table->timestamps();
+                $table->softDeletes();
+            });
+        }
     }
 
     /**

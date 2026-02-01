@@ -13,14 +13,17 @@ class CreateProductSubCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('product_sub_categories', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->string('status');
-            $table->string('image')->nullable();
-            $table->bigInteger('category_id');
-            $table->timestamps();
-        });
+
+        if (!Schema::hasTable('product_sub_categories')) {
+            Schema::create('product_sub_categories', function (Blueprint $table) {
+                $table->id();
+                $table->string('title');
+                $table->string('status');
+                $table->string('image')->nullable();
+                $table->bigInteger('category_id');
+                $table->timestamps();
+            });
+        }
     }
 
     /**

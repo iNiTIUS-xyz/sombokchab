@@ -25,8 +25,12 @@ class AddSoldCountInProductsTable extends Migration
      */
     public function down()
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->dropColumn('sold_count');
-        });
+        if (Schema::hasTable('products')) {
+            Schema::table('products', function (Blueprint $table) {
+                if (Schema::hasColumn('products', 'sold_count')) {
+                    $table->dropColumn('sold_count');
+                }
+            });
+        }
     }
 }

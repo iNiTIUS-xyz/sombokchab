@@ -29,8 +29,22 @@ class AddColumnToMobileSlidersTable extends Migration
     public function down()
     {
         Schema::table('mobile_sliders', function (Blueprint $table) {
-            $table->dropColumn("category");
-            $table->dropColumn("campaign");
+            try {
+                $table->dropForeign(['category']);
+            } catch (\Exception $e) {
+            }
+            try {
+                $table->dropForeign(['campaign']);
+            } catch (\Exception $e) {
+            }
+
+            if (Schema::hasColumn('mobile_sliders', 'category')) {
+                $table->dropColumn('category');
+            }
+
+            if (Schema::hasColumn('mobile_sliders', 'campaign')) {
+                $table->dropColumn('campaign');
+            }
         });
     }
 }

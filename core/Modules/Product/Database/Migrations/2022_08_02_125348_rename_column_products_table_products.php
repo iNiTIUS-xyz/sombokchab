@@ -13,11 +13,28 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('products', function(Blueprint $table){
-            $table->renameColumn('title', 'summary');
-            $table->renameColumn('name', 'title');
-            $table->renameColumn('is_inventory_worn_able', 'is_inventory_warn_able');
-        });
+
+        if (Schema::hasColumn('products', 'title') && !Schema::hasColumn('products', 'summary')) {
+            Schema::table('products', function (Blueprint $table) {
+                $table->renameColumn('title', 'summary');
+            });
+        }
+
+        if (Schema::hasColumn('products', 'name') && !Schema::hasColumn('products', 'title')) {
+            Schema::table('products', function (Blueprint $table) {
+                $table->renameColumn('name', 'title');
+            });
+        }
+
+        if (
+            Schema::hasColumn('products', 'is_inventory_worn_able') &&
+            !Schema::hasColumn('products', 'is_inventory_warn_able')
+        ) {
+
+            Schema::table('products', function (Blueprint $table) {
+                $table->renameColumn('is_inventory_worn_able', 'is_inventory_warn_able');
+            });
+        }
     }
 
     /**
@@ -27,10 +44,27 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('products', function(Blueprint $table){
-            $table->renameColumn('title', 'name');
-            $table->renameColumn('summary', 'title');
-            $table->renameColumn('is_inventory_warn_able','is_inventory_worn_able');
-        });
+
+        if (Schema::hasColumn('products', 'summary') && !Schema::hasColumn('products', 'title')) {
+            Schema::table('products', function (Blueprint $table) {
+                $table->renameColumn('summary', 'title');
+            });
+        }
+
+        if (Schema::hasColumn('products', 'title') && !Schema::hasColumn('products', 'name')) {
+            Schema::table('products', function (Blueprint $table) {
+                $table->renameColumn('title', 'name');
+            });
+        }
+
+        if (
+            Schema::hasColumn('products', 'is_inventory_warn_able') &&
+            !Schema::hasColumn('products', 'is_inventory_worn_able')
+        ) {
+
+            Schema::table('products', function (Blueprint $table) {
+                $table->renameColumn('is_inventory_warn_able', 'is_inventory_worn_able');
+            });
+        }
     }
 };

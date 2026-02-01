@@ -13,12 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('product_created_by', function (Blueprint $table) {
-            $table->unsignedBigInteger("updated_by")->nullable();
-            $table->string("updated_by_guard")->nullable();
-            $table->unsignedBigInteger("deleted_by")->nullable();
-            $table->string("deleted_by_guard")->nullable();
-        });
+
+        if (!Schema::hasTable('product_created_by')) {
+            Schema::table('product_created_by', function (Blueprint $table) {
+                $table->unsignedBigInteger("updated_by")->nullable();
+                $table->string("updated_by_guard")->nullable();
+                $table->unsignedBigInteger("deleted_by")->nullable();
+                $table->string("deleted_by_guard")->nullable();
+            });
+        }
     }
 
     /**
@@ -28,8 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('product_created_by', function (Blueprint $table) {
-
-        });
+        Schema::table('product_created_by', function (Blueprint $table) {});
     }
 };

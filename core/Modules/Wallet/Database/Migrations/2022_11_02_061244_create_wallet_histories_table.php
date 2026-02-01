@@ -28,7 +28,6 @@ class CreateWalletHistoriesTable extends Migration
             $table->foreign('wallet_id')->references("id")->on('wallets');
             $table->foreign('user_id')->references("id")->on('users');
             $table->foreign('vendor_id')->references("id")->on('vendors');
-            $table->foreign('sub_order_id')->references("id")->on('sub_orders');
         });
     }
 

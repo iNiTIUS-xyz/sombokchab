@@ -13,20 +13,22 @@ class CreateProductSubCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('product_sub_categories', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('slug');
-            $table->tinyText('description')->nullable();
-            $table->unsignedBigInteger('status');
-            $table->unsignedBigInteger('image')->nullable();
-            $table->unsignedBigInteger('category_id');
-            $table->timestamps();
-            $table->softDeletes();
-            $table->foreign("status")->references("id")->on("statuses");
-            $table->foreign("category_id")->references("id")->on("product_categories");
-            $table->foreign("image")->references("id")->on("media_uploads");
-        });
+        if (!Schema::hasTable('product_sub_categories')) {
+            Schema::create('product_sub_categories', function (Blueprint $table) {
+                $table->id();
+                $table->string('name');
+                $table->string('slug');
+                $table->tinyText('description')->nullable();
+                $table->unsignedBigInteger('status');
+                $table->unsignedBigInteger('image')->nullable();
+                $table->unsignedBigInteger('category_id');
+                $table->timestamps();
+                $table->softDeletes();
+                $table->foreign("status")->references("id")->on("statuses");
+                $table->foreign("category_id")->references("id")->on("product_categories");
+                $table->foreign("image")->references("id")->on("media_uploads");
+            });
+        }
     }
 
     /**

@@ -13,22 +13,25 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('product_child_categories', function (Blueprint $table) {
-            $table->id();
-            $table->string("name")->index()->unique();
-            $table->string("slug")->index()->unique();
-            $table->tinyText("description")->nullable();
-            $table->unsignedBigInteger("category_id");
-            $table->unsignedBigInteger("sub_category_id");
-            $table->unsignedBigInteger("image_id");
-            $table->unsignedBigInteger("status_id");
-            $table->timestamps();
-            $table->softDeletes();
-            $table->foreign("category_id")->references("id")->on("product_categories");
-            $table->foreign("sub_category_id")->references("id")->on("product_sub_categories");
-            $table->foreign("image_id")->references("id")->on("media_uploads");
-            $table->foreign("status_id")->references("id")->on("statuses");
-        });
+        if (!Schema::hasTable('product_child_categories')) {
+
+            Schema::create('product_child_categories', function (Blueprint $table) {
+                $table->id();
+                $table->string("name")->index()->unique();
+                $table->string("slug")->index()->unique();
+                $table->tinyText("description")->nullable();
+                $table->unsignedBigInteger("category_id");
+                $table->unsignedBigInteger("sub_category_id");
+                $table->unsignedBigInteger("image_id");
+                $table->unsignedBigInteger("status_id");
+                $table->timestamps();
+                $table->softDeletes();
+                $table->foreign("category_id")->references("id")->on("product_categories");
+                $table->foreign("sub_category_id")->references("id")->on("product_sub_categories");
+                $table->foreign("image_id")->references("id")->on("media_uploads");
+                $table->foreign("status_id")->references("id")->on("statuses");
+            });
+        }
     }
 
     /**

@@ -10,7 +10,7 @@ class AddCityIdsToZonesTable extends Migration
     {
         Schema::table('zones', function (Blueprint $table) {
             if (!Schema::hasColumn('zones', 'city_ids')) {
-                $table->json('city_ids')->nullable()->after('country_id');
+                $table->json('city_ids')->nullable();
             }
 
             if (Schema::hasColumn('zones', 'city_id')) {
@@ -23,7 +23,7 @@ class AddCityIdsToZonesTable extends Migration
     {
         Schema::table('zones', function (Blueprint $table) {
             if (!Schema::hasColumn('zones', 'city_id')) {
-                $table->unsignedBigInteger('city_id')->nullable()->after('country_id');
+                $table->unsignedBigInteger('city_id')->nullable();
             }
 
             if (Schema::hasColumn('zones', 'city_ids')) {

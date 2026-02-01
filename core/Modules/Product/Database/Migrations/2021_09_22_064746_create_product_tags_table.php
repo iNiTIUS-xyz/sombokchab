@@ -13,12 +13,16 @@ class CreateProductTagsTable extends Migration
      */
     public function up()
     {
-        Schema::create('product_tags', function (Blueprint $table) {
-            $table->id();
-            $table->bigInteger('product_id');
-            $table->string('tag');
-            $table->timestamps();
-        });
+
+        if (!Schema::hasTable('product_tags')) {
+
+            Schema::create('product_tags', function (Blueprint $table) {
+                $table->id();
+                $table->bigInteger('product_id');
+                $table->string('tag');
+                $table->timestamps();
+            });
+        }
     }
 
     /**

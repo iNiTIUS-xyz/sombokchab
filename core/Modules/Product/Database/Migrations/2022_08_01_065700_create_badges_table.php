@@ -13,17 +13,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('badges', function (Blueprint $table) {
-            $table->id();
-            $table->string("name");
-        });
+
+        if (!Schema::hasTable('badges')) {
+            Schema::create('badges', function (Blueprint $table) {
+                $table->id();
+                $table->string("name");
+            });
+        }
     }
 
     /**
      * Reverse the migrations.
      *
      * @return void
-    */
+     */
     public function down(): void
     {
         Schema::dropIfExists('badges');

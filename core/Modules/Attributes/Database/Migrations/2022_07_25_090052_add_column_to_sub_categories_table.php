@@ -27,7 +27,14 @@ return new class extends Migration
     public function down()
     {
         Schema::table('sub_categories', function (Blueprint $table) {
-            $table->dropColumn("status_id");
+            try {
+                $table->dropForeign(['status_id']);
+            } catch (\Exception $e) {
+            }
+
+            if (Schema::hasColumn('sub_categories', 'status_id')) {
+                $table->dropColumn('status_id');
+            }
         });
     }
 };

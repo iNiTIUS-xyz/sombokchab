@@ -29,10 +29,25 @@ return new class extends Migration
      */
     public function down()
     {
+
         Schema::table('campaigns', function (Blueprint $table) {
-            $table->dropColumn("admin_id");
-            $table->dropColumn("vendor_id");
-            $table->dropColumn("type");
+            try {
+                $table->dropForeign(['admin_id']);
+            } catch (\Exception $e) {
+            }
+            try {
+                $table->dropForeign(['vendor_id']);
+            } catch (\Exception $e) {
+            }
+
+            if (
+                Schema::hasColumn('campaigns', 'admin_id') ||
+                Schema::hasColumn('campaigns', 'vendor_id') ||
+                Schema::hasColumn('campaigns', 'type')
+            ) {
+
+                $table->dropColumn(['admin_id', 'vendor_id', 'type']);
+            }
         });
     }
 };

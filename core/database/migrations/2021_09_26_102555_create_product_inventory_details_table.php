@@ -13,14 +13,18 @@ class CreateProductInventoryDetailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('product_inventory_details', function (Blueprint $table) {
-            $table->id();
-            $table->bigInteger('inventory_id');
-            $table->bigInteger('attribute_id');
-            $table->string('attribute_value');
-            $table->unsignedBigInteger('stock_count');
-            $table->timestamps();
-        });
+
+        if (!Schema::hasTable('product_inventory_details')) {
+
+            Schema::create('product_inventory_details', function (Blueprint $table) {
+                $table->id();
+                $table->bigInteger('inventory_id');
+                $table->bigInteger('attribute_id');
+                $table->string('attribute_value');
+                $table->unsignedBigInteger('stock_count');
+                $table->timestamps();
+            });
+        }
     }
 
     /**

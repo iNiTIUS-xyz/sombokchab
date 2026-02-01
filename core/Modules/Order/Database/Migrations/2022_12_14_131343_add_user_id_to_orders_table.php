@@ -16,7 +16,14 @@ return new class extends Migration {
     public function down()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->dropColumn("user_id");
+            try {
+                $table->dropForeign(['user_id']);
+            } catch (\Exception $e) {
+            }
+
+            if (Schema::hasColumn('orders', 'user_id')) {
+                $table->dropColumn('user_id');
+            }
         });
     }
 };

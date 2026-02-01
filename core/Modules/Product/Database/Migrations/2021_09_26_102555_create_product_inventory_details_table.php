@@ -13,19 +13,22 @@ class CreateProductInventoryDetailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('product_inventory_details', function (Blueprint $table) {
-            $table->id();
-            $table->bigInteger('inventory_id');
-            $table->bigInteger('product_id');
-            $table->string('color')->nullable();
-            $table->string('size')->nullable();
-            $table->text('hash')->nullable();
-            $table->float('additional_price')->default(0);
-            $table->string('image')->nullable();
-            $table->bigInteger('stock_count')->default(0);
-            $table->bigInteger('sold_count')->default(0);
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('product_inventory_details')) {
+
+            Schema::create('product_inventory_details', function (Blueprint $table) {
+                $table->id();
+                $table->bigInteger('inventory_id');
+                $table->bigInteger('product_id');
+                $table->string('color')->nullable();
+                $table->string('size')->nullable();
+                $table->text('hash')->nullable();
+                $table->float('additional_price')->default(0);
+                $table->string('image')->nullable();
+                $table->bigInteger('stock_count')->default(0);
+                $table->bigInteger('sold_count')->default(0);
+                $table->timestamps();
+            });
+        }
     }
 
     /**

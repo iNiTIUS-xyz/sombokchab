@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        if (Schema::hasTable('blogs')){
+        if (Schema::hasTable('blogs')) {
             return;
         }
         Schema::create('blogs', function (Blueprint $table) {
@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->string('author')->nullable();
             $table->string('status')->nullable();
+            $table->bigInteger('visit_count')->default(0)->nullable();
             $table->text('excerpt')->nullable();
             $table->text('meta_title')->nullable();
             $table->text('meta_tags')->nullable();

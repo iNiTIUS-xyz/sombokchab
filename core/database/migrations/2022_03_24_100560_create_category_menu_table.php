@@ -13,13 +13,15 @@ class CreateCategoryMenuTable extends Migration
      */
     public function up()
     {
-        Schema::create('category_menus', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->longText('content')->nullable();
-            $table->string('status')->nullable();
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('category_menus')) {
+            Schema::create('category_menus', function (Blueprint $table) {
+                $table->id();
+                $table->string('title');
+                $table->longText('content')->nullable();
+                $table->string('status')->nullable();
+                $table->timestamps();
+            });
+        }
     }
 
     /**

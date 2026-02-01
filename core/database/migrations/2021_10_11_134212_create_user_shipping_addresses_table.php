@@ -17,7 +17,14 @@ class CreateUserShippingAddressesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('name');
-            $table->longText('address');
+            $table->string('coupon')->nullable();
+            $table->string('email')->nullable();
+            $table->string('phone')->nullable();
+            $table->bigInteger('country_id')->nullable();
+            $table->bigInteger('state_id')->nullable();
+            $table->string('city')->nullable();
+            $table->string('zip_code')->nullable();
+            $table->text('address')->nullable();
             $table->timestamps();
         });
     }

@@ -13,13 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('product_tags', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger("tag_id");
-            $table->unsignedBigInteger("product_id");
-            $table->foreign("product_id")->references("id")->on("products")->cascadeOnDelete();
-            $table->foreign("tag_id")->references("id")->on("tags");
-        });
+
+        if (!Schema::hasTable('product_tags')) {
+            Schema::create('product_tags', function (Blueprint $table) {
+                $table->id();
+                $table->unsignedBigInteger("tag_id");
+                $table->unsignedBigInteger("product_id");
+                $table->foreign("product_id")->references("id")->on("products")->cascadeOnDelete();
+                $table->foreign("tag_id")->references("id")->on("tags");
+            });
+        }
     }
 
     /**

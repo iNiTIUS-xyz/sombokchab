@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('units', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->string('name')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -28,6 +28,9 @@ return new class extends Migration
      */
     public function down()
     {
+        // Disable foreign key checks to safely drop table
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('units');
+        Schema::enableForeignKeyConstraints();
     }
 };

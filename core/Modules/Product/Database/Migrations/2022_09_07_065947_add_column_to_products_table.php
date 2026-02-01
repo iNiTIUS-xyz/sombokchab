@@ -27,8 +27,18 @@ return new class extends Migration
     public function down()
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->dropColumn("admin_id");
-            $table->dropColumn("vendor_id");
+            try {
+                $table->dropForeign(['admin_id']);
+            } catch (\Exception $e) {
+            }
+            try {
+                $table->dropForeign(['vendor_id']);
+            } catch (\Exception $e) {
+            }
+
+            if (Schema::hasColumn('products', 'admin_id') || Schema::hasColumn('products', 'vendor_id')) {
+                $table->dropColumn(['admin_id', 'vendor_id']);
+            }
         });
     }
 };
